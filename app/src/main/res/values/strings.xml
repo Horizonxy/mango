@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">芒果派</string>
+
+    <string name="common_back">返回</string>
+
+    <string name="please_input_phone">请输入11位手机号码</string>
+    <string name="please_input_password">请输入密码</string>
+    <string name="login">登录</string>
+    <string name="login_protocal_tip">点击登录即表示已经阅读并接收</string>
+    <string name="user_protocal">《用户协议》</string>
+    <string name="please_regist">还没账号？快了注册吧>></string>
+
+    <string name="get_verify_code">获取验证码</string>
+    <string name="regist">注册</string>
+    <string name="regist_protocal_tip">点击注册即表示已经阅读并接收</string>
+</resources>

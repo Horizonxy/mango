@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/dp_12"
+    android:paddingRight="@dimen/dp_12"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_important"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_width="match_parent"
+        android:text="重要按钮"
+        style="@style/important_corners_btn"/>
+
+    <Button
+        android:id="@+id/btn_lesser"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_width="match_parent"
+        android:text="次要按钮"
+        style="@style/lesser_corners_btn"/>
+
+    <Button
+        android:id="@+id/btn_rect"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_width="match_parent"
+        android:text="Rect按钮"
+        style="@style/rect_btn"/>
+
+</LinearLayout>
