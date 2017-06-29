@@ -1,14 +1,14 @@
 package com.mango.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.v7.app.AppCompatActivity;
 
 import com.mango.Application;
 
 import butterknife.ButterKnife;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

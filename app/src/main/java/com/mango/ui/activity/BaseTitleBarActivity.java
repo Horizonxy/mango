@@ -27,6 +27,7 @@ public class BaseTitleBarActivity extends BaseActivity {
         getLayoutInflater().inflate(layoutResID, flContent, true);
         titleBar = (TitleBar) root.findViewById(R.id.title_bar);
         titleBar.setActivity(this);
+        titleBar.setLeftBtnIcon(R.drawable.ic_launcher);
         setContentView(root);
 
         ButterKnife.bind(this);

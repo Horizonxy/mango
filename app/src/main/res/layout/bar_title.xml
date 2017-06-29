@@ -65,4 +65,9 @@
         android:singleLine="true"
         android:layout_centerInParent="true"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_cccccc"/>
 </RelativeLayout>

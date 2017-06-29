@@ -91,7 +91,7 @@
                     android:text="@string/get_verify_code"
                     android:layout_alignParentRight="true"
                     android:gravity="center"
-                    android:textColor="@drawable/get_verify_code_text_color_selector"
+                    android:textColor="@drawable/selector_text_color_get_verify_code"
                     android:textSize="@dimen/sp_16"/>
 
                 <View
@@ -126,6 +126,7 @@
                 style="@style/important_corners_btn"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginBottom="@dimen/dp_5"
                 android:text="@string/regist" />
 
         </LinearLayout>

@@ -11,14 +11,14 @@
         android:layout_height="@dimen/dp_21"
         android:background="@android:color/transparent"
         android:scaleType="centerInside"
-        android:src="@drawable/tab_main_indicator_btn_bg_selector" />
+        android:src="@drawable/selector_btn_bg_tab_main_indicator" />
 
     <TextView
         android:id="@+id/tv_tab_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
-        android:textColor="@drawable/tab_main_text_color_selector"
+        android:textColor="@drawable/selector_text_color_tab_main"
         android:textSize="@dimen/sp_10" />
 
 </LinearLayout>

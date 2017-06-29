@@ -11,8 +11,8 @@
         <item name="android:layout_height">@dimen/dp_42</item>
         <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@drawable/important_btn_text_color_selector</item>
-        <item name="android:background">@drawable/important_corners_btn_bg_selector</item>
+        <item name="android:textColor">@drawable/selector_text_color_important_btn</item>
+        <item name="android:background">@drawable/selector_btn_bg_important_corners</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -20,8 +20,8 @@
         <item name="android:layout_height">@dimen/dp_42</item>
         <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@drawable/lesser_btn_text_color_selector</item>
-        <item name="android:background">@drawable/lesser_corners_btn_bg_selector</item>
+        <item name="android:textColor">@drawable/selector_text_color_lesser_btn</item>
+        <item name="android:background">@drawable/selector_btn_bg_lesser_corners</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -29,8 +29,8 @@
         <item name="android:layout_height">@dimen/dp_42</item>
         <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@drawable/important_btn_text_color_selector</item>
-        <item name="android:background">@drawable/rect_btn_bg_selector</item>
+        <item name="android:textColor">@drawable/selector_text_color_important_btn</item>
+        <item name="android:background">@drawable/selector_bg_rect_btn</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -38,6 +38,12 @@
     <style name="horizontal_line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_0.5</item>
+        <item name="android:background">@color/color_cccccc</item>
+    </style>
+
+    <style name="horizontal_bold_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_10</item>
         <item name="android:background">@color/color_cccccc</item>
     </style>
 

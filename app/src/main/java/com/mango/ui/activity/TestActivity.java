@@ -59,7 +59,7 @@ public class TestActivity extends BaseTitleBarActivity implements TitleBar.OnTit
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_important:
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.btn_lesser:
 //                startActivity(new Intent(this, TextViewPagerActivity.class));

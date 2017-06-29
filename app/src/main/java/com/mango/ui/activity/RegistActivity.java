@@ -1,5 +1,6 @@
 package com.mango.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.SpannableString;
@@ -107,7 +108,7 @@ public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnT
 
     @OnClick(R.id.btn_regist)
     void userRegist(View v){
-        Toast.makeText(RegistActivity.this, "注册", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SetNickNameActivity.class));
     }
 
     @Override

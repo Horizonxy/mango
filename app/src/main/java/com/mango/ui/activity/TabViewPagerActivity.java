@@ -103,9 +103,9 @@ public class TabViewPagerActivity extends BaseTitleBarActivity {
                 titleView.setSelectedColor(Color.BLACK);
                 titleView.setWidth((int) getResources().getDimension(R.dimen.dp_112));
                 if(i == 0) {
-                    titleView.setBackgroundResource(R.drawable.tab_left_bg_selector);
+                    titleView.setBackgroundResource(R.drawable.selector_bg_tab_left);
                 } else if(i == (tabTitles.size() - 1)){
-                    titleView.setBackgroundResource(R.drawable.tab_right_bg_selector);
+                    titleView.setBackgroundResource(R.drawable.selector_bg_tab_right);
                 }
                 titleView.setText(tabTitles.get(i));
                 return titleView;

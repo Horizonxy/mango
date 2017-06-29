@@ -2,6 +2,8 @@ package com.mango.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
@@ -10,8 +12,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mango.Application;
 import com.mango.R;
+import com.mango.ui.adapter.FragmentAdapter;
 import com.mango.ui.adapter.ViewPagerAdapter;
+import com.mango.ui.fragment.MyFragment;
 import com.mango.util.DisplayUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -26,8 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends FragmentActivity {
 
     @Bind(R.id.tab_indicator)
     MagicIndicator tabIndicator;
@@ -35,14 +41,23 @@ public class MainActivity extends BaseActivity {
     ViewPager contentPager;
 
     String[] tabTitles;
-    List<View> contents = new ArrayList<View>();
+    List<Fragment> contents = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        Application.application.addActivity(this);
 
         initView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+        Application.application.removeActivity(this);
     }
 
     private void initView() {
@@ -51,15 +66,15 @@ public class MainActivity extends BaseActivity {
         TextView tv2 = new TextView(this);
         TextView tv3 = new TextView(this);
         TextView tv4 = new TextView(this);
-        contents.add(tv1);
-        contents.add(tv2);
-        contents.add(tv3);
-        contents.add(tv4);
-        for (int i = 0; i < tabTitles.length; i++ ){
-            ((TextView)contents.get(i)).setText(tabTitles[i]);
-        }
+        contents.add(new MyFragment());
+        contents.add(new MyFragment());
+        contents.add(new MyFragment());
+        contents.add(new MyFragment());
+//        for (int i = 0; i < tabTitles.length; i++ ){
+//            ((TextView)contents.get(i)).setText(tabTitles[i]);
+//        }
 
-        contentPager.setAdapter(new ViewPagerAdapter(contents));
+        contentPager.setAdapter(new FragmentAdapter(getSupportFragmentManager() ,contents));
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
@@ -92,7 +107,7 @@ public class MainActivity extends BaseActivity {
                 titleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        contentPager.setCurrentItem(i);
+                        contentPager.setCurrentItem(i, false);
                     }
                 });
                 return titleView;
