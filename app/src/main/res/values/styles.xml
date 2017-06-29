@@ -38,19 +38,19 @@
     <style name="horizontal_line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_0.5</item>
-        <item name="android:background">@color/color_cccccc</item>
+        <item name="android:background">@color/color_efeff4</item>
     </style>
 
     <style name="horizontal_bold_line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_10</item>
-        <item name="android:background">@color/color_cccccc</item>
+        <item name="android:background">@color/color_efeff4</item>
     </style>
 
     <style name="vertical_line">
         <item name="android:layout_width">@dimen/dp_0.5</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/color_cccccc</item>
+        <item name="android:background">@color/color_efeff4</item>
     </style>
 
 </resources>

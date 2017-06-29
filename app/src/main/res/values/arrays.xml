@@ -6,4 +6,9 @@
         <item>发现</item>
         <item>我的</item>
     </array>
+
+    <array name="order_tab">
+        <item>我下的订单</item>
+        <item>我收到的订单</item>
+    </array>
 </resources>

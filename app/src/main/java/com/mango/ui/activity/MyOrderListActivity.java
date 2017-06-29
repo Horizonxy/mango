@@ -1,22 +1,19 @@
 package com.mango.ui.activity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.mango.Application;
 import com.mango.R;
 import com.mango.ui.adapter.FragmentAdapter;
 import com.mango.ui.fragment.MyFragment;
-import com.mango.util.DisplayUtils;
+import com.mango.ui.fragment.OrderListFragment;
+import com.mango.ui.widget.ViewPagerFixed;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -24,7 +21,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,20 +29,22 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends FragmentActivity {
+public class MyOrderListActivity extends FragmentActivity {
 
+    @Bind(R.id.ib_left)
+    ImageButton ibLeft;
     @Bind(R.id.tab_indicator)
     MagicIndicator tabIndicator;
     @Bind(R.id.view_pager)
-    ViewPager contentPager;
+    ViewPagerFixed viewPager;
 
     String[] tabTitles;
-    List<Fragment> contents = new ArrayList<>();
+    List<Fragment> fragmentList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_my_order_list);
         ButterKnife.bind(this);
         Application.application.addActivity(this);
 
@@ -60,30 +59,22 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void initView() {
-        tabTitles = getResources().getStringArray(R.array.main_tab);
-        TextView tv1 = new TextView(this);
-        TextView tv2 = new TextView(this);
-        TextView tv3 = new TextView(this);
-        TextView tv4 = new TextView(this);
-        contents.add(new MyFragment());
-        contents.add(new MyFragment());
-        contents.add(new MyFragment());
-        contents.add(new MyFragment());
-//        for (int i = 0; i < tabTitles.length; i++ ){
-//            ((TextView)contents.get(i)).setText(tabTitles[i]);
-//        }
+        tabTitles = getResources().getStringArray(R.array.order_tab);
 
-        contentPager.setAdapter(new FragmentAdapter(getSupportFragmentManager() ,contents));
+        fragmentList.add(new OrderListFragment());
+        fragmentList.add(new MyFragment());
+
+        viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), fragmentList));
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
-                return contents.size();
+                return fragmentList.size();
             }
 
             @Override
             public IPagerTitleView getTitleView(Context context, int i) {
-                CommonPagerTitleView titleView = new CommonPagerTitleView(context){
+                SimplePagerTitleView titleView = new SimplePagerTitleView(context){
                     @Override
                     public void onSelected(int index, int totalCount) {
                         super.onSelected(index, totalCount);
@@ -96,17 +87,20 @@ public class MainActivity extends FragmentActivity {
                         this.setSelected(false);
                     }
                 };
-                LinearLayout view = (LinearLayout) getLayoutInflater().inflate(R.layout.tab_item_main_indicator, null, false);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(DisplayUtils.screenWidth(context) / contents.size(), (int) getResources().getDimension(R.dimen.dp_49));
-                params.gravity = Gravity.CENTER;
-                titleView.setContentView(view, params);
-                ImageButton ibImage = (ImageButton) titleView.findViewById(R.id.ib_tab_image);
-                TextView tvText = (TextView) titleView.findViewById(R.id.tv_tab_text);
-                tvText.setText(tabTitles[i]);
+                titleView.setTextSize(16);
+                titleView.setNormalColor(Color.BLACK);
+                titleView.setSelectedColor(Color.BLACK);
+                titleView.setWidth((int) getResources().getDimension(R.dimen.dp_120));
+                if(i == 0) {
+                    titleView.setBackgroundResource(R.drawable.selector_bg_tab_left);
+                } else if(i == (fragmentList.size() - 1)){
+                    titleView.setBackgroundResource(R.drawable.selector_bg_tab_right);
+                }
+                titleView.setText(tabTitles[i]);
                 titleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        contentPager.setCurrentItem(i, false);
+                        viewPager.setCurrentItem(i);
                     }
                 });
                 return titleView;
@@ -118,8 +112,6 @@ public class MainActivity extends FragmentActivity {
             }
         });
         tabIndicator.setNavigator(commonNavigator);
-        ViewPagerHelper.bind(tabIndicator, contentPager);
+        ViewPagerHelper.bind(tabIndicator, viewPager);
     }
-
-
 }

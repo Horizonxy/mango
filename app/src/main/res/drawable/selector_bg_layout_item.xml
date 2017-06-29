@@ -5,6 +5,11 @@
             <solid android:color="@color/color_10000000" />
         </shape>
     </item>
+    <item android:state_pressed="false">
+        <shape>
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
     <item>
         <shape>
             <solid android:color="@android:color/white" />

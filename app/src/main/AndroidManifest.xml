@@ -41,6 +41,7 @@
         <activity android:name=".ui.activity.RegistActivity" />
         <activity android:name=".ui.activity.SetNickNameActivity" />
         <activity android:name=".ui.activity.UpdateRoleActivity" />
+        <activity android:name=".ui.activity.MyOrderListActivity" />
     </application>
 
 </manifest>
