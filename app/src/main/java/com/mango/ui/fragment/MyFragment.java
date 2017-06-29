@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mango.R;
+import com.mango.ui.activity.MyAccountActivity;
+import com.mango.ui.activity.MyOrderListActivity;
 import com.mango.ui.activity.UpdateRoleActivity;
 
 import butterknife.Bind;
@@ -87,7 +89,7 @@ public class MyFragment extends Fragment {
 
     @OnClick(R.id.layout_order_list)
     void orderListClick(View v){
-
+        startActivity(new Intent(getActivity(), MyOrderListActivity.class));
     }
 
     @OnClick(R.id.layout_works)
@@ -102,7 +104,7 @@ public class MyFragment extends Fragment {
 
     @OnClick(R.id.layout_account)
     void accountClick(View v){
-
+        startActivity(new Intent(getActivity(), MyAccountActivity.class));
     }
 
     @OnClick(R.id.layout_setting)

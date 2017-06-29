@@ -29,4 +29,6 @@
     <string name="setting">设置</string>
 
     <string name="update_my_role">身份升级</string>
+    <string name="usable_limit">可用资金（元）</string>
+    <string name="blocked_limit">锁定资金（元）</string>
 </resources>
