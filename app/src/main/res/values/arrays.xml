@@ -11,4 +11,9 @@
         <item>我下的订单</item>
         <item>我收到的订单</item>
     </array>
+
+    <array name="classes">
+        <item>所有授课</item>
+        <item>上架的授课</item>
+    </array>
 </resources>

@@ -2,7 +2,7 @@ package com.mango.di.component;
 
 import com.mango.di.FragmentScope;
 import com.mango.di.module.OrderListFragmentModule;
-import com.mango.ui.fragment.OrderListFragment;
+import com.mango.ui.fragment.MyOrderListFragment;
 
 import dagger.Component;
 
@@ -12,7 +12,7 @@ import dagger.Component;
  */
 @FragmentScope
 @Component(modules = OrderListFragmentModule.class)
-public interface OrderListFragmentComponent {
+public interface MyOrderListFragmentComponent {
 
-    OrderListFragment inject(OrderListFragment fragment);
+    MyOrderListFragment inject(MyOrderListFragment fragment);
 }

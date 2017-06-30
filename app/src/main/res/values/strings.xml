@@ -31,4 +31,23 @@
     <string name="update_my_role">身份升级</string>
     <string name="usable_limit">可用资金（元）</string>
     <string name="blocked_limit">锁定资金（元）</string>
+
+    <string name="profile_info">个人资料</string>
+    <string name="phone_num">手机号</string>
+    <string name="trans_pwd">交易密码</string>
+    <string name="about_us">关于我们</string>
+    <string name="share_to_friend">分享给好友</string>
+    <string name="clear_cache">清除缓存</string>
+
+    <string name="click_to_edit">点击编辑</string>
+    <string name="un_setting">未设置</string>
+
+    <string name="society_info">社交信息</string>
+    <string name="basic_info">基本信息</string>
+    <string name="school_info">学校信息</string>
+    <string name="about_CV">简历相关</string>
+    <string name="cantact_way">联系方式</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

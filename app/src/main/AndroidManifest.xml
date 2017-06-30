@@ -43,6 +43,9 @@
         <activity android:name=".ui.activity.UpdateRoleActivity" />
         <activity android:name=".ui.activity.MyOrderListActivity" />
         <activity android:name=".ui.activity.MyAccountActivity" />
+        <activity android:name=".ui.activity.SettingActivity" />
+        <activity android:name=".ui.activity.ProfileInfoActivity" />
+        <activity android:name=".ui.activity.MyClassesActivity" />
     </application>
 
 </manifest>

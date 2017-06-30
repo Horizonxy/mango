@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_efeff4"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white">
+
+            <include
+                android:id="@+id/layout_profile_info"
+                layout="@layout/layout_item_setting" />
+
+            <View
+                style="@style/margin_horizontal_line" />
+
+            <include
+                android:id="@+id/layout_phone_num"
+                layout="@layout/layout_item_setting" />
+
+            <View
+                style="@style/margin_horizontal_line" />
+
+            <include
+                android:id="@+id/layout_trans_pwd"
+                layout="@layout/layout_item_setting" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:layout_marginTop="@dimen/dp_10">
+
+            <include
+                android:id="@+id/layout_about_us"
+                layout="@layout/layout_item_setting" />
+
+            <View
+                style="@style/margin_horizontal_line" />
+
+            <include
+                android:id="@+id/layout_share_to_friend"
+                layout="@layout/layout_item_setting" />
+
+            <View
+                style="@style/margin_horizontal_line" />
+
+            <include
+                android:id="@+id/layout_clear_cache"
+                layout="@layout/layout_item_setting" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

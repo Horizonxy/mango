@@ -13,88 +13,95 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#FC5D53">
+            android:background="#FC5D53"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="36sp"
-                android:text="-"
                 android:layout_gravity="center"
+                android:padding="@dimen/dp_49"
+                android:text="-"
                 android:textColor="@android:color/white"
-                android:padding="@dimen/dp_49"/>
+                android:textSize="36sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_35"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="@dimen/dp_35"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/usable_limit"
                         android:textColor="@color/color_f2f2f2"
-                        android:textSize="@dimen/sp_16"
-                        android:text="@string/usable_limit"/>
+                        android:textSize="@dimen/sp_16" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/color_f2f2f2"
-                        android:textSize="@dimen/sp_16"
                         android:layout_marginTop="@dimen/dp_5"
-                        android:text="-"/>
+                        android:text="-"
+                        android:textColor="@color/color_f2f2f2"
+                        android:textSize="@dimen/sp_16" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_35"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="@dimen/dp_35"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/blocked_limit"
                         android:textColor="@color/color_f2f2f2"
-                        android:textSize="@dimen/sp_16"
-                        android:text="@string/blocked_limit"/>
+                        android:textSize="@dimen/sp_16" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/color_f2f2f2"
-                        android:textSize="@dimen/sp_16"
                         android:layout_marginTop="@dimen/dp_5"
-                        android:text="-"/>
+                        android:text="-"
+                        android:textColor="@color/color_f2f2f2"
+                        android:textSize="@dimen/sp_16" />
                 </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
 
-        <include
-            android:id="@+id/layout_card"
-            layout="@layout/layout_item_profile"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_0.5" />
+            android:background="@android:color/white"
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/layout_cash"
-            layout="@layout/layout_item_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_0.5" />
+            <include
+                android:id="@+id/layout_card"
+                layout="@layout/layout_item_profile" />
 
-        <include
-            android:id="@+id/layout_detail"
-            layout="@layout/layout_item_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_0.5" />
+            <View style="@style/margin_horizontal_line" />
 
+            <include
+                android:id="@+id/layout_cash"
+                layout="@layout/layout_item_profile" />
+
+            <View style="@style/margin_horizontal_line" />
+
+            <include
+                android:id="@+id/layout_detail"
+                layout="@layout/layout_item_profile" />
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

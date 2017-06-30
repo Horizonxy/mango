@@ -15,7 +15,7 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.mango.R;
-import com.mango.di.component.DaggerOrderListFragmentComponent;
+import com.mango.di.component.DaggerMyOrderListFragmentComponent;
 import com.mango.di.module.OrderListFragmentModule;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
 
@@ -27,7 +27,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class OrderListFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class MyOrderListFragment extends Fragment implements AdapterView.OnItemClickListener{
 
     View root;
     @Bind(R.id.refresh_layout)
@@ -40,10 +40,10 @@ public class OrderListFragment extends Fragment implements AdapterView.OnItemCli
     @Inject
     QuickAdapter adapter;
 
-    public OrderListFragment() {
+    public MyOrderListFragment() {
     }
-    public static OrderListFragment newInstance(String param1, String param2) {
-        OrderListFragment fragment = new OrderListFragment();
+    public static MyOrderListFragment newInstance(String param1, String param2) {
+        MyOrderListFragment fragment = new MyOrderListFragment();
         return fragment;
     }
 
@@ -51,7 +51,7 @@ public class OrderListFragment extends Fragment implements AdapterView.OnItemCli
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DaggerOrderListFragmentComponent.builder().orderListFragmentModule(new OrderListFragmentModule(getActivity(), datas)).build().inject(this);
+        DaggerMyOrderListFragmentComponent.builder().orderListFragmentModule(new OrderListFragmentModule(getActivity(), datas)).build().inject(this);
     }
 
     @Override

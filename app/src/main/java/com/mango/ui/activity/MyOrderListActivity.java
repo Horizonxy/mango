@@ -12,7 +12,7 @@ import com.mango.Application;
 import com.mango.R;
 import com.mango.ui.adapter.FragmentAdapter;
 import com.mango.ui.fragment.MyFragment;
-import com.mango.ui.fragment.OrderListFragment;
+import com.mango.ui.fragment.MyOrderListFragment;
 import com.mango.ui.widget.ViewPagerFixed;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -61,8 +61,8 @@ public class MyOrderListActivity extends FragmentActivity {
     private void initView() {
         tabTitles = getResources().getStringArray(R.array.order_tab);
 
-        fragmentList.add(new OrderListFragment());
-        fragmentList.add(new MyFragment());
+        fragmentList.add(new MyOrderListFragment());
+        fragmentList.add(new MyOrderListFragment());
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), fragmentList));
         CommonNavigator commonNavigator = new CommonNavigator(this);
