@@ -7,13 +7,11 @@ import com.mango.di.component.DaggerAppComponent;
 import com.mango.di.module.ApiModule;
 import com.mango.di.module.AppModule;
 import com.mango.model.api.ApiService;
-import com.mango.util.AppUtils;
 import com.mcxiaoke.bus.Bus;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.orhanobut.logger.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,7 +35,7 @@ public class Application extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppUtils.initCarsh(this);
+        //AppUtils.initCarsh(this);
         DaggerAppComponent.builder().apiModule(new ApiModule()).appModule(new AppModule(this)).build().inject(this);
         application = this;
         Logger.init(getResources().getString(R.string.app_name));

@@ -52,6 +52,8 @@ public class HomeFragment extends BaseFragment {
     ObservableScrollView svContent;
     @Bind(R.id.layout_home_bar)
     RelativeLayout layoutHomeBar;
+    @Bind(R.id.layout_update_role)
+    RelativeLayout layoutUpdateRole;
 
     List<View> gridViews = new ArrayList<>();
 
@@ -166,14 +168,16 @@ public class HomeFragment extends BaseFragment {
         svContent.setOnScrollListener(new ObservableScrollView.OnScrollListener() {
             @Override
             public void onScroll(int scrollY) {
-                if(scrollY <  dp180){
-                    layoutHomeBar.getBackground().setAlpha((int) (scrollY * 255F / dp180));
-                } else {
-                    layoutHomeBar.getBackground().setAlpha(255);
+                if(layoutHomeBar.getBackground() != null) {
+                    if (scrollY < dp180) {
+                        layoutHomeBar.getBackground().setAlpha((int) (scrollY * 255F / dp180));
+                    } else {
+                        layoutHomeBar.getBackground().setAlpha(255);
+                    }
                 }
             }
         });
-
+        layoutUpdateRole.setBackgroundColor(getResources().getColor(R.color.color_ffb900));
     }
 
     @Override

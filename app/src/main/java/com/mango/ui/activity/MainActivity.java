@@ -113,6 +113,7 @@ public class MainActivity extends BaseFragmentActivity {
             }
         });
         tabIndicator.setNavigator(commonNavigator);
+        contentPager.setOffscreenPageLimit(4);
         ViewPagerHelper.bind(tabIndicator, contentPager);
     }
 

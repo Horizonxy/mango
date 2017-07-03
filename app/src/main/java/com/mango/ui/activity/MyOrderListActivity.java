@@ -106,6 +106,7 @@ public class MyOrderListActivity extends BaseFragmentActivity {
             }
         });
         tabIndicator.setNavigator(commonNavigator);
+        viewPager.setOffscreenPageLimit(2);
         ViewPagerHelper.bind(tabIndicator, viewPager);
     }
 

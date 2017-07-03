@@ -30,12 +30,18 @@ public class ObservableScrollView extends ScrollView {
 
 
     @Override
-    public void computeScroll() {
-        super.computeScroll();
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        try {
+            super.onScrollChanged(l, t, oldl, oldt);
+        } catch (Throwable e){
+            e.printStackTrace();
+        }
         if(onScrollListener != null){
             onScrollListener.onScroll(getScrollY());
         }
+
     }
+
 
     /**
      *
