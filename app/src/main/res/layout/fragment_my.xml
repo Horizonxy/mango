@@ -153,14 +153,26 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <ImageView
+            <com.itheima.roundedimageview.RoundedImageView
+                xmlns:round="http://schemas.android.com/apk/res-auto"
+                round:riv_oval="true"
+                round:riv_border_width="@dimen/dp_2"
+                round:riv_border_color="@android:color/white"
+                android:layout_width="@dimen/dp_84"
+                android:layout_height="@dimen/dp_84"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_7"
+                android:adjustViewBounds="true"
+                android:src="@drawable/none"/>
+
+            <!--<ImageView
                 android:layout_width="@dimen/dp_84"
                 android:layout_height="@dimen/dp_84"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dp_7"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_launcher_round" />
+                android:src="@drawable/ic_launcher_round" />-->
 
         </FrameLayout>
 

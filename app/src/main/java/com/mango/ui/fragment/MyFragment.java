@@ -2,10 +2,7 @@ package com.mango.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mango.R;
@@ -16,12 +13,10 @@ import com.mango.ui.activity.SettingActivity;
 import com.mango.ui.activity.UpdateRoleActivity;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyFragment extends Fragment {
+public class MyFragment extends BaseFragment {
 
-    View root;
     @Bind(R.id.tv_my_name)
     TextView tvMyName;
     @Bind(R.id.tv_update_info)
@@ -60,16 +55,7 @@ public class MyFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(root == null){
-            root = inflater.inflate(R.layout.fragment_my, container, false);
-            ButterKnife.bind(this, root);
-            initView();
-        }
-        return root;
-    }
-
-    private void initView() {
+    void initView() {
         tvRole = (TextView) vRole.findViewById(R.id.tv_left);
         tvOrderList = (TextView) vOrderList.findViewById(R.id.tv_left);
         tvWorks = (TextView) vWorks.findViewById(R.id.tv_left);
@@ -82,6 +68,11 @@ public class MyFragment extends Fragment {
         tvClasses.setText(getString(R.string.my_classes));
         tvAccount.setText(getString(R.string.my_account));
         tvSetting.setText(getString(R.string.setting));
+    }
+
+    @Override
+    int getLayoutId() {
+        return R.layout.fragment_my;
     }
 
     @OnClick(R.id.layout_role)
@@ -114,9 +105,4 @@ public class MyFragment extends Fragment {
         startActivity(new Intent(getActivity(), SettingActivity.class));
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
 }

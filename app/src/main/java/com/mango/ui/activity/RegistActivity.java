@@ -62,6 +62,7 @@ public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnT
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvGetVerifyCode.getLayoutParams();
                 params.width = width;
                 tvGetVerifyCode.setLayoutParams(params);
+                tvGetVerifyCode.getViewTreeObserver().removeOnPreDrawListener(this);
                 return true;
             }
         });

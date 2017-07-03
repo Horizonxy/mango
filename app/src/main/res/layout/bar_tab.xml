@@ -10,10 +10,11 @@
         android:layout_height="match_parent"
         android:scaleType="centerInside"
         android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_launcher"
+        style="@style/repple_in_backguound"
+        android:src="@drawable/back"
         android:paddingBottom="@dimen/dp_11.5"
         android:paddingTop="@dimen/dp_11.5"
+        android:paddingRight="@dimen/dp_15"
         android:paddingLeft="@dimen/dp_15"/>
 
     <net.lucode.hackware.magicindicator.MagicIndicator

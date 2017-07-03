@@ -8,12 +8,11 @@ import com.mango.Application;
 
 import butterknife.ButterKnife;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseFragmentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Application.application.addActivity(this);
     }
 
@@ -29,5 +28,4 @@ public class BaseActivity extends AppCompatActivity {
         ButterKnife.unbind(this);
         Application.application.removeActivity(this);
     }
-
 }

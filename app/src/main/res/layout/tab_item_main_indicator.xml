@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_49"
     android:gravity="center"
+    style="@style/repple_in_backguound"
     android:orientation="vertical">
 
     <ImageButton
@@ -10,8 +11,7 @@
         android:layout_width="@dimen/dp_21"
         android:layout_height="@dimen/dp_21"
         android:background="@android:color/transparent"
-        android:scaleType="centerInside"
-        android:src="@drawable/selector_btn_bg_tab_main_indicator" />
+        android:scaleType="centerInside"/>
 
     <TextView
         android:id="@+id/tv_tab_text"

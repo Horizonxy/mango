@@ -3,12 +3,10 @@ package com.mango.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
@@ -16,7 +14,7 @@ import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.mango.R;
 import com.mango.di.component.DaggerMyOrderListFragmentComponent;
-import com.mango.di.module.OrderListFragmentModule;
+import com.mango.di.module.MyOrderListFragmentModule;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
 
 import java.util.ArrayList;
@@ -25,17 +23,15 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
-public class MyOrderListFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class MyOrderListFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
-    View root;
     @Bind(R.id.refresh_layout)
     PtrClassicFrameLayout refreshLayout;
     @Bind(R.id.listview)
     ListView listView;
 
-    int pageNo;
+    int pageNo = 1;
     List datas = new ArrayList();
     @Inject
     QuickAdapter adapter;
@@ -51,21 +47,12 @@ public class MyOrderListFragment extends Fragment implements AdapterView.OnItemC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DaggerMyOrderListFragmentComponent.builder().orderListFragmentModule(new OrderListFragmentModule(getActivity(), datas)).build().inject(this);
+        DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(getActivity(), datas)).build().inject(this);
     }
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        if(root == null){
-            root = inflater.inflate(R.layout.layout_pull_listview, container, false);
-            ButterKnife.bind(this, root);
-            initView();
-        }
-        return root;
-    }
-
-    private void initView() {
+    void initView() {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
@@ -83,12 +70,13 @@ public class MyOrderListFragment extends Fragment implements AdapterView.OnItemC
                 loadData();
             }
         });
-        refreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.autoRefresh(true);
-            }
-        }, 150);
+
+        loadData();
+    }
+
+    @Override
+    int getLayoutId() {
+        return R.layout.layout_pull_listview;
     }
 
     private void loadData() {
@@ -105,14 +93,11 @@ public class MyOrderListFragment extends Fragment implements AdapterView.OnItemC
         refreshLayout.loadMoreComplete(true);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        String item = (String) parent.getAdapter().getItem(position);
+        Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
     }
 }

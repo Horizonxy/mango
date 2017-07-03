@@ -1,11 +1,12 @@
 package com.mango.ui.fragment;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
@@ -13,8 +14,8 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.mango.R;
-import com.mango.di.component.DaggerMyClassesFragmentComponent;
-import com.mango.di.module.MyClassesFragmentModule;
+import com.mango.di.component.DaggerFoundFragmentComponent;
+import com.mango.di.module.FoundFragmentModule;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
 
 import java.util.ArrayList;
@@ -23,33 +24,34 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
-public class MyClassesFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class FoundFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
+    @Bind(R.id.iv_tab_search)
+    ImageView ivSearch;
+    @Bind(R.id.tv_search)
+    TextView tvSearch;
+    @Bind(R.id.layout_search)
+    View vSearch;
     @Bind(R.id.refresh_layout)
     PtrClassicFrameLayout refreshLayout;
     @Bind(R.id.listview)
     ListView listView;
-
     int pageNo = 1;
     List datas = new ArrayList();
     @Inject
     QuickAdapter adapter;
 
-    public MyClassesFragment() {
-    }
-    public static MyClassesFragment newInstance(String param1, String param2) {
-        MyClassesFragment fragment = new MyClassesFragment();
-        return fragment;
+    public FoundFragment() {
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DaggerMyClassesFragmentComponent.builder().myClassesFragmentModule(new MyClassesFragmentModule(getActivity(), datas)).build().inject(this);
+        DaggerFoundFragmentComponent.builder().foundFragmentModule(new FoundFragmentModule(getActivity(), datas)).build().inject(this);
     }
-
 
     @Override
     void initView() {
@@ -74,11 +76,6 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
         loadData();
     }
 
-    @Override
-    int getLayoutId() {
-        return R.layout.layout_pull_listview;
-    }
-
     private void loadData() {
         for (int i = 0; i < 10; i++){
             datas.add("jxm: " + i);
@@ -93,11 +90,19 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
         refreshLayout.loadMoreComplete(true);
     }
 
-
+    @Override
+    int getLayoutId() {
+        return R.layout.fragment_found;
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String item = (String) parent.getAdapter().getItem(position);
         Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.tv_right)
+    void addFound(){
+
     }
 }

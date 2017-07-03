@@ -3,7 +3,6 @@ package com.mango.ui.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
@@ -12,11 +11,13 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mango.Application;
 import com.mango.R;
 import com.mango.ui.adapter.FragmentAdapter;
+import com.mango.ui.fragment.FoundFragment;
+import com.mango.ui.fragment.HomeFragment;
 import com.mango.ui.fragment.MyFragment;
 import com.mango.util.DisplayUtils;
+import com.mango.util.SystemStatusManager;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -30,9 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseFragmentActivity {
 
     @Bind(R.id.tab_indicator)
     MagicIndicator tabIndicator;
@@ -45,33 +45,19 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SystemStatusManager.setTranslucentStatusColor(this, getResources().getColor(R.color.color_ffb900));
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        Application.application.addActivity(this);
 
         initView();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
-        Application.application.removeActivity(this);
-    }
 
     private void initView() {
         tabTitles = getResources().getStringArray(R.array.main_tab);
-        TextView tv1 = new TextView(this);
-        TextView tv2 = new TextView(this);
-        TextView tv3 = new TextView(this);
-        TextView tv4 = new TextView(this);
+        contents.add(new HomeFragment());
         contents.add(new MyFragment());
+        contents.add(new FoundFragment());
         contents.add(new MyFragment());
-        contents.add(new MyFragment());
-        contents.add(new MyFragment());
-//        for (int i = 0; i < tabTitles.length; i++ ){
-//            ((TextView)contents.get(i)).setText(tabTitles[i]);
-//        }
 
         contentPager.setAdapter(new FragmentAdapter(getSupportFragmentManager() ,contents));
         CommonNavigator commonNavigator = new CommonNavigator(this);
@@ -101,6 +87,15 @@ public class MainActivity extends FragmentActivity {
                 params.gravity = Gravity.CENTER;
                 titleView.setContentView(view, params);
                 ImageButton ibImage = (ImageButton) titleView.findViewById(R.id.ib_tab_image);
+                if(i == 0){
+                    ibImage.setImageResource(R.drawable.selector_btn_bg_home_tab_main_indicator);
+                } else if(i == 1){
+                    ibImage.setImageResource(R.drawable.selector_btn_bg_teacher_tab_main_indicator);
+                } else if(i == 2){
+                    ibImage.setImageResource(R.drawable.selector_btn_bg_found_tab_main_indicator);
+                } else if(i == 3){
+                    ibImage.setImageResource(R.drawable.selector_btn_bg_my_tab_main_indicator);
+                }
                 TextView tvText = (TextView) titleView.findViewById(R.id.tv_tab_text);
                 tvText.setText(tabTitles[i]);
                 titleView.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +115,5 @@ public class MainActivity extends FragmentActivity {
         tabIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(tabIndicator, contentPager);
     }
-
 
 }

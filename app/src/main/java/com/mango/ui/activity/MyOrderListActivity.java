@@ -4,14 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.mango.Application;
 import com.mango.R;
 import com.mango.ui.adapter.FragmentAdapter;
-import com.mango.ui.fragment.MyFragment;
 import com.mango.ui.fragment.MyOrderListFragment;
 import com.mango.ui.widget.ViewPagerFixed;
 
@@ -27,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class MyOrderListActivity extends FragmentActivity {
+public class MyOrderListActivity extends BaseFragmentActivity {
 
     @Bind(R.id.ib_left)
     ImageButton ibLeft;
@@ -45,17 +42,8 @@ public class MyOrderListActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_order_list);
-        ButterKnife.bind(this);
-        Application.application.addActivity(this);
 
         initView();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
-        Application.application.removeActivity(this);
     }
 
     private void initView() {
@@ -65,6 +53,12 @@ public class MyOrderListActivity extends FragmentActivity {
         fragmentList.add(new MyOrderListFragment());
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), fragmentList));
+
+        initIndicatorViewPager();
+
+    }
+
+    private void initIndicatorViewPager() {
         CommonNavigator commonNavigator = new CommonNavigator(this);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
@@ -113,5 +107,10 @@ public class MyOrderListActivity extends FragmentActivity {
         });
         tabIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(tabIndicator, viewPager);
+    }
+
+    @OnClick(R.id.ib_left)
+    void backClick(View v){
+        finish();
     }
 }

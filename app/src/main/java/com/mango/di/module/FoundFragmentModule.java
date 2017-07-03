@@ -1,6 +1,8 @@
 package com.mango.di.module;
 
 import android.app.Activity;
+import android.view.View;
+import android.widget.Toast;
 
 import com.mango.R;
 import com.mango.di.FragmentScope;
@@ -17,12 +19,12 @@ import dagger.Provides;
  * @date 2017/6/29
  */
 @Module
-public class OrderListFragmentModule {
+public class FoundFragmentModule {
 
     Activity activity;
     List datas;
 
-    public OrderListFragmentModule(Activity activity, List datas) {
+    public FoundFragmentModule(Activity activity, List datas) {
         this.activity = activity;
         this.datas = datas;
     }
@@ -30,10 +32,15 @@ public class OrderListFragmentModule {
     @FragmentScope
     @Provides
     public QuickAdapter provideQuickAdapter(){
-        return new QuickAdapter<String>(activity, R.layout.listview_item_order_list, datas) {
+        return new QuickAdapter<String>(activity, R.layout.listview_item_found, datas) {
             @Override
             protected void convert(BaseAdapterHelper helper, String item) {
-
+                helper.getView(R.id.layout_share).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(activity, "share: " + item, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         };
     }

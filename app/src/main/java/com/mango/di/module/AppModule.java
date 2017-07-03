@@ -9,11 +9,13 @@ import com.mango.Constants;
 import com.mango.util.FileUtils;
 import com.mango.util.PermissionUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,8 +53,11 @@ public class AppModule {
         ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(application)
                 .threadPoolSize(5)
                 .threadPriority(Thread.NORM_PRIORITY - 2)
+                .memoryCache(new UsingFreqLimitedMemoryCache(5 * 1024 * 1024))
                 .denyCacheImageMultipleSizesInMemory()
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .defaultDisplayImageOptions(provideDisplayImageOptions())
+                .imageDownloader(new BaseImageDownloader(application, 5 * 1000, 10 * 1000))
                 .writeDebugLogs();
         if(PermissionUtils.checkPermissions(application, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE})){
             builder.discCache(new UnlimitedDiskCache(imgFile));
