@@ -24,7 +24,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_163"
+            android:layout_height="@dimen/dp_162"
             android:src="@drawable/ic_launcher"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />

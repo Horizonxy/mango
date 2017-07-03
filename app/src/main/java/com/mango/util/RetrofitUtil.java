@@ -30,7 +30,7 @@ public class RetrofitUtil {
 		OkHttpClient client = new OkHttpClient.Builder()
 				.addInterceptor(new UserAgentInterceptor(userAgent))
 				//有网络时的拦截器
-				//.addNetworkInterceptor(new NetworkInterceptor())
+				.addNetworkInterceptor(new NetworkInterceptor())
 				//没网络时的拦截器
 				.addInterceptor(new NetworkInterceptor())
 				.addInterceptor(logging)

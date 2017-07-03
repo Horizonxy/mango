@@ -31,7 +31,8 @@ public class Application extends MultiDexApplication {
     @Inject
     Lazy<ApiService> apiService;
 
-    List<Activity> activities;
+    @Inject
+    Lazy<List<Activity>> activities;
 
     @Override
     public void onCreate() {
@@ -58,18 +59,15 @@ public class Application extends MultiDexApplication {
     }
 
     public void addActivity(Activity activity){
-        if(activities == null){
-            activities = new ArrayList<Activity>();
-        }
-        activities.add(activity);
+        activities.get().add(activity);
     }
 
     public void removeActivity(Activity activity){
-        activities.remove(activity);
+        activities.get().remove(activity);
     }
 
     public void exit(){
-        for (Activity activity : activities){
+        for (Activity activity : activities.get()){
             if(activity != null && !activity.isFinishing()){
                 activity.finish();
             }

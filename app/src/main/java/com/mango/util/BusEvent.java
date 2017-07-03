@@ -16,6 +16,19 @@ public class BusEvent {
     }
 
     @com.mcxiaoke.bus.annotation.BusEvent
+    public static class ActivityFinishEvent{
+        private boolean finish;
+
+        public boolean isFinish() {
+            return finish;
+        }
+
+        public void setFinish(boolean finish) {
+            this.finish = finish;
+        }
+    }
+
+    @com.mcxiaoke.bus.annotation.BusEvent
     public static class FileDownLoadEvent{
         private long progress, total;
 

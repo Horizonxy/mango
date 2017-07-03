@@ -27,7 +27,8 @@
             android:name="design_height"
             android:value="1334" />
 
-        <activity android:name=".ui.activity.TestActivity">
+        <activity android:name=".ui.activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,9 +38,10 @@
         <activity android:name=".ui.activity.TabViewPagerActivity" />
         <activity android:name=".ui.activity.TextViewPagerActivity" />
         <activity android:name=".ui.activity.MainActivity" />
-        <activity android:name=".ui.activity.LoginActivity" />
+
         <activity android:name=".ui.activity.RegistActivity" />
-        <activity android:name=".ui.activity.SetNickNameActivity" />
+        <activity android:name=".ui.activity.SetNickNameActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity android:name=".ui.activity.UpdateRoleActivity" />
         <activity android:name=".ui.activity.MyOrderListActivity" />
         <activity android:name=".ui.activity.MyAccountActivity" />

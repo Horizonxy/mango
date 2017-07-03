@@ -1,6 +1,7 @@
 package com.mango.di.module;
 
 import android.Manifest;
+import android.app.Activity;
 import android.graphics.Bitmap;
 
 import com.mango.Application;
@@ -15,6 +16,8 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -28,6 +31,12 @@ public class AppModule {
 
     public AppModule(Application application){
         this.application = application;
+    }
+
+    @Singleton
+    @Provides
+    public List<Activity> provideListActivity(){
+        return new ArrayList<Activity>();
     }
 
     @Singleton

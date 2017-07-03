@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/color_f6f6f7</item>
         <item name="colorPrimaryDark">@color/color_f6f6f7</item>
-        <item name="colorAccent">@color/color_f6f6f7</item>
+        <item name="colorAccent">@color/color_ffb900</item>
         <item name="android:screenOrientation">portrait</item>
     </style>
 

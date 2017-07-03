@@ -22,12 +22,25 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_163"
-            android:src="@drawable/ic_launcher"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop" />
+            android:layout_height="@dimen/dp_140"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dp_84"
+                android:layout_height="@dimen/dp_84"
+                android:src="@drawable/ic_launcher_round"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"/>
+
+            <ImageView
+                android:layout_width="@dimen/dp_84"
+                android:layout_height="@dimen/dp_84"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:src="@drawable/ic_launcher_round"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,14 +64,16 @@
                     android:textColor="@color/color_333333" />
 
                 <EditText
-                    android:id="@+id/et_phone"
+                    android:id="@+id/et_nick_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:maxLength="11"
-                    android:inputType="number"
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textCursorDrawable="@drawable/shape_color_cursor"
                     android:hint="@string/please_input_nickname"
-                    android:textColor="@color/color_999999"
+                    android:textColor="@color/color_333333"
                     android:textColorHint="@color/color_cccccc"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
