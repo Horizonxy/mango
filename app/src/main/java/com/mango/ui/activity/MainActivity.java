@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.mango.ui.adapter.FragmentAdapter;
 import com.mango.ui.fragment.FoundFragment;
 import com.mango.ui.fragment.HomeFragment;
 import com.mango.ui.fragment.MyFragment;
+import com.mango.ui.fragment.TecaherFragment;
 import com.mango.util.DisplayUtils;
 import com.mango.util.SystemStatusManager;
 
@@ -55,7 +57,7 @@ public class MainActivity extends BaseFragmentActivity {
     private void initView() {
         tabTitles = getResources().getStringArray(R.array.main_tab);
         contents.add(new HomeFragment());
-        contents.add(new MyFragment());
+        contents.add(new TecaherFragment());
         contents.add(new FoundFragment());
         contents.add(new MyFragment());
 
@@ -86,15 +88,15 @@ public class MainActivity extends BaseFragmentActivity {
                 FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(DisplayUtils.screenWidth(context) / contents.size(), (int) getResources().getDimension(R.dimen.dp_49));
                 params.gravity = Gravity.CENTER;
                 titleView.setContentView(view, params);
-                ImageButton ibImage = (ImageButton) titleView.findViewById(R.id.ib_tab_image);
+                ImageView ivTab = (ImageView) titleView.findViewById(R.id.iv_tab);
                 if(i == 0){
-                    ibImage.setImageResource(R.drawable.selector_btn_bg_home_tab_main_indicator);
+                    ivTab.setImageResource(R.drawable.selector_btn_bg_home_tab_main_indicator);
                 } else if(i == 1){
-                    ibImage.setImageResource(R.drawable.selector_btn_bg_teacher_tab_main_indicator);
+                    ivTab.setImageResource(R.drawable.selector_btn_bg_teacher_tab_main_indicator);
                 } else if(i == 2){
-                    ibImage.setImageResource(R.drawable.selector_btn_bg_found_tab_main_indicator);
+                    ivTab.setImageResource(R.drawable.selector_btn_bg_found_tab_main_indicator);
                 } else if(i == 3){
-                    ibImage.setImageResource(R.drawable.selector_btn_bg_my_tab_main_indicator);
+                    ivTab.setImageResource(R.drawable.selector_btn_bg_my_tab_main_indicator);
                 }
                 TextView tvText = (TextView) titleView.findViewById(R.id.tv_tab_text);
                 tvText.setText(tabTitles[i]);
@@ -117,4 +119,8 @@ public class MainActivity extends BaseFragmentActivity {
         ViewPagerHelper.bind(tabIndicator, contentPager);
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }

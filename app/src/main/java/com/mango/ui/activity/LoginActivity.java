@@ -1,5 +1,7 @@
 package com.mango.ui.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -18,20 +20,27 @@ import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent;
 import com.mango.R;
-import com.mango.ui.widget.TitleBar;
+import com.mango.di.component.DaggerLoginActivityComponent;
+import com.mango.di.module.LoginActivityModule;
+import com.mango.presenter.LoginPresenter;
+import com.mango.ui.viewlistener.BaseViewListener;
+import com.mango.ui.viewlistener.LoginListener;
+import com.mango.ui.widget.LoadingDialog;
+import com.mango.util.AppUtils;
 import com.mango.util.BusEvent;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
-public class LoginActivity extends BaseTitleBarActivity {
+public class LoginActivity extends BaseTitleBarActivity implements LoginListener<Object> {
 
     @Bind(R.id.et_phone)
     EditText etPhone;
@@ -43,7 +52,8 @@ public class LoginActivity extends BaseTitleBarActivity {
     TextView tvProtocal;
     @Bind(R.id.tv_get_verify_code)
     TextView tvGetVerifyCode;
-
+    @Inject
+    LoginPresenter loginPresenter;
     CountDownTimer getCodeCountDownTimer;
 
     @Override
@@ -51,6 +61,7 @@ public class LoginActivity extends BaseTitleBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Bus.getDefault().register(this);
+        DaggerLoginActivityComponent.builder().loginActivityModule(new LoginActivityModule(this)).build().inject(this);
 
         initView();
     }
@@ -120,20 +131,7 @@ public class LoginActivity extends BaseTitleBarActivity {
 
     @OnClick(R.id.tv_get_verify_code)
     void getVerifyCode(View v){
-        tvGetVerifyCode.setEnabled(false);
-        getCodeCountDownTimer = new CountDownTimer(60 * 1000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                tvGetVerifyCode.setText(millisUntilFinished / 1000 + "s");
-            }
-
-            @Override
-            public void onFinish() {
-                tvGetVerifyCode.setEnabled(true);
-                tvGetVerifyCode.setText(getString(R.string.get_verify_code));
-            }
-        };
-        getCodeCountDownTimer.start();
+        loginPresenter.getVerifyCode(etPhone.getText().toString());
     }
 
     @BusReceiver
@@ -151,5 +149,35 @@ public class LoginActivity extends BaseTitleBarActivity {
             getCodeCountDownTimer = null;
         }
         Bus.getDefault().unregister(this);
+
+        loginPresenter.onDestroy();
+    }
+
+    @Override
+    public void onSuccess(Object data) {
+        tvGetVerifyCode.setEnabled(false);
+        getCodeCountDownTimer = new CountDownTimer(60 * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tvGetVerifyCode.setText(millisUntilFinished / 1000 + "s");
+            }
+
+            @Override
+            public void onFinish() {
+                tvGetVerifyCode.setEnabled(true);
+                tvGetVerifyCode.setText(getString(R.string.get_verify_code));
+            }
+        };
+        getCodeCountDownTimer.start();
+    }
+
+    @Override
+    public void onFailure(String message) {
+        AppUtils.showToast(this, message);
+    }
+
+    @Override
+    public Context currentContext() {
+        return this;
     }
 }

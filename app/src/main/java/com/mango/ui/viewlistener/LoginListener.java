@@ -1,0 +1,6 @@
+package com.mango.ui.viewlistener;
+
+public interface LoginListener<T> extends BaseViewListener {
+
+    void onSuccess(T data);
+}

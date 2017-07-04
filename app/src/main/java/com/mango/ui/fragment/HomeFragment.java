@@ -164,13 +164,13 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void barColorWithScroll() {
-        int dp180 = (int) getResources().getDimension(R.dimen.dp_180);
+        int dp224 = (int) getResources().getDimension(R.dimen.dp_224);
         svContent.setOnScrollListener(new ObservableScrollView.OnScrollListener() {
             @Override
             public void onScroll(int scrollY) {
                 if(layoutHomeBar.getBackground() != null) {
-                    if (scrollY < dp180) {
-                        layoutHomeBar.getBackground().setAlpha((int) (scrollY * 255F / dp180));
+                    if (scrollY < dp224) {
+                        layoutHomeBar.getBackground().setAlpha((int) (scrollY * 255F / dp224));
                     } else {
                         layoutHomeBar.getBackground().setAlpha(255);
                     }

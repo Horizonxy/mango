@@ -40,4 +40,12 @@ public class RestResult<T> implements Serializable {
     public void setData(T data) {
         this.data = data;
     }
+
+    public boolean isSuccess(){
+        return ret_flag == 1;
+    }
+
+    public boolean isFailure(){
+        return ret_flag == 0;
+    }
 }

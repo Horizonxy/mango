@@ -17,4 +17,7 @@
     <color name="color_fffbf3">#fffbf3</color>
     <color name="color_10000000">#10000000</color>
     <color name="color_efeff4">#efeff4</color>
+
+    <color name="color_dialog_bg">#a5000000</color>
+    <color name="color_toast_bg">#cc323232</color>
 </resources>
