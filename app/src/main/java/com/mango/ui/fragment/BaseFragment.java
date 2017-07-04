@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.mobstat.StatService;
+import com.mango.BuildConfig;
+
 import butterknife.ButterKnife;
 
 /**
@@ -38,4 +41,22 @@ public abstract class BaseFragment extends Fragment {
     abstract void initView();
 
     abstract int getLayoutId();
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!BuildConfig.DEBUG) {
+            String pageName=this.getClass().getSimpleName();
+            StatService.onPageEnd(getActivity(),pageName);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!BuildConfig.DEBUG) {
+            String pageName=this.getClass().getSimpleName();
+            StatService.onPageStart(getActivity(),pageName);
+        }
+    }
 }

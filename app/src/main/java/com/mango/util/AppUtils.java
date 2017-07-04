@@ -1,6 +1,7 @@
 package com.mango.util;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -11,6 +12,11 @@ import android.widget.Toast;
 
 import com.mango.BuildConfig;
 import com.mango.R;
+
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class AppUtils {
 
@@ -175,5 +181,45 @@ public class AppUtils {
         TextView tv = (TextView) v.findViewById(R.id.message);
         tv.setText(text);
         return v;
+    }
+
+
+    /**
+     * 从APK的压缩包里面, 读取出对应的渠道包名字, 而不是从AndroidManifest里面读,
+     * 目的是为了更快打包渠道包而采用的动态设置渠道包
+     **/
+    public static String getChannel(Context context) {
+       String channel = null;
+        final String start_flag = "META-INF/channel_";
+        ApplicationInfo appinfo = context.getApplicationInfo();
+        String sourceDir = appinfo.sourceDir;
+        ZipFile zipfile = null;
+        try {
+            zipfile = new ZipFile(sourceDir);
+            Enumeration<?> entries = zipfile.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = ((ZipEntry) entries.nextElement());
+                String entryName = entry.getName();
+                if (entryName.contains(start_flag)) {
+                    channel = entryName.replace(start_flag, "");
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (zipfile != null) {
+                try {
+                    zipfile.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (channel == null || channel.length() <= 0) {
+            channel = "develop";//读不到渠道号就默认是官方渠道
+        }
+        return channel;
     }
 }

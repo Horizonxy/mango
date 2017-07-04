@@ -3,10 +3,12 @@ package com.mango;
 import android.app.Activity;
 import android.support.multidex.MultiDexApplication;
 
+import com.baidu.mobstat.StatService;
 import com.mango.di.component.DaggerAppComponent;
 import com.mango.di.module.ApiModule;
 import com.mango.di.module.AppModule;
 import com.mango.model.api.ApiService;
+import com.mango.util.AppUtils;
 import com.mcxiaoke.bus.Bus;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -39,6 +41,13 @@ public class Application extends MultiDexApplication {
         DaggerAppComponent.builder().apiModule(new ApiModule()).appModule(new AppModule(this)).build().inject(this);
         application = this;
         Logger.init(getResources().getString(R.string.app_name));
+
+        if (BuildConfig.DEBUG) {
+            StatService.setDebugOn(true);
+        }
+        String vendor = AppUtils.getChannel(this);
+        StatService.setAppChannel(this, vendor, false);
+        StatService.autoTrace(this, true, true);
 
         Bus.getDefault().setStrictMode(true);
         Bus.getDefault().setDebug(BuildConfig.DEBUG);
