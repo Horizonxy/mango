@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 
 import com.mango.Application;
 import com.mango.Constants;
+import com.mango.model.db.CommonDaoImpl;
 import com.mango.util.FileUtils;
 import com.mango.util.PermissionUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
@@ -76,5 +77,11 @@ public class AppModule {
                 .displayer(new FadeInBitmapDisplayer(2000))
                 .build();
         return options;
+    }
+
+    @Singleton
+    @Provides
+    public CommonDaoImpl provideCommonDaoImpl(){
+        return new CommonDaoImpl(application);
     }
 }

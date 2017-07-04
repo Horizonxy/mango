@@ -3,7 +3,11 @@ package com.mango.presenter;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.mango.Application;
+import com.mango.R;
 import com.mango.ui.widget.LoadingDialog;
+import com.mango.util.AppUtils;
+import com.mango.util.NetUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +70,15 @@ public class BasePresenter {
         if (contexts != null){
             contexts.clear();
             contexts = null;
+        }
+    }
+
+    public boolean hasNet(){
+        if(!NetUtils.isNetworkConnected(context)){
+            AppUtils.showToast(Application.application.getTopActivity(), R.string.noconnection);
+            return false;
+        } else {
+            return true;
         }
     }
 

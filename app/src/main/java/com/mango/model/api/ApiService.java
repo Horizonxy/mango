@@ -10,6 +10,14 @@ import rx.Observable;
 public interface ApiService {
 
     @POST("outer/router?register")
-    Observable<RestResult<Object>> getRegistVerifyCode(@Query("mobile") String mobile);
+    Observable<RestResult<RegistBean>> getRegistVerifyCode(
+            @Query("mobile") String mobile
+    );
 
+    @POST("outer/router?register")
+    Observable<RestResult<RegistBean>> login(
+            @Query("mobile") String mobile,
+            @Query("sms_code") String smsCode,
+            @Query("lst_sessid") String sessId
+    );
 }

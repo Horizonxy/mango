@@ -1,7 +1,6 @@
 package com.mango.ui.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -24,10 +23,10 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.mango.R;
 import com.mango.di.component.DaggerLoginActivityComponent;
 import com.mango.di.module.LoginActivityModule;
+import com.mango.model.bean.RegistBean;
 import com.mango.presenter.LoginPresenter;
-import com.mango.ui.viewlistener.BaseViewListener;
 import com.mango.ui.viewlistener.LoginListener;
-import com.mango.ui.widget.LoadingDialog;
+import com.mango.util.ActivityBuilder;
 import com.mango.util.AppUtils;
 import com.mango.util.BusEvent;
 import com.mango.wxapi.WXEntryActivity;
@@ -45,7 +44,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import rx.functions.Action1;
 
-public class LoginActivity extends BaseTitleBarActivity implements LoginListener<Object> {
+public class LoginActivity extends BaseTitleBarActivity implements LoginListener<RegistBean> {
 
     @Bind(R.id.et_phone)
     EditText etPhone;
@@ -102,6 +101,13 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
             @Override
             public void call(Void aVoid) {
                 loginWx();
+            }
+        });
+
+        RxView.clicks(btnLogin).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                loginPresenter.login(etPhone.getText().toString(), etVerifyCode.getText().toString());
             }
         });
 
@@ -182,21 +188,36 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
     }
 
     @Override
-    public void onSuccess(Object data) {
-        tvGetVerifyCode.setEnabled(false);
-        getCodeCountDownTimer = new CountDownTimer(60 * 1000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                tvGetVerifyCode.setText(millisUntilFinished / 1000 + "s");
-            }
+    public void onSuccess(RegistBean data) {
+        if(data == null) {
+            tvGetVerifyCode.setEnabled(false);
+            getCodeCountDownTimer = new CountDownTimer(60 * 1000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    tvGetVerifyCode.setText(millisUntilFinished / 1000 + "s");
+                }
 
-            @Override
-            public void onFinish() {
-                tvGetVerifyCode.setEnabled(true);
-                tvGetVerifyCode.setText(getString(R.string.get_verify_code));
-            }
-        };
-        getCodeCountDownTimer.start();
+                @Override
+                public void onFinish() {
+                    tvGetVerifyCode.setEnabled(true);
+                    tvGetVerifyCode.setText(getString(R.string.get_verify_code));
+                }
+            };
+            getCodeCountDownTimer.start();
+        }
+    }
+
+    @Override
+    public void startSetNickName() {
+        ActivityBuilder.startSetNickNameActivity(this);
+        ActivityBuilder.defaultTransition(this);
+    }
+
+    @Override
+    public void startMain() {
+        ActivityBuilder.startMainActivity(this);
+        ActivityBuilder.defaultTransition(this);
+        finish();
     }
 
     @Override
