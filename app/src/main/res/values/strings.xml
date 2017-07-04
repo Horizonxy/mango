@@ -6,6 +6,7 @@
     <string name="common_back">返回</string>
     <string name="rmb">&#165;</string>
     <string name="please_wait">请稍候...</string>
+    <string name="uninstalled_wx">未安装微信</string>
 
     <string name="please_input_phone">请输入11位手机号码</string>
     <string name="please_input_password">请输入密码</string>

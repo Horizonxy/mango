@@ -153,6 +153,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <ImageButton
+                        android:id="@+id/ib_wx_login"
                         android:layout_width="@dimen/dp_60"
                         android:layout_height="@dimen/dp_60"
                         android:layout_marginTop="@dimen/dp_8"

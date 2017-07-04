@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,8 +30,12 @@ import com.mango.ui.viewlistener.LoginListener;
 import com.mango.ui.widget.LoadingDialog;
 import com.mango.util.AppUtils;
 import com.mango.util.BusEvent;
+import com.mango.wxapi.WXEntryActivity;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -54,6 +59,8 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
     TextView tvGetVerifyCode;
     @Inject
     LoginPresenter loginPresenter;
+    @Bind(R.id.ib_wx_login)
+    ImageButton ibWxLogin;
     CountDownTimer getCodeCountDownTimer;
 
     @Override
@@ -90,8 +97,29 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
                 btnLogin.setEnabled(etVerifyCode.getText().length() > 0 && etPhone.getText().length() == 11);
             }
         });
+
+        RxView.clicks(ibWxLogin).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                loginWx();
+            }
+        });
+
         initProtocol();
         setGetVerifyCodeTvWidth();
+    }
+
+    private void loginWx() {
+        IWXAPI wxApi = WXAPIFactory.createWXAPI(this, WXEntryActivity.WEIXIN_APP_ID, true);
+        wxApi.registerApp(WXEntryActivity.WEIXIN_APP_ID);
+        if (wxApi != null && wxApi.isWXAppInstalled()) {
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test_neng";
+            wxApi.sendReq(req);
+        } else {
+            AppUtils.showToast(this, R.string.uninstalled_wx);
+        }
     }
 
     private void setGetVerifyCodeTvWidth() {

@@ -83,4 +83,5 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     provided 'javax.annotation:jsr250-api:1.0'
     compile files('libs/Baidu_Mtj_3.8.0.2.jar')
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 }
