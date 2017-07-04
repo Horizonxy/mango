@@ -28,6 +28,12 @@ public class BasePresenter {
         loadingDialog = new LoadingDialog(context, message);
         loadingDialog.show();
         loadingDialog.setCancelable(true);
+        loadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                onDestroy();
+            }
+        });
 
         if(contexts == null){
             contexts = new ArrayList<>();
@@ -61,7 +67,6 @@ public class BasePresenter {
             contexts.clear();
             contexts = null;
         }
-        context = null;
     }
 
     public void setContext(Context context) {
