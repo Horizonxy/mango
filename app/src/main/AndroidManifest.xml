@@ -36,16 +36,17 @@
         android:theme="@style/AppTheme">
 
         <!-- auto-layout -->
-        <meta-data
+        <!--<meta-data
             android:name="design_width"
             android:value="750" />
         <meta-data
             android:name="design_height"
-            android:value="1334" />
+            android:value="1334" />-->
 
-        <!--android:theme="@style/Theme.Start"-->
+
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activity.WelcomeActivity"
+            android:theme="@style/Theme.Start"
             android:windowSoftInputMode="stateHidden|stateUnchanged">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,9 +56,9 @@
         </activity>
         <activity android:name=".ui.activity.TabViewPagerActivity" />
         <activity android:name=".ui.activity.TextViewPagerActivity" />
-       <!-- <activity
+       <activity
             android:name=".ui.activity.MainActivity"
-            android:launchMode="singleTask" />-->
+            android:launchMode="singleTask" />
         <activity android:name=".ui.activity.RegistActivity" />
         <activity
             android:name=".ui.activity.SetNickNameActivity"
@@ -69,6 +70,8 @@
         <activity android:name=".ui.activity.ProfileInfoActivity" />
         <activity android:name=".ui.activity.MyClassesActivity" />
         <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.PublishDynamicsActivity" />
+        <activity android:name=".ui.activity.InteractAreaActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>
@@ -124,7 +127,6 @@
             android:value="true" />
         <!-- 百度统计 end -->
 
-        <activity android:name=".ui.activity.PublishDynamicsActivity" />
     </application>
 
 </manifest>

@@ -43,7 +43,7 @@ public class NetReceiver extends BroadcastReceiver {
 //                event.setHasNet(NetUtils.isNetworkConnected(context));
 //                Bus.getDefault().post(event);
 
-                if(!NetUtils.isNetworkConnected(context)){
+                if(!NetUtils.isNetworkConnected(context) && !AppUtils.isAppIsInBackground(context)){
                     AppUtils.showToast(Application.application.getTopActivity(), R.string.noconnection);
                 }
             }

@@ -63,6 +63,8 @@
     <string name="please_input_content">请输入内容</string>
     <string name="input_num">您还可以写%s字</string>
 
+    <string name="interact_area">互动区</string>
+
     <string name="noconnectionremind">无网络连接</string>
     <string name="wrongconnectionremind">网络出了点小问题</string>
     <string name="noconnection">无网络连接</string>

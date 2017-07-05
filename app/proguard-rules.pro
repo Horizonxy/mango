@@ -132,3 +132,10 @@
 -dontwarn com.nostra13.universalimageloader.**
 -keep class com.nostra13.universalimageloader.** { *; }
 
+
+## ----------------------------------
+##      galleryfinal
+## ----------------------------------
+-keep class cn.finalteam.galleryfinal.widget.*{*;}
+-keep class cn.finalteam.galleryfinal.widget.crop.*{*;}
+-keep class cn.finalteam.galleryfinal.widget.zoonview.*{*;}

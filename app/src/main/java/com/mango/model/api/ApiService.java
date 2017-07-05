@@ -20,4 +20,6 @@ public interface ApiService {
             @Query("sms_code") String smsCode,
             @Query("lst_sessid") String sessId
     );
+
+    //quick_login
 }
