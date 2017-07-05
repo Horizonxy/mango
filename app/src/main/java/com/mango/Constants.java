@@ -8,6 +8,7 @@ public class Constants {
 
 	public static final String BASE_DIR = "mango";
 	public static final String IMG_CACHE_DIR = BASE_DIR.concat("/image_cache");
+	public static final String PICTURE_DIR = BASE_DIR.concat("/image_cache");
 
 	public static final int REQ_PERMISSIONS = 1000;
 

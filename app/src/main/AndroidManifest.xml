@@ -43,9 +43,9 @@
             android:name="design_height"
             android:value="1334" />
 
+        <!--android:theme="@style/Theme.Start"-->
         <activity
-            android:name=".ui.activity.WelcomeActivity"
-            android:theme="@style/Theme.Start"
+            android:name=".ui.activity.MainActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,8 +55,9 @@
         </activity>
         <activity android:name=".ui.activity.TabViewPagerActivity" />
         <activity android:name=".ui.activity.TextViewPagerActivity" />
-        <activity android:name=".ui.activity.MainActivity"
-            android:launchMode="singleTask"/>
+       <!-- <activity
+            android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask" />-->
         <activity android:name=".ui.activity.RegistActivity" />
         <activity
             android:name=".ui.activity.SetNickNameActivity"
@@ -123,6 +124,7 @@
             android:value="true" />
         <!-- 百度统计 end -->
 
+        <activity android:name=".ui.activity.PublishDynamicsActivity" />
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.mango.R;
 import com.mango.ui.activity.LoginActivity;
 import com.mango.ui.activity.MainActivity;
+import com.mango.ui.activity.PublishDynamicsActivity;
 import com.mango.ui.activity.SetNickNameActivity;
 
 /**
@@ -28,5 +29,9 @@ public class ActivityBuilder {
 
     public static void startSetNickNameActivity(Activity activity){
         activity.startActivity(new Intent(activity, SetNickNameActivity.class));
+    }
+
+    public static void startPublishDynamicsActivity(Activity activity){
+        activity.startActivity(new Intent(activity, PublishDynamicsActivity.class));
     }
 }

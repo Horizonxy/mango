@@ -73,8 +73,9 @@ public class AppModule {
     public DisplayImageOptions provideDisplayImageOptions(){
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
+                .cacheInMemory(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .displayer(new FadeInBitmapDisplayer(2000))
+               /* .displayer(new FadeInBitmapDisplayer(2000))*/
                 .build();
         return options;
     }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@id/iv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher" >
+    </ImageView>
+
+    <TextView
+        android:id="@id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="25dip"
+        android:paddingRight="25dip"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/color_666666"
+        android:text="分手的距离开发说多久"
+        android:textSize="@dimen/sp_14" />
+
+    <Button
+        android:id="@id/btn_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/refresh"
+        style="@style/lesser_corners_btn"
+        android:textSize="@dimen/sp_14"/>
+
+
+</LinearLayout>

@@ -19,6 +19,7 @@ public class TitleBar extends FrameLayout implements View.OnClickListener {
     ImageButton ibLeft;
     ImageButton ibRight;
     ImageButton ibSecondRight;
+    TextView tvRight;
     TextView tvTitle;
     TextView tvLeft;
     OnTitleBarClickListener onTitleBarClickListener;
@@ -46,7 +47,9 @@ public class TitleBar extends FrameLayout implements View.OnClickListener {
         ibSecondRight = (ImageButton) root.findViewById(R.id.ib_second_right);
         tvTitle = (TextView) root.findViewById(R.id.tv_title);
         tvLeft = (TextView) root.findViewById(R.id.tv_left);
+        tvRight = (TextView) root.findViewById(R.id.tv_right);
 
+        tvRight.setOnClickListener(this);
         tvLeft.setOnClickListener(this);
         ibLeft.setOnClickListener(this);
         ibRight.setOnClickListener(this);
@@ -68,11 +71,25 @@ public class TitleBar extends FrameLayout implements View.OnClickListener {
         tvLeft.setText(getResources().getString(resId));
     }
 
+    public void setRightText(int resId){
+        if(View.GONE == tvRight.getVisibility()){
+            tvRight.setVisibility(View.VISIBLE);
+        }
+        tvRight.setText(getResources().getString(resId));
+    }
+
     public void setLeftText(String title){
         if(View.GONE == tvLeft.getVisibility()){
             tvLeft.setVisibility(View.VISIBLE);
         }
         tvLeft.setText(title);
+    }
+
+    public void setRightText(String title){
+        if(View.GONE == tvRight.getVisibility()){
+            tvRight.setVisibility(View.VISIBLE);
+        }
+        tvRight.setText(title);
     }
 
     public void setLeftBtnIcon(int resId){

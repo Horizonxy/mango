@@ -17,6 +17,7 @@ import com.mango.R;
 import com.mango.di.component.DaggerFoundFragmentComponent;
 import com.mango.di.module.FoundFragmentModule;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
+import com.mango.util.ActivityBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +104,6 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
 
     @OnClick(R.id.tv_right)
     void addFound(){
-
+        ActivityBuilder.startPublishDynamicsActivity(getActivity());
     }
 }
