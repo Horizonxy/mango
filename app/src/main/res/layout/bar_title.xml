@@ -22,6 +22,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="@color/color_333333"
+        style="@style/repple_in_backguound"
         android:textSize="@dimen/sp_16"
         android:ellipsize="end"
         android:singleLine="true"

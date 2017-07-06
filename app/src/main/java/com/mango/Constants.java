@@ -20,5 +20,6 @@ public class Constants {
 	public static final long SIZE_OF_CACHE = 100 * 1024 * 1024;
 
 	public static final String SESS_ID = "sess_id";
+	public static final String FILE_PREFIX = "file://";
 
 }

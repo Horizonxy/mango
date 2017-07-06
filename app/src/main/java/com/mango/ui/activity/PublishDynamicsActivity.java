@@ -130,7 +130,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
                 }
                 for (PhotoInfo photoInfo : resultList){
                     UploadImageBean imageBean = new UploadImageBean(UploadImageBean.READY);
-                    imageBean.setLocalPath("file://" + photoInfo.getPhotoPath());
+                    imageBean.setLocalPath(Constants.FILE_PREFIX + photoInfo.getPhotoPath());
                     pictures.add(pictures.size() - 1, imageBean);
                 }
                 setImageView();

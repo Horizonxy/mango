@@ -24,7 +24,6 @@
 
         <Button
             android:id="@+id/btn_update_info"
-            style="@style/lesser_corners_btn"
             android:textSize="@dimen/sp_12"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_30"
@@ -34,6 +33,7 @@
             android:layout_marginLeft="@dimen/dp_5"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/iv_bottom_del"
+            android:background="@drawable/selector_black_border_corners"
             android:text="立即升级"/>
 
         <TextView
