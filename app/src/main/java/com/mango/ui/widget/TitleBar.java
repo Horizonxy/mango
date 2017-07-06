@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mango.R;
 
 public class TitleBar extends FrameLayout implements View.OnClickListener {
 
+    RelativeLayout root;
     ImageButton ibLeft;
     ImageButton ibRight;
     ImageButton ibSecondRight;
@@ -41,7 +43,7 @@ public class TitleBar extends FrameLayout implements View.OnClickListener {
     }
 
     private void initView(Context context) {
-        View root = LayoutInflater.from(context).inflate(R.layout.bar_title, this, true);
+        root = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.bar_title, this, false);
         ibLeft = (ImageButton) root.findViewById(R.id.ib_left);
         ibRight = (ImageButton) root.findViewById(R.id.ib_right);
         ibSecondRight = (ImageButton) root.findViewById(R.id.ib_second_right);
@@ -54,6 +56,12 @@ public class TitleBar extends FrameLayout implements View.OnClickListener {
         ibLeft.setOnClickListener(this);
         ibRight.setOnClickListener(this);
         ibSecondRight.setOnClickListener(this);
+
+        addView(root);
+    }
+
+    public void setBarBackGroundColor(int resId) {
+        root.setBackgroundColor(getResources().getColor(resId));
     }
 
     public void setTitle(int resId){

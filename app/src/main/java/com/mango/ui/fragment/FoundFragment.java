@@ -70,6 +70,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
+                pageNo++;
                 loadData();
             }
         });

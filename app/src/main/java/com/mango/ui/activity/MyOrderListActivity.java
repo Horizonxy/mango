@@ -26,7 +26,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class MyOrderListActivity extends BaseFragmentActivity {
+public class MyOrderListActivity extends BaseActivity {
 
     @Bind(R.id.ib_left)
     ImageButton ibLeft;

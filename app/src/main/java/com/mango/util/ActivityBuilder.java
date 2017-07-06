@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.mango.R;
+import com.mango.ui.activity.CalssListActivity;
 import com.mango.ui.activity.InteractAreaActivity;
 import com.mango.ui.activity.LoginActivity;
 import com.mango.ui.activity.MainActivity;
+import com.mango.ui.activity.MyClassesActivity;
 import com.mango.ui.activity.PublishDynamicsActivity;
 import com.mango.ui.activity.SetNickNameActivity;
+import com.mango.ui.activity.TeacherClassCategoryActivity;
 
 /**
  * @author 蒋先明
@@ -38,5 +41,17 @@ public class ActivityBuilder {
 
     public static void startInteractAreaActivity(Activity activity){
         activity.startActivity(new Intent(activity, InteractAreaActivity.class));
+    }
+
+    public static void startTeacherClassCategoryActivity(Activity activity){
+        activity.startActivity(new Intent(activity, TeacherClassCategoryActivity.class));
+    }
+
+    public static void startMyClassesActivity(Activity activity){
+        activity.startActivity(new Intent(activity, MyClassesActivity.class));
+    }
+
+    public static void startCalssListActivity(Activity activity){
+        activity.startActivity(new Intent(activity, CalssListActivity.class));
     }
 }

@@ -1,6 +1,6 @@
-package com.mango.ui.activity;
+package com.mango.ui.fragment;
 
-import android.os.Bundle;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,44 +10,38 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.mango.R;
-import com.mango.di.component.DaggerInteractAreaActivityComponent;
-import com.mango.di.module.InteractAreaActivityModule;
+import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
-import com.mango.util.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.Bind;
 
-public class InteractAreaActivity extends BaseTitleBarActivity implements AdapterView.OnItemClickListener {
+public class ClassListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
     @Bind(R.id.refresh_layout)
     PtrClassicFrameLayout refreshLayout;
     @Bind(R.id.listview)
     ListView listView;
+
     int pageNo = 1;
     List datas = new ArrayList();
-    @Inject
     QuickAdapter adapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_interact_area);
-        DaggerInteractAreaActivityComponent.builder().interactAreaActivityModule(new InteractAreaActivityModule(this, datas)).build().inject(this);
-
-        initView();
+    public ClassListFragment() {
     }
 
-    private void initView() {
-        titleBar.setTitle(R.string.interact_area);
 
-        listView.setAdapter(adapter);
+    @Override
+    void initView() {
+        listView.setAdapter(adapter = new QuickAdapter(getActivity(), R.layout.listview_item_recommend_teacher_class, datas) {
+            @Override
+            protected void convert(BaseAdapterHelper helper, Object item) {
+
+            }
+        });
         listView.setOnItemClickListener(this);
-        listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
         refreshLayout.setLastUpdateTimeRelateObject(this);
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
@@ -72,7 +66,7 @@ public class InteractAreaActivity extends BaseTitleBarActivity implements Adapte
     }
 
     private void loadData() {
-        for (int i = 0; i < 2; i++){
+        for (int i = 0; i < 10; i++){
             datas.add("jxm: " + i);
         }
 
@@ -86,8 +80,12 @@ public class InteractAreaActivity extends BaseTitleBarActivity implements Adapte
     }
 
     @Override
+    int getLayoutId() {
+        return R.layout.layout_pull_listview;
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String item = (String) parent.getAdapter().getItem(position);
-        AppUtils.showToast(this, item);
+
     }
 }

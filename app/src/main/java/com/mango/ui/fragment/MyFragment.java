@@ -7,10 +7,10 @@ import android.widget.TextView;
 
 import com.mango.R;
 import com.mango.ui.activity.MyAccountActivity;
-import com.mango.ui.activity.MyClassesActivity;
 import com.mango.ui.activity.MyOrderListActivity;
 import com.mango.ui.activity.SettingActivity;
 import com.mango.ui.activity.UpdateRoleActivity;
+import com.mango.util.ActivityBuilder;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -92,7 +92,7 @@ public class MyFragment extends BaseFragment {
 
     @OnClick(R.id.layout_classes)
     void classesClick(View v){
-        startActivity(new Intent(getActivity(), MyClassesActivity.class));
+        ActivityBuilder.startMyClassesActivity(getActivity());
     }
 
     @OnClick(R.id.layout_account)

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_15"
+    android:layout_marginTop="@dimen/dp_15"
+    android:gravity="center"
+    android:text="更多服务咨询，请关注我们公众号：芒果派"
+    android:textColor="@color/color_666666"
+    android:textSize="@dimen/dp_14" />

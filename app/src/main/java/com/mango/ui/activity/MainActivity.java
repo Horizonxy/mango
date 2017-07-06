@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,7 +33,7 @@ import java.util.List;
 
 import butterknife.Bind;
 
-public class MainActivity extends BaseFragmentActivity {
+public class MainActivity extends BaseActivity {
 
     @Bind(R.id.tab_indicator)
     MagicIndicator tabIndicator;

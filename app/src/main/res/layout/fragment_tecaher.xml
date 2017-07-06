@@ -8,7 +8,7 @@
         android:layout_height="@dimen/dp_49"
         android:background="@color/color_ffb900">
         <TextView
-            android:id="@+id/ib_left"
+            android:id="@+id/tv_left"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             style="@style/repple_in_backguound"
@@ -16,7 +16,7 @@
             android:textColor="@color/color_333333"
             android:textSize="@dimen/sp_16"
             android:ellipsize="end"
-            android:text="导师"
+            android:text="@string/teacher"
             android:singleLine="true"
             android:paddingBottom="@dimen/dp_11.5"
             android:paddingTop="@dimen/dp_11.5"
@@ -45,7 +45,7 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:background="@drawable/shape_bg_corners_tab_search"
-            android:layout_toRightOf="@id/ib_left"
+            android:layout_toRightOf="@id/tv_left"
             android:layout_toLeftOf="@id/tv_right">
 
             <ImageView

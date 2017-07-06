@@ -67,11 +67,16 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
+                pageNo++;
                 loadData();
             }
         });
-
-        loadData();
+        refreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.autoRefresh(true);
+            }
+        }, 400);
     }
 
     @Override

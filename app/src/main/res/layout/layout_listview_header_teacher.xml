@@ -28,8 +28,8 @@
         android:id="@+id/gv_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/dp_15"
-        android:paddingBottom="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
         android:numColumns="4"
         android:cacheColorHint="@android:color/transparent"/>
 

@@ -67,11 +67,16 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
+                pageNo++;
                 loadData();
             }
         });
-
-        loadData();
+        refreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.autoRefresh(true);
+            }
+        }, 400);
     }
 
     @Override

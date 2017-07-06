@@ -107,7 +107,7 @@ public class HomeFragment extends BaseFragment {
         titles.add("3");
         GridView gridView = new GridView(getActivity());
         gridView.setNumColumns(4);
-        gridView.setAdapter(new QuickAdapter<String>(getActivity(), R.layout.girdview_item_home_pager, titles) {
+        gridView.setAdapter(new QuickAdapter<String>(getActivity(), R.layout.gridview_item_home_pager, titles) {
             @Override
             protected void convert(BaseAdapterHelper helper, String item) {
 
@@ -116,7 +116,7 @@ public class HomeFragment extends BaseFragment {
         gridViews.add(gridView);
         GridView gridView1 = new GridView(getActivity());
         gridView1.setNumColumns(4);
-        gridView1.setAdapter(new QuickAdapter<String>(getActivity(), R.layout.girdview_item_home_pager, titles) {
+        gridView1.setAdapter(new QuickAdapter<String>(getActivity(), R.layout.gridview_item_home_pager, titles) {
             @Override
             protected void convert(BaseAdapterHelper helper, String item) {
 

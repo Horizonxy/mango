@@ -305,15 +305,7 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_14"
-                android:layout_marginBottom="@dimen/dp_14"
-                android:gravity="center"
-                android:textSize="@dimen/dp_14"
-                android:textColor="@color/color_666666"
-                android:text="更多服务咨询，请关注我们公众号：芒果派"/>
+            <include layout="@layout/layout_bottom_concern" />
 
         </LinearLayout>
 

@@ -36,13 +36,14 @@
         android:theme="@style/AppTheme">
 
         <!-- auto-layout -->
-        <!--<meta-data
+        <!--
+        <meta-data
             android:name="design_width"
             android:value="750" />
         <meta-data
             android:name="design_height"
-            android:value="1334" />-->
-
+            android:value="1334" />
+        -->
 
         <activity
             android:name=".ui.activity.WelcomeActivity"
@@ -55,8 +56,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.TabViewPagerActivity" />
-        <activity android:name=".ui.activity.TextViewPagerActivity" />
-       <activity
+        <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.activity.RegistActivity" />
@@ -72,6 +72,8 @@
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.PublishDynamicsActivity" />
         <activity android:name=".ui.activity.InteractAreaActivity" />
+        <activity android:name=".ui.activity.TeacherClassCategoryActivity" />
+        <activity android:name=".ui.activity.CalssListActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>
@@ -126,6 +128,7 @@
             android:name="BaiduMobAd_WIFI_LOCATION"
             android:value="true" />
         <!-- 百度统计 end -->
+
 
     </application>
 
