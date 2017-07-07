@@ -21,5 +21,14 @@ public class Constants {
 
 	public static final String SESS_ID = "sess_id";
 	public static final String FILE_PREFIX = "file://";
+	public static final int GENDER_MAN = 1;
+	public static final int GENDER_WUMEN = 0;
+	public static final String INDEX_THREEE_ADVERT = "index_three_advert";
+	public static final String INDEX_BANNER = "index_banner";
 
+	public static final String PUBLIC = "public";
+	public static final String STUDENT = "student";
+	public static final String TUTOR = "tutor";
+	public static final String COMMUNITY = "community";
+	public static final String COMPANY = "company";
 }

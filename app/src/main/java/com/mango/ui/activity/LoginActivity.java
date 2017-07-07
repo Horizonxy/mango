@@ -107,7 +107,7 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
         RxView.clicks(btnLogin).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-                loginPresenter.login(etPhone.getText().toString(), etVerifyCode.getText().toString());
+                loginPresenter.quickLogin(etPhone.getText().toString(), etVerifyCode.getText().toString());
             }
         });
 

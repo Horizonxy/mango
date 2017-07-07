@@ -1,21 +1,30 @@
 package com.mango.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mango.Application;
 import com.mango.R;
+import com.mango.di.component.DaggerMyFragmentComponent;
+import com.mango.di.module.MyFragmentModule;
+import com.mango.presenter.MemberPresenter;
 import com.mango.ui.activity.MyAccountActivity;
 import com.mango.ui.activity.MyOrderListActivity;
 import com.mango.ui.activity.SettingActivity;
 import com.mango.ui.activity.UpdateRoleActivity;
+import com.mango.ui.viewlistener.MyFragmentListener;
 import com.mango.util.ActivityBuilder;
+import com.mango.util.AppUtils;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class MyFragment extends BaseFragment {
+public class MyFragment extends BaseFragment implements MyFragmentListener {
 
     @Bind(R.id.tv_my_name)
     TextView tvMyName;
@@ -40,6 +49,8 @@ public class MyFragment extends BaseFragment {
     TextView tvClasses;
     TextView tvAccount;
     TextView tvSetting;
+    @Inject
+    MemberPresenter memberPresenter;
 
     public MyFragment() {
     }
@@ -52,6 +63,7 @@ public class MyFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaggerMyFragmentComponent.builder().myFragmentModule(new MyFragmentModule(this)).build().inject(this);
     }
 
     @Override
@@ -68,6 +80,10 @@ public class MyFragment extends BaseFragment {
         tvClasses.setText(getString(R.string.my_classes));
         tvAccount.setText(getString(R.string.my_account));
         tvSetting.setText(getString(R.string.setting));
+
+        if(Application.application.getMember() != null) {
+            memberPresenter.getMember();
+        }
     }
 
     @Override
@@ -105,4 +121,23 @@ public class MyFragment extends BaseFragment {
         startActivity(new Intent(getActivity(), SettingActivity.class));
     }
 
+    @Override
+    public void onFailure(String message) {
+        AppUtils.showToast(getContext(), message);
+    }
+
+    @Override
+    public Context currentContext() {
+        return getContext();
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public long getMemberId() {
+        return Application.application.getMember().getId().longValue();
+    }
 }

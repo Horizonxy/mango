@@ -171,7 +171,6 @@
                         android:layout_centerVertical="true"
                         android:gravity="center_vertical">
 
-
                         <View
                             android:layout_width="@dimen/dp_4"
                             android:layout_height="match_parent"
@@ -180,32 +179,32 @@
                             android:background="@color/color_ffb900" />
 
                         <TextView
+                            android:id="@+id/tv_title1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_4"
-                            android:text="名企推广活动"
                             android:textColor="@color/color_333333"
-                            android:textSize="@dimen/sp_14" />
+                            android:textSize="@dimen/sp_16" />
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tv_intro1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:text="大学城福利来了"
                         android:textColor="@color/color_666666"
                         android:textSize="@dimen/sp_14" />
                 </RelativeLayout>
 
                 <ImageView
+                    android:id="@+id/iv_advert1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_70"
                     android:layout_marginBottom="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_10"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/home_vip" />
+                    android:scaleType="centerCrop"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -234,31 +233,37 @@
                             android:background="@color/color_ffb900" />
 
                         <TextView
+                            android:id="@+id/tv_title2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_4"
-                            android:text="初入职场必备"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_16" />
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tv_intro2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:text="踏出校园必备七种武器"
                         android:textColor="@color/color_666666"
                         android:textSize="@dimen/sp_14" />
                 </RelativeLayout>
 
-                <ImageView
+                <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_70"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/home_vip" />
+                    android:scrollbars="none">
+                    <LinearLayout
+                        android:id="@+id/layout_advert2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@drawable/shape_vertical_trans_line"
+                        android:showDividers="middle"
+                        android:orientation="horizontal"/>
+                </HorizontalScrollView>
 
             </LinearLayout>
 
@@ -287,21 +292,21 @@
                         android:background="@color/color_ffb900" />
 
                     <TextView
+                        android:id="@+id/tv_title3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dp_4"
-                        android:text="活动推荐"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/sp_16" />
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/iv_advert3"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_240"
                     android:layout_marginTop="@dimen/dp_10"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/home_huodong" />
+                    android:scaleType="centerCrop" />
 
             </LinearLayout>
 
@@ -312,7 +317,6 @@
     </com.mango.ui.widget.ObservableScrollView>
 
     <include
-        android:id="@+id/layout_home_bar"
         layout="@layout/layout_tab_home_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_49" />

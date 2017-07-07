@@ -39,7 +39,7 @@ public class LoginPresenter extends BasePresenter {
         if(!hasNet()){
             return;
         }
-        Subscription subscription = memberModel.getRegistVerifyCode(mobile, new Action0() {
+        Subscription subscription = memberModel.getLoginVerifyCode(mobile, new Action0() {
             @Override
             public void call() {
                 createLoading(context, context.getString(R.string.please_wait));
@@ -59,11 +59,11 @@ public class LoginPresenter extends BasePresenter {
             }
 
             @Override
-            public void onNext(RestResult<RegistBean> objectRestResult) {
-                if(objectRestResult.isFailure()
-                        && objectRestResult.getData() != null
-                        && "BIZ_ERR_LOGIN_SMSCODE_SEND".equals(objectRestResult.getError_code())){
-                    sessId = objectRestResult.getData().getLst_sessid();
+            public void onNext(RestResult<RegistBean> restResult) {
+                if(restResult.isFailure()
+                        && restResult.getData() != null
+                        && "BIZ_ERR_LOGIN_SMSCODE_SEND".equals(restResult.getError_code())){
+                    sessId = restResult.getData().getLst_sessid();
                     viewListener.onSuccess(null);
                 } else {
                     viewListener.onFailure(context.getString(R.string.get_verify_code_failure));
@@ -73,7 +73,7 @@ public class LoginPresenter extends BasePresenter {
         addSubscription(subscription);
     }
 
-    public void login(String mobile, String smsCode){
+    public void quickLogin(String mobile, String smsCode){
         Context context = viewListener.currentContext();
         if(TextUtils.isEmpty(smsCode)){
             viewListener.onFailure(context.getString(R.string.please_input_smscode));
@@ -82,7 +82,7 @@ public class LoginPresenter extends BasePresenter {
         if(!hasNet()){
             return;
         }
-        Subscription subscription = memberModel.login(mobile, smsCode, sessId, new Action0() {
+        Subscription subscription = memberModel.quickLogin(mobile, smsCode, sessId, new Action0() {
             @Override
             public void call() {
                 createLoading(context, context.getString(R.string.please_wait));
@@ -102,18 +102,22 @@ public class LoginPresenter extends BasePresenter {
             }
 
             @Override
-            public void onNext(RestResult<RegistBean> registBeanRestResult) {
-                if(registBeanRestResult.isSuccess() && registBeanRestResult.getData() != null){
-                    MemberBean member = registBeanRestResult.getData().getMember();
-                    String sessId = registBeanRestResult.getData().getLst_sessid();
+            public void onNext(RestResult<RegistBean> restResult) {
+                if(restResult.isSuccess() && restResult.getData() != null){
+                    MemberBean member = restResult.getData().getMember();
+                    String sessId = restResult.getData().getLst_sessid();
                     Application.application.saveMember(member, sessId);
-                    if(member.getNick_name() == null || TextUtils.isEmpty(member.getNick_name())){
+                    if(member.getGender() == null || TextUtils.isEmpty(member.getNick_name())){
                         viewListener.startSetNickName();
                     } else {
                         viewListener.startMain();
                     }
                 } else {
-                    viewListener.onFailure(context.getString(R.string.login_failure));
+                    if(restResult != null){
+                        viewListener.onFailure(restResult.getRet_msg());
+                    } else {
+                        viewListener.onFailure(context.getString(R.string.login_failure));
+                    }
                 }
             }
         });

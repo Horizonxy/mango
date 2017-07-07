@@ -105,11 +105,20 @@ public class Application extends MultiDexApplication {
     public void saveMember(MemberBean member, String sessId){
         this.member = member;
         this.sessId = sessId;
-        PreUtils.putString(this, Constants.SESS_ID, sessId);
+
         CommonDaoImpl commonDao = getCommonDao();
-        CommonBean bean = new CommonBean();
-        bean.setData_type(MemberBean.DATA_TYPE + "_" + sessId);
-        commonDao.save(bean);
+        List<CommonBean> members = commonDao.findByColumn(CommonBean.DATA_TYPE, MemberBean.DATA_TYPE + "_" + getSessId());
+        if(members!= null && members.size() > 0){
+            members.get(0).setData(member);
+            commonDao.update(members.get(0));
+        } else {
+            CommonBean bean = new CommonBean();
+            bean.setData(member);
+            bean.setData_type(MemberBean.DATA_TYPE + "_" + sessId);
+            commonDao.save(bean);
+        }
+
+        PreUtils.putString(this, Constants.SESS_ID, sessId);
     }
 
     public void addActivity(Activity activity){

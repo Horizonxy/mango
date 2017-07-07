@@ -3,6 +3,7 @@ package com.mango.ui.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.mango.Application;
 import com.mango.R;
@@ -34,15 +35,15 @@ public class WelcomeActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-//                if(member == null){
-//                    ActivityBuilder.startLoginActivity(WelcomeActivity.this);
-//                } else {
-//                    if(member.getGender() == null || TextUtils.isEmpty(member.getNick_name())){
-//                        ActivityBuilder.startSetNickNameActivity(WelcomeActivity.this);
-//                    } else {
+                if(member == null){
+                    ActivityBuilder.startLoginActivity(WelcomeActivity.this);
+                } else {
+                    if(member.getGender() == null || TextUtils.isEmpty(member.getNick_name())){
+                        ActivityBuilder.startSetNickNameActivity(WelcomeActivity.this);
+                    } else {
                         ActivityBuilder.startMainActivity(WelcomeActivity.this);
-//                    }
-//                }
+                    }
+                }
                 ActivityBuilder.defaultTransition(WelcomeActivity.this);
                 finish();
             }

@@ -1,12 +1,20 @@
 package com.mango.util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.mango.Application;
 import com.mango.Constants;
-import com.mango.util.http.NetworkInterceptor;
-import com.mango.util.http.UserAgentInterceptor;
 
 import java.io.File;
+import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -20,7 +28,7 @@ public class RetrofitUtil {
 
 	public static OkHttpClient createOkHttpClient(){
 		HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-		logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
 		String userAgent = System.getProperty("http.agent", "");
 		//缓存路径
@@ -28,11 +36,11 @@ public class RetrofitUtil {
 		Cache cache = new Cache(new File(Application.application.getCacheDir(), "/response"), Constants.SIZE_OF_CACHE);
 
 		OkHttpClient client = new OkHttpClient.Builder()
-				.addInterceptor(new UserAgentInterceptor(userAgent))
-				//有网络时的拦截器
-				.addNetworkInterceptor(new NetworkInterceptor())
-				//没网络时的拦截器
-				.addInterceptor(new NetworkInterceptor())
+//				.addInterceptor(new UserAgentInterceptor(userAgent))
+//				//有网络时的拦截器
+//				.addNetworkInterceptor(new NetworkInterceptor())
+//				//没网络时的拦截器
+//				.addInterceptor(new NetworkInterceptor())
 				.addInterceptor(logging)
 				.cache(cache)
 				.connectTimeout(Constants.TIME_OUT, TimeUnit.SECONDS)
@@ -47,11 +55,33 @@ public class RetrofitUtil {
 		Retrofit retrofit = new Retrofit.Builder()
 				.client(RetrofitUtil.createOkHttpClient())
 				.baseUrl(Constants.END_POIND)
-				.addConverterFactory(GsonConverterFactory.create())
+				.addConverterFactory(GsonConverterFactory.create(createGson()))
 				.addConverterFactory(ScalarsConverterFactory.create())
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 				.build();
 		return retrofit;
 	}
 
+	public static Gson createGson(){
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+
+			@Override
+			public Date deserialize(JsonElement json, Type typeOfT,
+									JsonDeserializationContext context)
+					throws JsonParseException {
+				String date = json.getAsJsonPrimitive().getAsString();
+				String JSONDateToMilliseconds = "\\/(Date\\((.*?)(\\+.*)?\\))\\/";
+				Pattern pattern = Pattern.compile(JSONDateToMilliseconds);
+				Matcher matcher = pattern.matcher(date);
+				String result = matcher.replaceAll("$2");
+				try {
+					return new Date(new Long(result));
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
+		});
+		return  builder.create();
+	}
 }
