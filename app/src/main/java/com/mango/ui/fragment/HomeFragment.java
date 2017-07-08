@@ -5,7 +5,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,19 +32,10 @@ import com.mango.ui.adapter.ViewPagerAdapter;
 import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
 import com.mango.ui.viewlistener.HomeFragmentListener;
-import com.mango.ui.widget.GridView;
 import com.mango.ui.widget.ObservableScrollView;
 import com.mango.ui.widget.VerticalTextview;
 import com.mango.ui.widget.ViewPagerFixed;
 import com.mango.util.DisplayUtils;
-
-import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.ViewPagerHelper;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +48,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
     List<AdvertBean> banners;
     VerticalTextview tvScroll;
     ViewPagerFixed homePager;
-    MagicIndicator homeIndicator;
+    LinearLayout homeIndicator;
     ObservableScrollView svContent;
     RelativeLayout layoutHomeBar;
     RelativeLayout layoutUpdateRole;
@@ -85,7 +78,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
         homeBanner = (ConvenientBanner) root.findViewById(R.id.home_banner);
         tvScroll = (VerticalTextview) root.findViewById(R.id.tv_scroll);
         homePager = (ViewPagerFixed) root.findViewById(R.id.home_pager);
-        homeIndicator = (MagicIndicator) root.findViewById(R.id.home_indicator);
+        homeIndicator = (LinearLayout) root.findViewById(R.id.home_indicator);
         svContent = (ObservableScrollView) root.findViewById(R.id.sv_content);
         layoutUpdateRole = (RelativeLayout) root.findViewById(R.id.layout_update_role);
         tvTitle1 = (TextView) root.findViewById(R.id.tv_title1);
@@ -129,42 +122,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
                 Toast.makeText(getActivity(), contentVo.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        CommonNavigator commonNavigator = new CommonNavigator(getActivity());
-        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
-            @Override
-            public int getCount() {
-                return gridViews.size();
-            }
-
-            @Override
-            public IPagerTitleView getTitleView(Context context, int i) {
-                ImageView imageView = new ImageView(context);
-                imageView.setPadding(DisplayUtils.dip2px(context, 2.5F), 0, DisplayUtils.dip2px(context, 2.5F), 0);
-                CommonPagerTitleView titleView = new CommonPagerTitleView(context){
-                    @Override
-                    public void onSelected(int index, int totalCount) {
-                        super.onSelected(index, totalCount);
-                        imageView.setImageDrawable(getResources().getDrawable(R.drawable.shape_indicator_selected));
-                    }
-
-                    @Override
-                    public void onDeselected(int index, int totalCount) {
-                        super.onDeselected(index, totalCount);
-                        imageView.setImageDrawable(getResources().getDrawable(R.drawable.shape_indicator_normal));
-                    }
-                };
-                titleView.addView(imageView);
-                return titleView;
-            }
-
-            @Override
-            public IPagerIndicator getIndicator(Context context) {
-                return null;
-            }
-        });
-        homeIndicator.setNavigator(commonNavigator);
-        ViewPagerHelper.bind(homeIndicator, homePager);
 
         barColorWithScroll();
 
@@ -281,6 +238,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
     @Override
     public void onClassifySuccess(List<CourseClassifyBean> courseClassifyList) {
         gridViews.clear();
+        homeIndicator.removeAllViews();
         for (int i = 0; courseClassifyList != null && i < courseClassifyList.size(); i+=4){
             List<CourseClassifyBean> pager = new ArrayList<CourseClassifyBean>();
             pager.addAll(courseClassifyList.subList(i, (i + 4) < courseClassifyList.size() ? (i + 4) : courseClassifyList.size()));
@@ -295,8 +253,49 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
                 }
             });
             gridViews.add(gridView);
+            ImageView imageView = new ImageView(getContext());
+            imageView.setPadding(DisplayUtils.dip2px(getContext(), 2.5F), 0, DisplayUtils.dip2px(getContext(), 2.5F), 0);
+            imageView.setImageResource(R.drawable.shape_indicator_normal);
+            homeIndicator.addView(imageView);
+
+            gridView = new GridView(getActivity());
+            gridView.setNumColumns(4);
+            gridView.setAdapter(new QuickAdapter<CourseClassifyBean>(getActivity(), R.layout.gridview_item_home_pager, pager) {
+                @Override
+                protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
+                    helper.setImageUrl(R.id.iv_classify, item.getLogo_rsurl());
+                    helper.setText(R.id.tv_title, item.getClassify_name());
+                }
+            });
+            gridViews.add(gridView);
+            imageView = new ImageView(getContext());
+            imageView.setPadding(DisplayUtils.dip2px(getContext(), 2.5F), 0, DisplayUtils.dip2px(getContext(), 2.5F), 0);
+            imageView.setImageResource(R.drawable.shape_indicator_normal);
+            homeIndicator.addView(imageView);
         }
+
         homePager.setAdapter(new ViewPagerAdapter(gridViews));
+        homePager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < homeIndicator.getChildCount(); i++){
+                    if(i == position){
+                        ((ImageView)homeIndicator.getChildAt(position)).setImageResource(R.drawable.shape_indicator_selected);
+                    }else {
+                        ((ImageView)homeIndicator.getChildAt(i)).setImageResource(R.drawable.shape_indicator_normal);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+        ((ImageView)homeIndicator.getChildAt(homePager.getCurrentItem())).setImageResource(R.drawable.shape_indicator_selected);
     }
 
     @Override
