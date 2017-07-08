@@ -2,6 +2,7 @@ package com.mango.util;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -26,5 +27,9 @@ public class RxJavaUtils {
 
     public static Observable schedulersIoMainNextError(Observable observable, Action1 next, Action1 error){
         return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext(next).doOnError(error);
+    }
+
+    public static Observable schedulersIoMainOnSubscribe(Observable observable, Action0 onSubscribe){
+        return  observable.subscribeOn(Schedulers.io()).doOnSubscribe(onSubscribe).subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread());
     }
 }

@@ -1,5 +1,6 @@
 package com.mango.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -7,16 +8,19 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.mango.Constants;
 import com.mango.R;
 import com.mango.di.component.DaggerFoundFragmentComponent;
 import com.mango.di.module.FoundFragmentModule;
+import com.mango.model.bean.TrendBean;
+import com.mango.presenter.FoundPresenter;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
+import com.mango.ui.viewlistener.FoundListener;
 import com.mango.util.ActivityBuilder;
 
 import java.util.ArrayList;
@@ -24,7 +28,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class FoundFragment extends BaseFragment implements AdapterView.OnItemClickListener,View.OnClickListener {
+public class FoundFragment extends BaseFragment implements AdapterView.OnItemClickListener,View.OnClickListener,FoundListener {
 
     ImageView ivSearch;
     TextView tvSearch;
@@ -32,9 +36,12 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     PtrClassicFrameLayout refreshLayout;
     ListView listView;
     int pageNo = 1;
-    List datas = new ArrayList();
+    boolean hasNext = true;
+    List<TrendBean> datas = new ArrayList<TrendBean>();
     @Inject
     QuickAdapter adapter;
+    @Inject
+    FoundPresenter presenter;
 
     public FoundFragment() {
     }
@@ -43,7 +50,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DaggerFoundFragmentComponent.builder().foundFragmentModule(new FoundFragmentModule(getActivity(), datas)).build().inject(this);
+        DaggerFoundFragmentComponent.builder().foundFragmentModule(new FoundFragmentModule(this, datas)).build().inject(this);
     }
 
     @Override
@@ -66,13 +73,13 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNo = 1;
+                hasNext = true;
                 loadData();
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
-                pageNo++;
                 loadData();
             }
         });
@@ -86,17 +93,13 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     }
 
     private void loadData() {
-        for (int i = 0; i < 10; i++){
-            datas.add("jxm: " + i);
+        if(hasNext) {
+            presenter.getTrendList();
+        } else {
+            refreshLayout.setLoadMoreEnable(true);
+            refreshLayout.loadMoreComplete(true);
+            refreshLayout.setNoMoreData();
         }
-
-        adapter.notifyDataSetChanged();
-
-        if(pageNo == 1){
-            refreshLayout.refreshComplete();
-        }
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
     }
 
     @Override
@@ -106,8 +109,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String item = (String) parent.getAdapter().getItem(position);
-        Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
+        TrendBean item = (TrendBean) parent.getAdapter().getItem(position);
     }
 
     @Override
@@ -117,5 +119,44 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
                 ActivityBuilder.startPublishDynamicsActivity(getActivity());
                 break;
         }
+    }
+
+    @Override
+    public void onFailure(String message) {
+        if(pageNo == 1){
+            refreshLayout.refreshComplete();
+        }
+        refreshLayout.setLoadMoreEnable(true);
+        refreshLayout.loadMoreComplete(true);
+    }
+
+    @Override
+    public Context currentContext() {
+        return getContext();
+    }
+
+    @Override
+    public void onSuccess(List<TrendBean> trendList) {
+        if(pageNo == 1){
+            datas.clear();
+            refreshLayout.refreshComplete();
+        }
+
+        refreshLayout.setLoadMoreEnable(true);
+        refreshLayout.loadMoreComplete(true);
+        if(hasNext = (trendList.size() >= Constants.PAGE_SIZE)){
+            pageNo++;
+        } else {
+            refreshLayout.setNoMoreData();
+        }
+
+        datas.addAll(trendList);
+
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public int getPageNo() {
+        return pageNo;
     }
 }

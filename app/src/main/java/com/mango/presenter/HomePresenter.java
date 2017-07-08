@@ -17,9 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Action0;
 
 public class HomePresenter extends BasePresenter {
 
@@ -37,23 +35,13 @@ public class HomePresenter extends BasePresenter {
 
     public void getAdvert(String position){
         Context context = homeListener.currentContext();
-        Subscription subscription = advertModel.homeAdvert(homeListener.getUserIdentity(), position, new Action0() {
-            @Override
-            public void call() {
-                createLoading(context, context.getString(R.string.please_wait));
-            }
-        }, new Subscriber<RestResult<List<AdvertBean>>>() {
-            @Override
-            public void onCompleted() {
-                dimissLoading(homeListener.currentContext());
-            }
+        Subscription subscription = advertModel.homeAdvert(homeListener.getUserIdentity(), position, new CreateLoading(context, context.getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<List<AdvertBean>>>() {
 
             @Override
             public void onError(Throwable e) {
-                dimissLoading(homeListener.currentContext());
+                super.onError(e);
                 if(e != null) {
                     homeListener.onFailure(e.getMessage());
-                    e.printStackTrace();
                 }
             }
 
@@ -69,23 +57,12 @@ public class HomePresenter extends BasePresenter {
 
     public void getHomeBulletinList(){
         Context context = homeListener.currentContext();
-        Subscription subscription = bulletinModel.homeBulletinList(1, 10, new Action0() {
-            @Override
-            public void call() {
-                createLoading(context, context.getString(R.string.please_wait));
-            }
-        }, new Subscriber<RestResult<List<BulletinBean>>>() {
-            @Override
-            public void onCompleted() {
-                dimissLoading(homeListener.currentContext());
-            }
-
+        Subscription subscription = bulletinModel.homeBulletinList(1, 10, new CreateLoading(context, context.getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<List<BulletinBean>>>() {
             @Override
             public void onError(Throwable e) {
-                dimissLoading(homeListener.currentContext());
+                super.onError(e);
                 if(e != null) {
                     homeListener.onFailure(e.getMessage());
-                    e.printStackTrace();
                 }
             }
 
@@ -103,23 +80,13 @@ public class HomePresenter extends BasePresenter {
         Context context = homeListener.currentContext();
         Map<String, Long> map = new HashMap<String, Long>();
         map.put("show_top", 1L);
-        Subscription subscription = courseModel.getClassify(map, new Action0() {
-            @Override
-            public void call() {
-                createLoading(context, context.getString(R.string.please_wait));
-            }
-        }, new Subscriber<RestResult<List<CourseClassifyBean>>>() {
-            @Override
-            public void onCompleted() {
-                dimissLoading(homeListener.currentContext());
-            }
+        Subscription subscription = courseModel.getClassify(map, new CreateLoading(context, context.getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<List<CourseClassifyBean>>>() {
 
             @Override
             public void onError(Throwable e) {
-                dimissLoading(homeListener.currentContext());
+                super.onError(e);
                 if(e != null) {
                     homeListener.onFailure(e.getMessage());
-                    e.printStackTrace();
                 }
             }
 

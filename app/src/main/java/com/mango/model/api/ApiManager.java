@@ -7,6 +7,7 @@ import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberBean;
 import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
+import com.mango.model.bean.TrendBean;
 
 import java.util.List;
 import java.util.Map;
@@ -42,5 +43,9 @@ public class ApiManager {
 
     public static  Observable<RestResult<List<CourseClassifyBean>>> getClassifyList(Map<String, Long> map){
         return Application.application.getApiService().getClassifyList(map);
+    }
+
+    public static  Observable<RestResult<List<TrendBean>>> getTrendList(Map<String, Object> map){
+        return Application.application.getApiService().getTrendList(map);
     }
 }

@@ -8,6 +8,15 @@ public class RestResult<T> implements Serializable {
     private String error_code;
     private String ret_msg;
     private T data;
+    private int total_count;
+
+    public int getTotal_count() {
+        return total_count;
+    }
+
+    public void setTotal_count(int total_count) {
+        this.total_count = total_count;
+    }
 
     public int getRet_flag() {
         return ret_flag;

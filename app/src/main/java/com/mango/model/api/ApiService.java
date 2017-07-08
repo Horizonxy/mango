@@ -6,6 +6,7 @@ import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberBean;
 import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
+import com.mango.model.bean.TrendBean;
 
 import java.util.List;
 import java.util.Map;
@@ -62,4 +63,10 @@ public interface ApiService {
             @QueryMap Map<String, Long> map
     );
 
+
+    //动态列表接口
+    @GET("outer/router?trend_list")
+    Observable<RestResult<List<TrendBean>>> getTrendList(
+            @QueryMap Map<String, Object> map
+    );
 }
