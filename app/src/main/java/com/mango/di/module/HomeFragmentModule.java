@@ -2,6 +2,8 @@ package com.mango.di.module;
 
 import com.mango.di.FragmentScope;
 import com.mango.model.data.AdvertModel;
+import com.mango.model.data.BulletinModel;
+import com.mango.model.data.CourseModel;
 import com.mango.presenter.HomePresenter;
 import com.mango.ui.fragment.HomeFragment;
 
@@ -20,6 +22,6 @@ public class HomeFragmentModule {
     @Provides
     @FragmentScope
     public HomePresenter provideHomePresenter(){
-        return new HomePresenter(new AdvertModel(), fragment);
+        return new HomePresenter(new CourseModel(), new BulletinModel(), new AdvertModel(), fragment);
     }
 }

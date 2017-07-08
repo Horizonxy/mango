@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.mango.R;
+import com.mango.model.bean.BulletinBean;
 import com.mango.util.DisplayUtils;
 
 import java.util.ArrayList;
@@ -96,9 +97,9 @@ public class VerticalTextview extends ViewSwitcher implements ViewSwitcher.ViewF
                     case FLAG_START_AUTO_SCROLL:
                         if (textList.size() > 0) {
                             currentId++;
-                            Object contentVo = textList.get(currentId % textList.size());
+                            BulletinBean contentVo = (BulletinBean) textList.get(currentId % textList.size());
                             TextView textView = (TextView) getNextView();
-                            textView.setText(contentVo.toString());
+                            textView.setText(contentVo.getTitle());
                             showNext();
                         }
                         handler.sendEmptyMessageDelayed(FLAG_START_AUTO_SCROLL,time);

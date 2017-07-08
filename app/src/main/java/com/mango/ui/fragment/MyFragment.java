@@ -21,26 +21,15 @@ import com.mango.util.AppUtils;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.OnClick;
+public class MyFragment extends BaseFragment implements MyFragmentListener,View.OnClickListener {
 
-public class MyFragment extends BaseFragment implements MyFragmentListener {
-
-    @Bind(R.id.tv_my_name)
     TextView tvMyName;
-    @Bind(R.id.tv_update_info)
     TextView tvUpdateInfo;
-    @Bind(R.id.layout_role)
     View vRole;
-    @Bind(R.id.layout_order_list)
     View vOrderList;
-    @Bind(R.id.layout_works)
     View vWorks;
-    @Bind(R.id.layout_classes)
     View vClasses;
-    @Bind(R.id.layout_account)
     View vAccount;
-    @Bind(R.id.layout_setting)
     View vSetting;
 
     TextView tvRole;
@@ -64,6 +53,18 @@ public class MyFragment extends BaseFragment implements MyFragmentListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerMyFragmentComponent.builder().myFragmentModule(new MyFragmentModule(this)).build().inject(this);
+    }
+
+    @Override
+    void findView(View root) {
+        tvMyName = (TextView) root.findViewById(R.id.tv_my_name);
+        tvUpdateInfo = (TextView) root.findViewById(R.id.tv_update_info);
+        vRole = root.findViewById(R.id.layout_role);
+        vOrderList = root.findViewById(R.id.layout_order_list);
+        vWorks = root.findViewById(R.id.layout_works);
+        vClasses = root.findViewById(R.id.layout_classes);
+        vAccount = root.findViewById(R.id.layout_account);
+        vSetting = root.findViewById(R.id.layout_setting);
     }
 
     @Override
@@ -91,36 +92,6 @@ public class MyFragment extends BaseFragment implements MyFragmentListener {
         return R.layout.fragment_my;
     }
 
-    @OnClick(R.id.layout_role)
-    void updateRoleClick(View v){
-        startActivity(new Intent(getActivity(), UpdateRoleActivity.class));
-    }
-
-    @OnClick(R.id.layout_order_list)
-    void orderListClick(View v){
-        startActivity(new Intent(getActivity(), MyOrderListActivity.class));
-    }
-
-    @OnClick(R.id.layout_works)
-    void worksClick(View v){
-
-    }
-
-    @OnClick(R.id.layout_classes)
-    void classesClick(View v){
-        ActivityBuilder.startMyClassesActivity(getActivity());
-    }
-
-    @OnClick(R.id.layout_account)
-    void accountClick(View v){
-        startActivity(new Intent(getActivity(), MyAccountActivity.class));
-    }
-
-    @OnClick(R.id.layout_setting)
-    void settingClick(View v){
-        startActivity(new Intent(getActivity(), SettingActivity.class));
-    }
-
     @Override
     public void onFailure(String message) {
         AppUtils.showToast(getContext(), message);
@@ -139,5 +110,28 @@ public class MyFragment extends BaseFragment implements MyFragmentListener {
     @Override
     public long getMemberId() {
         return Application.application.getMember().getId().longValue();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.layout_role:
+                startActivity(new Intent(getActivity(), UpdateRoleActivity.class));
+                break;
+            case R.id.layout_order_list:
+                startActivity(new Intent(getActivity(), MyOrderListActivity.class));
+                break;
+            case R.id.layout_works:
+                break;
+            case R.id.layout_classes:
+                ActivityBuilder.startMyClassesActivity(getActivity());
+                break;
+            case R.id.layout_account:
+                startActivity(new Intent(getActivity(), MyAccountActivity.class));
+                break;
+            case R.id.layout_setting:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
+                break;
+        }
     }
 }

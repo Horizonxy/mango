@@ -24,20 +24,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.OnClick;
+public class FoundFragment extends BaseFragment implements AdapterView.OnItemClickListener,View.OnClickListener {
 
-public class FoundFragment extends BaseFragment implements AdapterView.OnItemClickListener {
-
-    @Bind(R.id.iv_tab_search)
     ImageView ivSearch;
-    @Bind(R.id.tv_search)
     TextView tvSearch;
-    @Bind(R.id.layout_search)
     View vSearch;
-    @Bind(R.id.refresh_layout)
     PtrClassicFrameLayout refreshLayout;
-    @Bind(R.id.listview)
     ListView listView;
     int pageNo = 1;
     List datas = new ArrayList();
@@ -52,6 +44,16 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         super.onCreate(savedInstanceState);
 
         DaggerFoundFragmentComponent.builder().foundFragmentModule(new FoundFragmentModule(getActivity(), datas)).build().inject(this);
+    }
+
+    @Override
+    void findView(View root){
+        ivSearch = (ImageView) root.findViewById(R.id.iv_tab_search);
+        tvSearch = (TextView) root.findViewById(R.id.tv_search);
+        vSearch = root.findViewById(R.id.layout_search);
+        refreshLayout = (PtrClassicFrameLayout) root.findViewById(R.id.refresh_layout);
+        listView = (ListView) root.findViewById(R.id.listview);
+        root.findViewById(R.id.tv_right).setOnClickListener(this);
     }
 
     @Override
@@ -108,8 +110,12 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
     }
 
-    @OnClick(R.id.tv_right)
-    void addFound(){
-        ActivityBuilder.startPublishDynamicsActivity(getActivity());
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_right:
+                ActivityBuilder.startPublishDynamicsActivity(getActivity());
+                break;
+        }
     }
 }

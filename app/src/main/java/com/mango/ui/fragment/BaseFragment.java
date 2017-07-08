@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import com.baidu.mobstat.StatService;
 import com.mango.BuildConfig;
 
-import butterknife.ButterKnife;
-
 /**
  * @author 蒋先明
  * @date 2017/6/30
@@ -26,16 +24,20 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if(root == null){
             root = inflater.inflate(getLayoutId(), container, false);
-            ButterKnife.bind(this, root);
+            findView(root);
             initView();
         }
         return root;
     }
 
+    abstract void findView(View root);
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        if (null != root) {
+            ((ViewGroup) root.getParent()).removeView(root);
+        }
     }
 
     abstract void initView();

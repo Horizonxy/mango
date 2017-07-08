@@ -1,8 +1,6 @@
 package com.mango.ui.fragment;
 
-
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -22,13 +20,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
-
 public class MyOrderListFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
-    @Bind(R.id.refresh_layout)
     PtrClassicFrameLayout refreshLayout;
-    @Bind(R.id.listview)
     ListView listView;
 
     int pageNo = 1;
@@ -44,12 +38,17 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(getActivity(), datas)).build().inject(this);
     }
 
+    @Override
+    void findView(View root) {
+        refreshLayout = (PtrClassicFrameLayout) root.findViewById(R.id.refresh_layout);
+        listView = (ListView) root.findViewById(R.id.listview);
+    }
 
     @Override
     void initView() {

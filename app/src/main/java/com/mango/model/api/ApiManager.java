@@ -2,11 +2,14 @@ package com.mango.model.api;
 
 import com.mango.Application;
 import com.mango.model.bean.AdvertBean;
+import com.mango.model.bean.BulletinBean;
+import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberBean;
 import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
 
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 
@@ -31,5 +34,13 @@ public class ApiManager {
 
     public static  Observable<RestResult<List<AdvertBean>>> getAdvert(String userIdentity, String position){
         return Application.application.getApiService().getAdvert(userIdentity, position);
+    }
+
+    public static  Observable<RestResult<List<BulletinBean>>> getBulletinList(int pageNo, int pageSize){
+        return Application.application.getApiService().getBulletinList(pageNo, pageSize);
+    }
+
+    public static  Observable<RestResult<List<CourseClassifyBean>>> getClassifyList(Map<String, Long> map){
+        return Application.application.getApiService().getClassifyList(map);
     }
 }

@@ -8,6 +8,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mango.Application;
 import com.mango.Constants;
+import com.mango.util.http.NetworkInterceptor;
+import com.mango.util.http.UserAgentInterceptor;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -36,11 +38,11 @@ public class RetrofitUtil {
 		Cache cache = new Cache(new File(Application.application.getCacheDir(), "/response"), Constants.SIZE_OF_CACHE);
 
 		OkHttpClient client = new OkHttpClient.Builder()
-//				.addInterceptor(new UserAgentInterceptor(userAgent))
-//				//有网络时的拦截器
-//				.addNetworkInterceptor(new NetworkInterceptor())
-//				//没网络时的拦截器
-//				.addInterceptor(new NetworkInterceptor())
+				.addInterceptor(new UserAgentInterceptor(userAgent))
+				//有网络时的拦截器
+				.addNetworkInterceptor(new NetworkInterceptor())
+				//没网络时的拦截器
+				.addInterceptor(new NetworkInterceptor())
 				.addInterceptor(logging)
 				.cache(cache)
 				.connectTimeout(Constants.TIME_OUT, TimeUnit.SECONDS)

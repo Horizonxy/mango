@@ -3,7 +3,6 @@ package com.mango.ui.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -24,6 +23,8 @@ import com.mango.R;
 import com.mango.di.component.DaggerHomeFragmentComponent;
 import com.mango.di.module.HomeFragmentModule;
 import com.mango.model.bean.AdvertBean;
+import com.mango.model.bean.BulletinBean;
+import com.mango.model.bean.CourseClassifyBean;
 import com.mango.presenter.HomePresenter;
 import com.mango.ui.adapter.ViewPagerAdapter;
 import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
@@ -48,44 +49,24 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.OnClick;
+public class HomeFragment extends BaseFragment implements HomeFragmentListener,View.OnClickListener {
 
-public class HomeFragment extends BaseFragment implements HomeFragmentListener {
-
-    @Bind(R.id.home_banner)
     ConvenientBanner homeBanner;
     List<AdvertBean> banners;
-    @Bind(R.id.tv_scroll)
     VerticalTextview tvScroll;
-    @Bind(R.id.home_pager)
     ViewPagerFixed homePager;
-    @Bind(R.id.home_indicator)
     MagicIndicator homeIndicator;
-    @Bind(R.id.sv_content)
     ObservableScrollView svContent;
-    @Bind(R.id.layout_home_bar)
     RelativeLayout layoutHomeBar;
-    @Bind(R.id.layout_update_role)
     RelativeLayout layoutUpdateRole;
-
     List<View> gridViews = new ArrayList<>();
-
-    @Bind(R.id.tv_title1)
     TextView tvTitle1;
-    @Bind(R.id.tv_intro1)
     TextView tvIntro1;
-    @Bind(R.id.iv_advert1)
     ImageView ivAdvert1;
-    @Bind(R.id.tv_title2)
     TextView tvTitle2;
-    @Bind(R.id.tv_intro2)
     TextView tvIntro2;
-    @Bind(R.id.layout_advert2)
     LinearLayout layoutAdvert2;
-    @Bind(R.id.tv_title3)
     TextView tvTitle3;
-    @Bind(R.id.iv_advert3)
     ImageView ivAdvert3;
     @Inject
     HomePresenter homePresenter;
@@ -97,6 +78,27 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerHomeFragmentComponent.builder().homeFragmentModule(new HomeFragmentModule(this)).build().inject(this);
+    }
+
+    @Override
+    void findView(View root) {
+        homeBanner = (ConvenientBanner) root.findViewById(R.id.home_banner);
+        tvScroll = (VerticalTextview) root.findViewById(R.id.tv_scroll);
+        homePager = (ViewPagerFixed) root.findViewById(R.id.home_pager);
+        homeIndicator = (MagicIndicator) root.findViewById(R.id.home_indicator);
+        svContent = (ObservableScrollView) root.findViewById(R.id.sv_content);
+        layoutUpdateRole = (RelativeLayout) root.findViewById(R.id.layout_update_role);
+        tvTitle1 = (TextView) root.findViewById(R.id.tv_title1);
+        tvIntro1 = (TextView) root.findViewById(R.id.tv_intro1);
+        ivAdvert1 = (ImageView) root.findViewById(R.id.iv_advert1);
+        tvTitle2 = (TextView) root.findViewById(R.id.tv_title2);
+        tvIntro2 = (TextView) root.findViewById(R.id.tv_intro2);
+        layoutAdvert2 = (LinearLayout) root.findViewById(R.id.layout_advert2);
+        tvTitle3 = (TextView) root.findViewById(R.id.tv_title3);
+        ivAdvert3 = (ImageView) root.findViewById(R.id.iv_advert3);
+        layoutHomeBar = (RelativeLayout) root.findViewById(R.id.layout_home_bar);
+        root.findViewById(R.id.ib_scan).setOnClickListener(this);
+        root.findViewById(R.id.layout_msg).setOnClickListener(this);
     }
 
     @Override
@@ -117,7 +119,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener {
             }
         });
 
-
         tvScroll.setText(16, DisplayUtils.dip2px(getActivity(), 10), Color.BLACK);//设置属性,具体跟踪源码
         tvScroll.setTextStillTime(3000);//设置停留时长间隔
         tvScroll.setAnimTime(500);//设置进入和退出的时间间隔
@@ -128,38 +129,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener {
                 Toast.makeText(getActivity(), contentVo.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        List<String> texts = new ArrayList<>();
-        texts.add("text 0");
-        texts.add("text 1");
-        texts.add("text 2");
-        texts.add("text 3");
-        tvScroll.setTextList(texts);
 
-
-        List<String> titles = new ArrayList<>();
-        titles.add("0");
-        titles.add("1");
-        titles.add("2");
-        titles.add("3");
-        GridView gridView = new GridView(getActivity());
-        gridView.setNumColumns(4);
-        gridView.setAdapter(new QuickAdapter<String>(getActivity(), R.layout.gridview_item_home_pager, titles) {
-            @Override
-            protected void convert(BaseAdapterHelper helper, String item) {
-
-            }
-        });
-        gridViews.add(gridView);
-        GridView gridView1 = new GridView(getActivity());
-        gridView1.setNumColumns(4);
-        gridView1.setAdapter(new QuickAdapter<String>(getActivity(), R.layout.gridview_item_home_pager, titles) {
-            @Override
-            protected void convert(BaseAdapterHelper helper, String item) {
-
-            }
-        });
-        gridViews.add(gridView1);
-        homePager.setAdapter(new ViewPagerAdapter(gridViews));
         CommonNavigator commonNavigator = new CommonNavigator(getActivity());
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
@@ -202,24 +172,25 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener {
     }
 
     private void initData() {
-        homePresenter.getAdvert(Constants.INDEX_THREEE_ADVERT);
-
+        homePresenter.getHomeBulletinList();
         homePresenter.getAdvert(Constants.INDEX_BANNER);
+        homePresenter.getCourseClassify();
+        homePresenter.getAdvert(Constants.INDEX_THREEE_ADVERT);
     }
 
     private void barColorWithScroll() {
+        if(layoutHomeBar.getBackground() == null){
+            layoutHomeBar.setBackgroundResource(R.color.color_ffb900);
+        }
+        layoutHomeBar.getBackground().mutate().setAlpha(0);
         int dp224 = (int) getResources().getDimension(R.dimen.dp_224);
         svContent.setOnScrollListener(new ObservableScrollView.OnScrollListener() {
             @Override
             public void onScroll(int scrollY) {
-                if(layoutHomeBar.getBackground() != null) {
-                    if (scrollY < dp224) {
-                        layoutHomeBar.getBackground().setAlpha((int) (scrollY * 255F / dp224));
-                    } else {
-                        layoutHomeBar.getBackground().setAlpha(255);
-                    }
+                if (scrollY < dp224) {
+                    layoutHomeBar.getBackground().mutate().setAlpha((int) (scrollY * 255F / dp224));
                 } else {
-                    layoutHomeBar.setBackground(new ColorDrawable(getResources().getColor(R.color.color_ffb900)));
+                    layoutHomeBar.getBackground().mutate().setAlpha(255);
                 }
             }
         });
@@ -303,6 +274,32 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener {
     }
 
     @Override
+    public void onSuccess(List<BulletinBean> bulletinList) {
+        tvScroll.setTextList(bulletinList);
+    }
+
+    @Override
+    public void onClassifySuccess(List<CourseClassifyBean> courseClassifyList) {
+        gridViews.clear();
+        for (int i = 0; courseClassifyList != null && i < courseClassifyList.size(); i+=4){
+            List<CourseClassifyBean> pager = new ArrayList<CourseClassifyBean>();
+            pager.addAll(courseClassifyList.subList(i, (i + 4) < courseClassifyList.size() ? (i + 4) : courseClassifyList.size()));
+
+            GridView gridView = new GridView(getActivity());
+            gridView.setNumColumns(4);
+            gridView.setAdapter(new QuickAdapter<CourseClassifyBean>(getActivity(), R.layout.gridview_item_home_pager, pager) {
+                @Override
+                protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
+                    helper.setImageUrl(R.id.iv_classify, item.getLogo_rsurl());
+                    helper.setText(R.id.tv_title, item.getClassify_name());
+                }
+            });
+            gridViews.add(gridView);
+        }
+        homePager.setAdapter(new ViewPagerAdapter(gridViews));
+    }
+
+    @Override
     public String getUserIdentity() {
         return "public";
     }
@@ -315,6 +312,17 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener {
     @Override
     public Context currentContext() {
         return getContext();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ib_scan:
+                break;
+            case R.id.layout_msg:
+                break;
+
+        }
     }
 
     class BannerHolderView implements Holder<AdvertBean>{
@@ -342,13 +350,4 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener {
         return R.layout.fragment_home;
     }
 
-    @OnClick(R.id.ib_scan)
-    void scanClick(View v){
-
-    }
-
-    @OnClick(R.id.layout_msg)
-    void msgClick(View v){
-
-    }
 }

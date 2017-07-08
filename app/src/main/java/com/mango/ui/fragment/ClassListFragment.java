@@ -16,13 +16,9 @@ import com.mango.ui.adapter.quickadapter.QuickAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-
 public class ClassListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
-    @Bind(R.id.refresh_layout)
     PtrClassicFrameLayout refreshLayout;
-    @Bind(R.id.listview)
     ListView listView;
 
     int pageNo = 1;
@@ -32,6 +28,12 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
     public ClassListFragment() {
     }
 
+
+    @Override
+    void findView(View root) {
+        refreshLayout = (PtrClassicFrameLayout) root.findViewById(R.id.refresh_layout);
+        listView = (ListView) root.findViewById(R.id.listview);
+    }
 
     @Override
     void initView() {

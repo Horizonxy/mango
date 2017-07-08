@@ -5,14 +5,16 @@
     android:gravity="center_horizontal">
 
     <ImageView
+        android:id="@+id/iv_classify"
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_50"
         android:layout_marginTop="@dimen/dp_16"
         android:adjustViewBounds="true"
-        android:scaleType="centerInside"
+        android:scaleType="fitXY"
         android:src="@drawable/home_pic1"/>
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/dp_12"

@@ -1,6 +1,5 @@
 package com.mango.ui.fragment;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -22,13 +21,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
-
 public class MyClassesFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
-    @Bind(R.id.refresh_layout)
     PtrClassicFrameLayout refreshLayout;
-    @Bind(R.id.listview)
     ListView listView;
 
     int pageNo = 1;
@@ -50,6 +45,11 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
         DaggerMyClassesFragmentComponent.builder().myClassesFragmentModule(new MyClassesFragmentModule(getActivity(), datas)).build().inject(this);
     }
 
+    @Override
+    void findView(View root) {
+        refreshLayout = (PtrClassicFrameLayout) root.findViewById(R.id.refresh_layout);
+        listView = (ListView) root.findViewById(R.id.listview);
+    }
 
     @Override
     void initView() {
