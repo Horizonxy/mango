@@ -41,8 +41,8 @@ public class FoundPresenter extends BasePresenter {
             public void call(Throwable e) {
                 if (e != null) {
                     e.printStackTrace();
-                    viewListener.onFailure(e.getMessage());
                 }
+                viewListener.onFailure();
             }
         }, new BaseSubscriber<RestResult<List<TrendBean>>>() {
 

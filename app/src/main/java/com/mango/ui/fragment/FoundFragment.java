@@ -22,6 +22,7 @@ import com.mango.presenter.FoundPresenter;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
 import com.mango.ui.viewlistener.FoundListener;
 import com.mango.util.ActivityBuilder;
+import com.mango.util.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,11 +124,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
 
     @Override
     public void onFailure(String message) {
-        if(pageNo == 1){
-            refreshLayout.refreshComplete();
-        }
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
+        AppUtils.showToast(getContext(), message);
     }
 
     @Override
@@ -168,5 +165,14 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     @Override
     public void notifyData() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onFailure() {
+        if(pageNo == 1){
+            refreshLayout.refreshComplete();
+        }
+        refreshLayout.setLoadMoreEnable(true);
+        refreshLayout.loadMoreComplete(true);
     }
 }

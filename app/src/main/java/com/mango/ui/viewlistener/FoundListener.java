@@ -10,4 +10,5 @@ public interface FoundListener extends BaseViewListener {
     int getPageNo();
     void praise(TrendBean trend);
     void notifyData();
+    void onFailure();
 }
