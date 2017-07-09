@@ -31,4 +31,6 @@ public class Constants {
 	public static final String TUTOR = "tutor";
 	public static final String COMMUNITY = "community";
 	public static final String COMPANY = "company";
+
+	public static final int TREND_ENTITY_TYPE_ID = 7;
 }

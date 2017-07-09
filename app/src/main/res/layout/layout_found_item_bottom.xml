@@ -17,9 +17,9 @@
             android:scaleType="centerInside"
             android:layout_marginRight="@dimen/dp_10"/>
         <TextView
+            android:id="@+id/tv_faword_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="49"
             android:textSize="@dimen/sp_14"
             android:textColor="@color/color_666666"/>
     </LinearLayout>
@@ -41,9 +41,9 @@
             android:scaleType="centerInside"
             android:layout_marginRight="@dimen/dp_10"/>
         <TextView
+            android:id="@+id/tv_comment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="49"
             android:textSize="@dimen/sp_14"
             android:textColor="@color/color_666666"/>
     </LinearLayout>
@@ -66,10 +66,9 @@
             android:layout_marginRight="@dimen/dp_10"/>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tv_praise_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="49"
             android:textColor="@color/color_666666"
             android:textSize="@dimen/sp_14" />
     </LinearLayout>

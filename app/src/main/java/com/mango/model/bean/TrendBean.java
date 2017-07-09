@@ -13,14 +13,14 @@ public class TrendBean implements Serializable {
     private String content;
     private List<String> pic_rsurls;
     private Date publish_time;
-    private String publish_time_labe;
+    private String publish_time_label;
     private String avatar_rsurl;
     private String city;
-    private Integer comment_count;
-    private Integer reward_count;
-    private Integer want_count;
-    private Integer praise_count;
-    private Integer faword_count;
+    private int comment_count;
+    private int reward_count;
+    private int want_count;
+    private int praise_count;
+    private int faword_count;
 
     public long getId() {
         return id;
@@ -78,12 +78,12 @@ public class TrendBean implements Serializable {
         this.publish_time = publish_time;
     }
 
-    public String getPublish_time_labe() {
-        return publish_time_labe;
+    public String getPublish_time_label() {
+        return publish_time_label;
     }
 
-    public void setPublish_time_labe(String publish_time_labe) {
-        this.publish_time_labe = publish_time_labe;
+    public void setPublish_time_label(String publish_time_label) {
+        this.publish_time_label = publish_time_label;
     }
 
     public String getAvatar_rsurl() {
@@ -102,43 +102,43 @@ public class TrendBean implements Serializable {
         this.city = city;
     }
 
-    public Integer getComment_count() {
+    public int getComment_count() {
         return comment_count;
     }
 
-    public void setComment_count(Integer comment_count) {
+    public void setComment_count(int comment_count) {
         this.comment_count = comment_count;
     }
 
-    public Integer getReward_count() {
+    public int getReward_count() {
         return reward_count;
     }
 
-    public void setReward_count(Integer reward_count) {
+    public void setReward_count(int reward_count) {
         this.reward_count = reward_count;
     }
 
-    public Integer getWant_count() {
+    public int getWant_count() {
         return want_count;
     }
 
-    public void setWant_count(Integer want_count) {
+    public void setWant_count(int want_count) {
         this.want_count = want_count;
     }
 
-    public Integer getPraise_count() {
+    public int getPraise_count() {
         return praise_count;
     }
 
-    public void setPraise_count(Integer praise_count) {
+    public void setPraise_count(int praise_count) {
         this.praise_count = praise_count;
     }
 
-    public Integer getFaword_count() {
+    public int getFaword_count() {
         return faword_count;
     }
 
-    public void setFaword_count(Integer faword_count) {
+    public void setFaword_count(int faword_count) {
         this.faword_count = faword_count;
     }
 }

@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.mango.Application;
 import com.mango.Constants;
+import com.mango.R;
 import com.mango.model.bean.RestResult;
 import com.mango.model.bean.TrendBean;
+import com.mango.model.data.PraiseModel;
 import com.mango.model.data.TrendModel;
 import com.mango.ui.viewlistener.FoundListener;
 
@@ -20,8 +22,10 @@ public class FoundPresenter extends BasePresenter {
 
     TrendModel trendModel;
     FoundListener viewListener;
+    PraiseModel praiseModel;
 
-    public FoundPresenter(TrendModel trendModel, FoundListener viewListener) {
+    public FoundPresenter(PraiseModel praiseModel, TrendModel trendModel, FoundListener viewListener) {
+        this.praiseModel = praiseModel;
         this.trendModel = trendModel;
         this.viewListener = viewListener;
     }
@@ -49,6 +53,25 @@ public class FoundPresenter extends BasePresenter {
                 } else {
                     if (restResult.isSuccess()) {
                         viewListener.onSuccess(restResult.getData());
+                    } else {
+                        viewListener.onFailure(restResult.getRet_msg());
+                    }
+                }
+            }
+        });
+        addSubscription(subscription);
+    }
+
+    public void praise(TrendBean  trend){
+        Context context = viewListener.currentContext();
+        Subscription subscription = praiseModel.praise(trend.getId(), Constants.TREND_ENTITY_TYPE_ID, new CreateLoading(context, context.getResources().getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<Object>>(){
+            @Override
+            public void onNext(RestResult<Object> restResult) {
+                super.onNext(restResult);
+                if(restResult != null){
+                    if(restResult.isSuccess()){
+                        trend.setPraise_count(trend.getPraise_count() + 1);
+                        viewListener.notifyData();
                     } else {
                         viewListener.onFailure(restResult.getRet_msg());
                     }

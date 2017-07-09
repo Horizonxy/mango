@@ -8,4 +8,6 @@ public interface FoundListener extends BaseViewListener {
 
     void onSuccess(List<TrendBean> trendList);
     int getPageNo();
+    void praise(TrendBean trend);
+    void notifyData();
 }

@@ -69,4 +69,12 @@ public interface ApiService {
     Observable<RestResult<List<TrendBean>>> getTrendList(
             @QueryMap Map<String, Object> map
     );
+
+    //点赞接口
+    @POST("outer/router?praise_count")
+    Observable<RestResult<Object>> praise(
+            @Query("lst_sessid") String sessId,
+            @Query("entity_id") long entityId,
+            @Query("entity_type_id") int entityTypeId
+    );
 }

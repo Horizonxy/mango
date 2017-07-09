@@ -48,4 +48,8 @@ public class ApiManager {
     public static  Observable<RestResult<List<TrendBean>>> getTrendList(Map<String, Object> map){
         return Application.application.getApiService().getTrendList(map);
     }
+
+    public static  Observable<RestResult<Object>> praise(long entityId, int entityTypeId){
+        return Application.application.getApiService().praise(Application.application.getSessId(), entityId, entityTypeId);
+    }
 }

@@ -159,4 +159,14 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     public int getPageNo() {
         return pageNo;
     }
+
+    @Override
+    public void praise(TrendBean trend) {
+        presenter.praise(trend);
+    }
+
+    @Override
+    public void notifyData() {
+        adapter.notifyDataSetChanged();
+    }
 }
