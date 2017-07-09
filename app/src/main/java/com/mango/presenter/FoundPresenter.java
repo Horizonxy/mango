@@ -66,6 +66,14 @@ public class FoundPresenter extends BasePresenter {
         Context context = viewListener.currentContext();
         Subscription subscription = praiseModel.praise(trend.getId(), Constants.TREND_ENTITY_TYPE_ID, new CreateLoading(context, context.getResources().getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<Object>>(){
             @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if(e != null) {
+                    viewListener.onFailure(e.getMessage());
+                }
+            }
+
+            @Override
             public void onNext(RestResult<Object> restResult) {
                 super.onNext(restResult);
                 if(restResult != null){
