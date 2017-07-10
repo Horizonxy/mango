@@ -24,7 +24,7 @@ import com.mango.util.AppUtils;
 
 import javax.inject.Inject;
 
-public class MyFragment extends BaseFragment implements MyFragmentListener,View.OnClickListener {
+public class MyFragment extends BaseFragment implements MyFragmentListener{
 
     TextView tvNickName;
     TextView tvUpdateInfo;
@@ -41,6 +41,9 @@ public class MyFragment extends BaseFragment implements MyFragmentListener,View.
     TextView tvClasses;
     TextView tvAccount;
     TextView tvSetting;
+    TextView tvClassCount;
+    TextView tvProjectCount;
+    TextView tvUpdateRole;
     @Inject
     MemberPresenter memberPresenter;
     @Inject
@@ -51,11 +54,6 @@ public class MyFragment extends BaseFragment implements MyFragmentListener,View.
     ImageView ivAvatar;
 
     public MyFragment() {
-    }
-
-    public static MyFragment newInstance(String param1, String param2) {
-        MyFragment fragment = new MyFragment();
-        return fragment;
     }
 
     @Override
@@ -78,13 +76,46 @@ public class MyFragment extends BaseFragment implements MyFragmentListener,View.
         tvMsgCount = (TextView) root.findViewById(R.id.tv_msg_count);
         tvTrendCount = (TextView) root.findViewById(R.id.tv_trend_count);
         ivAvatar = (ImageView) root.findViewById(R.id.iv_avatar);
-        vRole.setOnClickListener(this);
-        vOrderList.setOnClickListener(this);
-        vWorks.setOnClickListener(this);
-        vClasses.setOnClickListener(this);
-        vAccount.setOnClickListener(this);
-        vSetting.setOnClickListener(this);
-        tvUpdateInfo.setOnClickListener(this);
+        tvClassCount = (TextView) vClasses.findViewById(R.id.tv_right);
+        tvProjectCount = (TextView) vWorks.findViewById(R.id.tv_right);
+        tvUpdateRole = (TextView) vRole.findViewById(R.id.tv_right);
+
+        View.OnClickListener clickListener = new CheckLoginClickListener(){
+
+            @Override
+            void onLoginClick(View v) {
+                switch (v.getId()) {
+                    case R.id.layout_role:
+                        startActivity(new Intent(getActivity(), UpdateRoleActivity.class));
+                        break;
+                    case R.id.layout_order_list:
+                        startActivity(new Intent(getActivity(), MyOrderListActivity.class));
+                        break;
+                    case R.id.layout_works:
+
+                        break;
+                    case R.id.layout_classes:
+                        ActivityBuilder.startMyClassesActivity(getActivity());
+                        break;
+                    case R.id.layout_account:
+                        startActivity(new Intent(getActivity(), MyAccountActivity.class));
+                        break;
+                    case R.id.layout_setting:
+                        startActivity(new Intent(getActivity(), SettingActivity.class));
+                        break;
+                    case R.id.tv_update_info:
+                        startActivity(new Intent(getActivity(), ProfileInfoActivity.class));
+                        break;
+                }
+            }
+        };
+        vRole.setOnClickListener(clickListener);
+        vOrderList.setOnClickListener(clickListener);
+        vWorks.setOnClickListener(clickListener);
+        vClasses.setOnClickListener(clickListener);
+        vAccount.setOnClickListener(clickListener);
+        vSetting.setOnClickListener(clickListener);
+        tvUpdateInfo.setOnClickListener(clickListener);
     }
 
     @Override
@@ -101,6 +132,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener,View.
         tvClasses.setText(getString(R.string.my_classes));
         tvAccount.setText(getString(R.string.my_account));
         tvSetting.setText(getString(R.string.setting));
+        tvUpdateRole.setText(getString(R.string.click_to_eye));
 
         setMemberView();
 
@@ -111,13 +143,23 @@ public class MyFragment extends BaseFragment implements MyFragmentListener,View.
 
     private void setMemberView(){
         if(member == null){
-            return;
+            tvNickName.setText("");
+            tvCollectionCount.setText("-");
+            tvMsgCount.setText("-");
+            tvTrendCount.setText("-");
+            tvRole.setText(getString(R.string.my_role));
+            tvClassCount.setText("");
+            tvProjectCount.setText("");
+        } else {
+            Application.application.getImageLoader().displayImage(member.getAvatar_rsurl(), ivAvatar, Application.application.getDefaultOptions());
+            tvNickName.setText(member.getNick_name());
+            tvCollectionCount.setText(String.valueOf(member.getFav_count()));
+            tvMsgCount.setText(String.valueOf(member.getMessage_count()));
+            tvTrendCount.setText(String.valueOf(member.getTrend_count()));
+            tvRole.setText(String.format(getString(R.string.my_role), member.getUser_identity_label()));
+            tvClassCount.setText(String.valueOf(member.getCourse_count()));
+            tvProjectCount.setText(String.valueOf(member.getProject_count()));
         }
-        Application.application.getImageLoader().displayImage(member.getAvatar_rsurl(), ivAvatar, Application.application.getDefaultOptions());
-        tvNickName.setText(member.getNick_name());
-        tvCollectionCount.setText(String.valueOf(member.getFav_count()));
-        tvMsgCount.setText(String.valueOf(member.getMessage_count()));
-        tvTrendCount.setText(String.valueOf(member.getTrend_count()));
     }
 
     @Override
@@ -136,8 +178,10 @@ public class MyFragment extends BaseFragment implements MyFragmentListener,View.
     }
 
     @Override
-    public void onSuccess() {
-
+    public void onSuccess(MemberBean member) {
+        this.member = member;
+        setMemberView();
+        Application.application.saveMember(member, Application.application.getSessId());
     }
 
     @Override
@@ -145,29 +189,17 @@ public class MyFragment extends BaseFragment implements MyFragmentListener,View.
         return Application.application.getMember().getId();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.layout_role:
-                startActivity(new Intent(getActivity(), UpdateRoleActivity.class));
-                break;
-            case R.id.layout_order_list:
-                startActivity(new Intent(getActivity(), MyOrderListActivity.class));
-                break;
-            case R.id.layout_works:
-                break;
-            case R.id.layout_classes:
-                ActivityBuilder.startMyClassesActivity(getActivity());
-                break;
-            case R.id.layout_account:
-                startActivity(new Intent(getActivity(), MyAccountActivity.class));
-                break;
-            case R.id.layout_setting:
-                startActivity(new Intent(getActivity(), SettingActivity.class));
-                break;
-            case R.id.tv_update_info:
-                startActivity(new Intent(getActivity(), ProfileInfoActivity.class));
-                break;
+    abstract class CheckLoginClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            if(Application.application.getMember() == null){
+
+            } else {
+                onLoginClick(v);
+            }
         }
+
+        abstract void onLoginClick(View v);
     }
 }

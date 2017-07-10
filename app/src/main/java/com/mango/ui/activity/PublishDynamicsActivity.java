@@ -1,5 +1,6 @@
 package com.mango.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,20 +9,25 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.TextView;
+
 import com.jakewharton.rxbinding.widget.RxTextView;
-import com.mango.BuildConfig;
 import com.mango.Constants;
 import com.mango.R;
 import com.mango.model.bean.UploadImageBean;
+import com.mango.model.data.TrendModel;
+import com.mango.presenter.AddTrendPresenter;
+import com.mango.ui.viewlistener.AddTrendListener;
 import com.mango.ui.widget.TitleBar;
 import com.mango.ui.widget.UploadPictureView;
 import com.mango.util.AppUtils;
 import com.mango.util.DisplayUtils;
 import com.mango.util.FileUtils;
 import com.mango.util.SelectorImageLoader;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.Bind;
 import cn.finalteam.galleryfinal.CoreConfig;
 import cn.finalteam.galleryfinal.FunctionConfig;
@@ -30,7 +36,7 @@ import cn.finalteam.galleryfinal.ThemeConfig;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 import rx.functions.Action1;
 
-public class PublishDynamicsActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener,UploadPictureView.OnUploadPictureListener {
+public class PublishDynamicsActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener,UploadPictureView.OnUploadPictureListener,AddTrendListener {
 
     @Bind(R.id.et_content)
     EditText etContent;
@@ -41,12 +47,14 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
     List<UploadImageBean> pictures = new ArrayList<UploadImageBean>();
     FrameLayout.LayoutParams pictureItemLp;
     int dp5;
+    AddTrendPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_dynamics);
-        
+
+        presenter = new AddTrendPresenter(new TrendModel(), this);
         initView();
     }
 
@@ -110,7 +118,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
     public void onTitleButtonClick(View view) {
         switch (view.getId()){
             case R.id.tv_right:
-                AppUtils.showToast(this, getString(R.string.publish));
+                presenter.addTrend();
                 break;
         }
     }
@@ -148,5 +156,30 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    @Override
+    public void onFailure(String message) {
+        AppUtils.showToast(this, message);
+    }
+
+    @Override
+    public Context currentContext() {
+        return this;
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public String getContent() {
+        return etContent.getText().toString();
+    }
+
+    @Override
+    public List<String> getPics() {
+        return null;
     }
 }

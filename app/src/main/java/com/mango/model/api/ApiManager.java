@@ -5,6 +5,8 @@ import com.mango.model.bean.AdvertBean;
 import com.mango.model.bean.BulletinBean;
 import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberBean;
+import com.mango.model.bean.MemberCardBean;
+import com.mango.model.bean.MemberWalletBean;
 import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
 import com.mango.model.bean.TrendBean;
@@ -51,5 +53,21 @@ public class ApiManager {
 
     public static  Observable<RestResult<Object>> praise(long entityId, int entityTypeId){
         return Application.application.getApiService().praise(Application.application.getSessId(), entityId, entityTypeId);
+    }
+
+    public static  Observable<RestResult<Object>> addTrend(String content, List<String> pics){
+        return Application.application.getApiService().addTrend(Application.application.getSessId(), content, pics);
+    }
+
+    public static  Observable<RestResult<MemberWalletBean>> getWallet(){
+        return Application.application.getApiService().getWallet(Application.application.getSessId());
+    }
+
+    public static  Observable<RestResult<List<MemberCardBean>>> getCardList(){
+        return Application.application.getApiService().getCardList(Application.application.getSessId());
+    }
+
+    public static  Observable<RestResult<Object>> addBlankCard(String blankName, String cardNo){
+        return Application.application.getApiService().addBlankCard(Application.application.getSessId(), blankName, cardNo);
     }
 }

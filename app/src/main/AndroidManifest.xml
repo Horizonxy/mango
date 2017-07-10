@@ -73,6 +73,8 @@
         <activity android:name=".ui.activity.InteractAreaActivity" />
         <activity android:name=".ui.activity.TeacherClassCategoryActivity" />
         <activity android:name=".ui.activity.CalssListActivity" />
+        <activity android:name=".ui.activity.AddBlankCardActivity" />
+        <activity android:name=".ui.activity.MemberCardListActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>
@@ -127,7 +129,6 @@
             android:name="BaiduMobAd_WIFI_LOCATION"
             android:value="true" />
         <!-- 百度统计 end -->
-
 
     </application>
 

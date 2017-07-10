@@ -100,8 +100,10 @@ public class MemberPresenter extends BasePresenter {
             }
 
             @Override
-            public void onNext(RestResult<MemberBean> memberBeanRestResult) {
-
+            public void onNext(RestResult<MemberBean> restResult) {
+                if(restResult != null && restResult.isSuccess()){
+                    listener.onSuccess(restResult.getData());
+                }
             }
         });
         addSubscription(subscription);

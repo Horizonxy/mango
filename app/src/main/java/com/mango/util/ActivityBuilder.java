@@ -3,15 +3,22 @@ package com.mango.util;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.mango.Constants;
 import com.mango.R;
+import com.mango.model.bean.MemberCardBean;
+import com.mango.ui.activity.AddBlankCardActivity;
 import com.mango.ui.activity.CalssListActivity;
 import com.mango.ui.activity.InteractAreaActivity;
 import com.mango.ui.activity.LoginActivity;
 import com.mango.ui.activity.MainActivity;
+import com.mango.ui.activity.MemberCardListActivity;
 import com.mango.ui.activity.MyClassesActivity;
 import com.mango.ui.activity.PublishDynamicsActivity;
 import com.mango.ui.activity.SetNickNameActivity;
 import com.mango.ui.activity.TeacherClassCategoryActivity;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author 蒋先明
@@ -53,5 +60,17 @@ public class ActivityBuilder {
 
     public static void startCalssListActivity(Activity activity){
         activity.startActivity(new Intent(activity, CalssListActivity.class));
+    }
+
+    public static void startCardListActivity(Activity activity, List<MemberCardBean> cardList){
+        Intent intent = new Intent(activity, MemberCardListActivity.class);
+        if(cardList != null){
+            intent.putExtra(Constants.BUNDLE_CARD_LIST, (Serializable) cardList);
+        }
+        activity.startActivity(intent);
+    }
+
+    public static void startAddBlankCardActivity(Activity activity){
+        activity.startActivity(new Intent(activity, AddBlankCardActivity.class));
     }
 }

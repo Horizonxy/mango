@@ -50,7 +50,7 @@ public class MangoLoadMoreViewFooter implements ILoadMoreViewFactory {
 
         @Override
         public void showLoading() {
-            tvLoadMore.setVisibility(View.GONE);
+            tvLoadMore.setVisibility(View.VISIBLE);
             tvLoadMore.setText("正在加载中...");
             gifProgress.setVisibility(View.VISIBLE);
             footerView.setOnClickListener(null);

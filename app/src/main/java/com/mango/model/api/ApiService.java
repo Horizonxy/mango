@@ -4,6 +4,8 @@ import com.mango.model.bean.AdvertBean;
 import com.mango.model.bean.BulletinBean;
 import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberBean;
+import com.mango.model.bean.MemberCardBean;
+import com.mango.model.bean.MemberWalletBean;
 import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
 import com.mango.model.bean.TrendBean;
@@ -76,5 +78,33 @@ public interface ApiService {
             @Query("lst_sessid") String sessId,
             @Query("entity_id") long entityId,
             @Query("entity_type_id") int entityTypeId
+    );
+
+    //5.5.3添加动态接口
+    @POST("outer/router?trend_add")
+    Observable<RestResult<Object>> addTrend(
+            @Query("lst_sessid") String sessId,
+            @Query("content") String content,
+            @Query("entity_type_id") List<String> pics
+    );
+
+    //5.1.17会员钱包详情接口
+    @GET("outer/router?member_wallet")
+    Observable<RestResult<MemberWalletBean>> getWallet(
+            @Query("lst_sessid") String sessId
+    );
+
+    //5.1.20会员银行卡列表接口
+    @GET("outer/router?card_list")
+    Observable<RestResult<List<MemberCardBean>>> getCardList(
+            @Query("lst_sessid") String sessId
+    );
+
+    //5.1.18绑定银行卡接口
+    @POST("outer/router?add_card")
+    Observable<RestResult<Object>> addBlankCard(
+            @Query("lst_sessid") String sessId,
+            @Query("bank_name") String bank_name,
+            @Query("card_no") String card_no
     );
 }

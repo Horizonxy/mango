@@ -31,7 +31,7 @@
 
     <string name="update_profile_info">修改个人信息></string>
 
-    <string name="my_role">身份：</string>
+    <string name="my_role">身份：%s</string>
     <string name="my_order_list">我的订单</string>
     <string name="my_works">我的工作包</string>
     <string name="my_classes">我的授课</string>
@@ -50,6 +50,7 @@
     <string name="clear_cache">清除缓存</string>
 
     <string name="click_to_edit">点击编辑</string>
+    <string name="click_to_eye">点击查看</string>
     <string name="un_setting">未设置</string>
 
     <string name="society_info">社交信息</string>
@@ -76,4 +77,12 @@
     <string name="please_select_gender">请选择性别</string>
     <string name="please_input_nick_name">请输入昵称</string>
     <string name="update_member_failure">设置用户信息失败，请稍后重试</string>
+
+    <string name="add_trend_failure">发布动态失败，请稍后重试</string>
+    <string name="my_current_role">当前我的身份：%s</string>
+
+    <string name="get_member_wallet_failure">加载钱包信息失败，请稍后重试</string>
+    <string name="unbind_card">未绑卡</string>
+    <string name="add_sure">确认添加</string>
+    <string name="add_blank_card">添加银行卡</string>
 </resources>

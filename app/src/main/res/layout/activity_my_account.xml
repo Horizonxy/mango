@@ -17,6 +17,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -45,6 +46,7 @@
                         android:textSize="@dimen/sp_16" />
 
                     <TextView
+                        android:id="@+id/tv_available"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_5"
@@ -69,6 +71,7 @@
                         android:textSize="@dimen/sp_16" />
 
                     <TextView
+                        android:id="@+id/tv_freezing"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_5"

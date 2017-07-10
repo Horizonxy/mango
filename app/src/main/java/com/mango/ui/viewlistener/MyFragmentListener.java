@@ -1,5 +1,7 @@
 package com.mango.ui.viewlistener;
 
+import com.mango.model.bean.MemberBean;
+
 /**
  * @author 蒋先明
  * @date 2017/7/7
@@ -7,6 +9,6 @@ package com.mango.ui.viewlistener;
 
 public interface MyFragmentListener extends BaseViewListener {
 
-    void onSuccess();
+    void onSuccess(MemberBean member);
     long getMemberId();
 }

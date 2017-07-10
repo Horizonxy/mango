@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -276,5 +277,9 @@ public class MangoUtils {
             content = removeHtmlTag(content);
         }
         return content;
+    }
+
+    public static String formatPrice(BigDecimal price){
+        return price.setScale(2, BigDecimal.ROUND_DOWN).toString();
     }
 }

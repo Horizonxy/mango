@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.mango.Constants;
 import com.mango.R;
+import com.mango.model.bean.MemberCardBean;
 import com.mango.ui.adapter.FragmentAdapter;
 import com.mango.ui.fragment.ClassListFragment;
 
@@ -33,10 +35,14 @@ public class CalssListActivity extends BaseTitleBarActivity {
     List<String> tabTitles = new ArrayList<>();
     List<Fragment> viewLists = new ArrayList<>();
 
+    List<MemberCardBean> cardList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calss_list);
+
+        cardList = (List<MemberCardBean>) getIntent().getSerializableExtra(Constants.BUNDLE_CARD_LIST);
 
         initView();
     }
