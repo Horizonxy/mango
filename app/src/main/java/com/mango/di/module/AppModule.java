@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 
 import com.mango.Application;
 import com.mango.Constants;
+import com.mango.R;
 import com.mango.model.db.CommonDaoImpl;
 import com.mango.util.FileUtils;
 import com.mango.util.PermissionUtils;
@@ -74,6 +75,9 @@ public class AppModule {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
                 .cacheInMemory(true)
+                .showImageOnFail(R.drawable.none)
+                .showImageForEmptyUri(R.drawable.none)
+                .showImageOnLoading(R.drawable.none)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                /* .displayer(new FadeInBitmapDisplayer(2000))*/
                 .build();

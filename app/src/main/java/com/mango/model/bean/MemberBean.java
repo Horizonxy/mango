@@ -7,7 +7,7 @@ public class MemberBean implements Serializable {
 
     public static final String DATA_TYPE = "member_data";
 
-    private Long id;
+    private long id;
     private String[] user_identitys;
     private String user_identity_label;
     private String avatar_rsurl;
@@ -28,18 +28,18 @@ public class MemberBean implements Serializable {
     private String work_experience;
     private String resume_rsurl;
     private String self_evaluation;
-    private Long order_count;
-    private Long project_count;
-    private Long course_count;
-    private Long fav_count;
-    private Long trend_count;
-    private Long message_count;
+    private long order_count;
+    private long project_count;
+    private long course_count;
+    private long fav_count;
+    private long trend_count;
+    private long message_count;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -65,6 +65,14 @@ public class MemberBean implements Serializable {
 
     public void setAvatar_rsurl(String avatar_rsurl) {
         this.avatar_rsurl = avatar_rsurl;
+    }
+
+    public String getNick_name() {
+        return nick_name;
+    }
+
+    public void setNick_name(String nick_name) {
+        this.nick_name = nick_name;
     }
 
     public String getMy_signature() {
@@ -195,59 +203,51 @@ public class MemberBean implements Serializable {
         this.self_evaluation = self_evaluation;
     }
 
-    public Long getOrder_count() {
+    public long getOrder_count() {
         return order_count;
     }
 
-    public void setOrder_count(Long order_count) {
+    public void setOrder_count(long order_count) {
         this.order_count = order_count;
     }
 
-    public Long getProject_count() {
+    public long getProject_count() {
         return project_count;
     }
 
-    public void setProject_count(Long project_count) {
+    public void setProject_count(long project_count) {
         this.project_count = project_count;
     }
 
-    public Long getCourse_count() {
+    public long getCourse_count() {
         return course_count;
     }
 
-    public void setCourse_count(Long course_count) {
+    public void setCourse_count(long course_count) {
         this.course_count = course_count;
     }
 
-    public Long getFav_count() {
+    public long getFav_count() {
         return fav_count;
     }
 
-    public void setFav_count(Long fav_count) {
+    public void setFav_count(long fav_count) {
         this.fav_count = fav_count;
     }
 
-    public Long getTrend_count() {
+    public long getTrend_count() {
         return trend_count;
     }
 
-    public void setTrend_count(Long trend_count) {
+    public void setTrend_count(long trend_count) {
         this.trend_count = trend_count;
     }
 
-    public Long getMessage_count() {
+    public long getMessage_count() {
         return message_count;
     }
 
-    public void setMessage_count(Long message_count) {
+    public void setMessage_count(long message_count) {
         this.message_count = message_count;
-    }
-
-    public String getNick_name() {
-        return nick_name;
-    }
-
-    public void setNick_name(String nick_name) {
-        this.nick_name = nick_name;
     }
 }
