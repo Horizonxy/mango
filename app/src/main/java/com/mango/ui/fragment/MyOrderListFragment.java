@@ -1,12 +1,11 @@
 package com.mango.ui.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
@@ -14,15 +13,14 @@ import com.mango.R;
 import com.mango.di.component.DaggerMyOrderListFragmentComponent;
 import com.mango.di.module.MyOrderListFragmentModule;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
-
+import com.mango.ui.widget.MangoPtrFrameLayout;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
 
 public class MyOrderListFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
-    PtrClassicFrameLayout refreshLayout;
+    MangoPtrFrameLayout refreshLayout;
     ListView listView;
 
     int pageNo = 1;
@@ -46,7 +44,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
 
     @Override
     void findView(View root) {
-        refreshLayout = (PtrClassicFrameLayout) root.findViewById(R.id.refresh_layout);
+        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         listView = (ListView) root.findViewById(R.id.listview);
     }
 
@@ -55,7 +53,6 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
-        refreshLayout.setLastUpdateTimeRelateObject(this);
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -84,17 +81,33 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     }
 
     private void loadData() {
-        for (int i = 0; i < 10; i++){
-            datas.add("jxm: " + i);
-        }
 
-        adapter.notifyDataSetChanged();
+        new AsyncTask<Void, Void, Void>(){
 
-        if(pageNo == 1){
-            refreshLayout.refreshComplete();
-        }
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                for (int i = 0; i < 10; i++){
+                    datas.add("jxm: " + i);
+                }
+                adapter.notifyDataSetChanged();
+
+                if(pageNo == 1){
+                    refreshLayout.refreshComplete();
+                }
+                refreshLayout.setLoadMoreEnable(true);
+                refreshLayout.loadMoreComplete(true);
+            }
+        }.execute();
     }
 
 

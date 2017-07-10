@@ -26,16 +26,14 @@
             style="@style/repple_in_backguound"
             android:layout_width="@dimen/dp_49"
             android:layout_height="@dimen/dp_49"
-            android:layout_marginRight="@dimen/dp_12"
-            android:layout_marginLeft="@dimen/dp_15"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:src="@drawable/home_xiaoxi" />
         <com.mango.ui.widget.RedPointView
             android:layout_gravity="right|top"
-            android:layout_marginRight="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_14"
             android:layout_width="@dimen/dp_8"
             android:layout_height="@dimen/dp_8" />
     </FrameLayout>

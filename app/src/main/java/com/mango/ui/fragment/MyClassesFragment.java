@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
@@ -15,15 +13,14 @@ import com.mango.R;
 import com.mango.di.component.DaggerMyClassesFragmentComponent;
 import com.mango.di.module.MyClassesFragmentModule;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
-
+import com.mango.ui.widget.MangoPtrFrameLayout;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
 
 public class MyClassesFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
-    PtrClassicFrameLayout refreshLayout;
+    MangoPtrFrameLayout refreshLayout;
     ListView listView;
 
     int pageNo = 1;
@@ -47,7 +44,7 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     void findView(View root) {
-        refreshLayout = (PtrClassicFrameLayout) root.findViewById(R.id.refresh_layout);
+        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         listView = (ListView) root.findViewById(R.id.listview);
     }
 
@@ -56,7 +53,6 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
-        refreshLayout.setLastUpdateTimeRelateObject(this);
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

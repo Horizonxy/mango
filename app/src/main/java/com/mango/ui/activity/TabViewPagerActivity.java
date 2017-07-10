@@ -39,7 +39,7 @@ public class TabViewPagerActivity extends BaseTitleBarActivity {
 
     private void initView() {
         titleBar.setTitle("Magic ViewPager");
-        titleBar.setLeftBtnIcon(R.mipmap.ic_launcher);
+        titleBar.setLeftBtnIcon(R.drawable.back);
 
         indicator = (MagicIndicator) findViewById(R.id.magic_indicator);
         viewPager = (ViewPager) findViewById(R.id.view_pager);

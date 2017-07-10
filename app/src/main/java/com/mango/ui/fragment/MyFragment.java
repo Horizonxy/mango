@@ -65,6 +65,12 @@ public class MyFragment extends BaseFragment implements MyFragmentListener,View.
         vClasses = root.findViewById(R.id.layout_classes);
         vAccount = root.findViewById(R.id.layout_account);
         vSetting = root.findViewById(R.id.layout_setting);
+        vRole.setOnClickListener(this);
+        vOrderList.setOnClickListener(this);
+        vWorks.setOnClickListener(this);
+        vClasses.setOnClickListener(this);
+        vAccount.setOnClickListener(this);
+        vSetting.setOnClickListener(this);
     }
 
     @Override

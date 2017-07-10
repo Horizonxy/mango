@@ -1,24 +1,21 @@
 package com.mango.ui.fragment;
 
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.mango.R;
 import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
-
+import com.mango.ui.widget.MangoPtrFrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClassListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
-    PtrClassicFrameLayout refreshLayout;
+    MangoPtrFrameLayout refreshLayout;
     ListView listView;
 
     int pageNo = 1;
@@ -31,7 +28,7 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     void findView(View root) {
-        refreshLayout = (PtrClassicFrameLayout) root.findViewById(R.id.refresh_layout);
+        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         listView = (ListView) root.findViewById(R.id.listview);
     }
 
@@ -44,7 +41,6 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
             }
         });
         listView.setOnItemClickListener(this);
-        refreshLayout.setLastUpdateTimeRelateObject(this);
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

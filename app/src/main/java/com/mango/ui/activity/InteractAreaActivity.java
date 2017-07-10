@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
@@ -13,6 +12,7 @@ import com.mango.R;
 import com.mango.di.component.DaggerInteractAreaActivityComponent;
 import com.mango.di.module.InteractAreaActivityModule;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
+import com.mango.ui.widget.MangoPtrFrameLayout;
 import com.mango.util.AppUtils;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import butterknife.Bind;
 public class InteractAreaActivity extends BaseTitleBarActivity implements AdapterView.OnItemClickListener {
 
     @Bind(R.id.refresh_layout)
-    PtrClassicFrameLayout refreshLayout;
+    MangoPtrFrameLayout refreshLayout;
     @Bind(R.id.listview)
     ListView listView;
     int pageNo = 1;
@@ -48,7 +48,6 @@ public class InteractAreaActivity extends BaseTitleBarActivity implements Adapte
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
-        refreshLayout.setLastUpdateTimeRelateObject(this);
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

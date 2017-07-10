@@ -47,7 +47,7 @@ public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnT
 
     private void initView() {
         titleBar.setLeftBtnIconVisibility(View.GONE);
-        titleBar.setRightBtnIcon(R.mipmap.ic_launcher);
+        titleBar.setRightBtnIcon(R.drawable.back);
         titleBar.setOnTitleBarClickListener(this);
 
         setGetVerifyCodeTvWidth();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.chanven.lib.cptr.PtrClassicFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.mango.ui.widget.MangoPtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/refresh_layout"
     xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -20,4 +20,4 @@
         android:drawSelectorOnTop="true"
         android:dividerHeight="@dimen/dp_0.5"
         android:cacheColorHint="@android:color/transparent" />
-</com.chanven.lib.cptr.PtrClassicFrameLayout>
+</com.mango.ui.widget.MangoPtrFrameLayout>

@@ -92,6 +92,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
         layoutHomeBar = (RelativeLayout) root.findViewById(R.id.layout_home_bar);
         root.findViewById(R.id.ib_scan).setOnClickListener(this);
         root.findViewById(R.id.layout_msg).setOnClickListener(this);
+        root.findViewById(R.id.iv_bottom_del).setOnClickListener(this);
     }
 
     @Override
@@ -320,7 +321,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
                 break;
             case R.id.layout_msg:
                 break;
-
+            case R.id.iv_bottom_del:
+                layoutUpdateRole.setVisibility(View.GONE);
+                break;
         }
     }
 

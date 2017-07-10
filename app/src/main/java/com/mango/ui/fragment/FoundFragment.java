@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
@@ -21,9 +20,9 @@ import com.mango.model.bean.TrendBean;
 import com.mango.presenter.FoundPresenter;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
 import com.mango.ui.viewlistener.FoundListener;
+import com.mango.ui.widget.MangoPtrFrameLayout;
 import com.mango.util.ActivityBuilder;
 import com.mango.util.AppUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     ImageView ivSearch;
     TextView tvSearch;
     View vSearch;
-    PtrClassicFrameLayout refreshLayout;
+    MangoPtrFrameLayout refreshLayout;
     ListView listView;
     int pageNo = 1;
     boolean hasNext = true;
@@ -59,7 +58,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         ivSearch = (ImageView) root.findViewById(R.id.iv_tab_search);
         tvSearch = (TextView) root.findViewById(R.id.tv_search);
         vSearch = root.findViewById(R.id.layout_search);
-        refreshLayout = (PtrClassicFrameLayout) root.findViewById(R.id.refresh_layout);
+        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         listView = (ListView) root.findViewById(R.id.listview);
         root.findViewById(R.id.tv_right).setOnClickListener(this);
     }
@@ -69,7 +68,6 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
-        refreshLayout.setLastUpdateTimeRelateObject(this);
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
