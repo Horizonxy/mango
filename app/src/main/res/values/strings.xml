@@ -85,4 +85,6 @@
     <string name="unbind_card">未绑卡</string>
     <string name="add_sure">确认添加</string>
     <string name="add_blank_card">添加银行卡</string>
+
+    <string name="teacher_detail">导师详情</string>
 </resources>

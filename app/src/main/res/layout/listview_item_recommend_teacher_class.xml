@@ -17,6 +17,7 @@
         android:layout_marginLeft="@dimen/dp_10"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/tv_course_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="如何利用直播和网红来营销你的产品"
@@ -26,6 +27,7 @@
             android:textColor="@color/color_333333"/>
 
         <TextView
+            android:id="@+id/tv_member_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="王先生"
@@ -35,6 +37,7 @@
             android:textSize="@dimen/sp_16"
             android:textColor="@color/color_ff0030"/>
         <TextView
+            android:id="@+id/tv_type_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="微课一对一"
