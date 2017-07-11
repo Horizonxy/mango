@@ -35,12 +35,18 @@ public class EmptyHelper {
     }
 
     public void hideEmptyView(View contentView) {
+        if(vEmpty.getVisibility() == View.GONE && contentView.getVisibility() == View.VISIBLE){
+            return;
+        }
         vEmpty.setVisibility(View.GONE);
         vEmpty.setEnabled(false);
         contentView.setVisibility(View.VISIBLE);
     }
 
     public void showEmptyView(View contentView) {
+        if(vEmpty.getVisibility() == View.VISIBLE && contentView.getVisibility() == View.GONE){
+            return;
+        }
         vEmpty.setVisibility(View.VISIBLE);
         vEmpty.setEnabled(true);
         contentView.setVisibility(View.GONE);

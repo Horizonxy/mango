@@ -1,24 +1,33 @@
 package com.mango.ui.fragment;
 
-import android.os.AsyncTask;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.mango.Constants;
 import com.mango.R;
 import com.mango.di.component.DaggerMyOrderListFragmentComponent;
 import com.mango.di.module.MyOrderListFragmentModule;
+import com.mango.model.bean.OrderBean;
+import com.mango.presenter.OrderPresenter;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
+import com.mango.ui.viewlistener.OrderListListener;
 import com.mango.ui.widget.MangoPtrFrameLayout;
+import com.mango.util.EmptyHelper;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.inject.Inject;
 
-public class MyOrderListFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class MyOrderListFragment extends BaseFragment implements AdapterView.OnItemClickListener, OrderListListener, EmptyHelper.OnRefreshListener{
 
     MangoPtrFrameLayout refreshLayout;
     ListView listView;
@@ -27,25 +36,34 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     List datas = new ArrayList();
     @Inject
     QuickAdapter adapter;
+    @Inject
+    OrderPresenter presenter;
+    boolean hasNext = true;
+    int relation;
+    EmptyHelper emptyHelper;
 
-    public MyOrderListFragment() {
-    }
-    public static MyOrderListFragment newInstance(String param1, String param2) {
+    public static MyOrderListFragment newInstance(int relation) {
         MyOrderListFragment fragment = new MyOrderListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("relation", relation);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(getActivity(), datas)).build().inject(this);
+        if(savedInstanceState != null) {
+            relation = savedInstanceState.getInt("relation");
+        }
+        DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(this, datas)).build().inject(this);
     }
 
     @Override
     void findView(View root) {
         refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         listView = (ListView) root.findViewById(R.id.listview);
+        emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), this);
     }
 
     @Override
@@ -57,6 +75,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNo = 1;
+                hasNext = true;
                 loadData();
             }
         });
@@ -81,40 +100,76 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     }
 
     private void loadData() {
-
-        new AsyncTask<Void, Void, Void>(){
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                for (int i = 0; i < 10; i++){
-                    datas.add("jxm: " + i);
-                }
-                adapter.notifyDataSetChanged();
-
-                if(pageNo == 1){
-                    refreshLayout.refreshComplete();
-                }
-                refreshLayout.setLoadMoreEnable(true);
-                refreshLayout.loadMoreComplete(true);
-            }
-        }.execute();
+        if(hasNext) {
+            presenter.getOrderList();
+        } else {
+            refreshLayout.setLoadMoreEnable(true);
+            refreshLayout.loadMoreComplete(true);
+            refreshLayout.setNoMoreData();
+        }
     }
-
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String item = (String) parent.getAdapter().getItem(position);
         Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFailure(String message) {
+        if(TextUtils.isEmpty(message)) {
+            if (pageNo == 1) {
+                refreshLayout.refreshComplete();
+            }
+            refreshLayout.setLoadMoreEnable(true);
+            refreshLayout.loadMoreComplete(true);
+        }
+    }
+
+    @Override
+    public Context currentContext() {
+        return getContext();
+    }
+
+    @Override
+    public void onOrderListSuccess(List<OrderBean> orderList) {
+        if(pageNo == 1){
+            datas.clear();
+            refreshLayout.refreshComplete();
+        }
+
+        refreshLayout.setLoadMoreEnable(true);
+        refreshLayout.loadMoreComplete(true);
+        if(hasNext = (orderList.size() >= Constants.PAGE_SIZE)){
+            pageNo++;
+        } else {
+            refreshLayout.setNoMoreData();
+        }
+
+        datas.addAll(orderList);
+
+        if(datas == null || datas.size() == 0){
+            emptyHelper.showEmptyView(refreshLayout);
+        } else {
+            emptyHelper.hideEmptyView(refreshLayout);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public int getPageNo() {
+        return pageNo;
+    }
+
+    @Override
+    public int getRelation() {
+        return relation;
+    }
+
+    @Override
+    public void onRefresh() {
+        pageNo = 1;
+        hasNext = true;
+        loadData();
     }
 }

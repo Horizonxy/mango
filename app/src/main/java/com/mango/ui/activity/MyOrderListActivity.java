@@ -49,8 +49,9 @@ public class MyOrderListActivity extends BaseActivity {
     private void initView() {
         tabTitles = getResources().getStringArray(R.array.order_tab);
 
-        fragmentList.add(new MyOrderListFragment());
-        fragmentList.add(new MyOrderListFragment());
+        //1: 我下的订单 2：我收到的订单
+        fragmentList.add(MyOrderListFragment.newInstance(1));
+        fragmentList.add(MyOrderListFragment.newInstance(2));
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), fragmentList));
 

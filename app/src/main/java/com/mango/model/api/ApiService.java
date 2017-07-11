@@ -6,6 +6,7 @@ import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberBean;
 import com.mango.model.bean.MemberCardBean;
 import com.mango.model.bean.MemberWalletBean;
+import com.mango.model.bean.OrderBean;
 import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
 import com.mango.model.bean.TrendBean;
@@ -98,6 +99,12 @@ public interface ApiService {
     @GET("outer/router?card_list")
     Observable<RestResult<List<MemberCardBean>>> getCardList(
             @Query("lst_sessid") String sessId
+    );
+
+    //5.3.1订单列表接口
+    @POST("outer/router?order_list")
+    Observable<RestResult<List<OrderBean>>> getOrderList(
+            @QueryMap Map<String, Object> map
     );
 
     //5.1.18绑定银行卡接口
