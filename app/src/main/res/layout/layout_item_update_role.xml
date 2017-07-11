@@ -9,9 +9,9 @@
         android:id="@+id/iv_role"
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_2"
         android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_launcher"/>
+        android:scaleType="centerInside"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,8 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_333333"
-            android:textSize="@dimen/sp_18"
-            android:text="验证学生身份"/>
+            android:textSize="@dimen/sp_18"/>
 
         <TextView
             android:id="@+id/tv_desc"
@@ -32,7 +31,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/color_666666"
             android:layout_marginTop="@dimen/dp_5"
-            android:text="打扫房间施蒂利克福克斯的疯狂的说法来看的还是分开几乎都是空间发挥的刷卡缴费后打开手机放寒假开始发挥第三节课"
             android:textSize="@dimen/sp_14"/>
     </LinearLayout>
 

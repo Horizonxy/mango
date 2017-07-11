@@ -65,7 +65,7 @@
                             android:layout_height="@dimen/dp_22"
                             android:adjustViewBounds="true"
                             android:scaleType="centerInside"
-                            android:src="@drawable/ic_launcher" />
+                            android:src="@drawable/icon_shoucang" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                             android:layout_height="@dimen/dp_22"
                             android:adjustViewBounds="true"
                             android:scaleType="centerInside"
-                            android:src="@drawable/ic_launcher" />
+                            android:src="@drawable/icon_xiaoxi" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
                             android:layout_height="@dimen/dp_22"
                             android:adjustViewBounds="true"
                             android:scaleType="centerInside"
-                            android:src="@drawable/ic_launcher" />
+                            android:src="@drawable/icon_dongtai" />
 
                         <TextView
                             android:layout_width="wrap_content"

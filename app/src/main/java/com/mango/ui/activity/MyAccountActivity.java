@@ -3,6 +3,7 @@ package com.mango.ui.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mango.R;
@@ -58,6 +59,9 @@ public class MyAccountActivity extends BaseTitleBarActivity implements MemeberWa
         tvCard.setText("我的银行卡");
         tvCash.setText("提现");
         tvDetail.setText("交易明细");
+        ((ImageView) layoutCard.findViewById(R.id.iv_left)).setImageResource(R.drawable.iocn_card);
+        ((ImageView) layoutCash.findViewById(R.id.iv_left)).setImageResource(R.drawable.iocn_tixian);
+        ((ImageView) layoutDetail.findViewById(R.id.iv_left)).setImageResource(R.drawable.iocn_jiaoyi);
 
         presenter.getWallet();
         presenter.getCardList();

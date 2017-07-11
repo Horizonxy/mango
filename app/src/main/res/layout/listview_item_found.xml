@@ -39,7 +39,7 @@
                     android:layout_centerVertical="true"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/icon_shoucang_nor" />
 
 
                 <RelativeLayout

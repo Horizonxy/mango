@@ -133,6 +133,13 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
         tvAccount.setText(getString(R.string.my_account));
         tvSetting.setText(getString(R.string.setting));
         tvUpdateRole.setText(getString(R.string.click_to_eye));
+        ((ImageView)vRole.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_id);
+        ((ImageView)vOrderList.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_dingdan);
+        ((ImageView)vWorks.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_gongzuobao);
+        ((ImageView)vClasses.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_shouke);
+        ((ImageView)vAccount.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_zhanghu);
+        ((ImageView)vSetting.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_shezhi);
+
 
         setMemberView();
 

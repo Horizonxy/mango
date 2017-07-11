@@ -10,7 +10,6 @@
         android:layout_width="@dimen/dp_22"
         android:layout_height="@dimen/dp_22"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_launcher"
         android:scaleType="centerInside"/>
 
     <ImageView
@@ -19,7 +18,7 @@
         android:layout_height="@dimen/dp_22"
         android:layout_alignParentRight="true"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/icon_more"
         android:scaleType="centerInside"/>
 
     <TextView
