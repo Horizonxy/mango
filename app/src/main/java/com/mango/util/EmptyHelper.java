@@ -44,6 +44,9 @@ public class EmptyHelper {
     }
 
     public void showEmptyView(View contentView) {
+        if(!NetUtils.isNetworkConnected(context)){
+            setMessage(R.string.noconnectionremind_for_draft);
+        }
         if(vEmpty.getVisibility() == View.VISIBLE && contentView.getVisibility() == View.GONE){
             return;
         }

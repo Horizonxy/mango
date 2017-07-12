@@ -2,8 +2,6 @@ package com.mango.presenter;
 
 import android.content.Context;
 
-import com.mango.Application;
-import com.mango.R;
 import com.mango.model.bean.CourseBean;
 import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.RestResult;
@@ -29,10 +27,7 @@ public class TeacherPresenter extends BasePresenter {
 
     public void getCourseList(int hotTypes){
         Context context = listener.currentContext();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("hot_types", hotTypes);
-        map.put("lst_sessid", Application.application.getSessId());
-        Subscription subscription = courseModel.getCourseList(map, new Action1<Throwable>(){
+        Subscription subscription = courseModel.getCourseList(listener.getQueryMap(hotTypes), new Action1<Throwable>(){
 
             @Override
             public void call(Throwable e) {
@@ -62,7 +57,7 @@ public class TeacherPresenter extends BasePresenter {
         Context context = listener.currentContext();
         Map<String, Long> map = new HashMap<String, Long>();
         map.put("show_top", 1L);
-        Subscription subscription = courseModel.getClassify(map, new CreateLoading(context, context.getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<List<CourseClassifyBean>>>() {
+        Subscription subscription = courseModel.getClassify(map, new BaseSubscriber<RestResult<List<CourseClassifyBean>>>() {
 
             @Override
             public void onError(Throwable e) {

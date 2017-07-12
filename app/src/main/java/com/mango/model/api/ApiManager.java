@@ -80,4 +80,20 @@ public class ApiManager {
     public static  Observable<RestResult<List<CourseBean>>> getCourseList(Map<String, Object> map){
         return Application.application.getApiService().getCourseList(map);
     }
+
+    public static  Observable<RestResult<Object>> checkUpgradeTutor(){
+        return Application.application.getApiService().checkUpgradeTutor(Application.application.getSessId());
+    }
+
+    public static  Observable<RestResult<Object>> checkUpgradeStudent(){
+        return Application.application.getApiService().checkUpgradeStudent(Application.application.getSessId());
+    }
+
+    public static  Observable<RestResult<Object>> checkUpgradeCompany(){
+        return Application.application.getApiService().checkUpgradeCompany(Application.application.getSessId());
+    }
+
+    public static  Observable<RestResult<Object>> checkUpgradeCommunity(){
+        return Application.application.getApiService().checkUpgradeCommunity(Application.application.getSessId());
+    }
 }

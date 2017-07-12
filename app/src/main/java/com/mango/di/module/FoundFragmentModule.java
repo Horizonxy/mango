@@ -33,10 +33,14 @@ public class FoundFragmentModule {
 
     Fragment fragment;
     List datas;
+    int width;
 
     public FoundFragmentModule( Fragment fragment, List datas) {
         this.fragment = fragment;
         this.datas = datas;
+        this.width = (int) ((DisplayUtils.screenWidth(fragment.getContext())
+                - fragment.getContext().getResources().getDimension(R.dimen.dp_10) * 2
+                - fragment.getContext().getResources().getDimension(R.dimen.dp_4) * 2) / 3);
     }
 
     @FragmentScope
@@ -76,7 +80,7 @@ public class FoundFragmentModule {
                             protected void convert(BaseAdapterHelper helper, String item) {
                                 ImageView ivPicture = helper.getView(R.id.iv_item);
                                 AbsListView.LayoutParams params = (AbsListView.LayoutParams) ivPicture.getLayoutParams();
-                                params.width = params.height = (int) ((DisplayUtils.screenWidth(fragment.getContext()) - fragment.getContext().getResources().getDimension(R.dimen.dp_15) * 4) / 3);
+                                params.width = params.height = width;
                                 ivPicture.setLayoutParams(params);
                                 Application.application.getImageLoader().displayImage(item, ivPicture, Application.application.getDefaultOptions());
                             }

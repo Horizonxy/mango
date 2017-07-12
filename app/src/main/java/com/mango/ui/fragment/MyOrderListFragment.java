@@ -53,9 +53,8 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null) {
-            relation = savedInstanceState.getInt("relation");
-        }
+        relation = getArguments().getInt("relation");
+
         DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(this, datas)).build().inject(this);
     }
 
@@ -123,6 +122,12 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
             }
             refreshLayout.setLoadMoreEnable(true);
             refreshLayout.loadMoreComplete(true);
+
+            if(datas == null || datas.size() == 0){
+                emptyHelper.showEmptyView(refreshLayout);
+            } else {
+                emptyHelper.hideEmptyView(refreshLayout);
+            }
         }
     }
 

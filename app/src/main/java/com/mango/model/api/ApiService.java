@@ -121,4 +121,28 @@ public interface ApiService {
     Observable<RestResult<List<CourseBean>>> getCourseList(
             @QueryMap Map<String, Object> map
     );
+
+    //5.1.6检查会员是否允许升级学生身份接口
+    @POST("outer/router?check_upgrade_student")
+    Observable<RestResult<Object>> checkUpgradeStudent(
+            @Query("lst_sessid") String sessId
+    );
+
+    //5.1.7 检查会员是否允许升级导师身份接口
+    @POST("outer/router?check_upgrade_tutor")
+    Observable<RestResult<Object>> checkUpgradeTutor(
+            @Query("lst_sessid") String sessId
+    );
+
+    //5.1.8检查会员是否允许升级企业身份接口
+    @POST("outer/router?check_upgrade_company")
+    Observable<RestResult<Object>> checkUpgradeCompany(
+            @Query("lst_sessid") String sessId
+    );
+
+    //5.1.9检查会员是否允许升级社团身份接口
+    @POST("outer/router?check_upgrade_community")
+    Observable<RestResult<Object>> checkUpgradeCommunity(
+            @Query("lst_sessid") String sessId
+    );
 }

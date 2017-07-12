@@ -12,6 +12,8 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
 import com.mango.Application;
+import com.mango.Constants;
+import com.mango.model.bean.MemberBean;
 import com.orhanobut.logger.Logger;
 
 import java.io.FileInputStream;
@@ -21,6 +23,7 @@ import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -281,5 +284,18 @@ public class MangoUtils {
 
     public static String formatPrice(BigDecimal price){
         return price.setScale(2, BigDecimal.ROUND_DOWN).toString();
+    }
+
+    public static List<Constants.UserIndentity> getIndentityList(){
+        MemberBean member = Application.application.getMember();
+        List<Constants.UserIndentity> indentityList = new ArrayList<Constants.UserIndentity>();
+        if(member == null){
+            return indentityList;
+        }
+        String[] indentitys = member.getUser_identitys();
+        for (int i = 0; indentitys != null && i < indentitys.length; i++){
+            indentityList.add(Constants.UserIndentity.get(indentitys[i]));
+        }
+        return indentityList;
     }
 }

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mango.Application;
+import com.mango.Constants;
 import com.mango.R;
 import com.mango.di.component.DaggerMyFragmentComponent;
 import com.mango.di.module.MyFragmentModule;
@@ -21,6 +22,9 @@ import com.mango.ui.activity.UpdateRoleActivity;
 import com.mango.ui.viewlistener.MyFragmentListener;
 import com.mango.util.ActivityBuilder;
 import com.mango.util.AppUtils;
+import com.mango.util.MangoUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -132,7 +136,6 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
         tvClasses.setText(getString(R.string.my_classes));
         tvAccount.setText(getString(R.string.my_account));
         tvSetting.setText(getString(R.string.setting));
-        tvUpdateRole.setText(getString(R.string.click_to_eye));
         ((ImageView)vRole.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_id);
         ((ImageView)vOrderList.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_dingdan);
         ((ImageView)vWorks.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_gongzuobao);
@@ -157,6 +160,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
             tvRole.setText(getString(R.string.my_role));
             tvClassCount.setText("");
             tvProjectCount.setText("");
+            tvUpdateRole.setText("");
         } else {
             Application.application.getImageLoader().displayImage(member.getAvatar_rsurl(), ivAvatar, Application.application.getDefaultOptions());
             tvNickName.setText(member.getNick_name());
@@ -166,6 +170,16 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
             tvRole.setText(String.format(getString(R.string.my_role), member.getUser_identity_label()));
             tvClassCount.setText(String.valueOf(member.getCourse_count()));
             tvProjectCount.setText(String.valueOf(member.getProject_count()));
+
+            List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
+            if((indentityList.contains(Constants.UserIndentity.STUDENT) && indentityList.contains(Constants.UserIndentity.TUTOR) && indentityList.contains(Constants.UserIndentity.COMMUNITY))
+                    || (indentityList.contains(Constants.UserIndentity.TUTOR) && indentityList.contains(Constants.UserIndentity.STUDENT) && indentityList.contains(Constants.UserIndentity.COMPANY) && indentityList.contains(Constants.UserIndentity.COMMUNITY))
+                    || (indentityList.contains(Constants.UserIndentity.COMPANY) &&indentityList.contains(Constants.UserIndentity.TUTOR))
+                    || (indentityList.contains(Constants.UserIndentity.COMMUNITY) && indentityList.contains(Constants.UserIndentity.STUDENT) && indentityList.contains(Constants.UserIndentity.TUTOR))){
+                tvUpdateRole.setText(getString(R.string.click_to_eye));
+            } else {
+                tvUpdateRole.setText(getString(R.string.click_to_update));
+            }
         }
     }
 

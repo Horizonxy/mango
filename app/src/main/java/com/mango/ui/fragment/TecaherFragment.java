@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.mango.Application;
 import com.mango.Constants;
 import com.mango.R;
 import com.mango.di.Type;
@@ -23,8 +26,13 @@ import com.mango.ui.viewlistener.TeacherListener;
 import com.mango.ui.widget.GridView;
 import com.mango.ui.widget.MangoPtrFrameLayout;
 import com.mango.util.ActivityBuilder;
+import com.mango.util.MangoUtils;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 public class TecaherFragment extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener, TeacherListener {
@@ -44,6 +52,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     @Inject
     TeacherPresenter presenter;
     boolean hasNext = true;
+    TextView tvMyClass;
 
     public TecaherFragment() {
     }
@@ -59,7 +68,9 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
         refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         listView = (ListView) root.findViewById(R.id.listview);
         root.findViewById(R.id.tv_left).setOnClickListener(this);
-        root.findViewById(R.id.tv_right).setOnClickListener(this);
+
+        tvMyClass = (TextView) root.findViewById(R.id.tv_right);
+        tvMyClass.setOnClickListener(this);
     }
 
     @Override
@@ -68,7 +79,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
         listView.addHeaderView(headerView);
         gvCategory = (GridView) headerView.findViewById(R.id.gv_category);
         gvCategory.setAdapter(gridAdapter);
-        loadCategory();
+        gvCategory.setOnItemClickListener(this);
 
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
@@ -77,7 +88,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNo = 1;
                 hasNext = true;
-                loadData();
+                initData();
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -93,15 +104,23 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
                 refreshLayout.autoRefresh(true);
             }
         }, 400);
+
+        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
+        if(!indentityList.contains(Constants.UserIndentity.TUTOR)){
+            tvMyClass.setVisibility(View.INVISIBLE);
+        } else {
+            tvMyClass.setVisibility(View.VISIBLE);
+        }
     }
 
-    private void loadCategory(){
+    private void initData(){
+        presenter.getCourseList(1);
         presenter.getCourseClassify();
+        presenter.getCourseList(2);
     }
 
     private void loadData() {
         if(hasNext) {
-            presenter.getCourseList(1);
             presenter.getCourseList(2);
         } else {
             refreshLayout.setLoadMoreEnable(true);
@@ -117,7 +136,13 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Object item = parent.getAdapter().getItem(position);
+        if(item instanceof CourseClassifyBean){
+            CourseClassifyBean classify = (CourseClassifyBean) item;
+            ActivityBuilder.startCalssListActivity(getActivity(), classify);
+        } else if(item instanceof CourseBean){
+            CourseBean course = (CourseBean) item;
+        }
     }
 
     @Override
@@ -177,5 +202,21 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
         gridDatas.clear();
         gridDatas.addAll(classifyList);
         gridAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public Map<String, Object> getQueryMap(int hotTypes) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("hot_types", hotTypes);
+        map.put("lst_sessid", Application.application.getSessId());
+        map.put("state", 50);
+        if(hotTypes == 1){
+            map.put("page_no", 1);
+            map.put("page_size", 10);
+        } else if(hotTypes == 2){
+            map.put("page_no", pageNo);
+            map.put("page_size", Constants.PAGE_SIZE);
+        }
+        return map;
     }
 }

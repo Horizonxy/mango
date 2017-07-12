@@ -35,5 +35,47 @@ public class Constants {
 	public static final int TREND_ENTITY_TYPE_ID = 7;
 
 	public static final String BUNDLE_CARD_LIST = "bundle_member_card_list";
+	public static final String BUNDLE_CLASSIFY = "bundle_member_card_list";
 	public static final String BUNDLE_ID = "bundle_id";
+
+	public static enum UserIndentity {
+
+		PUBLIC("public", "自由人"),
+		STUDENT("student", "学生"),
+		TUTOR("tutor", "导师"),
+		COMMUNITY("community", "社团"),
+		COMPANY("company", "企业");
+
+		private String indentity;
+		private String indentityLabel;
+
+		UserIndentity(String indentity, String indentityLabel) {
+			this.indentity = indentity;
+			this.indentityLabel = indentityLabel;
+		}
+
+		public static UserIndentity get(String indentity) {
+			for (UserIndentity inst : values()) {
+				if (indentity == inst.indentity)
+					return inst;
+			}
+			return UserIndentity.PUBLIC;
+		}
+
+		public String getIndentity() {
+			return indentity;
+		}
+
+		public void setIndentity(String indentity) {
+			this.indentity = indentity;
+		}
+
+		public String getIndentityLabel() {
+			return indentityLabel;
+		}
+
+		public void setIndentityLabel(String indentityLabel) {
+			this.indentityLabel = indentityLabel;
+		}
+	}
 }

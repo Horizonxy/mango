@@ -1,17 +1,28 @@
 package com.mango.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mango.Application;
+import com.mango.Constants;
 import com.mango.R;
+import com.mango.model.bean.MemberBean;
+import com.mango.model.data.MemberModel;
+import com.mango.presenter.UpdateRolePresenter;
+import com.mango.ui.viewlistener.UpdateRoleListener;
+import com.mango.util.AppUtils;
+import com.mango.util.DialogUtil;
+import com.mango.util.MangoUtils;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class UpdateRoleActivity extends BaseTitleBarActivity {
+public class UpdateRoleActivity extends BaseTitleBarActivity implements UpdateRoleListener {
 
     @Bind(R.id.tv_current_role)
     TextView tvCurrentRole;
@@ -23,6 +34,10 @@ public class UpdateRoleActivity extends BaseTitleBarActivity {
     View vCompany;
     @Bind(R.id.layout_corporation)
     View vCorporation;
+    MemberBean member;
+    List<Constants.UserIndentity> indentityList;
+
+    UpdateRolePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +45,8 @@ public class UpdateRoleActivity extends BaseTitleBarActivity {
         setContentView(R.layout.activity_update_role);
 
         initView();
+        indentityList = MangoUtils.getIndentityList();
+        presenter = new UpdateRolePresenter(new MemberModel(), this);
     }
 
     private void initView() {
@@ -54,21 +71,54 @@ public class UpdateRoleActivity extends BaseTitleBarActivity {
 
     @OnClick(R.id.layout_student)
     void studentClick(View v){
-
+        if(indentityList.contains(Constants.UserIndentity.COMPANY)){
+            DialogUtil.createUpdateRoleAlertDialog(this, getString(R.string.check_student_role),
+                    "您当前的身份是"+member.getUser_identity_label()+"\n不可再拥有学生身份", "好的");
+            return;
+        } else {
+            presenter.checkUpgradeStudent();
+        }
     }
 
     @OnClick(R.id.layout_teacher)
     void teacherClick(View v){
-
+        presenter.checkUpgradeTutor();
     }
 
     @OnClick(R.id.layout_corporation)
     void corporationClick(View v){
-
+        if(indentityList.contains(Constants.UserIndentity.COMPANY)){
+            DialogUtil.createUpdateRoleAlertDialog(this, getString(R.string.check_community_role),
+                    "您当前的身份是"+member.getUser_identity_label()+"\n不可再注册为社团", "好的");
+            return;
+        } else {
+            presenter.checkUpgradeCommunity();
+        }
     }
 
     @OnClick(R.id.layout_company)
     void companyClick(View v){
+        if(indentityList.contains(Constants.UserIndentity.STUDENT) || indentityList.contains(Constants.UserIndentity.COMMUNITY)){
+            DialogUtil.createUpdateRoleAlertDialog(this, getString(R.string.check_company_role),
+                    "您当前的身份是"+member.getUser_identity_label()+"\n不可再注册为企业", "好的");
+            return;
+        } else {
+            presenter.checkUpgradeCompany();
+        }
+    }
 
+    @Override
+    public void onSuccess(Constants.UserIndentity indentity) {
+
+    }
+
+    @Override
+    public void onFailure(String message) {
+        AppUtils.showToast(this, message);
+    }
+
+    @Override
+    public Context currentContext() {
+        return this;
     }
 }

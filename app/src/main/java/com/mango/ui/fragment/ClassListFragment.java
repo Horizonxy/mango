@@ -1,19 +1,34 @@
 package com.mango.ui.fragment;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.mango.Application;
+import com.mango.Constants;
 import com.mango.R;
-import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
+import com.mango.model.bean.CourseBean;
+import com.mango.model.bean.CourseClassifyBean;
+import com.mango.model.data.CourseModel;
+import com.mango.presenter.TeacherPresenter;
+import com.mango.ui.adapter.RecommendCourseAdapter;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
+import com.mango.ui.viewlistener.TeacherListener;
 import com.mango.ui.widget.MangoPtrFrameLayout;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ClassListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class ClassListFragment extends BaseFragment implements AdapterView.OnItemClickListener, TeacherListener {
 
     MangoPtrFrameLayout refreshLayout;
     ListView listView;
@@ -21,10 +36,24 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
     int pageNo = 1;
     List datas = new ArrayList();
     QuickAdapter adapter;
+    boolean hasNext = true;
+    CourseClassifyBean classify;
+    TeacherPresenter presenter;
 
-    public ClassListFragment() {
+    public static ClassListFragment newInstance(CourseClassifyBean classify){
+        ClassListFragment fragment = new ClassListFragment();
+        Bundle bundle =  new Bundle();
+        bundle.putSerializable("classify", classify);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        classify = (CourseClassifyBean) getArguments().getSerializable("classify");
+        presenter = new TeacherPresenter(new CourseModel(), this);
+    }
 
     @Override
     void findView(View root) {
@@ -34,17 +63,13 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     void initView() {
-        listView.setAdapter(adapter = new QuickAdapter(getActivity(), R.layout.listview_item_recommend_teacher_class, datas) {
-            @Override
-            protected void convert(BaseAdapterHelper helper, Object item) {
-
-            }
-        });
+        listView.setAdapter(adapter = new RecommendCourseAdapter(getContext(), R.layout.listview_item_recommend_teacher_class, datas));
         listView.setOnItemClickListener(this);
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNo = 1;
+                hasNext = true;
                 loadData();
             }
         });
@@ -64,17 +89,13 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
     }
 
     private void loadData() {
-        for (int i = 0; i < 10; i++){
-            datas.add("jxm: " + i);
+        if(hasNext) {
+            presenter.getCourseList(0);
+        } else {
+            refreshLayout.setLoadMoreEnable(true);
+            refreshLayout.loadMoreComplete(true);
+            refreshLayout.setNoMoreData();
         }
-
-        adapter.notifyDataSetChanged();
-
-        if(pageNo == 1){
-            refreshLayout.refreshComplete();
-        }
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
     }
 
     @Override
@@ -85,5 +106,55 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    @Override
+    public void onFailure(String message) {
+        if(TextUtils.isEmpty(message)) {
+            if (pageNo == 1) {
+                refreshLayout.refreshComplete();
+            }
+            refreshLayout.setLoadMoreEnable(true);
+            refreshLayout.loadMoreComplete(true);
+        }
+    }
+
+    @Override
+    public Context currentContext() {
+        return getContext();
+    }
+
+    @Override
+    public void onCourseListSuccess(int hotTypes, List<CourseBean> courseList) {
+        if (pageNo == 1) {
+            datas.clear();
+            refreshLayout.refreshComplete();
+        }
+
+        refreshLayout.setLoadMoreEnable(true);
+        refreshLayout.loadMoreComplete(true);
+        if (hasNext = (datas.size() >= Constants.PAGE_SIZE)) {
+            pageNo++;
+        } else {
+            refreshLayout.setNoMoreData();
+        }
+
+        datas.addAll(courseList);
+
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClassifySuccess(List<CourseClassifyBean> classifyList) {}
+
+    @Override
+    public Map<String, Object> getQueryMap(int hotTypes) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("lst_sessid", Application.application.getSessId());
+        map.put("state", 50);
+        map.put("page_no", pageNo);
+        map.put("page_size", Constants.PAGE_SIZE);
+        map.put("classify_id", classify.getId());
+        return map;
     }
 }

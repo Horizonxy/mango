@@ -66,4 +66,20 @@ public class MemberModel {
     public Subscription addBlankCard(String blankName, String cardNo, Action0 onSubscribe, Subscriber<RestResult<List<MemberCardBean>>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.addBlankCard(blankName, cardNo), onSubscribe).subscribe(subscriber);
     }
+
+    public Subscription checkUpgradeStudent(Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.checkUpgradeStudent(), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription checkUpgradeTutor(Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.checkUpgradeTutor(), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription checkUpgradeCompany(Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.checkUpgradeCompany(), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription checkUpgradeCommunity(Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.checkUpgradeCommunity(), onSubscribe).subscribe(subscriber);
+    }
 }

@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.mango.Constants;
 import com.mango.R;
-import com.mango.model.bean.MemberCardBean;
+import com.mango.model.bean.CourseClassifyBean;
 import com.mango.ui.adapter.FragmentAdapter;
 import com.mango.ui.fragment.ClassListFragment;
 
@@ -32,27 +32,26 @@ public class CalssListActivity extends BaseTitleBarActivity {
     MagicIndicator tabIndicator;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
-    List<String> tabTitles = new ArrayList<>();
+    List<CourseClassifyBean> tabTitles = new ArrayList<>();
     List<Fragment> viewLists = new ArrayList<>();
 
-    List<MemberCardBean> cardList;
+    CourseClassifyBean classify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calss_list);
 
-        cardList = (List<MemberCardBean>) getIntent().getSerializableExtra(Constants.BUNDLE_CARD_LIST);
-
+        classify = (CourseClassifyBean) getIntent().getSerializableExtra(Constants.BUNDLE_CLASSIFY);
+        tabTitles = classify.getDetails();
         initView();
     }
 
     private void initView() {
-        titleBar.setTitle("互联网+");
+        titleBar.setTitle(classify.getClassify_name());
 
-        for (int i = 0; i < 9; i++){
-            tabTitles.add("category" + i);
-            viewLists.add(new ClassListFragment());
+        for (int i = 0; i < tabTitles.size(); i++){
+            viewLists.add(ClassListFragment.newInstance(tabTitles.get(i)));
         }
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), viewLists));
 
@@ -74,7 +73,7 @@ public class CalssListActivity extends BaseTitleBarActivity {
                 titleView.setNormalColor(getResources().getColor(R.color.color_666666));
                 titleView.setSelectedColor(getResources().getColor(R.color.color_ffb900));
 
-                titleView.setText(tabTitles.get(i));
+                titleView.setText(tabTitles.get(i).getClassify_name());
                 titleView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

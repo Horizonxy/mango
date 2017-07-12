@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.mango.Constants;
 import com.mango.R;
+import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberCardBean;
 import com.mango.ui.activity.AddBlankCardActivity;
 import com.mango.ui.activity.CalssListActivity;
@@ -59,8 +60,10 @@ public class ActivityBuilder {
         activity.startActivity(new Intent(activity, MyClassesActivity.class));
     }
 
-    public static void startCalssListActivity(Activity activity){
-        activity.startActivity(new Intent(activity, CalssListActivity.class));
+    public static void startCalssListActivity(Activity activity, CourseClassifyBean classify){
+        Intent intent = new Intent(activity, CalssListActivity.class);
+        intent.putExtra(Constants.BUNDLE_CLASSIFY, classify);
+        activity.startActivity(intent);
     }
 
     public static void startCardListActivity(Activity activity, List<MemberCardBean> cardList){

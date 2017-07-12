@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.chanven.lib.cptr.PtrClassicFrameLayout;
+
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
@@ -23,6 +23,8 @@ import com.mango.ui.viewlistener.FoundListener;
 import com.mango.ui.widget.MangoPtrFrameLayout;
 import com.mango.util.ActivityBuilder;
 import com.mango.util.AppUtils;
+import com.mango.util.MangoUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
 
     ImageView ivSearch;
     TextView tvSearch;
+    TextView tvAddTend;
     View vSearch;
     MangoPtrFrameLayout refreshLayout;
     ListView listView;
@@ -60,7 +63,8 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         vSearch = root.findViewById(R.id.layout_search);
         refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         listView = (ListView) root.findViewById(R.id.listview);
-        root.findViewById(R.id.tv_right).setOnClickListener(this);
+        tvAddTend = (TextView) root.findViewById(R.id.tv_right);
+        tvAddTend.setOnClickListener(this);
     }
 
     @Override
@@ -89,6 +93,13 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
                 refreshLayout.autoRefresh(true);
             }
         }, 400);
+
+        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
+        if(!indentityList.contains(Constants.UserIndentity.TUTOR) && !indentityList.contains(Constants.UserIndentity.COMMUNITY)){
+            tvAddTend.setVisibility(View.INVISIBLE);
+        } else {
+            tvAddTend.setVisibility(View.VISIBLE);
+        }
     }
 
     private void loadData() {

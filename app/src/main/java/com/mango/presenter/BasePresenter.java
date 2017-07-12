@@ -128,6 +128,11 @@ public class BasePresenter {
 
         String message;
 
+        public CreateLoading(Context cxt){
+            context = cxt;
+            message = cxt.getResources().getString(R.string.please_wait);
+        }
+
         public CreateLoading(Context cxt, String message){
             context = cxt;
             this.message = message;
