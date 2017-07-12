@@ -51,6 +51,7 @@
 
     <string name="click_to_edit">点击编辑</string>
     <string name="click_to_eye">点击查看</string>
+    <string name="click_to_update">点击升级</string>
     <string name="un_setting">未设置</string>
 
     <string name="society_info">社交信息</string>
@@ -87,4 +88,15 @@
     <string name="add_blank_card">添加银行卡</string>
 
     <string name="teacher_detail">导师详情</string>
+
+    <string name="check_student_role">验证学生身份</string>
+    <string name="my_student_role">我的学生身份</string>
+    <string name="check_totur_role">升级为导师</string>
+    <string name="my_totur_role">我的导师身份</string>
+    <string name="check_company_role">注册为企业</string>
+    <string name="my_company_role">我的企业身份</string>
+    <string name="check_community_role">注册为社团</string>
+    <string name="my_community_role">我的社团身份</string>
+
+    <string name="my_blank_card">我的银行卡</string>
 </resources>

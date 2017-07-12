@@ -33,8 +33,8 @@
             android:ellipsize="end"
             android:text="我的授课"
             android:singleLine="true"
-            android:paddingRight="@dimen/dp_15"
-            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10"
             style="@style/repple_out_backguound"
             android:layout_alignParentRight="true"/>
 

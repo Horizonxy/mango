@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
+    android:background="@android:color/white"
     android:orientation="vertical" >
 
     <ImageView
@@ -20,13 +21,13 @@
         android:paddingRight="25dip"
         android:layout_marginTop="40dp"
         android:textColor="@color/color_666666"
-        android:text="分手的距离开发说多久"
+        android:text="暂无数据"
         android:textSize="@dimen/sp_14" />
 
     <Button
         android:id="@id/btn_empty"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="32dp"
         android:layout_marginTop="20dp"
         android:text="@string/refresh"
         style="@style/lesser_corners_btn"

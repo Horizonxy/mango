@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.mango.ui.activity.MemberCardListActivity">
+    android:background="@color/color_efeff4"
+    android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_add_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingTop="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_20"
+        android:text="+添加银行卡"
+        android:textSize="@dimen/sp_16"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/color_333333"/>
+
+    <com.mango.ui.widget.ListView
+        android:id="@+id/lv_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@color/color_efeff4"
+        android:dividerHeight="@dimen/dp_10"/>
+
+</RelativeLayout>
