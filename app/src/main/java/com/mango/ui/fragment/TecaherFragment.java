@@ -1,6 +1,8 @@
 package com.mango.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -8,11 +10,16 @@ import android.widget.ListView;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+import com.mango.Constants;
 import com.mango.R;
 import com.mango.di.Type;
 import com.mango.di.component.DaggerTeacherFragmentComponent;
 import com.mango.di.module.TeacherFragmentModule;
+import com.mango.model.bean.CourseBean;
+import com.mango.model.bean.CourseClassifyBean;
+import com.mango.presenter.TeacherPresenter;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
+import com.mango.ui.viewlistener.TeacherListener;
 import com.mango.ui.widget.GridView;
 import com.mango.ui.widget.MangoPtrFrameLayout;
 import com.mango.util.ActivityBuilder;
@@ -20,20 +27,23 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
-public class TecaherFragment extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class TecaherFragment extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener, TeacherListener {
 
     MangoPtrFrameLayout refreshLayout;
     ListView listView;
     int pageNo = 1;
-    List listDatas = new ArrayList();
+    List<CourseBean> listDatas = new ArrayList<CourseBean>();
     @Inject
     @Type("list")
     QuickAdapter listAdapter;
-    List gridDatas = new ArrayList();
+    List<CourseClassifyBean> gridDatas = new ArrayList<CourseClassifyBean>();
     GridView gvCategory;
     @Inject
     @Type("grid")
     QuickAdapter gridAdapter;
+    @Inject
+    TeacherPresenter presenter;
+    boolean hasNext = true;
 
     public TecaherFragment() {
     }
@@ -41,7 +51,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerTeacherFragmentComponent.builder().teacherFragmentModule(new TeacherFragmentModule(getActivity(), listDatas, gridDatas)).build().inject(this);
+        DaggerTeacherFragmentComponent.builder().teacherFragmentModule(new TeacherFragmentModule(this, listDatas, gridDatas)).build().inject(this);
     }
 
     @Override
@@ -66,6 +76,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNo = 1;
+                hasNext = true;
                 loadData();
             }
         });
@@ -85,24 +96,18 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     }
 
     private void loadCategory(){
-        for (int i = 0; i < 8; i++){
-            gridDatas.add(""+i);
-        }
-        gridAdapter.notifyDataSetChanged();
+        presenter.getCourseClassify();
     }
 
     private void loadData() {
-        for (int i = 0; i < 10; i++){
-            listDatas.add("jxm: " + i);
+        if(hasNext) {
+            presenter.getCourseList(1);
+            presenter.getCourseList(2);
+        } else {
+            refreshLayout.setLoadMoreEnable(true);
+            refreshLayout.loadMoreComplete(true);
+            refreshLayout.setNoMoreData();
         }
-
-        listAdapter.notifyDataSetChanged();
-
-        if(pageNo == 1){
-            refreshLayout.refreshComplete();
-        }
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
     }
 
     @Override
@@ -124,7 +129,53 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
             case R.id.tv_right:
                 ActivityBuilder.startMyClassesActivity(getActivity());
                 break;
+        }
+    }
+
+    @Override
+    public void onFailure(String message) {
+        if(TextUtils.isEmpty(message)) {
+            if (pageNo == 1) {
+                refreshLayout.refreshComplete();
+            }
+            refreshLayout.setLoadMoreEnable(true);
+            refreshLayout.loadMoreComplete(true);
+        }
+    }
+
+    @Override
+    public Context currentContext() {
+        return getContext();
+    }
+
+    @Override
+    public void onCourseListSuccess(int hotTypes, List<CourseBean> courseList) {
+        if(hotTypes == 2) {
+            if (pageNo == 1) {
+                listDatas.clear();
+                refreshLayout.refreshComplete();
+            }
+
+            refreshLayout.setLoadMoreEnable(true);
+            refreshLayout.loadMoreComplete(true);
+            if (hasNext = (listDatas.size() >= Constants.PAGE_SIZE)) {
+                pageNo++;
+            } else {
+                refreshLayout.setNoMoreData();
+            }
+
+            listDatas.addAll(courseList);
+
+            listAdapter.notifyDataSetChanged();
+        } else if(hotTypes == 1){
 
         }
+    }
+
+    @Override
+    public void onClassifySuccess(List<CourseClassifyBean> classifyList) {
+        gridDatas.clear();
+        gridDatas.addAll(classifyList);
+        gridAdapter.notifyDataSetChanged();
     }
 }

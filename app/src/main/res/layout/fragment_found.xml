@@ -14,7 +14,7 @@
             android:scaleType="centerInside"
             android:adjustViewBounds="true"
             android:src="@drawable/back"
-            style="@style/repple_in_backguound"
+            style="@style/repple_out_backguound"
             android:paddingBottom="@dimen/dp_11.5"
             android:paddingTop="@dimen/dp_11.5"
             android:paddingLeft="@dimen/dp_15"
@@ -32,7 +32,7 @@
             android:singleLine="true"
             android:paddingRight="@dimen/dp_15"
             android:paddingLeft="@dimen/dp_15"
-            style="@style/repple_in_backguound"
+            style="@style/repple_out_backguound"
             android:layout_alignParentRight="true"/>
 
         <LinearLayout

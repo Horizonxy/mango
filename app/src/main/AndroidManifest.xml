@@ -75,6 +75,7 @@
         <activity android:name=".ui.activity.CalssListActivity" />
         <activity android:name=".ui.activity.AddBlankCardActivity" />
         <activity android:name=".ui.activity.MemberCardListActivity" />
+        <activity android:name=".ui.activity.TeacherDetailActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

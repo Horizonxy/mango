@@ -3,6 +3,7 @@ package com.mango.model.api;
 import com.mango.Application;
 import com.mango.model.bean.AdvertBean;
 import com.mango.model.bean.BulletinBean;
+import com.mango.model.bean.CourseBean;
 import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberBean;
 import com.mango.model.bean.MemberCardBean;
@@ -74,5 +75,9 @@ public class ApiManager {
 
     public static  Observable<RestResult<Object>> addBlankCard(String blankName, String cardNo){
         return Application.application.getApiService().addBlankCard(Application.application.getSessId(), blankName, cardNo);
+    }
+
+    public static  Observable<RestResult<List<CourseBean>>> getCourseList(Map<String, Object> map){
+        return Application.application.getApiService().getCourseList(map);
     }
 }

@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerInside"
         android:adjustViewBounds="true"
-        style="@style/repple_in_backguound"
+        style="@style/repple_out_backguound"
         android:src="@drawable/back"
         android:paddingBottom="@dimen/dp_11.5"
         android:paddingTop="@dimen/dp_11.5"

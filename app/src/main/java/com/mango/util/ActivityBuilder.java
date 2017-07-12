@@ -16,6 +16,7 @@ import com.mango.ui.activity.MyClassesActivity;
 import com.mango.ui.activity.PublishDynamicsActivity;
 import com.mango.ui.activity.SetNickNameActivity;
 import com.mango.ui.activity.TeacherClassCategoryActivity;
+import com.mango.ui.activity.TeacherDetailActivity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -72,5 +73,11 @@ public class ActivityBuilder {
 
     public static void startAddBlankCardActivity(Activity activity){
         activity.startActivity(new Intent(activity, AddBlankCardActivity.class));
+    }
+
+    public static void startTeacherDetailActivity(Activity activity, long id){
+        Intent intent = new Intent(activity, TeacherDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_ID, id);
+        activity.startActivity(intent);
     }
 }

@@ -7,7 +7,7 @@
 
     <ImageButton
         android:id="@+id/ib_scan"
-        style="@style/repple_in_backguound"
+        style="@style/repple_out_backguound"
         android:layout_width="@dimen/dp_49"
         android:layout_height="@dimen/dp_49"
         android:layout_centerVertical="true"
@@ -23,7 +23,7 @@
         android:layout_centerVertical="true">
 
         <ImageButton
-            style="@style/repple_in_backguound"
+            style="@style/repple_out_backguound"
             android:layout_width="@dimen/dp_49"
             android:layout_height="@dimen/dp_49"
             android:layout_gravity="center"

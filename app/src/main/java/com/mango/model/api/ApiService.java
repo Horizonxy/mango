@@ -2,6 +2,7 @@ package com.mango.model.api;
 
 import com.mango.model.bean.AdvertBean;
 import com.mango.model.bean.BulletinBean;
+import com.mango.model.bean.CourseBean;
 import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberBean;
 import com.mango.model.bean.MemberCardBean;
@@ -113,5 +114,11 @@ public interface ApiService {
             @Query("lst_sessid") String sessId,
             @Query("bank_name") String bank_name,
             @Query("card_no") String card_no
+    );
+
+    //导师课程列表接口
+    @GET("outer/router?course_list")
+    Observable<RestResult<List<CourseBean>>> getCourseList(
+            @QueryMap Map<String, Object> map
     );
 }

@@ -32,4 +32,8 @@ public class RxJavaUtils {
     public static Observable schedulersIoMainOnSubscribe(Observable observable, Action0 onSubscribe){
         return  observable.subscribeOn(Schedulers.io()).doOnSubscribe(onSubscribe).subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread());
     }
+
+    public static Observable schedulersIoMainOnSubscribeError(Observable observable, Action0 onSubscribe, Action1 error){
+        return  observable.subscribeOn(Schedulers.io()).doOnSubscribe(onSubscribe).subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread()).doOnError(error);
+    }
 }

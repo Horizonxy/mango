@@ -35,4 +35,5 @@ public class Constants {
 	public static final int TREND_ENTITY_TYPE_ID = 7;
 
 	public static final String BUNDLE_CARD_LIST = "bundle_member_card_list";
+	public static final String BUNDLE_ID = "bundle_id";
 }

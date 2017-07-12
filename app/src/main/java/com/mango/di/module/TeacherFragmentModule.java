@@ -1,12 +1,18 @@
 package com.mango.di.module;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 
 import com.mango.R;
 import com.mango.di.FragmentScope;
 import com.mango.di.Type;
+import com.mango.model.bean.CourseBean;
+import com.mango.model.bean.CourseClassifyBean;
+import com.mango.model.data.CourseModel;
+import com.mango.presenter.TeacherPresenter;
 import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
+import com.mango.ui.viewlistener.TeacherListener;
 
 import java.util.List;
 
@@ -16,12 +22,12 @@ import dagger.Provides;
 @Module
 public class TeacherFragmentModule {
 
-    Activity activity;
-    List listDatas;
-    List gridDatas;
+    Fragment fragment;
+    List<CourseBean> listDatas;
+    List<CourseClassifyBean> gridDatas;
 
-    public TeacherFragmentModule(Activity activity, List listDatas, List gridDatas) {
-        this.activity = activity;
+    public TeacherFragmentModule( Fragment fragment, List<CourseBean> listDatas, List<CourseClassifyBean> gridDatas) {
+        this.fragment = fragment;
         this.listDatas = listDatas;
         this.gridDatas = gridDatas;
     }
@@ -30,10 +36,11 @@ public class TeacherFragmentModule {
     @Provides
     @Type("list")
     public QuickAdapter provideListQuickAdapter(){
-        return new QuickAdapter<String>(activity, R.layout.listview_item_recommend_teacher_class, listDatas) {
+        return new QuickAdapter<CourseBean>(fragment.getContext(), R.layout.listview_item_recommend_teacher_class, listDatas) {
             @Override
-            protected void convert(BaseAdapterHelper helper, String item) {
-
+            protected void convert(BaseAdapterHelper helper, CourseBean item) {
+                helper.setImageUrl(R.id.iv_avatar, item.getAvatar_rsurl());
+                helper.setText(R.id.tv_course_title, item.getCourse_title()).setText(R.id.tv_member_name, item.getMember_name()).setText(R.id.tv_type_name, item.getType_name());
             }
         };
     }
@@ -43,11 +50,18 @@ public class TeacherFragmentModule {
     @Provides
     @Type("grid")
     public QuickAdapter provideGridQuickAdapter(){
-        return new QuickAdapter<String>(activity, R.layout.gridview_item_class_category, gridDatas) {
+        return new QuickAdapter<CourseClassifyBean>(fragment.getContext(), R.layout.gridview_item_class_category, gridDatas) {
             @Override
-            protected void convert(BaseAdapterHelper helper, String item) {
-
+            protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
+                helper.setImageUrl(R.id.iv_logo, item.getLogo_rsurl())
+                        .setText(R.id.tv_name, item.getClassify_name());
             }
         };
+    }
+
+    @FragmentScope
+    @Provides
+    public TeacherPresenter provideTeacherPresenter(){
+        return new TeacherPresenter(new CourseModel(), (TeacherListener) fragment);
     }
 }

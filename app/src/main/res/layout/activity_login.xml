@@ -159,7 +159,7 @@
                         android:layout_marginTop="@dimen/dp_8"
                         android:adjustViewBounds="true"
                         android:scaleType="centerInside"
-                        style="@style/repple_in_backguound"
+                        style="@style/repple_out_backguound"
                         android:src="@drawable/wx_logo" />
                 </LinearLayout>
             </LinearLayout>
