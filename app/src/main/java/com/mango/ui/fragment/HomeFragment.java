@@ -258,21 +258,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
             imageView.setPadding(DisplayUtils.dip2px(getContext(), 2.5F), 0, DisplayUtils.dip2px(getContext(), 2.5F), 0);
             imageView.setImageResource(R.drawable.shape_indicator_normal);
             homeIndicator.addView(imageView);
-
-            gridView = new GridView(getActivity());
-            gridView.setNumColumns(4);
-            gridView.setAdapter(new QuickAdapter<CourseClassifyBean>(getActivity(), R.layout.gridview_item_home_pager, pager) {
-                @Override
-                protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
-                    helper.setImageUrl(R.id.iv_classify, item.getLogo_rsurl());
-                    helper.setText(R.id.tv_title, item.getClassify_name());
-                }
-            });
-            gridViews.add(gridView);
-            imageView = new ImageView(getContext());
-            imageView.setPadding(DisplayUtils.dip2px(getContext(), 2.5F), 0, DisplayUtils.dip2px(getContext(), 2.5F), 0);
-            imageView.setImageResource(R.drawable.shape_indicator_normal);
-            homeIndicator.addView(imageView);
         }
 
         homePager.setAdapter(new ViewPagerAdapter(gridViews));

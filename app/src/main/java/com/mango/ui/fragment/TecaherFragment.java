@@ -6,9 +6,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.holder.Holder;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
@@ -18,6 +24,7 @@ import com.mango.R;
 import com.mango.di.Type;
 import com.mango.di.component.DaggerTeacherFragmentComponent;
 import com.mango.di.module.TeacherFragmentModule;
+import com.mango.model.bean.AdvertBean;
 import com.mango.model.bean.CourseBean;
 import com.mango.model.bean.CourseClassifyBean;
 import com.mango.presenter.TeacherPresenter;
@@ -53,6 +60,8 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     TeacherPresenter presenter;
     boolean hasNext = true;
     TextView tvMyClass;
+    ConvenientBanner courseBanner;
+    List<CourseBean> bannerDatas;
 
     public TecaherFragment() {
     }
@@ -76,10 +85,27 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     void initView() {
         View headerView = LayoutInflater.from(getContext()).inflate(R.layout.layout_listview_header_teacher, null, false);
+        courseBanner = (ConvenientBanner) headerView.findViewById(R.id.course_banner);
         listView.addHeaderView(headerView);
         gvCategory = (GridView) headerView.findViewById(R.id.gv_category);
         gvCategory.setAdapter(gridAdapter);
         gvCategory.setOnItemClickListener(this);
+
+        bannerDatas = new ArrayList<>();
+        courseBanner.setPages(new CBViewHolderCreator<BannerHolderView>() {
+
+            @Override
+            public BannerHolderView createHolder() {
+                return new BannerHolderView();
+            }
+        }, bannerDatas).setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+                .setPageIndicator(new int[]{R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected})
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Toast.makeText(getActivity(), "banner: " + position, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
@@ -110,6 +136,42 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
             tvMyClass.setVisibility(View.INVISIBLE);
         } else {
             tvMyClass.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(courseBanner != null) {
+            courseBanner.startTurning(3 * 1000);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(courseBanner != null) {
+            courseBanner.stopTurning();
+        }
+    }
+
+    class BannerHolderView implements Holder<CourseBean> {
+
+        private ImageView imageView;
+        private TextView tvTitle;
+
+        @Override
+        public View createView(Context context) {
+            View view = LayoutInflater.from(context).inflate(R.layout.layout_item_course_banner, courseBanner, false);
+            imageView = (ImageView) view.findViewById(R.id.iv_logo);
+            tvTitle = (TextView) view.findViewById(R.id.tv_title);
+            return view;
+        }
+
+        @Override
+        public void UpdateUI(Context context, int position, CourseBean data) {
+            Application.application.getImageLoader().displayImage(data.getLogo_rsurl(), imageView, Application.application.getDefaultOptions());
+            tvTitle.setText(data.getCourse_title());
         }
     }
 
@@ -193,7 +255,9 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
 
             listAdapter.notifyDataSetChanged();
         } else if(hotTypes == 1){
-
+            bannerDatas.clear();
+            bannerDatas.addAll(courseList);
+            courseBanner.notifyDataSetChanged();
         }
     }
 

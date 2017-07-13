@@ -22,13 +22,14 @@ import com.mango.ui.adapter.RecommendCourseAdapter;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
 import com.mango.ui.viewlistener.TeacherListener;
 import com.mango.ui.widget.MangoPtrFrameLayout;
+import com.mango.util.EmptyHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ClassListFragment extends BaseFragment implements AdapterView.OnItemClickListener, TeacherListener {
+public class ClassListFragment extends BaseFragment implements AdapterView.OnItemClickListener, TeacherListener, EmptyHelper.OnRefreshListener {
 
     MangoPtrFrameLayout refreshLayout;
     ListView listView;
@@ -39,6 +40,7 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
     boolean hasNext = true;
     CourseClassifyBean classify;
     TeacherPresenter presenter;
+    EmptyHelper emptyHelper;
 
     public static ClassListFragment newInstance(CourseClassifyBean classify){
         ClassListFragment fragment = new ClassListFragment();
@@ -59,6 +61,7 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
     void findView(View root) {
         refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         listView = (ListView) root.findViewById(R.id.listview);
+        emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), this);
     }
 
     @Override
@@ -117,6 +120,12 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
             refreshLayout.setLoadMoreEnable(true);
             refreshLayout.loadMoreComplete(true);
         }
+
+        if(datas == null || datas.size() == 0){
+            emptyHelper.showEmptyView(refreshLayout);
+        } else {
+            emptyHelper.hideEmptyView(refreshLayout);
+        }
     }
 
     @Override
@@ -142,6 +151,13 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
         datas.addAll(courseList);
 
         adapter.notifyDataSetChanged();
+
+        if(datas == null || datas.size() == 0){
+            emptyHelper.showEmptyView(refreshLayout);
+        } else {
+            emptyHelper.hideEmptyView(refreshLayout);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -156,5 +172,12 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
         map.put("page_size", Constants.PAGE_SIZE);
         map.put("classify_id", classify.getId());
         return map;
+    }
+
+    @Override
+    public void onRefresh() {
+        pageNo = 1;
+        hasNext = true;
+        loadData();
     }
 }
