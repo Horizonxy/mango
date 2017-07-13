@@ -8,7 +8,8 @@ public class Constants {
 
 	public static final String BASE_DIR = "mango";
 	public static final String IMG_CACHE_DIR = BASE_DIR.concat("/image_cache");
-	public static final String PICTURE_DIR = BASE_DIR.concat("/image_cache");
+	public static final String PICTURE_DIR = BASE_DIR.concat("/photo");
+	public static final String IMG_WEB_CACHE_DIR = BASE_DIR.concat("/image_web");
 
 	public static final int REQ_PERMISSIONS = 1000;
 
@@ -37,6 +38,8 @@ public class Constants {
 	public static final String BUNDLE_CARD_LIST = "bundle_member_card_list";
 	public static final String BUNDLE_CLASSIFY = "bundle_member_card_list";
 	public static final String BUNDLE_ID = "bundle_id";
+    public static final String BUNDLE_URL = "bundle_url";
+	public static final String BUNDLE_BULLETIN = "bundle_bulletin";
 
 	public static enum UserIndentity {
 

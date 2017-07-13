@@ -3,10 +3,6 @@ package com.mango.model.bean;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author 蒋先明
- * @date 2017/7/8
- */
 public class BulletinBean implements Serializable {
 
     private long id;

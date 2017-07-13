@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mango.R;
+import com.mango.util.AppUtils;
+import com.mango.util.SetTransPwdDialog;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -76,5 +80,15 @@ public class SettingActivity extends BaseTitleBarActivity {
     @OnClick(R.id.layout_profile_info)
     void profileClick(View v){
         startActivity(new Intent(this, ProfileInfoActivity.class));
+    }
+
+    @OnClick(R.id.layout_trans_pwd)
+    void setTransPwd(View v){
+        new SetTransPwdDialog(this, new SetTransPwdDialog.onPwdFinishListener() {
+            @Override
+            public void onFinish(String pwd) {
+                AppUtils.showToast(SettingActivity.this, pwd);
+            }
+        }).show();
     }
 }

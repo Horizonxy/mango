@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.mango.Application;
 import com.mango.R;
@@ -16,6 +17,7 @@ import com.mango.presenter.FoundPresenter;
 import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
 import com.mango.ui.viewlistener.FoundListener;
+import com.mango.ui.widget.GridView;
 import com.mango.util.ActivityBuilder;
 import com.mango.util.DisplayUtils;
 
@@ -39,8 +41,8 @@ public class FoundFragmentModule {
         this.fragment = fragment;
         this.datas = datas;
         this.width = (int) ((DisplayUtils.screenWidth(fragment.getContext())
-                - fragment.getContext().getResources().getDimension(R.dimen.dp_10) * 2
-                - fragment.getContext().getResources().getDimension(R.dimen.dp_4) * 2) / 3);
+                - fragment.getContext().getResources().getDimension(R.dimen.dp_15) * 2
+                - fragment.getContext().getResources().getDimension(R.dimen.dp_5) * 2) / 3);
     }
 
     @FragmentScope
@@ -74,7 +76,17 @@ public class FoundFragmentModule {
                         helper.setImageUrl(R.id.iv_picture, pictures.get(0));
                     } else {
                         helper.setVisible(R.id.iv_picture, false);
-                        helper.setVisible(R.id.gv_picture, true);
+                        GridView gvPicture =  helper.getView(R.id.gv_picture);
+                        gvPicture.setVisibility(View.VISIBLE);
+                        LinearLayout.LayoutParams gvParams = (LinearLayout.LayoutParams) gvPicture.getLayoutParams();
+                        if(pictures.size() < 4) {
+                            gvPicture.setNumColumns(2);
+                            gvParams.width = width * 2 + DisplayUtils.dip2px(context, 2);
+                        } else {
+                            gvPicture.setNumColumns(3);
+                            gvParams.width = width * 3 + DisplayUtils.dip2px(context, 2) * 2;
+                        }
+                        gvPicture.setLayoutParams(gvParams);
                         helper.setAdapter(R.id.gv_picture, new QuickAdapter<String>(fragment.getContext(), R.layout.gridview_item_picture, pictures) {
                             @Override
                             protected void convert(BaseAdapterHelper helper, String item) {

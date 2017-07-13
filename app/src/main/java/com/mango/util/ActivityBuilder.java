@@ -5,9 +5,11 @@ import android.content.Intent;
 
 import com.mango.Constants;
 import com.mango.R;
+import com.mango.model.bean.BulletinBean;
 import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberCardBean;
 import com.mango.ui.activity.AddBlankCardActivity;
+import com.mango.ui.activity.BulletinDetailActivity;
 import com.mango.ui.activity.CalssListActivity;
 import com.mango.ui.activity.InteractAreaActivity;
 import com.mango.ui.activity.LoginActivity;
@@ -81,6 +83,12 @@ public class ActivityBuilder {
     public static void startTeacherDetailActivity(Activity activity, long id){
         Intent intent = new Intent(activity, TeacherDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_ID, id);
+        activity.startActivity(intent);
+    }
+
+    public static void startWebViewActivity(Activity activity, BulletinBean bulletin){
+        Intent intent = new Intent(activity, BulletinDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_BULLETIN, bulletin);
         activity.startActivity(intent);
     }
 }

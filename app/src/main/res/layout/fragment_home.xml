@@ -34,7 +34,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/iv_bottom_del"
             android:background="@drawable/selector_black_border_corners"
-            android:text="立即升级"/>
+            android:text="马上升级"/>
 
         <TextView
             android:layout_width="match_parent"

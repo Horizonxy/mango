@@ -2,7 +2,6 @@ package com.mango.ui.fragment;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -35,7 +34,9 @@ import com.mango.ui.viewlistener.HomeFragmentListener;
 import com.mango.ui.widget.ObservableScrollView;
 import com.mango.ui.widget.VerticalTextview;
 import com.mango.ui.widget.ViewPagerFixed;
+import com.mango.util.ActivityBuilder;
 import com.mango.util.DisplayUtils;
+import com.mango.util.MangoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,20 +114,27 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
             }
         });
 
-        tvScroll.setText(16, DisplayUtils.dip2px(getActivity(), 10), Color.BLACK);//设置属性,具体跟踪源码
-        tvScroll.setTextStillTime(3000);//设置停留时长间隔
-        tvScroll.setAnimTime(500);//设置进入和退出的时间间隔
+        tvScroll.setText(16, DisplayUtils.dip2px(getActivity(), 10), getResources().getColor(R.color.color_333333));//设置属性,具体跟踪源码
+        tvScroll.setTextStillTime(2 * 1000);//设置停留时长间隔
+        tvScroll.setAnimTime(400);//设置进入和退出的时间间隔
         //对单条文字的点击监听
         tvScroll.setOnItemClickListener(new VerticalTextview.OnItemClickListener() {
             @Override
             public void onItemClick(Object contentVo, int position) {
-                Toast.makeText(getActivity(), contentVo.toString(), Toast.LENGTH_SHORT).show();
+                ActivityBuilder.startWebViewActivity(getActivity(), (BulletinBean) contentVo);
             }
         });
 
         barColorWithScroll();
 
         initData();
+
+        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
+        if(!indentityList.contains(Constants.UserIndentity.PUBLIC)){
+            layoutUpdateRole.setVisibility(View.GONE);
+        } else {
+            layoutUpdateRole.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initData() {
