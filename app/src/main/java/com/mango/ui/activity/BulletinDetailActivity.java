@@ -13,12 +13,10 @@ import com.mango.util.SystemStatusManager;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class BulletinDetailActivity extends BaseActivity {
+public class BulletinDetailActivity extends BaseTitleBarActivity {
 
     @Bind(R.id.web_view)
     WebView webView;
-    @Bind(R.id.tv_title)
-    TextView tvTitle;
 
     //公告
     BulletinBean bulletin;
@@ -26,13 +24,12 @@ public class BulletinDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SystemStatusManager.setTranslucentStatusColor(this, getResources().getColor(R.color.color_ffb900));
         setContentView(R.layout.activity_bulletin_detail);
 
 
         bulletin = (BulletinBean) getIntent().getSerializableExtra(Constants.BUNDLE_BULLETIN);
         if(bulletin != null){
-            tvTitle.setText(bulletin.getTitle());
+            titleBar.setLeftText(bulletin.getTitle());
             webView.loadData(MangoUtils.makeHtml(bulletin.getContent()), "text/html; charset=UTF-8", null);
         }
     }
@@ -40,5 +37,10 @@ public class BulletinDetailActivity extends BaseActivity {
     @OnClick(R.id.ib_back)
     void backClick(){
         finish();
+    }
+
+    @Override
+    public int statusColorResId() {
+        return R.color.color_ffb900;
     }
 }

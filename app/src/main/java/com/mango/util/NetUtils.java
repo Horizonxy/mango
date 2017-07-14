@@ -11,10 +11,6 @@ import java.util.List;
 
 /**
  * 网络工具类
- * 
- * @author jackie
- * @date 创建时间：2015-9-29 上午11:54:24 
- *
  */
 public class NetUtils {
 	
@@ -28,7 +24,7 @@ public class NetUtils {
 		ConnectivityManager connectivity = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = connectivity.getActiveNetworkInfo();
-		return info != null && info.isAvailable();
+		return info != null && info.isAvailable() && info.isConnected() && info.getState() == NetworkInfo.State.CONNECTED;
 	}
 
 	/**

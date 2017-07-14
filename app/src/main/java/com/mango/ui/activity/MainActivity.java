@@ -46,7 +46,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SystemStatusManager.setTranslucentStatusColor(this, getResources().getColor(R.color.color_ffb900));
         setContentView(R.layout.activity_main);
 
         initView();
@@ -120,5 +119,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+    }
+
+    @Override
+    public int statusColorResId() {
+        return R.color.color_ffb900;
     }
 }
