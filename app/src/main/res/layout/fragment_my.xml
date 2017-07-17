@@ -43,6 +43,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/dp_5"
+                    android:gravity="center_vertical"
+                    android:drawableRight="@drawable/more_black"
                     android:text="@string/update_profile_info"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/sp_12" />

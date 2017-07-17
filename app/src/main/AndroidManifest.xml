@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-
     <!-- 百度统计需要申明的权限 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -134,6 +133,8 @@
             android:value="true" />
         <!-- 百度统计 end -->
 
+        <activity android:name=".ui.activity.SelectPayActivity" />
+        <activity android:name=".ui.activity.PlaceOrderActivity"></activity>
     </application>
 
 </manifest>

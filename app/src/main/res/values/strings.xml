@@ -29,7 +29,7 @@
     <string name="set_nickname_title">你离芒果派只差一步</string>
     <string name="finish">完成</string>
 
-    <string name="update_profile_info">修改个人信息></string>
+    <string name="update_profile_info">修改个人信息</string>
 
     <string name="my_role">身份：%s</string>
     <string name="my_order_list">我的订单</string>
@@ -99,4 +99,13 @@
     <string name="my_community_role">我的社团身份</string>
 
     <string name="my_blank_card">我的银行卡</string>
+
+    <string name="place_order">下单</string>
+    <string name="place_order_to_pay">下单支付</string>
+    <string name="use">使用</string>
+    <string name="pay_for_order">支付订单</string>
+    <string name="pay_of_now">立即支付</string>
+    <string name="pay_with_card">银行卡支付</string>
+    <string name="pay_with_alipay">支付宝支付</string>
+    <string name="pay_with_wx">微信支付</string>
 </resources>
