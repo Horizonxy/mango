@@ -34,11 +34,6 @@ public class BulletinDetailActivity extends BaseTitleBarActivity {
         }
     }
 
-    @OnClick(R.id.ib_back)
-    void backClick(){
-        finish();
-    }
-
     @Override
     public int statusColorResId() {
         return R.color.color_ffb900;

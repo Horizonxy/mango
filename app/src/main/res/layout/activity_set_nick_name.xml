@@ -29,7 +29,7 @@
             <ImageView
                 android:layout_width="@dimen/dp_84"
                 android:layout_height="@dimen/dp_84"
-                android:src="@drawable/ic_launcher_round"
+                android:src="@drawable/user_pic1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"/>
 
@@ -37,7 +37,7 @@
                 android:layout_width="@dimen/dp_84"
                 android:layout_height="@dimen/dp_84"
                 android:layout_marginLeft="@dimen/dp_30"
-                android:src="@drawable/ic_launcher_round"
+                android:src="@drawable/user_pic2"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"/>
         </LinearLayout>
