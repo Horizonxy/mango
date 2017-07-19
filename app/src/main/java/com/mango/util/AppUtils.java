@@ -282,4 +282,5 @@ public class AppUtils {
 
         return isInBackground;
     }
+
 }

@@ -108,4 +108,7 @@
     <string name="pay_with_card">银行卡支付</string>
     <string name="pay_with_alipay">支付宝支付</string>
     <string name="pay_with_wx">微信支付</string>
+
+    <string name="submit_verify">提交认证</string>
+    <string name="check_your_student_role">验证您的学生身份</string>
 </resources>

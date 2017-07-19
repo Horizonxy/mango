@@ -1,8 +1,8 @@
 package com.mango.ui.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -23,20 +23,18 @@ import com.mango.util.AppUtils;
 import com.mango.util.DisplayUtils;
 import com.mango.util.FileUtils;
 import com.mango.util.SelectorImageLoader;
+import com.tbruyelle.rxpermissions.RxPermissions;
+import com.yancy.gallerypick.config.GalleryConfig;
+import com.yancy.gallerypick.config.GalleryPick;
+import com.yancy.gallerypick.inter.IHandlerCallBack;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import cn.finalteam.galleryfinal.CoreConfig;
-import cn.finalteam.galleryfinal.FunctionConfig;
-import cn.finalteam.galleryfinal.GalleryFinal;
-import cn.finalteam.galleryfinal.ThemeConfig;
-import cn.finalteam.galleryfinal.model.PhotoInfo;
 import rx.functions.Action1;
 
-public class PublishDynamicsActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener,UploadPictureView.OnUploadPictureListener,AddTrendListener {
+public class PublishDynamicsActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener, UploadPictureView.OnUploadPictureListener, AddTrendListener {
 
     @Bind(R.id.et_content)
     EditText etContent;
@@ -48,6 +46,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
     FrameLayout.LayoutParams pictureItemLp;
     int dp5;
     AddTrendPresenter presenter;
+    IHandlerCallBack iHandlerCallBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,48 +74,38 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
         pictureItemLp = new FrameLayout.LayoutParams(width, width);
 
         UploadImageBean addImageBean = new UploadImageBean(UploadImageBean.ADD_BTN);
-        pictures.add(pictures.size(), addImageBean);
-        setImageView();
-
-        initGalleryFinal();
+        UploadPictureView pictureView = new UploadPictureView(this);
+        pictureView.setOnUploadPictureListener(this);
+        pictureView.setImageBean(addImageBean);
+        GridLayout.LayoutParams gl = new GridLayout.LayoutParams(pictureItemLp);
+        gl.topMargin = dp5;
+        gridPicture.addView(pictureView, gl);
     }
 
-    private void initGalleryFinal(){
-        ThemeConfig theme = new ThemeConfig.Builder()
-                .setFabNornalColor(getResources().getColor(R.color.color_ffb900))
-                .setFabPressedColor(getResources().getColor(R.color.color_ffb900))
-                .setCheckNornalColor(getResources().getColor(R.color.color_efeff4))
-                .setCheckSelectedColor(getResources().getColor(R.color.color_ffb900))
-                .setTitleBarTextColor(Color.WHITE)
-                .setTitleBarBgColor(getResources().getColor(R.color.color_ffb900))
-                .build();
-        CoreConfig coreConfig = new CoreConfig.Builder(this, new SelectorImageLoader(), theme)
-                .setNoAnimcation(true)
-                .setTakePhotoFolder(new File(FileUtils.getEnvPath(this, true, Constants.PICTURE_DIR)))
-                .build();
-        GalleryFinal.init(coreConfig);
-    }
-
-    private void setImageView(){
-        gridPicture.removeAllViews();
-        for (int i = 0; i < 9 && i < pictures.size(); i++){
+    private void setImageView() {
+        for (int i = gridPicture.getChildCount() == 0 ? 0 : (gridPicture.getChildCount() - 1); i < pictures.size(); i++) {
             UploadImageBean imageBean = pictures.get(i);
             UploadPictureView pictureView = new UploadPictureView(this);
             pictureView.setOnUploadPictureListener(this);
             pictureView.setImageBean(imageBean);
             GridLayout.LayoutParams gl = new GridLayout.LayoutParams(pictureItemLp);
             gl.topMargin = dp5;
-            if(i % 3 == 1){
+            if (i % 3 == 1) {
                 gl.leftMargin = dp5;
                 gl.rightMargin = dp5;
             }
             gridPicture.addView(pictureView, i, gl);
         }
+        if(gridPicture.getChildCount() > 9){
+            gridPicture.getChildAt(9).setVisibility(View.GONE);
+        } else {
+            gridPicture.getChildAt(gridPicture.getChildCount() - 1).setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onTitleButtonClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.tv_right:
                 presenter.addTrend();
                 break;
@@ -125,31 +114,58 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
 
     @Override
     public void onAddPicture() {
-        FunctionConfig functionConfig = new FunctionConfig.Builder()
-                .setMutiSelectMaxSize(9 - (pictures.size() - 1))
-                .setEnableCamera(true)
+        if (iHandlerCallBack == null) {
+            iHandlerCallBack = new IHandlerCallBack() {
+                @Override
+                public void onStart() {
+                }
+
+                @Override
+                public void onSuccess(List<String> photoList) {
+                    if (photoList == null || photoList.size() == 0) {
+                        return;
+                    }
+                    for (String photoInfo : photoList) {
+                        UploadImageBean imageBean = new UploadImageBean(UploadImageBean.READY);
+                        imageBean.setLocalPath(Constants.FILE_PREFIX + photoInfo);
+                        pictures.add(imageBean);
+                    }
+                    setImageView();
+                }
+
+                @Override
+                public void onCancel() {
+                }
+
+                @Override
+                public void onFinish() {
+                }
+
+                @Override
+                public void onError() {
+                }
+            };
+        }
+        GalleryConfig galleryConfig = new GalleryConfig.Builder()
+                .imageLoader(new SelectorImageLoader())    // ImageLoader 加载框架（必填）
+                .iHandlerCallBack(iHandlerCallBack)     // 监听接口（必填）
+                .provider("com.mango.fileprovider")   // provider(必填)
+                .multiSelect(true, 9 - pictures.size())                   // 配置是否多选的同时 配置多选数量   默认：false ， 9
+                .crop(false)                             // 快捷开启裁剪功能，仅当单选 或直接开启相机时有效
+                .isShowCamera(true)                     // 是否现实相机按钮  默认：false
+                .filePath(FileUtils.getEnvPath(this, true, Constants.PICTURE_DIR))          // 图片存放路径
                 .build();
 
-        GalleryFinal.openGalleryMuti(10, functionConfig, new GalleryFinal.OnHanlderResultCallback() {
+        RxPermissions.getInstance(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
             @Override
-            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-                if(resultList == null || resultList.size() == 0){
-                    return;
+            public void call(Boolean granted) {
+                if (granted) {
+                    GalleryPick.getInstance().setGalleryConfig(galleryConfig).open(PublishDynamicsActivity.this);
+                } else {
+                    AppUtils.showToast(PublishDynamicsActivity.this, "请在 设置-应用管理 中开启此应用的储存授权。");
                 }
-                for (PhotoInfo photoInfo : resultList){
-                    UploadImageBean imageBean = new UploadImageBean(UploadImageBean.READY);
-                    imageBean.setLocalPath(Constants.FILE_PREFIX + photoInfo.getPhotoPath());
-                    pictures.add(pictures.size() - 1, imageBean);
-                }
-                setImageView();
-            }
-
-            @Override
-            public void onHanlderFailure(int requestCode, String errorMsg) {
-
             }
         });
-
     }
 
     @Override

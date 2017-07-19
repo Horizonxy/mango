@@ -1,19 +1,17 @@
 package com.mango.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 import com.mango.Application;
 import com.mango.Constants;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+import com.yancy.gallerypick.widget.GalleryImageView;
 
-import cn.finalteam.galleryfinal.ImageLoader;
-import cn.finalteam.galleryfinal.widget.GFImageView;
-
-public class SelectorImageLoader implements ImageLoader {
+public class SelectorImageLoader implements com.yancy.gallerypick.inter.ImageLoader {
 
     Bitmap.Config mImageConfig;
     DisplayImageOptions options;
@@ -32,10 +30,9 @@ public class SelectorImageLoader implements ImageLoader {
     }
 
     @Override
-    public void displayImage(Activity activity, String path, GFImageView imageView, Drawable defaultDrawable, int width, int height) {
-
+    public void displayImage(Activity activity, Context context, String path, GalleryImageView galleryImageView, int width, int height) {
         ImageSize imageSize = new ImageSize(width, height);
-        Application.application.getImageLoader().displayImage(Constants.FILE_PREFIX + path, new ImageViewAware(imageView), options, imageSize, null, null);
+        Application.application.getImageLoader().displayImage(Constants.FILE_PREFIX + path, new ImageViewAware(galleryImageView), options, imageSize, null, null);
     }
 
     @Override

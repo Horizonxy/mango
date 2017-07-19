@@ -21,4 +21,6 @@
 
     <color name="color_dialog_bg">#a5000000</color>
     <color name="color_toast_bg">#cc323232</color>
+
+    <color name="gallery_blue">#ffb900</color>
 </resources>

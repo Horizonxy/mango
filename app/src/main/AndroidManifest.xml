@@ -63,7 +63,7 @@
         <activity
             android:name=".ui.activity.SetNickNameActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
-        <activity android:name=".ui.activity.UpdateRoleActivity" />
+        <activity android:name=".ui.activity.UpgradeRoleActivity" />
         <activity android:name=".ui.activity.MyOrderListActivity" />
         <activity android:name=".ui.activity.MyAccountActivity" />
         <activity android:name=".ui.activity.SettingActivity" />
@@ -78,6 +78,9 @@
         <activity android:name=".ui.activity.MemberCardListActivity" />
         <activity android:name=".ui.activity.TeacherDetailActivity" />
         <activity android:name=".ui.activity.BulletinDetailActivity" />
+        <activity android:name=".ui.activity.SelectPayActivity" />
+        <activity android:name=".ui.activity.PlaceOrderActivity" />
+        <activity android:name=".ui.activity.UpgradeToStudentActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>
@@ -133,8 +136,17 @@
             android:value="true" />
         <!-- 百度统计 end -->
 
-        <activity android:name=".ui.activity.SelectPayActivity" />
-        <activity android:name=".ui.activity.PlaceOrderActivity"></activity>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.mango.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+
     </application>
 
 </manifest>

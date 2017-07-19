@@ -18,7 +18,7 @@ import com.mango.ui.activity.MyAccountActivity;
 import com.mango.ui.activity.MyOrderListActivity;
 import com.mango.ui.activity.ProfileInfoActivity;
 import com.mango.ui.activity.SettingActivity;
-import com.mango.ui.activity.UpdateRoleActivity;
+import com.mango.ui.activity.UpgradeRoleActivity;
 import com.mango.ui.viewlistener.MyFragmentListener;
 import com.mango.util.ActivityBuilder;
 import com.mango.util.AppUtils;
@@ -90,7 +90,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
             void onLoginClick(View v) {
                 switch (v.getId()) {
                     case R.id.layout_role:
-                        startActivity(new Intent(getActivity(), UpdateRoleActivity.class));
+                        startActivity(new Intent(getActivity(), UpgradeRoleActivity.class));
                         break;
                     case R.id.layout_order_list:
                         startActivity(new Intent(getActivity(), MyOrderListActivity.class));

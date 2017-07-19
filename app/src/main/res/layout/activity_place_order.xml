@@ -9,6 +9,7 @@
         style="@style/important_corners_btn"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp_15"
         android:layout_marginBottom="@dimen/dp_25"
         android:layout_marginLeft="@dimen/dp_15"
         android:layout_marginRight="@dimen/dp_15"
@@ -78,7 +79,7 @@
                     android:layout_centerVertical="true"
                     android:text="名字"
                     android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@id/tv_price"
+                    android:layout_toLeftOf="@id/tv_sale_price"
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/color_666666"/>
             </RelativeLayout>

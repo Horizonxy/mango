@@ -59,7 +59,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public int statusColorResId(){
-        return R.color.color_efeff4;
+        return R.color.color_f6f6f7;
     }
 
 }

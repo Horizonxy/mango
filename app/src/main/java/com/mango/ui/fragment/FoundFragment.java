@@ -23,7 +23,6 @@ import com.mango.ui.viewlistener.FoundListener;
 import com.mango.ui.widget.MangoPtrFrameLayout;
 import com.mango.util.ActivityBuilder;
 import com.mango.util.AppUtils;
-import com.mango.util.MangoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +44,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     QuickAdapter adapter;
     @Inject
     FoundPresenter presenter;
+    TextView tvTitle;
 
     public FoundFragment() {
     }
@@ -65,6 +65,8 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         listView = (ListView) root.findViewById(R.id.listview);
         tvAddTend = (TextView) root.findViewById(R.id.tv_right);
         tvAddTend.setOnClickListener(this);
+        tvTitle = (TextView) root.findViewById(R.id.tv_title);
+        tvTitle.setText(getString(R.string.found));
     }
 
     @Override
@@ -94,12 +96,12 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
             }
         }, 400);
 
-        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
-        if(!indentityList.contains(Constants.UserIndentity.TUTOR) && !indentityList.contains(Constants.UserIndentity.COMMUNITY)){
-            tvAddTend.setVisibility(View.INVISIBLE);
-        } else {
-            tvAddTend.setVisibility(View.VISIBLE);
-        }
+//        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
+//        if(!indentityList.contains(Constants.UserIndentity.TUTOR) && !indentityList.contains(Constants.UserIndentity.COMMUNITY)){
+//            tvAddTend.setVisibility(View.INVISIBLE);
+//        } else {
+//            tvAddTend.setVisibility(View.VISIBLE);
+//        }
     }
 
     private void loadData() {

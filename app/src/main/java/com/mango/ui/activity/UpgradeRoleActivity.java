@@ -1,6 +1,7 @@
 package com.mango.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,7 +23,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class UpdateRoleActivity extends BaseTitleBarActivity implements UpdateRoleListener {
+public class UpgradeRoleActivity extends BaseTitleBarActivity implements UpdateRoleListener {
 
     @Bind(R.id.tv_current_role)
     TextView tvCurrentRole;
@@ -109,7 +110,9 @@ public class UpdateRoleActivity extends BaseTitleBarActivity implements UpdateRo
 
     @Override
     public void onSuccess(Constants.UserIndentity indentity) {
-
+        if(indentity == Constants.UserIndentity.STUDENT){
+            startActivity(new Intent(this, UpgradeToStudentActivity.class));
+        }
     }
 
     @Override

@@ -29,9 +29,9 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
-            zipAlignEnabled false
-            shrinkResources false
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -63,7 +63,6 @@ dependencies {
         exclude module: 'okhttp'
     }
     compile files('libs/Baidu_Mtj_3.8.0.2.jar')
-    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.zhy:autolayout:1.4.5'
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
@@ -90,7 +89,8 @@ dependencies {
     compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     compile 'com.j256.ormlite:ormlite-android:4.48'
-    compile 'cn.finalteam:galleryfinal:1.4.8.7'
+    compile 'liji.library.dev:citypickerview:1.1.0'
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.github.YancyYe:GalleryPick:1.2.1'
 }
