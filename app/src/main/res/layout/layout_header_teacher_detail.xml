@@ -65,6 +65,4 @@
 
     </RelativeLayout>
 
-    <View
-        style="@style/margin_horizontal_line" />
 </LinearLayout>

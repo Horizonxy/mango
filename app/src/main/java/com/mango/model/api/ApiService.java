@@ -11,6 +11,7 @@ import com.mango.model.bean.OrderBean;
 import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
 import com.mango.model.bean.TrendBean;
+import com.mango.model.bean.TutorBean;
 
 import java.util.List;
 import java.util.Map;
@@ -143,6 +144,13 @@ public interface ApiService {
     //5.1.9检查会员是否允许升级社团身份接口
     @POST("outer/router?check_upgrade_community")
     Observable<RestResult<Object>> checkUpgradeCommunity(
+            @Query("lst_sessid") String sessId
+    );
+
+    //导师详情接口
+    @GET("outer/router?course_tutor")
+    Observable<RestResult<TutorBean>> getTutor(
+            @Query("id") long id,
             @Query("lst_sessid") String sessId
     );
 }

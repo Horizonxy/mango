@@ -217,8 +217,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
                     layoutAdvert2.addView(item);
                 }
             } else {
-                tvTitle1.setText("");
-                tvIntro1.setText("");
+                tvTitle2.setText("");
+                tvIntro2.setText("");
                 layoutAdvert2.removeAllViews();
             }
             if(advertList.size() > 2){

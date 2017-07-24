@@ -18,7 +18,7 @@ import java.util.List;
 
 import butterknife.Bind;
 
-public class TeacherClassCategoryActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener {
+public class TutorClassCategoryActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener {
 
     @Bind(R.id.lv_category)
     ListView lvCagegory;
@@ -49,7 +49,7 @@ public class TeacherClassCategoryActivity extends BaseTitleBarActivity implement
                 for (int i = 0; i < 7; i++){
                     itemDatas.add("");
                 }
-                ((GridView)helper.getView(R.id.gv_item_category)).setAdapter(new QuickAdapter<String>(TeacherClassCategoryActivity.this, R.layout.gridview_item_class_category_item, itemDatas) {
+                ((GridView)helper.getView(R.id.gv_item_category)).setAdapter(new QuickAdapter<String>(TutorClassCategoryActivity.this, R.layout.gridview_item_class_category_item, itemDatas) {
                     @Override
                     protected void convert(BaseAdapterHelper helper, String item) {
 

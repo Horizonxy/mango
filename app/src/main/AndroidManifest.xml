@@ -72,11 +72,11 @@
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.PublishDynamicsActivity" />
         <activity android:name=".ui.activity.InteractAreaActivity" />
-        <activity android:name=".ui.activity.TeacherClassCategoryActivity" />
+        <activity android:name=".ui.activity.TutorClassCategoryActivity" />
         <activity android:name=".ui.activity.CalssListActivity" />
         <activity android:name=".ui.activity.AddBlankCardActivity" />
         <activity android:name=".ui.activity.MemberCardListActivity" />
-        <activity android:name=".ui.activity.TeacherDetailActivity" />
+        <activity android:name=".ui.activity.TutorDetailActivity" />
         <activity android:name=".ui.activity.BulletinDetailActivity" />
         <activity android:name=".ui.activity.SelectPayActivity" />
         <activity android:name=".ui.activity.PlaceOrderActivity" />

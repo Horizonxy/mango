@@ -211,7 +211,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_left:
-                ActivityBuilder.startTeacherClassCategoryActivity(getActivity());
+                ActivityBuilder.startTutorClassCategoryActivity(getActivity());
                 break;
             case R.id.tv_right:
                 ActivityBuilder.startMyClassesActivity(getActivity());

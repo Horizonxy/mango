@@ -36,7 +36,7 @@ public class TeacherFragmentModule {
     @Provides
     @Type("list")
     public QuickAdapter provideListQuickAdapter(){
-        return new RecommendCourseAdapter(fragment.getContext(), R.layout.listview_item_recommend_teacher_class, listDatas);
+        return new RecommendCourseAdapter(fragment.getContext(), R.layout.listview_item_recommend_teacher_class, listDatas){};
     }
 
 

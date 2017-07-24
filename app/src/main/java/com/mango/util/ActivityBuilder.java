@@ -1,6 +1,7 @@
 package com.mango.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import com.mango.Constants;
@@ -18,8 +19,8 @@ import com.mango.ui.activity.MemberCardListActivity;
 import com.mango.ui.activity.MyClassesActivity;
 import com.mango.ui.activity.PublishDynamicsActivity;
 import com.mango.ui.activity.SetNickNameActivity;
-import com.mango.ui.activity.TeacherClassCategoryActivity;
-import com.mango.ui.activity.TeacherDetailActivity;
+import com.mango.ui.activity.TutorClassCategoryActivity;
+import com.mango.ui.activity.TutorDetailActivity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -54,8 +55,8 @@ public class ActivityBuilder {
         activity.startActivity(new Intent(activity, InteractAreaActivity.class));
     }
 
-    public static void startTeacherClassCategoryActivity(Activity activity){
-        activity.startActivity(new Intent(activity, TeacherClassCategoryActivity.class));
+    public static void startTutorClassCategoryActivity(Activity activity){
+        activity.startActivity(new Intent(activity, TutorClassCategoryActivity.class));
     }
 
     public static void startMyClassesActivity(Activity activity){
@@ -80,8 +81,8 @@ public class ActivityBuilder {
         activity.startActivity(new Intent(activity, AddBlankCardActivity.class));
     }
 
-    public static void startTeacherDetailActivity(Activity activity, long id){
-        Intent intent = new Intent(activity, TeacherDetailActivity.class);
+    public static void startTutorDetailActivity(Activity activity, long id){
+        Intent intent = new Intent(activity, TutorDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_ID, id);
         activity.startActivity(intent);
     }
@@ -91,4 +92,6 @@ public class ActivityBuilder {
         intent.putExtra(Constants.BUNDLE_BULLETIN, bulletin);
         activity.startActivity(intent);
     }
+
+
 }

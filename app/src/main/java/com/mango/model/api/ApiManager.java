@@ -12,6 +12,7 @@ import com.mango.model.bean.OrderBean;
 import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
 import com.mango.model.bean.TrendBean;
+import com.mango.model.bean.TutorBean;
 
 import java.util.List;
 import java.util.Map;
@@ -95,5 +96,9 @@ public class ApiManager {
 
     public static  Observable<RestResult<Object>> checkUpgradeCommunity(){
         return Application.application.getApiService().checkUpgradeCommunity(Application.application.getSessId());
+    }
+
+    public static  Observable<RestResult<TutorBean>> getTutor(long id){
+        return Application.application.getApiService().getTutor(id, Application.application.getSessId());
     }
 }

@@ -36,7 +36,7 @@
             android:paddingRight="@dimen/dp_10"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/color_666666"
+            android:textColor="@color/color_333333"
             android:text="立即听他的课"
             android:textSize="@dimen/dp_14"/>
     </RelativeLayout>
@@ -47,6 +47,5 @@
         android:layout_height="match_parent"
         android:layout_above="@id/layout_bottom"
         android:cacheColorHint="@android:color/transparent"
-        android:divider="@color/color_efeff4"
-        android:dividerHeight="@dimen/dp_0.5"/>
+        android:scrollbars="none"/>
 </RelativeLayout>
