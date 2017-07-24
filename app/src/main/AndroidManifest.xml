@@ -81,6 +81,7 @@
         <activity android:name=".ui.activity.SelectPayActivity" />
         <activity android:name=".ui.activity.PlaceOrderActivity" />
         <activity android:name=".ui.activity.UpgradeToStudentActivity" />
+        <activity android:name=".ui.activity.CourseDetailActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

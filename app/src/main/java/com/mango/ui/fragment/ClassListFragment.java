@@ -22,6 +22,7 @@ import com.mango.ui.adapter.RecommendCourseAdapter;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
 import com.mango.ui.viewlistener.TeacherListener;
 import com.mango.ui.widget.MangoPtrFrameLayout;
+import com.mango.util.ActivityBuilder;
 import com.mango.util.EmptyHelper;
 
 import java.util.ArrayList;
@@ -108,7 +109,8 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        CourseBean course = (CourseBean) parent.getAdapter().getItem(position);
+        ActivityBuilder.startCourseDetailActivity(getActivity(), course.getId());
     }
 
     @Override

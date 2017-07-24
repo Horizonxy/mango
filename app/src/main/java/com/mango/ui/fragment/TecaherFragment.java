@@ -204,6 +204,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
             ActivityBuilder.startCalssListActivity(getActivity(), classify);
         } else if(item instanceof CourseBean){
             CourseBean course = (CourseBean) item;
+            ActivityBuilder.startCourseDetailActivity(getActivity(), course.getId());
         }
     }
 

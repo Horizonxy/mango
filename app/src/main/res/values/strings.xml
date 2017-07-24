@@ -114,4 +114,6 @@
 
     <string name="want_count">%d想听</string>
     <string name="wanted_count">%d听过</string>
+
+    <string name="course_detail">课程详情</string>
 </resources>

@@ -12,6 +12,7 @@ import com.mango.model.bean.MemberCardBean;
 import com.mango.ui.activity.AddBlankCardActivity;
 import com.mango.ui.activity.BulletinDetailActivity;
 import com.mango.ui.activity.CalssListActivity;
+import com.mango.ui.activity.CourseDetailActivity;
 import com.mango.ui.activity.InteractAreaActivity;
 import com.mango.ui.activity.LoginActivity;
 import com.mango.ui.activity.MainActivity;
@@ -93,5 +94,9 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
-
+    public static void startCourseDetailActivity(Activity activity, long id){
+        Intent intent = new Intent(activity, CourseDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_ID, id);
+        activity.startActivity(intent);
+    }
 }
