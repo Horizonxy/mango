@@ -17,6 +17,7 @@ import com.mango.ui.activity.LoginActivity;
 import com.mango.ui.activity.MainActivity;
 import com.mango.ui.activity.MemberCardListActivity;
 import com.mango.ui.activity.MyClassesActivity;
+import com.mango.ui.activity.PlaceOrderActivity;
 import com.mango.ui.activity.PublishDynamicsActivity;
 import com.mango.ui.activity.SetNickNameActivity;
 import com.mango.ui.activity.TutorClassCategoryActivity;
@@ -97,6 +98,12 @@ public class ActivityBuilder {
 
     public static void startCourseDetailActivity(Activity activity, long id){
         Intent intent = new Intent(activity, CourseDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_ID, id);
+        activity.startActivity(intent);
+    }
+
+    public static void startPlaceOrderActivity(Activity activity, long id){
+        Intent intent = new Intent(activity, PlaceOrderActivity.class);
         intent.putExtra(Constants.BUNDLE_ID, id);
         activity.startActivity(intent);
     }

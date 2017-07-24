@@ -13,7 +13,6 @@
             android:id="@+id/iv_want"
             android:layout_width="@dimen/dp_22"
             android:layout_height="@dimen/dp_22"
-            android:src="@drawable/ic_launcher"
             android:adjustViewBounds="true"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"/>

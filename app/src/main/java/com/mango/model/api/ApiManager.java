@@ -13,6 +13,7 @@ import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
 import com.mango.model.bean.TrendBean;
 import com.mango.model.bean.TutorBean;
+import com.mango.model.data.CourseDetailBean;
 
 import java.util.List;
 import java.util.Map;
@@ -100,5 +101,9 @@ public class ApiManager {
 
     public static  Observable<RestResult<TutorBean>> getTutor(long id){
         return Application.application.getApiService().getTutor(id, Application.application.getSessId());
+    }
+
+    public static  Observable<RestResult<CourseDetailBean>> getCourse(long id){
+        return Application.application.getApiService().getCourse(id, Application.application.getSessId());
     }
 }

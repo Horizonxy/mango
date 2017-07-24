@@ -79,7 +79,8 @@
         <activity android:name=".ui.activity.TutorDetailActivity" />
         <activity android:name=".ui.activity.BulletinDetailActivity" />
         <activity android:name=".ui.activity.SelectPayActivity" />
-        <activity android:name=".ui.activity.PlaceOrderActivity" />
+        <activity android:name=".ui.activity.PlaceOrderActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"/>
         <activity android:name=".ui.activity.UpgradeToStudentActivity" />
         <activity android:name=".ui.activity.CourseDetailActivity" />
 

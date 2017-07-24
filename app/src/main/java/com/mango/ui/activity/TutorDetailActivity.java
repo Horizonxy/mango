@@ -70,7 +70,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
             protected void convert(BaseAdapterHelper helper, CourseBean item) {
                 helper.setText(R.id.tv_title, item.getCourse_title())
                         .setText(R.id.tv_type_method, item.getType_method())
-                        .setText(R.id.tv_each_time, item.getEach_time() + "/一次");
+                        .setText(R.id.tv_each_time, item.getEach_time() + "/" + item.getService_time());
                 if(item.getSale_price() != null) {
                     helper.setText(R.id.tv_price, getString(R.string.rmb) + item.getSale_price().toString());
                 }
@@ -79,7 +79,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
     }
 
     private void fillTutor(TutorBean tutor){
-        Application.application.getImageLoader().displayImage(tutor.getLogo_rsurl(), ivLogo, Application.application.getDefaultOptions());
+        Application.application.getImageLoader().displayImage(tutor.getAvatar_rsurl(), ivLogo, Application.application.getDefaultOptions());
         tvName.setText(tutor.getName());
         tvJob.setText(tutor.getTutor_jobs());
         tvCity.setText(tutor.getCity());

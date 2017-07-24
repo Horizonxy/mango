@@ -27,4 +27,8 @@ public class CourseModel {
     public Subscription getCourseList(Map<String, Object> map, Action1 onError, Subscriber<RestResult<List<CourseBean>>> subscriber){
         return RxJavaUtils.schedulersIoMainError(ApiManager.getCourseList(map), onError).subscribe(subscriber);
     }
+
+    public Subscription getCourse(long id, Action0 onSubscribe, Subscriber<RestResult<CourseDetailBean>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getCourse(id), onSubscribe).subscribe(subscriber);
+    }
 }

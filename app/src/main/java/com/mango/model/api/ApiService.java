@@ -12,6 +12,7 @@ import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
 import com.mango.model.bean.TrendBean;
 import com.mango.model.bean.TutorBean;
+import com.mango.model.data.CourseDetailBean;
 
 import java.util.List;
 import java.util.Map;
@@ -150,6 +151,13 @@ public interface ApiService {
     //导师详情接口
     @GET("outer/router?course_tutor")
     Observable<RestResult<TutorBean>> getTutor(
+            @Query("id") long id,
+            @Query("lst_sessid") String sessId
+    );
+
+    //5.2.5课程详情接口
+    @GET("outer/router?course_get")
+    Observable<RestResult<CourseDetailBean>> getCourse(
             @Query("id") long id,
             @Query("lst_sessid") String sessId
     );

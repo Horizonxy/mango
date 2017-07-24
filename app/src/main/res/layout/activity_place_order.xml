@@ -95,11 +95,14 @@
                 <Button
                     android:id="@+id/btn_use"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp_35"
-                    android:padding="@dimen/dp_10"
+                    android:layout_height="wrap_content"
+                    android:minHeight="0dp"
+                    android:paddingTop="@dimen/dp_8"
+                    android:paddingBottom="@dimen/dp_8"
                     style="@style/lesser_corners_btn"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="@dimen/dp_15"
+                    android:textSize="@dimen/sp_14"
                     android:text="@string/use"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,6 +119,8 @@
                         android:layout_width="@dimen/dp_140"
                         android:layout_height="match_parent"
                         android:singleLine="true"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_10"
                         android:background="@drawable/shape_bg_corners_border"
                         android:textColor="@color/color_666666"
                         android:textSize="@dimen/sp_16"/>
