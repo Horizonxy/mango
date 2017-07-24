@@ -2,6 +2,7 @@ package com.mango.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,6 +16,7 @@ import com.mango.model.data.TutorModel;
 import com.mango.presenter.TutorDetailPresenter;
 import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
+import com.mango.ui.popupwindow.TutorCourseListPopupWindow;
 import com.mango.ui.viewlistener.TutorDetailListener;
 import com.mango.util.AppUtils;
 import java.util.ArrayList;
@@ -62,6 +64,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         tvWantedCount = (TextView) header.findViewById(R.id.tv_wanted_count);
 
         lvCourses.addHeaderView(header);
+        lvCourses.setDivider(null);
         lvCourses.setAdapter(adapter = new QuickAdapter<CourseBean>(this,R.layout.listview_item_course_in_tutor_detail, courseList) {
             @Override
             protected void convert(BaseAdapterHelper helper, CourseBean item) {
@@ -104,8 +107,9 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
     }
 
     @OnClick(R.id.btn_listen)
-    void listenClick(){
-
+    void listenClick(View v){
+        TutorCourseListPopupWindow popupWindow = new TutorCourseListPopupWindow(this, courseList);
+        popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
     }
 
     @Override
