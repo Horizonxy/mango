@@ -3,59 +3,74 @@ package com.mango.ui.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.mango.Constants;
 import com.mango.R;
+import com.mango.model.bean.CourseClassifyBean;
 import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
 import com.mango.ui.widget.GridView;
-import com.mango.ui.widget.TitleBar;
 import com.mango.util.ActivityBuilder;
+import com.mango.util.MangoUtils;
 import com.mango.util.SystemStatusManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
-public class TutorClassCategoryActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener {
+public class TutorClassCategoryActivity extends BaseActivity {
 
+    @Bind(R.id.ib_left)
+    ImageButton ibLeft;
     @Bind(R.id.lv_category)
     ListView lvCagegory;
-    List datas = new ArrayList();
+    List<CourseClassifyBean> datas;
     QuickAdapter adapter;
+    @Bind(R.id.tv_right)
+    TextView tvMyClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SystemStatusManager.setTranslucentStatusColor(this, getResources().getColor(R.color.color_ffb900));
         setContentView(R.layout.activity_teacher_class_category);
-
+        datas = (List<CourseClassifyBean>) getIntent().getSerializableExtra(Constants.BUNDLE_CLASSIFY_LIST);
+        if (datas == null) {
+            datas = new ArrayList<CourseClassifyBean>();
+        }
         initView();
     }
 
     private void initView() {
-        titleBar.setBarBackGroundColor(R.color.color_ffb900);
-        titleBar.setTitle(R.string.teacher);
-        titleBar.setRightText(R.string.my_classes);
-
+        lvCagegory.setDivider(null);
         lvCagegory.addFooterView(getLayoutInflater().inflate(R.layout.layout_bottom_concern, lvCagegory, false));
-        datas.add("");
-        datas.add("");
-        lvCagegory.setAdapter(adapter = new QuickAdapter<String>(this, R.layout.listview_item_calss_category, datas) {
-            @Override
-            protected void convert(BaseAdapterHelper helper, String item) {
-                List itemDatas = new ArrayList();
-                for (int i = 0; i < 7; i++){
-                    itemDatas.add("");
-                }
-                ((GridView)helper.getView(R.id.gv_item_category)).setAdapter(new QuickAdapter<String>(TutorClassCategoryActivity.this, R.layout.gridview_item_class_category_item, itemDatas) {
-                    @Override
-                    protected void convert(BaseAdapterHelper helper, String item) {
 
+        lvCagegory.setAdapter(adapter = new QuickAdapter<CourseClassifyBean>(this, R.layout.listview_item_calss_category, datas) {
+            @Override
+            protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
+                helper.setImageUrl(R.id.iv_logo, item.getLogo_rsurl())
+                        .setText(R.id.tv_name, item.getClassify_name());
+                if (helper.getPosition() == datas.size() - 1) {
+                    helper.setVisible(R.id.v_line, false);
+                } else {
+                    helper.setVisible(R.id.v_line, true);
+                }
+                List<CourseClassifyBean> list = item.getDetails();
+                if (list == null) {
+                    list = new ArrayList<CourseClassifyBean>();
+                }
+                ((GridView) helper.getView(R.id.gv_item_category)).setAdapter(new QuickAdapter<CourseClassifyBean>(TutorClassCategoryActivity.this, R.layout.gridview_item_class_category_item, list) {
+                    @Override
+                    protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
+                        helper.setText(R.id.tv_name, item.getClassify_name());
                     }
                 });
-                ((GridView)helper.getView(R.id.gv_item_category)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                ((GridView) helper.getView(R.id.gv_item_category)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -63,14 +78,27 @@ public class TutorClassCategoryActivity extends BaseTitleBarActivity implements 
                 });
             }
         });
+
+        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
+        if (!indentityList.contains(Constants.UserIndentity.TUTOR)) {
+            tvMyClass.setVisibility(View.GONE);
+        } else {
+            tvMyClass.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @OnClick(R.id.ib_left)
+    void onBack(View v) {
+        finish();
+    }
+
+    @OnClick(R.id.tv_right)
+    void onMyCourse(View v) {
+        ActivityBuilder.startMyClassesActivity(this);
     }
 
     @Override
-    public void onTitleButtonClick(View view) {
-        switch (view.getId()){
-            case R.id.tv_right:
-                ActivityBuilder.startMyClassesActivity(this);
-                break;
-        }
+    public int statusColorResId() {
+        return R.color.color_ffb900;
     }
 }

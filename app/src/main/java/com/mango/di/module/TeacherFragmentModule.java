@@ -47,8 +47,14 @@ public class TeacherFragmentModule {
         return new QuickAdapter<CourseClassifyBean>(fragment.getContext(), R.layout.gridview_item_class_category, gridDatas) {
             @Override
             protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
-                helper.setImageUrl(R.id.iv_logo, item.getLogo_rsurl())
-                        .setText(R.id.tv_name, item.getClassify_name());
+
+                if(helper.getPosition() == 7){
+                    helper.setImageResource(R.id.iv_logo, R.drawable.daoshi_08);
+                } else {
+                    helper.setImageUrl(R.id.iv_logo, item.getLogo_rsurl());
+                }
+                helper.setText(R.id.tv_name, item.getClassify_name());
+
             }
         };
     }

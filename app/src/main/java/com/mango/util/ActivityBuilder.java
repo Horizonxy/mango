@@ -1,7 +1,6 @@
 package com.mango.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 
 import com.mango.Constants;
@@ -56,8 +55,10 @@ public class ActivityBuilder {
         activity.startActivity(new Intent(activity, InteractAreaActivity.class));
     }
 
-    public static void startTutorClassCategoryActivity(Activity activity){
-        activity.startActivity(new Intent(activity, TutorClassCategoryActivity.class));
+    public static void startTutorClassCategoryActivity(Activity activity, List<CourseClassifyBean> classifyList){
+        Intent intent = new Intent(activity, TutorClassCategoryActivity.class);
+        intent.putExtra(Constants.BUNDLE_CLASSIFY_LIST, (Serializable) classifyList);
+        activity.startActivity(intent);
     }
 
     public static void startMyClassesActivity(Activity activity){

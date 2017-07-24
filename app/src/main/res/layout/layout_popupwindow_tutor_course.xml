@@ -26,11 +26,11 @@
         android:layout_height="wrap_content"
         android:cacheColorHint="@android:color/transparent"/>
 
-    <TextView
+    <Button
         android:id="@+id/tv_sure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_ffb900"
+        android:background="@drawable/selector_btn_bg_rect_important_corners"
         android:paddingTop="@dimen/dp_15"
         android:paddingBottom="@dimen/dp_15"
         android:gravity="center"

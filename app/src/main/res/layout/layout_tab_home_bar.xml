@@ -69,8 +69,8 @@
             android:textColor="@color/color_999999"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:textSize="@dimen/sp_16"
-            android:text="输入关键字"/>
+            android:textSize="@dimen/sp_12"
+            android:text="输入您需要的工作包或导师"/>
 
     </RelativeLayout>
 

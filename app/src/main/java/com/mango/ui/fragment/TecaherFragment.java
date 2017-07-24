@@ -24,7 +24,6 @@ import com.mango.R;
 import com.mango.di.Type;
 import com.mango.di.component.DaggerTeacherFragmentComponent;
 import com.mango.di.module.TeacherFragmentModule;
-import com.mango.model.bean.AdvertBean;
 import com.mango.model.bean.CourseBean;
 import com.mango.model.bean.CourseClassifyBean;
 import com.mango.presenter.TeacherPresenter;
@@ -133,7 +132,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
 
         List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
         if(!indentityList.contains(Constants.UserIndentity.TUTOR)){
-            tvMyClass.setVisibility(View.INVISIBLE);
+            tvMyClass.setVisibility(View.GONE);
         } else {
             tvMyClass.setVisibility(View.VISIBLE);
         }
@@ -200,8 +199,14 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Object item = parent.getAdapter().getItem(position);
         if(item instanceof CourseClassifyBean){
-            CourseClassifyBean classify = (CourseClassifyBean) item;
-            ActivityBuilder.startCalssListActivity(getActivity(), classify);
+            if(position == 7){
+                ArrayList<CourseClassifyBean> classifyList = new ArrayList<>();
+                classifyList.addAll(gridDatas.subList(0, gridDatas.size() - 1));
+                ActivityBuilder.startTutorClassCategoryActivity(getActivity(), classifyList);
+            } else {
+                CourseClassifyBean classify = (CourseClassifyBean) item;
+                ActivityBuilder.startCalssListActivity(getActivity(), classify);
+            }
         } else if(item instanceof CourseBean){
             CourseBean course = (CourseBean) item;
             ActivityBuilder.startCourseDetailActivity(getActivity(), course.getId());
@@ -211,9 +216,6 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.tv_left:
-                ActivityBuilder.startTutorClassCategoryActivity(getActivity());
-                break;
             case R.id.tv_right:
                 ActivityBuilder.startMyClassesActivity(getActivity());
                 break;
@@ -253,7 +255,6 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
             }
 
             listDatas.addAll(courseList);
-
             listAdapter.notifyDataSetChanged();
         } else if(hotTypes == 1){
             bannerDatas.clear();
@@ -265,7 +266,14 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     public void onClassifySuccess(List<CourseClassifyBean> classifyList) {
         gridDatas.clear();
-        gridDatas.addAll(classifyList);
+        if(classifyList != null && classifyList.size() > 7){
+            gridDatas.addAll(classifyList.subList(0, 7));
+        } else {
+            gridDatas.addAll(classifyList);
+        }
+        CourseClassifyBean classifyAll = new CourseClassifyBean();
+        classifyAll.setClassify_name("全部");
+        gridDatas.add(classifyAll);
         gridAdapter.notifyDataSetChanged();
     }
 
