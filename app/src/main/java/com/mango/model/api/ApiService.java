@@ -12,7 +12,7 @@ import com.mango.model.bean.RegistBean;
 import com.mango.model.bean.RestResult;
 import com.mango.model.bean.TrendBean;
 import com.mango.model.bean.TutorBean;
-import com.mango.model.data.CourseDetailBean;
+import com.mango.model.bean.CourseDetailBean;
 
 import java.util.List;
 import java.util.Map;

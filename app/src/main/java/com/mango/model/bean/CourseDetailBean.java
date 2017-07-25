@@ -1,4 +1,4 @@
-package com.mango.model.data;
+package com.mango.model.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

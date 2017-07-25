@@ -11,7 +11,7 @@ import com.mango.Application;
 import com.mango.Constants;
 import com.mango.R;
 import com.mango.model.bean.OrderBean;
-import com.mango.model.data.CourseDetailBean;
+import com.mango.model.bean.CourseDetailBean;
 import com.mango.model.data.OrderModel;
 import com.mango.presenter.OrderPresenter;
 import com.mango.ui.viewlistener.PlaceOrderListener;

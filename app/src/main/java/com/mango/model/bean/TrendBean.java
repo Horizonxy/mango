@@ -21,6 +21,7 @@ public class TrendBean implements Serializable {
     private int want_count;
     private int praise_count;
     private int faword_count;
+    private boolean is_favor;
 
     public long getId() {
         return id;
@@ -140,5 +141,13 @@ public class TrendBean implements Serializable {
 
     public void setFaword_count(int faword_count) {
         this.faword_count = faword_count;
+    }
+
+    public boolean is_favor() {
+        return is_favor;
+    }
+
+    public void setIs_favor(boolean is_favor) {
+        this.is_favor = is_favor;
     }
 }

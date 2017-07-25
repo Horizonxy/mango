@@ -3,6 +3,7 @@ package com.mango.model.data;
 import com.mango.model.api.ApiManager;
 import com.mango.model.bean.CourseBean;
 import com.mango.model.bean.CourseClassifyBean;
+import com.mango.model.bean.CourseDetailBean;
 import com.mango.model.bean.RestResult;
 import com.mango.util.RxJavaUtils;
 

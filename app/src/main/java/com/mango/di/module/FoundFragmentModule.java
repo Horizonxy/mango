@@ -11,11 +11,14 @@ import com.mango.Application;
 import com.mango.R;
 import com.mango.di.FragmentScope;
 import com.mango.model.bean.TrendBean;
+import com.mango.model.data.FavModel;
 import com.mango.model.data.PraiseModel;
 import com.mango.model.data.TrendModel;
+import com.mango.presenter.FavPresenter;
 import com.mango.presenter.FoundPresenter;
 import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
+import com.mango.ui.viewlistener.FavListener;
 import com.mango.ui.viewlistener.FoundListener;
 import com.mango.ui.widget.GridView;
 import com.mango.util.ActivityBuilder;
@@ -64,6 +67,7 @@ public class FoundFragmentModule {
                 helper.setText(R.id.tv_faword_count, String.valueOf(item.getFaword_count()));
                 helper.setText(R.id.tv_comment_count, String.valueOf(item.getComment_count()));
                 helper.setText(R.id.tv_praise_count, String.valueOf(item.getPraise_count()));
+                helper.setImageResource(R.id.iv_right, item.is_favor() ? R.drawable.icon_shoucang : R.drawable.icon_shoucang_nor);
 
                 List<String> pictures = item.getPic_rsurls();
                 if(pictures == null  || pictures.size() == 0){
@@ -99,25 +103,48 @@ public class FoundFragmentModule {
                         });
                     }
                 }
-                helper.getView(R.id.layout_comment).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityBuilder.startInteractAreaActivity(fragment.getActivity());
-                    }
-                });
-                helper.getView(R.id.layout_like).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((FoundListener)fragment).praise(item);
-                    }
-                });
+
+                ItemOnClickListener clickListener = new ItemOnClickListener(item);
+                helper.getView(R.id.layout_comment).setOnClickListener(clickListener);
+                helper.getView(R.id.layout_like).setOnClickListener(clickListener);
+                helper.getView(R.id.iv_right).setOnClickListener(clickListener);
             }
         };
+    }
+
+    class ItemOnClickListener implements View.OnClickListener {
+
+        TrendBean trend;
+
+        public ItemOnClickListener(TrendBean trend) {
+            this.trend = trend;
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.layout_comment:
+                    ActivityBuilder.startInteractAreaActivity(fragment.getActivity());
+                    break;
+                case R.id.layout_like:
+                    ((FoundListener)fragment).praise(trend);
+                    break;
+                case R.id.iv_right:
+                    ((FoundListener)fragment).delOrAddFav(trend);
+                    break;
+            }
+        }
     }
 
     @FragmentScope
     @Provides
     public FoundPresenter provideFoundPresenter(){
         return new FoundPresenter(new PraiseModel(), new TrendModel(), (FoundListener) fragment);
+    }
+
+    @FragmentScope
+    @Provides
+    public FavPresenter provideFavPresenter(){
+        return new FavPresenter(new FavModel(), (FavListener) fragment);
     }
 }

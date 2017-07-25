@@ -3,7 +3,7 @@ package com.mango.presenter;
 import android.content.Context;
 
 import com.mango.model.bean.RestResult;
-import com.mango.model.data.CourseDetailBean;
+import com.mango.model.bean.CourseDetailBean;
 import com.mango.model.data.CourseModel;
 import com.mango.ui.viewlistener.CourseDetailListener;
 

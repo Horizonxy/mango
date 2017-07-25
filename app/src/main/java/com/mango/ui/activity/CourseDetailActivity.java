@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.mango.Application;
 import com.mango.Constants;
 import com.mango.R;
-import com.mango.model.data.CourseDetailBean;
+import com.mango.model.bean.CourseDetailBean;
 import com.mango.model.data.CourseModel;
 import com.mango.model.data.FavModel;
 import com.mango.presenter.CourseDetailPresenter;
@@ -126,6 +126,9 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
         super.onDestroy();
         if(presenter != null) {
             presenter.onDestroy();
+        }
+        if(favPresenter != null){
+            favPresenter.onDestroy();
         }
     }
 

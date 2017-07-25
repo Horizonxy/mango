@@ -11,4 +11,5 @@ public interface FoundListener extends BaseViewListener {
     void praise(TrendBean trend);
     void notifyData();
     void onFailure();
+    void delOrAddFav(TrendBean trend);
 }

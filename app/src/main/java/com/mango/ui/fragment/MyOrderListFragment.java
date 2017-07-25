@@ -55,7 +55,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         relation = getArguments().getInt("relation");
 
-        DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(this, datas)).build().inject(this);
+        DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(this, datas, relation)).build().inject(this);
     }
 
     @Override

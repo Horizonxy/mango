@@ -17,8 +17,10 @@ import com.mango.R;
 import com.mango.di.component.DaggerFoundFragmentComponent;
 import com.mango.di.module.FoundFragmentModule;
 import com.mango.model.bean.TrendBean;
+import com.mango.presenter.FavPresenter;
 import com.mango.presenter.FoundPresenter;
 import com.mango.ui.adapter.quickadapter.QuickAdapter;
+import com.mango.ui.viewlistener.FavListener;
 import com.mango.ui.viewlistener.FoundListener;
 import com.mango.ui.widget.MangoPtrFrameLayout;
 import com.mango.util.ActivityBuilder;
@@ -29,7 +31,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class FoundFragment extends BaseFragment implements AdapterView.OnItemClickListener,View.OnClickListener,FoundListener {
+public class FoundFragment extends BaseFragment implements AdapterView.OnItemClickListener,View.OnClickListener,FoundListener, FavListener {
 
     ImageView ivSearch;
     TextView tvSearch;
@@ -45,6 +47,9 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     @Inject
     FoundPresenter presenter;
     TextView tvTitle;
+    @Inject
+    FavPresenter favPresenter;
+    TrendBean favTrend;
 
     public FoundFragment() {
     }
@@ -188,10 +193,42 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     }
 
     @Override
+    public void delOrAddFav(TrendBean trend) {
+        this.favTrend = trend;
+        if(favTrend.is_favor()){
+            favPresenter.delFav();
+        } else {
+            favPresenter.addFav();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if(presenter != null) {
             presenter.onDestroy();
         }
+        if(favPresenter != null){
+            favPresenter.onDestroy();
+        }
+    }
+
+    @Override
+    public long getEntityId() {
+        if(favTrend != null){
+            return favTrend.getId();
+        }
+        return 0;
+    }
+
+    @Override
+    public int getEntityTypeId() {
+        return Constants.EntityType.TREND.getTypeId();
+    }
+
+    @Override
+    public void onSuccess(boolean success) {
+        favTrend.setIs_favor(success);
+        adapter.notifyDataSetChanged();
     }
 }
