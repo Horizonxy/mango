@@ -6,8 +6,10 @@ import android.content.Intent;
 import com.mango.Constants;
 import com.mango.R;
 import com.mango.model.bean.BulletinBean;
+import com.mango.model.bean.CourseBean;
 import com.mango.model.bean.CourseClassifyBean;
 import com.mango.model.bean.MemberCardBean;
+import com.mango.model.data.CourseDetailBean;
 import com.mango.ui.activity.AddBlankCardActivity;
 import com.mango.ui.activity.BulletinDetailActivity;
 import com.mango.ui.activity.CalssListActivity;
@@ -102,9 +104,9 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
-    public static void startPlaceOrderActivity(Activity activity, long id){
+    public static void startPlaceOrderActivity(Activity activity, CourseDetailBean course){
         Intent intent = new Intent(activity, PlaceOrderActivity.class);
-        intent.putExtra(Constants.BUNDLE_ID, id);
+        intent.putExtra(Constants.BUNDLE_COURSE_DETAIL, course);
         activity.startActivity(intent);
     }
 }

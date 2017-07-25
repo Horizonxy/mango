@@ -292,4 +292,12 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
         }
         return map;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(presenter != null) {
+            presenter.onDestroy();
+        }
+    }
 }

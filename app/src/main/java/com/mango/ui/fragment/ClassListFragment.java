@@ -182,4 +182,12 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
         hasNext = true;
         loadData();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(presenter != null) {
+            presenter.onDestroy();
+        }
+    }
 }

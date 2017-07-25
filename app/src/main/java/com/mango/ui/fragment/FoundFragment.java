@@ -186,4 +186,12 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         refreshLayout.setLoadMoreEnable(true);
         refreshLayout.loadMoreComplete(true);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(presenter != null) {
+            presenter.onDestroy();
+        }
+    }
 }

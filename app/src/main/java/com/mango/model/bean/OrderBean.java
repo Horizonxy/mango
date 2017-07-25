@@ -13,11 +13,15 @@ public class OrderBean implements Serializable {
     private int order_count;
     private long member_id;
     private String member_name;
+    private String member_mobile;
     private String course_name;
     private long tutor_id;
     private String tutor_name;
     private BigDecimal pay_price;
     private BigDecimal sale_price;
+    private BigDecimal total_price;
+    private BigDecimal discount_price;
+    private String promotion_code;
     private Integer state;
     private String state_label;
     private Integer pay_state;
@@ -185,5 +189,37 @@ public class OrderBean implements Serializable {
 
     public void setSct_time(Integer sct_time) {
         this.sct_time = sct_time;
+    }
+
+    public String getMember_mobile() {
+        return member_mobile;
+    }
+
+    public void setMember_mobile(String member_mobile) {
+        this.member_mobile = member_mobile;
+    }
+
+    public BigDecimal getTotal_price() {
+        return total_price;
+    }
+
+    public void setTotal_price(BigDecimal total_price) {
+        this.total_price = total_price;
+    }
+
+    public BigDecimal getDiscount_price() {
+        return discount_price;
+    }
+
+    public void setDiscount_price(BigDecimal discount_price) {
+        this.discount_price = discount_price;
+    }
+
+    public String getPromotion_code() {
+        return promotion_code;
+    }
+
+    public void setPromotion_code(String promotion_code) {
+        this.promotion_code = promotion_code;
     }
 }

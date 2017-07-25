@@ -82,4 +82,12 @@ public class SetNickNameActivity extends BaseTitleBarActivity implements SetNick
     public int getGender() {
         return 1;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(presenter != null) {
+            presenter.onDestroy();
+        }
+    }
 }

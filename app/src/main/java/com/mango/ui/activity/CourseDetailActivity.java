@@ -3,6 +3,7 @@ package com.mango.ui.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,15 +12,19 @@ import com.mango.Constants;
 import com.mango.R;
 import com.mango.model.data.CourseDetailBean;
 import com.mango.model.data.CourseModel;
+import com.mango.model.data.FavModel;
 import com.mango.presenter.CourseDetailPresenter;
+import com.mango.presenter.FavPresenter;
 import com.mango.ui.viewlistener.CourseDetailListener;
+import com.mango.ui.viewlistener.FavListener;
+import com.mango.ui.widget.TitleBar;
 import com.mango.util.ActivityBuilder;
 import com.mango.util.AppUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class CourseDetailActivity extends BaseTitleBarActivity implements CourseDetailListener {
+public class CourseDetailActivity extends BaseTitleBarActivity implements CourseDetailListener, FavListener, TitleBar.OnTitleBarClickListener {
 
     long id;
     @Bind(R.id.iv_logo)
@@ -40,7 +45,11 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     TextView tvContent;
     @Bind(R.id.tv_type_method)
     TextView tvTypeMethod;
+    @Bind(R.id.btn_place_order)
+    Button btnPlaceOrder;
     CourseDetailPresenter presenter;
+    CourseDetailBean courseDetail;
+    FavPresenter favPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,8 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
         titleBar.setTitle(R.string.course_detail);
         titleBar.setRightBtnIcon(R.drawable.icon_share);
         titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
+        titleBar.setOnTitleBarClickListener(this);
+        btnPlaceOrder.setEnabled(false);
     }
 
     @Override
@@ -76,7 +87,9 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
 
     @Override
     public void onSuccess(CourseDetailBean courseDetail) {
+        this.courseDetail = courseDetail;
         fillCourseData(courseDetail);
+        btnPlaceOrder.setEnabled(true);
     }
 
     private void fillCourseData(CourseDetailBean courseDetail) {
@@ -91,10 +104,12 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
             tvPrice.setText(getString(R.string.rmb) + courseDetail.getSale_price().toString());
         }
         if(courseDetail.is_favor()){
-            ivWant.setImageResource(R.drawable.icon_shoucang);
+            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang);
         } else {
             titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
         }
+        ivWant.setImageResource(R.drawable.faxian_xiangting);
+
         tvContent.setText(courseDetail.getCourse_content());
         tvTypeMethod.setText(courseDetail.getType_method()+"，"
                 + courseDetail.getEach_time() +"/" + courseDetail.getService_time()+"  "
@@ -103,6 +118,54 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
 
     @OnClick(R.id.btn_place_order)
     void onPlaceOrder(View v){
-        ActivityBuilder.startPlaceOrderActivity(this, id);
+        ActivityBuilder.startPlaceOrderActivity(this, courseDetail);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(presenter != null) {
+            presenter.onDestroy();
+        }
+    }
+
+    @Override
+    public long getEntityId() {
+        return courseDetail.getId();
+    }
+
+    @Override
+    public int getEntityTypeId() {
+        return Constants.EntityType.COURSE.getTypeId();
+    }
+
+    @Override
+    public void onSuccess(boolean success) {
+        if(success){
+            courseDetail.setIs_favor(true);
+            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang);
+         } else {
+            courseDetail.setIs_favor(false);
+            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
+        }
+    }
+
+    @Override
+    public void onTitleButtonClick(View view) {
+        int id = view.getId();
+        switch (id){
+            case R.id.ib_right:
+                break;
+            case R.id.ib_second_right:
+                if(favPresenter == null){
+                    favPresenter = new FavPresenter(new FavModel(), this);
+                }
+                if(courseDetail.is_favor()){
+                    favPresenter.delFav();
+                } else {
+                    favPresenter.addFav();
+                }
+                break;
+        }
     }
 }

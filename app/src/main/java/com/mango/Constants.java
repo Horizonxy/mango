@@ -41,6 +41,7 @@ public class Constants {
     public static final String BUNDLE_URL = "bundle_url";
 	public static final String BUNDLE_BULLETIN = "bundle_bulletin";
     public static final String BUNDLE_CLASSIFY_LIST = "bundle_mclassify_list";
+	public static final String BUNDLE_COURSE_DETAIL= "bundle_course_detail";
 
     public static enum UserIndentity {
 
@@ -80,6 +81,24 @@ public class Constants {
 
 		public void setIndentityLabel(String indentityLabel) {
 			this.indentityLabel = indentityLabel;
+		}
+	}
+
+	public static enum EntityType {
+		COURSE(8);
+
+		private int typeId;
+
+		EntityType(int typeId) {
+			this.typeId = typeId;
+		}
+
+		public int getTypeId() {
+			return typeId;
+		}
+
+		public void setTypeId(int typeId) {
+			this.typeId = typeId;
 		}
 	}
 }

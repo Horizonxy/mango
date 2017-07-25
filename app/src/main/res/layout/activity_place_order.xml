@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/btn_pay"
+        android:id="@+id/btn_add_order"
         style="@style/important_corners_btn"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
@@ -20,7 +20,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btn_pay"
+        android:layout_above="@id/btn_add_order"
         android:fillViewport="true">
 
         <LinearLayout
@@ -73,7 +73,7 @@
                     android:textSize="@dimen/sp_16"
                     android:textColor="@color/color_000000"/>
                 <TextView
-                    android:id="@+id/tv_member_name"
+                    android:id="@+id/tv_tutor_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -116,6 +116,7 @@
                         android:textSize="@dimen/sp_14"
                         android:textColor="@color/color_666666"/>
                     <EditText
+                        android:id="@+id/et_promotion_code"
                         android:layout_width="@dimen/dp_140"
                         android:layout_height="match_parent"
                         android:singleLine="true"
@@ -131,6 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
+                android:visibility="gone"
                 android:textColor="@color/color_666666"
                 android:textSize="@dimen/sp_15"
                 android:layout_marginBottom="@dimen/dp_15"

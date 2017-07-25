@@ -223,4 +223,12 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
 
         abstract void onLoginClick(View v);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(memberPresenter != null) {
+            memberPresenter.onDestroy();
+        }
+    }
 }

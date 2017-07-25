@@ -177,4 +177,12 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         hasNext = true;
         loadData();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(presenter != null) {
+            presenter.onDestroy();
+        }
+    }
 }

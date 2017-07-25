@@ -1,5 +1,7 @@
 package com.mango.presenter;
 
+import android.content.Context;
+
 import com.mango.Application;
 import com.mango.Constants;
 import com.mango.model.bean.OrderBean;
@@ -7,6 +9,7 @@ import com.mango.model.bean.RestResult;
 import com.mango.model.data.OrderModel;
 import com.mango.ui.viewlistener.BaseViewListener;
 import com.mango.ui.viewlistener.OrderListListener;
+import com.mango.ui.viewlistener.PlaceOrderListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +58,33 @@ public class OrderPresenter extends BasePresenter {
                 }
             }
         });
+        addSubscription(subscription);
+    }
+
+    public void addOrder(){
+        Context context = viewListener.currentContext();
+        PlaceOrderListener listener = (PlaceOrderListener)viewListener;
+        Subscription subscription = orderModel.addOrder(listener.addOrderQuery(),
+                new CreateLoading(context), new BaseLoadingSubscriber<RestResult<OrderBean>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            listener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<OrderBean> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                listener.onSuccess(restResult.getData());
+                            } else {
+                                listener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
         addSubscription(subscription);
     }
 }

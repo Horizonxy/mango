@@ -345,4 +345,11 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
         return R.layout.fragment_home;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(homePresenter != null) {
+            homePresenter.onDestroy();
+        }
+    }
 }

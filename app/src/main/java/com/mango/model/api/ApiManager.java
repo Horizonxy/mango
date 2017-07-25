@@ -106,4 +106,16 @@ public class ApiManager {
     public static  Observable<RestResult<CourseDetailBean>> getCourse(long id){
         return Application.application.getApiService().getCourse(id, Application.application.getSessId());
     }
+
+    public static  Observable<RestResult<OrderBean>> addOrder(Map<String, Object> map){
+        return Application.application.getApiService().addOrder(map);
+    }
+
+    public static  Observable<RestResult<Object>> addFav(long entityId, int entityTypeId){
+        return Application.application.getApiService().addFav(Application.application.getSessId(), entityId, entityTypeId);
+    }
+
+    public static  Observable<RestResult<Object>> delFav(long entityId, int entityTypeId){
+        return Application.application.getApiService().delFav(Application.application.getSessId(), entityId, entityTypeId);
+    }
 }

@@ -184,7 +184,9 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
         }
         Bus.getDefault().unregister(this);
 
-        loginPresenter.onDestroy();
+        if(loginPresenter != null) {
+            loginPresenter.onDestroy();
+        }
     }
 
     @Override

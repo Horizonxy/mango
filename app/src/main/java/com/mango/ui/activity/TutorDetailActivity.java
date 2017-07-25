@@ -96,9 +96,9 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
             tvWantedCount.setVisibility(View.GONE);
         }
         if(tutor.is_favor()){
-            ivWant.setImageResource(R.drawable.icon_shoucang);
+            ivWant.setImageResource(R.drawable.faxian_xiangting_0);
         } else {
-            ivWant.setImageResource(R.drawable.icon_shoucang_nor);
+            ivWant.setImageResource(R.drawable.faxian_xiangting);
         }
 
         courseList.clear();
@@ -132,5 +132,13 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
     @Override
     public Context currentContext() {
         return this;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(presenter != null) {
+            presenter.onDestroy();
+        }
     }
 }

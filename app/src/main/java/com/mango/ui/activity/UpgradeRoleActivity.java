@@ -124,4 +124,12 @@ public class UpgradeRoleActivity extends BaseTitleBarActivity implements UpdateR
     public Context currentContext() {
         return this;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(presenter != null) {
+            presenter.onDestroy();
+        }
+    }
 }

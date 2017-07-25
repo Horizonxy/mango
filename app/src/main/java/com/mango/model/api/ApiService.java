@@ -161,4 +161,26 @@ public interface ApiService {
             @Query("id") long id,
             @Query("lst_sessid") String sessId
     );
+
+    //5.2.5课程详情接口
+    @POST("outer/router?order_add")
+    Observable<RestResult<OrderBean>> addOrder(
+            @QueryMap Map<String, Object> map
+    );
+
+    //添加收藏接口
+    @POST("outer/router?fav_add")
+    Observable<RestResult<Object>> addFav(
+            @Query("lst_sessid") String sessId,
+            @Query("entity_id") long entityId,
+            @Query("entity_type_id") int entityTypeId
+    );
+
+    //删除收藏接口
+    @POST("outer/router?fav_del")
+    Observable<RestResult<Object>> delFav(
+            @Query("lst_sessid") String sessId,
+            @Query("entity_id") long entityId,
+            @Query("entity_type_id") int entityTypeId
+    );
 }
