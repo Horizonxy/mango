@@ -15,6 +15,7 @@ import com.mango.model.bean.TrendBean;
 import com.mango.model.bean.TutorBean;
 import com.mango.model.bean.CourseDetailBean;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,15 +40,15 @@ public class ApiManager {
         return Application.application.getApiService().getMember(id);
     }
 
-    public static  Observable<RestResult<List<AdvertBean>>> getAdvert(String userIdentity, String position){
+    public static  Observable<RestResult<ArrayList<AdvertBean>>> getAdvert(String userIdentity, String position){
         return Application.application.getApiService().getAdvert(userIdentity, position);
     }
 
-    public static  Observable<RestResult<List<BulletinBean>>> getBulletinList(int pageNo, int pageSize){
+    public static  Observable<RestResult<ArrayList<BulletinBean>>> getBulletinList(int pageNo, int pageSize){
         return Application.application.getApiService().getBulletinList(pageNo, pageSize);
     }
 
-    public static  Observable<RestResult<List<CourseClassifyBean>>> getClassifyList(Map<String, Long> map){
+    public static  Observable<RestResult<ArrayList<CourseClassifyBean>>> getClassifyList(Map<String, Long> map){
         return Application.application.getApiService().getClassifyList(map);
     }
 
@@ -117,5 +118,9 @@ public class ApiManager {
 
     public static  Observable<RestResult<Object>> delFav(long entityId, int entityTypeId){
         return Application.application.getApiService().delFav(Application.application.getSessId(), entityId, entityTypeId);
+    }
+
+    public static  Observable<RestResult<Object>> wantCount(long entityId, int entityTypeId){
+        return Application.application.getApiService().wantCount(Application.application.getSessId(), entityId, entityTypeId);
     }
 }

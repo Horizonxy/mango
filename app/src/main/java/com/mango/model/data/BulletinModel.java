@@ -4,6 +4,7 @@ import com.mango.model.api.ApiManager;
 import com.mango.model.bean.BulletinBean;
 import com.mango.model.bean.RestResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -19,7 +20,7 @@ import rx.schedulers.Schedulers;
 
 public class BulletinModel {
 
-    public Subscription homeBulletinList(int pageNo, int pageSize, Action0 onSubscribe, Subscriber<RestResult<List<BulletinBean>>> subscriber){
+    public Subscription homeBulletinList(int pageNo, int pageSize, Action0 onSubscribe, Subscriber<RestResult<ArrayList<BulletinBean>>> subscriber){
         return ApiManager.getBulletinList(pageNo, pageSize)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(onSubscribe)

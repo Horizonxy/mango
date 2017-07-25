@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.mango.model.bean.CommonBean;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -131,5 +133,17 @@ public class CommonDaoImpl extends BaseDaoImpl<CommonBean, Long> {
 		deleteByColumns(map);
 	}
 	
-	
+	public void saveData(String dataType, Serializable data){
+		List<CommonBean> List = findByColumn(CommonBean.DATA_TYPE, dataType);
+		if(List != null && List.size() > 0){
+			CommonBean common = List.get(0);
+			common.setData(data);
+			update(common);
+		} else {
+			CommonBean common = new CommonBean();
+			common.setData_type(dataType);
+			common.setData(data);
+			save(common);
+		}
+	}
 }

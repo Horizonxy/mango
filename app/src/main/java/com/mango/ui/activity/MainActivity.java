@@ -116,10 +116,10 @@ public class MainActivity extends BaseActivity {
         ViewPagerHelper.bind(tabIndicator, contentPager);
     }
 
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        moveTaskToBack(true);
+//    }
 
     @Override
     public int statusColorResId() {

@@ -102,7 +102,7 @@ public class AdvertBean implements Serializable {
         this.details = details;
     }
 
-    public static class DetailsBean {
+    public static class DetailsBean implements Serializable {
 
         private long id;
         private String file_path;

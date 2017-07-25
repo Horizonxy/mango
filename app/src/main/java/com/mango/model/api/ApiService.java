@@ -14,6 +14,7 @@ import com.mango.model.bean.TrendBean;
 import com.mango.model.bean.TutorBean;
 import com.mango.model.bean.CourseDetailBean;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,13 +51,13 @@ public interface ApiService {
     );
 
     @GET("outer/router?setting_list")
-    Observable<RestResult<List<AdvertBean>>> getAdvert(
+    Observable<RestResult<ArrayList<AdvertBean>>> getAdvert(
             @Query("user_identity") String user_identity,
             @Query("position") String position
     );
 
     @GET("outer/router?bulletin_list")
-    Observable<RestResult<List<BulletinBean>>> getBulletinList(
+    Observable<RestResult<ArrayList<BulletinBean>>> getBulletinList(
             @Query("page_no") int pageNo,
             @Query("page_size") int pageSize
     );
@@ -65,7 +66,7 @@ public interface ApiService {
     //show_top 是否显示在首页(1:是 0：显示所有)
     //parent_id 父分类ID
     @GET("outer/router?classify_list")
-    Observable<RestResult<List<CourseClassifyBean>>> getClassifyList(
+    Observable<RestResult<ArrayList<CourseClassifyBean>>> getClassifyList(
             @QueryMap Map<String, Long> map
     );
 
@@ -179,6 +180,14 @@ public interface ApiService {
     //删除收藏接口
     @POST("outer/router?fav_del")
     Observable<RestResult<Object>> delFav(
+            @Query("lst_sessid") String sessId,
+            @Query("entity_id") long entityId,
+            @Query("entity_type_id") int entityTypeId
+    );
+
+    //5.6.2	 想看接口
+    @POST("outer/router?want_count")
+    Observable<RestResult<Object>> wantCount(
             @Query("lst_sessid") String sessId,
             @Query("entity_id") long entityId,
             @Query("entity_type_id") int entityTypeId

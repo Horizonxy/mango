@@ -7,6 +7,7 @@ import com.mango.model.bean.CourseDetailBean;
 import com.mango.model.bean.RestResult;
 import com.mango.util.RxJavaUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import rx.functions.Action1;
 
 public class CourseModel {
 
-    public Subscription getClassify(Map<String, Long> map, Action0 onSubscribe, Subscriber<RestResult<List<CourseClassifyBean>>> subscriber){
+    public Subscription getClassify(Map<String, Long> map, Action0 onSubscribe, Subscriber<RestResult<ArrayList<CourseClassifyBean>>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getClassifyList(map), onSubscribe).subscribe(subscriber);
     }
 

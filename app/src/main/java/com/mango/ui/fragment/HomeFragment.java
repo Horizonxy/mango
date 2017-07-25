@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -25,7 +26,10 @@ import com.mango.di.component.DaggerHomeFragmentComponent;
 import com.mango.di.module.HomeFragmentModule;
 import com.mango.model.bean.AdvertBean;
 import com.mango.model.bean.BulletinBean;
+import com.mango.model.bean.CommonBean;
 import com.mango.model.bean.CourseClassifyBean;
+import com.mango.model.bean.MemberBean;
+import com.mango.model.db.CommonDaoImpl;
 import com.mango.presenter.HomePresenter;
 import com.mango.ui.adapter.ViewPagerAdapter;
 import com.mango.ui.adapter.quickadapter.BaseAdapterHelper;
@@ -43,7 +47,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class HomeFragment extends BaseFragment implements HomeFragmentListener,View.OnClickListener {
+public class HomeFragment extends BaseFragment implements HomeFragmentListener, View.OnClickListener {
 
     ConvenientBanner homeBanner;
     List<AdvertBean> banners;
@@ -107,12 +111,12 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
             }
         }, banners).setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
                 .setPageIndicator(new int[]{R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected})
-        .setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Toast.makeText(getActivity(), "banner: " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Toast.makeText(getActivity(), "banner: " + position, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         tvScroll.setText(16, DisplayUtils.dip2px(getActivity(), 10), getResources().getColor(R.color.color_333333));//设置属性,具体跟踪源码
         tvScroll.setTextStillTime(2 * 1000);//设置停留时长间隔
@@ -130,7 +134,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
         initData();
 
         List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
-        if(!indentityList.contains(Constants.UserIndentity.PUBLIC)){
+        if (!indentityList.contains(Constants.UserIndentity.PUBLIC)) {
             layoutUpdateRole.setVisibility(View.GONE);
         } else {
             layoutUpdateRole.setVisibility(View.VISIBLE);
@@ -145,7 +149,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
     }
 
     private void barColorWithScroll() {
-        if(layoutHomeBar.getBackground() == null){
+        if (layoutHomeBar.getBackground() == null) {
             layoutHomeBar.setBackgroundResource(R.color.color_ffb900);
         }
         layoutHomeBar.getBackground().mutate().setAlpha(0);
@@ -165,10 +169,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
     @Override
     public void onPause() {
         super.onPause();
-        if(homeBanner != null) {
+        if (homeBanner != null) {
             homeBanner.stopTurning();
         }
-        if(tvScroll != null) {
+        if (tvScroll != null) {
             tvScroll.stopAutoScroll();
         }
     }
@@ -176,23 +180,23 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
     @Override
     public void onResume() {
         super.onResume();
-        if(homeBanner != null) {
+        if (homeBanner != null) {
             homeBanner.startTurning(3 * 1000);
         }
-        if(tvScroll != null) {
+        if (tvScroll != null) {
             tvScroll.startAutoScroll();
         }
     }
 
     @Override
     public void onSuccess(String position, List<AdvertBean> advertList) {
-        if(Constants.INDEX_THREEE_ADVERT.equals(position)){
-            if(advertList.size() > 0){
+        if (Constants.INDEX_THREEE_ADVERT.equals(position)) {
+            if (advertList.size() > 0) {
                 AdvertBean advert1 = advertList.get(0);
                 tvTitle1.setText(advert1.getTitle());
                 tvIntro1.setText(advert1.getIntro());
                 List<AdvertBean.DetailsBean> details = advert1.getDetails();
-                if(details != null && details.size() > 0){
+                if (details != null && details.size() > 0) {
                     Application.application.getImageLoader().displayImage(details.get(0).getFile_path(), ivAdvert1, Application.application.getDefaultOptions());
                 }
             } else {
@@ -200,7 +204,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
                 tvIntro1.setText("");
                 ivAdvert1.setImageResource(0);
             }
-            if(advertList.size() > 1){
+            if (advertList.size() > 1) {
                 AdvertBean advert2 = advertList.get(1);
                 tvTitle2.setText(advert2.getTitle());
                 tvIntro2.setText(advert2.getIntro());
@@ -208,7 +212,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
                 List<AdvertBean.DetailsBean> details = advert2.getDetails();
                 int dp10 = (int) getResources().getDimension(R.dimen.dp_10);
                 int width = (int) ((DisplayUtils.screenWidth(getContext()) - dp10 * 4) / 3.4);
-                for (int i = 0; details != null && i < details.size(); i++){
+                for (int i = 0; details != null && i < details.size(); i++) {
                     ImageView item = new ImageView(getContext());
                     item.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(width, HorizontalScrollView.LayoutParams.MATCH_PARENT);
@@ -221,18 +225,18 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
                 tvIntro2.setText("");
                 layoutAdvert2.removeAllViews();
             }
-            if(advertList.size() > 2){
+            if (advertList.size() > 2) {
                 AdvertBean advert3 = advertList.get(2);
                 tvTitle3.setText(advert3.getTitle());
                 List<AdvertBean.DetailsBean> details = advert3.getDetails();
-                if(details != null && details.size() > 0){
+                if (details != null && details.size() > 0) {
                     Application.application.getImageLoader().displayImage(details.get(0).getFile_path(), ivAdvert3, Application.application.getDefaultOptions());
                 }
             } else {
                 tvTitle3.setText("");
                 ivAdvert3.setImageResource(0);
             }
-        } else if(Constants.INDEX_BANNER.equals(position)) {
+        } else if (Constants.INDEX_BANNER.equals(position)) {
             banners.clear();
             banners.addAll(advertList);
             homeBanner.notifyDataSetChanged();
@@ -248,7 +252,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
     public void onClassifySuccess(List<CourseClassifyBean> courseClassifyList) {
         gridViews.clear();
         homeIndicator.removeAllViews();
-        for (int i = 0; courseClassifyList != null && i < courseClassifyList.size(); i+=4){
+        for (int i = 0; courseClassifyList != null && i < courseClassifyList.size(); i += 4) {
             List<CourseClassifyBean> pager = new ArrayList<CourseClassifyBean>();
             pager.addAll(courseClassifyList.subList(i, (i + 4) < courseClassifyList.size() ? (i + 4) : courseClassifyList.size()));
 
@@ -259,6 +263,13 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
                 protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
                     helper.setImageUrl(R.id.iv_classify, item.getLogo_rsurl());
                     helper.setText(R.id.tv_title, item.getClassify_name());
+                }
+            });
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    CourseClassifyBean classify = (CourseClassifyBean) parent.getAdapter().getItem(position);
+                    ActivityBuilder.startCalssListActivity(getActivity(), classify);
                 }
             });
             gridViews.add(gridView);
@@ -276,11 +287,11 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
 
             @Override
             public void onPageSelected(int position) {
-                for (int i = 0; i < homeIndicator.getChildCount(); i++){
-                    if(i == position){
-                        ((ImageView)homeIndicator.getChildAt(position)).setImageResource(R.drawable.shape_indicator_selected);
-                    }else {
-                        ((ImageView)homeIndicator.getChildAt(i)).setImageResource(R.drawable.shape_indicator_normal);
+                for (int i = 0; i < homeIndicator.getChildCount(); i++) {
+                    if (i == position) {
+                        ((ImageView) homeIndicator.getChildAt(position)).setImageResource(R.drawable.shape_indicator_selected);
+                    } else {
+                        ((ImageView) homeIndicator.getChildAt(i)).setImageResource(R.drawable.shape_indicator_normal);
                     }
                 }
             }
@@ -289,11 +300,15 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
             public void onPageScrollStateChanged(int state) {
             }
         });
-        ((ImageView)homeIndicator.getChildAt(homePager.getCurrentItem())).setImageResource(R.drawable.shape_indicator_selected);
+        ((ImageView) homeIndicator.getChildAt(homePager.getCurrentItem())).setImageResource(R.drawable.shape_indicator_selected);
     }
 
     @Override
     public String getUserIdentity() {
+//        MemberBean member = Application.application.getMember();
+//        if(member != null){
+//            return member.getUser_identity_label();
+//        }
         return "public";
     }
 
@@ -309,7 +324,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ib_scan:
                 break;
             case R.id.layout_msg:
@@ -320,7 +335,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
         }
     }
 
-    class BannerHolderView implements Holder<AdvertBean>{
+    class BannerHolderView implements Holder<AdvertBean> {
 
         private ImageView imageView;
 
@@ -334,7 +349,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
         @Override
         public void UpdateUI(Context context, int position, AdvertBean data) {
             List<AdvertBean.DetailsBean> details = data.getDetails();
-            if(details != null && details.size() > 0) {
+            if (details != null && details.size() > 0) {
                 Application.application.getImageLoader().displayImage(details.get(0).getFile_path(), imageView, Application.application.getDefaultOptions());
             }
         }
@@ -348,7 +363,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener,V
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(homePresenter != null) {
+        if (homePresenter != null) {
             homePresenter.onDestroy();
         }
     }
