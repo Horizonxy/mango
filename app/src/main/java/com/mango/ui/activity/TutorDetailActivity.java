@@ -91,7 +91,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         }
         if(tutor.getWanted_count() > 0){
             tvWantedCount.setVisibility(View.VISIBLE);
-            tvWantedCount.setText(String.format(getString(R.string.wanted_count), tutor.getWant_count()));
+            tvWantedCount.setText(String.format(getString(R.string.wanted_count), tutor.getWanted_count()));
         } else {
             tvWantedCount.setVisibility(View.GONE);
         }
