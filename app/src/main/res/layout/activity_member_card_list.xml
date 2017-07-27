@@ -17,7 +17,7 @@
         android:layout_alignParentBottom="true"
         android:textColor="@color/color_333333"/>
 
-    <com.mango.ui.widget.ListView
+    <cn.com.mangopi.android.ui.widget.ListView
         android:id="@+id/lv_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

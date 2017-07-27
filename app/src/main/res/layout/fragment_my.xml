@@ -151,7 +151,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <com.mango.ui.widget.RoundImageView
+            <cn.com.mangopi.android.ui.widget.RoundImageView
                 android:id="@+id/iv_avatar"
                 xmlns:round="http://schemas.android.com/apk/res-auto"
                 round:border_overlay="true"

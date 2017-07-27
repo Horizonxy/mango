@@ -133,7 +133,7 @@
                         android:textColorHint="@color/color_cccccc"
                         android:textSize="@dimen/dp_16" />
 
-                    <com.mango.ui.widget.RoundImageView
+                    <cn.com.mangopi.android.ui.widget.RoundImageView
                         android:id="@+id/iv_student_card"
                         xmlns:round="http://schemas.android.com/apk/res-auto"
                         round:border_overlay="true"

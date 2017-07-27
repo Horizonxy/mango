@@ -7,7 +7,7 @@
     <string name="refresh">刷新</string>
     <string name="rmb">&#165;</string>
     <string name="please_wait">请稍候...</string>
-    <string name="uninstalled_wx">未安装微信</string>
+    <string name="uninstalled_wx">您还未安装微信</string>
 
     <string name="please_input_phone">请输入11位手机号码</string>
     <string name="please_input_smscode">请输入验证码</string>

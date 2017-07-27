@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.mango.ui.widget.MangoPtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:divider="@color/color_efeff4"
             android:dividerHeight="@dimen/dp_0.5"
             android:drawSelectorOnTop="true" />
-    </com.mango.ui.widget.MangoPtrFrameLayout>
+    </cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout>
 
     <include
         android:id="@+id/layout_empty"

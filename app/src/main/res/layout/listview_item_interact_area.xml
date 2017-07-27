@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.mango.ui.widget.RoundImageView xmlns:round="http://schemas.android.com/apk/res-auto"
+        <cn.com.mangopi.android.ui.widget.RoundImageView xmlns:round="http://schemas.android.com/apk/res-auto"
             android:layout_width="@dimen/dp_49"
             android:layout_height="@dimen/dp_49"
             android:src="@drawable/none" />

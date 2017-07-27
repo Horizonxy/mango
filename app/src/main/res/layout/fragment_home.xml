@@ -48,7 +48,7 @@
             android:ellipsize="end"/>
     </RelativeLayout>
 
-    <com.mango.ui.widget.ObservableScrollView
+    <cn.com.mangopi.android.ui.widget.ObservableScrollView
         android:id="@+id/sv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -92,7 +92,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/color_efeff4" />
 
-                <com.mango.ui.widget.VerticalTextview
+                <cn.com.mangopi.android.ui.widget.VerticalTextview
                     android:id="@+id/tv_scroll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -109,7 +109,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@android:color/white">
 
-                <com.mango.ui.widget.ViewPagerFixed
+                <cn.com.mangopi.android.ui.widget.ViewPagerFixed
                     android:id="@+id/home_pager"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_120" />
@@ -323,7 +323,7 @@
 
         </LinearLayout>
 
-    </com.mango.ui.widget.ObservableScrollView>
+    </cn.com.mangopi.android.ui.widget.ObservableScrollView>
 
     <include
         layout="@layout/layout_tab_home_bar"

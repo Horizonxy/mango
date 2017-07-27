@@ -6,7 +6,7 @@
     android:layout_height="40dp"
     android:gravity="center">
 
-    <com.mango.ui.widget.GifMovieView
+    <cn.com.mangopi.android.ui.widget.GifMovieView
         android:id="@+id/gif_progress"
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"

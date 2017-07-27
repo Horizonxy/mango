@@ -35,7 +35,7 @@
     public void on*Event(**);
 }
 
--keep class com.mango.ui.widget.** { *; }
+-keep class cn.com.mangopi.android.ui.widget.** { *; }
 
 -keepclassmembers enum * {     # 保持枚举 enum 类不被混淆
     public static **[] values();
@@ -116,7 +116,7 @@
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 # Application classes that will be serialized/deserialized over Gson 下面替换成自己的实体类
--keep class com.mango.model.bean.** { *; }
+-keep class cn.com.mangopi.android.model.bean.** { *; }
 
 ## ----------------------------------
 ##      OkHttp3

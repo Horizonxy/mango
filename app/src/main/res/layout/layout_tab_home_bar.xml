@@ -30,7 +30,7 @@
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:src="@drawable/home_xiaoxi" />
-        <com.mango.ui.widget.RedPointView
+        <cn.com.mangopi.android.ui.widget.RedPointView
             android:layout_gravity="right|top"
             android:layout_marginRight="@dimen/dp_12"
             android:layout_marginTop="@dimen/dp_14"

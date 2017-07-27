@@ -7,7 +7,7 @@
 
     <include layout="@layout/bar_tab" />
 
-    <com.mango.ui.widget.ViewPagerFixed
+    <cn.com.mangopi.android.ui.widget.ViewPagerFixed
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

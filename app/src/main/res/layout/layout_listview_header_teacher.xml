@@ -9,7 +9,7 @@
         android:layout_height="@dimen/dp_180"
         app:canLoop="true" />
     
-    <com.mango.ui.widget.GridView
+    <cn.com.mangopi.android.ui.widget.GridView
         android:id="@+id/gv_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
