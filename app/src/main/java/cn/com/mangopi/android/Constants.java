@@ -85,6 +85,7 @@ public class Constants {
 	}
 
 	public static enum EntityType {
+		MEMBER(4),
 		TREND(7),
 		COURSE(8);
 

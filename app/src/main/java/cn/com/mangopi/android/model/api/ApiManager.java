@@ -18,6 +18,8 @@ import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
+import cn.com.mangopi.android.model.bean.UploadBean;
+import okhttp3.RequestBody;
 import rx.Observable;
 
 public class ApiManager {
@@ -125,5 +127,13 @@ public class ApiManager {
 
     public static  Observable<RestResult<Object>> wantCount(long entityId, int entityTypeId){
         return Application.application.getApiService().wantCount(Application.application.getSessId(), entityId, entityTypeId);
+    }
+
+    public static  Observable<RestResult<UploadBean>> upload(long entityId, int entityTypeId, RequestBody file){
+        return Application.application.getApiService().upload(Application.application.getSessId(), entityId, entityTypeId, file);
+    }
+
+    public static  Observable<RestResult<Object>> upgradeStudent(Map<String, Object> map){
+        return Application.application.getApiService().upgradeStudent(map);
     }
 }

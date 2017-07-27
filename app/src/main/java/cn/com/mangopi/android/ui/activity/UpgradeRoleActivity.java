@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -112,6 +113,11 @@ public class UpgradeRoleActivity extends BaseTitleBarActivity implements UpdateR
         if(indentity == Constants.UserIndentity.STUDENT){
             startActivity(new Intent(this, UpgradeToStudentActivity.class));
         }
+    }
+
+    @Override
+    public Map<String, Object> getUpgradeMap() {
+        return null;
     }
 
     @Override

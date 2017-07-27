@@ -38,11 +38,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="学习名称："
+                    android:text="学校名称："
                     android:textColor="@color/color_666666"
                     android:textSize="@dimen/dp_16" />
 
                 <EditText
+                    android:id="@+id/et_school"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -81,6 +82,7 @@
                     android:textSize="@dimen/dp_16" />
 
                 <EditText
+                    android:id="@+id/et_major"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

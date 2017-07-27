@@ -17,8 +17,12 @@ import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
+import cn.com.mangopi.android.model.bean.UploadBean;
+import okhttp3.RequestBody;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
@@ -195,5 +199,21 @@ public interface ApiService {
             @Query("lst_sessid") String sessId,
             @Query("entity_id") long entityId,
             @Query("entity_type_id") int entityTypeId
+    );
+
+    //5.6.14上传附件接口
+    @Multipart
+    @POST("outer/router?upload")
+    Observable<RestResult<UploadBean>> upload(
+            @Query("lst_sessid") String sessId,
+            @Query("entity_id") long entityId,
+            @Query("entity_type_id") int entityTypeId,
+            @Part("file\"; filename=\"image.png\"") RequestBody file
+        );
+
+    //导师课程列表接口
+    @POST("outer/router?upgrade_student")
+    Observable<RestResult<Object>> upgradeStudent(
+            @QueryMap Map<String, Object> map
     );
 }

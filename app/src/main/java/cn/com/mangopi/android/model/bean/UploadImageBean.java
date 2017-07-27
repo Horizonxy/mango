@@ -15,6 +15,15 @@ public class UploadImageBean implements Serializable {
     Uri localUri;
     String name;
     int type;
+    UploadBean uploadBean;
+
+    public UploadBean getUploadBean() {
+        return uploadBean;
+    }
+
+    public void setUploadBean(UploadBean uploadBean) {
+        this.uploadBean = uploadBean;
+    }
 
     public UploadImageBean() {
         super();
