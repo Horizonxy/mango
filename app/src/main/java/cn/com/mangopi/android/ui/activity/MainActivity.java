@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
@@ -30,6 +32,7 @@ import cn.com.mangopi.android.ui.fragment.HomeFragment;
 import cn.com.mangopi.android.ui.fragment.MyFragment;
 import cn.com.mangopi.android.ui.fragment.TecaherFragment;
 import cn.com.mangopi.android.util.DisplayUtils;
+import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseActivity {
 
@@ -47,6 +50,14 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         initView();
+
+        initPush();
+    }
+
+    private void initPush() {
+        JPushInterface.resumePush(this);
+        String rid = JPushInterface.getRegistrationID(getApplicationContext());
+        Logger.d("jpush registration id: " + rid);
     }
 
 

@@ -152,6 +152,15 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
     }
 
     private void setMemberView(){
+        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
+        if(!indentityList.contains(Constants.UserIndentity.TUTOR)){
+            vClasses.setVisibility(View.GONE);
+            vAccount.setVisibility(View.GONE);
+        } else {
+            vClasses.setVisibility(View.VISIBLE);
+            vAccount.setVisibility(View.VISIBLE);
+        }
+
         if(member == null){
             tvNickName.setText("");
             tvCollectionCount.setText("-");
@@ -171,7 +180,6 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
             tvClassCount.setText(String.valueOf(member.getCourse_count()));
             tvProjectCount.setText(String.valueOf(member.getProject_count()));
 
-            List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
             if((indentityList.contains(Constants.UserIndentity.STUDENT) && indentityList.contains(Constants.UserIndentity.TUTOR) && indentityList.contains(Constants.UserIndentity.COMMUNITY))
                     || (indentityList.contains(Constants.UserIndentity.TUTOR) && indentityList.contains(Constants.UserIndentity.STUDENT) && indentityList.contains(Constants.UserIndentity.COMPANY) && indentityList.contains(Constants.UserIndentity.COMMUNITY))
                     || (indentityList.contains(Constants.UserIndentity.COMPANY) &&indentityList.contains(Constants.UserIndentity.TUTOR))

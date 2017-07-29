@@ -23,6 +23,7 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.db.CommonDaoImpl;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.PreUtils;
+import cn.jpush.android.api.JPushInterface;
 import dagger.Lazy;
 
 public class Application extends MultiDexApplication {
@@ -52,15 +53,16 @@ public class Application extends MultiDexApplication {
         application = this;
         Logger.init(getResources().getString(R.string.app_name));
 
-        if (BuildConfig.DEBUG) {
-            StatService.setDebugOn(true);
-        }
+        StatService.setDebugOn(BuildConfig.DEBUG);
         String vendor = AppUtils.getChannel(this);
         StatService.setAppChannel(this, vendor, false);
         StatService.autoTrace(this, true, true);
 
         Bus.getDefault().setStrictMode(true);
         Bus.getDefault().setDebug(BuildConfig.DEBUG);
+
+        JPushInterface.setDebugMode(BuildConfig.DEBUG);
+        JPushInterface.init(this);
     }
 
     public DisplayImageOptions getDefaultOptions() {

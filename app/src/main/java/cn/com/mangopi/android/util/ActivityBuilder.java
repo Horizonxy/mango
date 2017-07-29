@@ -24,6 +24,7 @@ import cn.com.mangopi.android.ui.activity.MyClassesActivity;
 import cn.com.mangopi.android.ui.activity.PlaceOrderActivity;
 import cn.com.mangopi.android.ui.activity.PublishDynamicsActivity;
 import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
+import cn.com.mangopi.android.ui.activity.SuccessActivity;
 import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
 import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
 
@@ -106,6 +107,13 @@ public class ActivityBuilder {
     public static void startPlaceOrderActivity(Activity activity, CourseDetailBean course){
         Intent intent = new Intent(activity, PlaceOrderActivity.class);
         intent.putExtra(Constants.BUNDLE_COURSE_DETAIL, course);
+        activity.startActivity(intent);
+    }
+
+    public static void startSuccessActivity(Activity activity, String title, String text){
+        Intent intent = new Intent(activity, SuccessActivity.class);
+        intent.putExtra(Constants.BUNDLE_TITLE, title);
+        intent.putExtra(Constants.BUNDLE_TEXT, text);
         activity.startActivity(intent);
     }
 }
