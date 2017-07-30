@@ -15,6 +15,7 @@ import java.util.List;
 
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.CourseBean;
+import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.util.ActivityBuilder;
@@ -95,8 +96,22 @@ public class TutorCourseListPopupWindow extends BasePopupWindow {
             @Override
             public void onClick(View v) {
                 dismiss();
-                ActivityBuilder.startCourseDetailActivity((Activity) context, courseList.get(selectedPos).getId());
+                ActivityBuilder.startPlaceOrderActivity((Activity) context, convertCourseDetail(courseList.get(selectedPos)));
             }
         });
+    }
+
+    private CourseDetailBean convertCourseDetail(CourseBean course){
+        CourseDetailBean courseDetail = new CourseDetailBean();
+        courseDetail.setId(course.getId());
+        courseDetail.setCourse_title(course.getCourse_title());
+        courseDetail.setMember_id(course.getMember_id());
+        courseDetail.setMember_name(course.getMember_name());
+        courseDetail.setSale_price(course.getSale_price());
+        courseDetail.setType_name(course.getType_name());
+        courseDetail.setAvatar_rsurl(course.getAvatar_rsurl());
+        courseDetail.setCity(course.getCity());
+        courseDetail.setCourse_content(course.getCourse_content());
+        return  courseDetail;
     }
 }

@@ -20,6 +20,7 @@ import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.data.OrderModel;
 import cn.com.mangopi.android.presenter.OrderPresenter;
 import cn.com.mangopi.android.ui.viewlistener.PlaceOrderListener;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 
 public class PlaceOrderActivity extends BaseTitleBarActivity implements PlaceOrderListener {
@@ -83,7 +84,7 @@ public class PlaceOrderActivity extends BaseTitleBarActivity implements PlaceOrd
 
     @Override
     public void onSuccess(OrderBean order) {
-
+        ActivityBuilder.startSelectPayActivity(this, order);
     }
 
     @Override

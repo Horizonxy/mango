@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
@@ -26,6 +25,7 @@ import cn.com.mangopi.android.presenter.OrderPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.OrderListListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.EmptyHelper;
 
 public class MyOrderListFragment extends BaseFragment implements AdapterView.OnItemClickListener, OrderListListener, EmptyHelper.OnRefreshListener {
@@ -111,8 +111,8 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String item = (String) parent.getAdapter().getItem(position);
-        Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
+        OrderBean item = (OrderBean) parent.getAdapter().getItem(position);
+        ActivityBuilder.startOrderDetailActivity(getActivity(), item.getId());
     }
 
     @Override

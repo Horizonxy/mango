@@ -13,6 +13,7 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
+import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.TrendBean;
@@ -215,5 +216,12 @@ public interface ApiService {
     @POST("outer/router?upgrade_student")
     Observable<RestResult<Object>> upgradeStudent(
             @QueryMap Map<String, Object> map
+    );
+
+    //5.3.3订单详情接口
+    @GET("outer/router?order_get")
+    Observable<RestResult<OrderDetailBean>> getOrder(
+            @Query("lst_sessid") String sessId,
+            @Query("id") long id
     );
 }

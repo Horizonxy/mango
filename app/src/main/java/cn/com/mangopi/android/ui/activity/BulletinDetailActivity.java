@@ -29,6 +29,7 @@ public class BulletinDetailActivity extends BaseTitleBarActivity {
             titleBar.setLeftText(bulletin.getTitle());
             webView.loadData(MangoUtils.makeHtml(bulletin.getContent()), "text/html; charset=UTF-8", null);
         }
+        titleBar.setBarBackGroundColor(R.color.color_ffb900);
     }
 
     @Override

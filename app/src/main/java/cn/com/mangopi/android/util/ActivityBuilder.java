@@ -12,6 +12,7 @@ import cn.com.mangopi.android.model.bean.BulletinBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
+import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.ui.activity.AddBlankCardActivity;
 import cn.com.mangopi.android.ui.activity.BulletinDetailActivity;
 import cn.com.mangopi.android.ui.activity.CalssListActivity;
@@ -21,12 +22,16 @@ import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
 import cn.com.mangopi.android.ui.activity.MemberCardListActivity;
 import cn.com.mangopi.android.ui.activity.MyClassesActivity;
+import cn.com.mangopi.android.ui.activity.OrderDetailActivity;
 import cn.com.mangopi.android.ui.activity.PlaceOrderActivity;
 import cn.com.mangopi.android.ui.activity.PublishDynamicsActivity;
+import cn.com.mangopi.android.ui.activity.SelectPayActivity;
 import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
 import cn.com.mangopi.android.ui.activity.SuccessActivity;
 import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
 import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
+
+import static android.R.attr.order;
 
 /**
  * @author 蒋先明
@@ -114,6 +119,18 @@ public class ActivityBuilder {
         Intent intent = new Intent(activity, SuccessActivity.class);
         intent.putExtra(Constants.BUNDLE_TITLE, title);
         intent.putExtra(Constants.BUNDLE_TEXT, text);
+        activity.startActivity(intent);
+    }
+
+    public static void startSelectPayActivity(Activity activity, OrderBean order){
+        Intent intent = new Intent(activity, SelectPayActivity.class);
+        intent.putExtra(Constants.BUNDLE_ORDER, order);
+        activity.startActivity(intent);
+    }
+
+    public static void startOrderDetailActivity(Activity activity, long id){
+        Intent intent = new Intent(activity, OrderDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_ORDER_ID, id);
         activity.startActivity(intent);
     }
 }

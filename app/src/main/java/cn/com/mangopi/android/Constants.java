@@ -44,8 +44,10 @@ public class Constants {
 	public static final String BUNDLE_COURSE_DETAIL = "bundle_course_detail";
     public static final String BUNDLE_TEXT = "bundle_text";
 	public static final String BUNDLE_TITLE = "bundle_title";
+	public static final String BUNDLE_ORDER = "bundle_order";
+    public static final String BUNDLE_ORDER_ID = "bundle_order_id";
 
-	public static enum UserIndentity {
+    public static enum UserIndentity {
 
 		PUBLIC("public", "自由人"),
 		STUDENT("student", "学生"),

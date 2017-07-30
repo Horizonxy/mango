@@ -14,6 +14,7 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
+import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.TrendBean;
@@ -135,5 +136,9 @@ public class ApiManager {
 
     public static  Observable<RestResult<Object>> upgradeStudent(Map<String, Object> map){
         return Application.application.getApiService().upgradeStudent(map);
+    }
+
+    public static  Observable<RestResult<OrderDetailBean>> getOrder(long id){
+        return Application.application.getApiService().getOrder(Application.application.getSessId(), id);
     }
 }
