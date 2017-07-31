@@ -6,15 +6,16 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ProgressBar;
+
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
+
 import butterknife.Bind;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.ui.widget.web.MangoWebChromeClient;
 import cn.com.mangopi.android.ui.widget.web.MangoWebChromeListener;
 import cn.com.mangopi.android.ui.widget.web.MangoWebView;
-import cn.com.mangopi.android.ui.widget.web.MangoWebViewClient;
 import cn.com.mangopi.android.util.BusEvent;
 
 public class WebViewActivity extends BaseTitleBarActivity implements MangoWebChromeListener {
@@ -43,7 +44,7 @@ public class WebViewActivity extends BaseTitleBarActivity implements MangoWebChr
         progress.setProgressDrawable(drawable);
 
         webView.setWebChromeClient(new MangoWebChromeClient(this));
-        webView.setWebViewClient(new MangoWebViewClient(this));
+        //webView.setWebViewClient(new MangoWebViewClient(this));
 
         webView.loadUrl(url);
     }
