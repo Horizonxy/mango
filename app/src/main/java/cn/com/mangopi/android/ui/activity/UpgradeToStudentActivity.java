@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,7 @@ import cn.com.mangopi.android.presenter.UploadPresenter;
 import cn.com.mangopi.android.ui.viewlistener.UpdateRoleListener;
 import cn.com.mangopi.android.ui.viewlistener.UploadViewListener;
 import cn.com.mangopi.android.ui.widget.RoundImageView;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.FileUtils;
 import cn.com.mangopi.android.util.SelectorImageLoader;
@@ -46,6 +48,8 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
     RoundImageView ivStudentCard;
     @Bind(R.id.tv_student_card)
     TextView tvStudentCard;
+    @Bind(R.id.et_real_name)
+    TextView etRealName;
     GalleryConfig galleryConfig;
     @Bind(R.id.et_school)
     EditText etSchool;
@@ -143,6 +147,18 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
 
     @OnClick(R.id.btn_submit)
     void upgradeClick(View v){
+        if(TextUtils.isEmpty(etRealName.getText().toString())){
+            AppUtils.showToast(this, "请输入真实姓名");
+            return;
+        }
+        if(TextUtils.isEmpty(etSchool.getText().toString())){
+            AppUtils.showToast(this, "请输入学校名称");
+            return;
+        }
+        if(TextUtils.isEmpty(studentCardRsurl)){
+            AppUtils.showToast(this, "请选择学生证照片或重传");
+            return;
+        }
         updateRolePresenter.upgradeStudent();
     }
 
@@ -164,7 +180,7 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
 
     @Override
     public void onSuccess(Constants.UserIndentity indentity) {
-        AppUtils.showToast(this, "升级学生身份成功");
+        ActivityBuilder.startSuccessActivity(this, getString(R.string.check_your_student_role), "信息已提交成功，请等候系统确认。");
     }
 
     @Override
@@ -174,6 +190,7 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
         map.put("major", etMajor.getText().toString());
         map.put("student_card_photo_rsurl", studentCardRsurl);
         map.put("lst_sessid", Application.application.getSessId());
+        map.put("name", etRealName.getText().toString());
         return map;
     }
 

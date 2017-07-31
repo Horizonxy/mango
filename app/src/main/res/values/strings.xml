@@ -111,6 +111,7 @@
 
     <string name="submit_verify">提交认证</string>
     <string name="check_your_student_role">验证您的学生身份</string>
+    <string name="save_role_tip">所有信息将受平台加密保存，严密监管</string>
 
     <string name="want_count">%d想听</string>
     <string name="wanted_count">%d听过</string>
