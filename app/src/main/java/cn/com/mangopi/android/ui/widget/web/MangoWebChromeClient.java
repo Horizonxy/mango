@@ -5,10 +5,11 @@ import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.EditText;
 
-public class MangoWebChromeClient extends android.webkit.WebChromeClient {
+public class MangoWebChromeClient extends WebChromeClient {
 
     MangoWebChromeListener webChromeListener;
 

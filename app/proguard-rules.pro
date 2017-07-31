@@ -58,6 +58,15 @@
     public static <fields>;
 }
 
+-keep class **.Webview2JsInterface { *; }  #保护WebView对HTML页面的API不被混淆
+-keepclassmembers class * extends android.webkit.WebViewClient {  #如果你的项目中用到了webview的复杂操作 ，最好加入
+     public void *(android.webkit.WebView,java.lang.String,android.graphics.Bitmap);
+     public boolean *(android.webkit.WebView,java.lang.String);
+}
+-keepclassmembers class * extends android.webkit.WebChromeClient {  #如果你的项目中用到了webview的复杂操作 ，最好加入
+     public void *(android.webkit.WebView,java.lang.String);
+}
+
 ## ----------------------------------
 ##      weixin
 ## ----------------------------------
@@ -145,3 +154,17 @@
 
 -dontwarn cn.jiguang.**
 -keep class cn.jiguang.** { *; }
+
+## ----------------------------------
+##      ormlite
+## ----------------------------------
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
+-keep class * extends com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper
+-keepclassmembers class * extends com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper {
+  public <init>(android.content.Context);
+}

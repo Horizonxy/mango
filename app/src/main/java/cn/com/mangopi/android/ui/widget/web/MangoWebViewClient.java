@@ -4,6 +4,7 @@ import android.Manifest;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -20,7 +21,7 @@ import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.util.FileUtils;
 import cn.com.mangopi.android.util.PermissionUtils;
 
-public class MangoWebViewClient extends android.webkit.WebViewClient{
+public class MangoWebViewClient extends WebViewClient {
 
     private static String IMG_CACHE = FileUtils.getEnvPath(Application.application, true, Constants.IMG_WEB_CACHE_DIR);
     MangoWebChromeListener webChromeListener;

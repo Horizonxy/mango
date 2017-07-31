@@ -5,10 +5,11 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import cn.com.mangopi.android.util.NetUtils;
 
-public class MangoWebView extends android.webkit.WebView {
+public class MangoWebView extends WebView {
 
     public MangoWebView(Context context) {
         super(context);
@@ -50,6 +51,7 @@ public class MangoWebView extends android.webkit.WebView {
         getSettings().setDatabasePath(cacheDirPath);
         getSettings().setAppCachePath(cacheDirPath);
 
+        getSettings().setLoadsImagesAutomatically(true);
         getSettings().setLoadWithOverviewMode(true);
         getSettings().setPluginState(WebSettings.PluginState.ON);
         getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
@@ -63,6 +65,10 @@ public class MangoWebView extends android.webkit.WebView {
         }
 
         setLayerType(View.LAYER_TYPE_HARDWARE,  null);
+
+        removeJavascriptInterface("searchBoxJavaBridge_");
+        removeJavascriptInterface("accessibility");
+        removeJavascriptInterface("accessibilityTraversal");
 
         clearHistory();
     }
