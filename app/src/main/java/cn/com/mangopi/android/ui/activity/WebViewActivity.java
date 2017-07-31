@@ -5,6 +5,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.mcxiaoke.bus.Bus;
@@ -13,12 +15,11 @@ import com.mcxiaoke.bus.annotation.BusReceiver;
 import butterknife.Bind;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
-import cn.com.mangopi.android.ui.widget.web.MangoWebChromeClient;
 import cn.com.mangopi.android.ui.widget.web.MangoWebChromeListener;
 import cn.com.mangopi.android.ui.widget.web.MangoWebView;
 import cn.com.mangopi.android.util.BusEvent;
 
-public class WebViewActivity extends BaseTitleBarActivity implements MangoWebChromeListener {
+public class WebViewActivity extends BaseActivity implements MangoWebChromeListener {
 
     @Bind(R.id.web_view)
     MangoWebView webView;
@@ -43,7 +44,13 @@ public class WebViewActivity extends BaseTitleBarActivity implements MangoWebChr
         ClipDrawable drawable = new ClipDrawable(new ColorDrawable(getResources().getColor(R.color.color_ffb900)), Gravity.LEFT, ClipDrawable.HORIZONTAL);
         progress.setProgressDrawable(drawable);
 
-        webView.setWebChromeClient(new MangoWebChromeClient(this));
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+            }
+        });
+        //webView.setWebChromeClient(new MangoWebChromeClient(this));
         //webView.setWebViewClient(new MangoWebViewClient(this));
 
         webView.loadUrl(url);
@@ -93,7 +100,7 @@ public class WebViewActivity extends BaseTitleBarActivity implements MangoWebChr
 
     @Override
     public void onReceivedTitle(String title) {
-        titleBar.setTitle(title == null ? "" : title);
+        //titleBar.setTitle(title == null ? "" : title);
     }
 
     @Override
