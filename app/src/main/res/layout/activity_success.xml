@@ -6,7 +6,6 @@
     <Button
         android:id="@+id/btn_back"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         style="@style/important_corners_btn"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/sp_15"

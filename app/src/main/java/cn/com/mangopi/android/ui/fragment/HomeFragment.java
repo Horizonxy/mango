@@ -1,6 +1,7 @@
 package cn.com.mangopi.android.ui.fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
@@ -33,6 +33,7 @@ import cn.com.mangopi.android.di.module.HomeFragmentModule;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
+import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.presenter.HomePresenter;
 import cn.com.mangopi.android.ui.adapter.ViewPagerAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
@@ -66,6 +67,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     ImageView ivAdvert3;
     @Inject
     HomePresenter homePresenter;
+    AdvertDetaiClickListener advertDetaiClickListener;
 
     public HomeFragment() {
     }
@@ -96,6 +98,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         root.findViewById(R.id.ib_scan).setOnClickListener(this);
         root.findViewById(R.id.layout_msg).setOnClickListener(this);
         root.findViewById(R.id.iv_bottom_del).setOnClickListener(this);
+
+        advertDetaiClickListener = new AdvertDetaiClickListener(getActivity());
+        ivAdvert1.setOnClickListener(advertDetaiClickListener);
+        ivAdvert3.setOnClickListener(advertDetaiClickListener);
     }
 
     @Override
@@ -112,7 +118,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 .setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Toast.makeText(getActivity(), "banner: " + position, Toast.LENGTH_SHORT).show();
+                        AdvertBean.DetailsBean advertDetail = banners.get(position).getDetails().get(0);
+                        if(advertDetail != null) {
+                            MangoUtils.jumpAdvert(HomeFragment.this.getActivity(), advertDetail);
+                        }
                     }
                 });
 
@@ -123,7 +132,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         tvScroll.setOnItemClickListener(new VerticalTextview.OnItemClickListener() {
             @Override
             public void onItemClick(Object contentVo, int position) {
-                ActivityBuilder.startWebViewActivity(getActivity(), (BulletinBean) contentVo);
+                ActivityBuilder.startBulletinDetailActivity(getActivity(), (BulletinBean) contentVo);
             }
         });
 
@@ -197,10 +206,12 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 if (details != null && details.size() > 0) {
                     Application.application.getImageLoader().displayImage(details.get(0).getFile_path(), ivAdvert1, Application.application.getDefaultOptions());
                 }
+                ivAdvert1.setTag(details.get(0));
             } else {
                 tvTitle1.setText("");
                 tvIntro1.setText("");
                 ivAdvert1.setImageResource(0);
+                ivAdvert1.setTag(null);
             }
             if (advertList.size() > 1) {
                 AdvertBean advert2 = advertList.get(1);
@@ -217,6 +228,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                     item.setLayoutParams(params);
                     Application.application.getImageLoader().displayImage(details.get(i).getFile_path(), item, Application.application.getDefaultOptions());
                     layoutAdvert2.addView(item);
+                    item.setTag(details.get(i));
+                    item.setOnClickListener(advertDetaiClickListener);
                 }
             } else {
                 tvTitle2.setText("");
@@ -230,14 +243,33 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 if (details != null && details.size() > 0) {
                     Application.application.getImageLoader().displayImage(details.get(0).getFile_path(), ivAdvert3, Application.application.getDefaultOptions());
                 }
+                ivAdvert3.setTag(details.get(0));
             } else {
                 tvTitle3.setText("");
                 ivAdvert3.setImageResource(0);
+                ivAdvert3.setTag(null);
             }
         } else if (Constants.INDEX_BANNER.equals(position)) {
             banners.clear();
             banners.addAll(advertList);
             homeBanner.notifyDataSetChanged();
+        }
+    }
+
+    private static class AdvertDetaiClickListener implements View.OnClickListener{
+
+        Activity activity;
+
+        public AdvertDetaiClickListener(Activity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        public void onClick(View v) {
+            AdvertBean.DetailsBean advertDetail = (AdvertBean.DetailsBean) v.getTag();
+            if(advertDetail != null) {
+                MangoUtils.jumpAdvert(activity, advertDetail);
+            }
         }
     }
 
@@ -303,10 +335,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @Override
     public String getUserIdentity() {
-//        MemberBean member = Application.application.getMember();
-//        if(member != null){
-//            return member.getUser_identity_label();
-//        }
+        MemberBean member = Application.application.getMember();
+        if(member != null){
+            return member.getUser_identity_label();
+        }
         return "public";
     }
 
@@ -324,12 +356,14 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ib_scan:
+                ActivityBuilder.startWebViewActivity(getActivity(), "https://m.baidu.com");
                 break;
             case R.id.layout_msg:
                 break;
             case R.id.iv_bottom_del:
                 layoutUpdateRole.setVisibility(View.GONE);
                 break;
+
         }
     }
 

@@ -1,19 +1,20 @@
 package cn.com.mangopi.android.ui.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
+import butterknife.Bind;
+import butterknife.OnClick;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.BulletinBean;
-import cn.com.mangopi.android.ui.widget.web.WebView;
+import cn.com.mangopi.android.ui.widget.web.MangoWebView;
 import cn.com.mangopi.android.util.MangoUtils;
-
-import butterknife.Bind;
 
 public class BulletinDetailActivity extends BaseTitleBarActivity {
 
     @Bind(R.id.web_view)
-    WebView webView;
+    MangoWebView webView;
 
     //公告
     BulletinBean bulletin;
@@ -35,5 +36,10 @@ public class BulletinDetailActivity extends BaseTitleBarActivity {
     @Override
     public int statusColorResId() {
         return R.color.color_ffb900;
+    }
+
+    @OnClick(R.id.ib_back)
+    void onBackClick(View v){
+        finish();
     }
 }

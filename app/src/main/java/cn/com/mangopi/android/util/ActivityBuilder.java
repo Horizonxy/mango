@@ -30,8 +30,7 @@ import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
 import cn.com.mangopi.android.ui.activity.SuccessActivity;
 import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
 import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
-
-import static android.R.attr.order;
+import cn.com.mangopi.android.ui.activity.WebViewActivity;
 
 /**
  * @author 蒋先明
@@ -97,7 +96,7 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
-    public static void startWebViewActivity(Activity activity, BulletinBean bulletin){
+    public static void startBulletinDetailActivity(Activity activity, BulletinBean bulletin){
         Intent intent = new Intent(activity, BulletinDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_BULLETIN, bulletin);
         activity.startActivity(intent);
@@ -131,6 +130,12 @@ public class ActivityBuilder {
     public static void startOrderDetailActivity(Activity activity, long id){
         Intent intent = new Intent(activity, OrderDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_ORDER_ID, id);
+        activity.startActivity(intent);
+    }
+
+    public static void startWebViewActivity(Activity activity, String url){
+        Intent intent = new Intent(activity, WebViewActivity.class);
+        intent.putExtra(Constants.BUNDLE_WEBVIEW_URL, url);
         activity.startActivity(intent);
     }
 }

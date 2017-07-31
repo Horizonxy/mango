@@ -2,8 +2,10 @@ package cn.com.mangopi.android.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -13,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.di.component.DaggerSetNickNameActivityComponent;
 import cn.com.mangopi.android.di.module.SetNickNameActivityModule;
@@ -30,6 +33,10 @@ public class SetNickNameActivity extends BaseTitleBarActivity implements SetNick
     EditText etNickName;
     @Inject
     MemberPresenter presenter;
+    @Bind(R.id.iv_female)
+    ImageView ivFemale;
+    @Bind(R.id.iv_man)
+    ImageView ivMan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +63,21 @@ public class SetNickNameActivity extends BaseTitleBarActivity implements SetNick
                 btnFinish.setEnabled(etNickName.getText().length() > 0);
             }
         });
+
+        ivFemale.setSelected(true);
+        ivMan.setSelected(false);
+    }
+
+    @OnClick(R.id.iv_female)
+    void onClickFemale(View v){
+        ivFemale.setSelected(true);
+        ivMan.setSelected(false);
+    }
+
+    @OnClick(R.id.iv_man)
+    void onClickMan(View v){
+        ivFemale.setSelected(false);
+        ivMan.setSelected(true);
     }
 
     @Override
@@ -80,7 +102,11 @@ public class SetNickNameActivity extends BaseTitleBarActivity implements SetNick
 
     @Override
     public int getGender() {
-        return 1;
+        if(ivFemale.isSelected()){
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     @Override

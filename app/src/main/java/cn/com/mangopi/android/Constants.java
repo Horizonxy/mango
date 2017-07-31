@@ -46,6 +46,7 @@ public class Constants {
 	public static final String BUNDLE_TITLE = "bundle_title";
 	public static final String BUNDLE_ORDER = "bundle_order";
     public static final String BUNDLE_ORDER_ID = "bundle_order_id";
+    public static final String BUNDLE_WEBVIEW_URL = "bundle_webview_url";
 
     public static enum UserIndentity {
 

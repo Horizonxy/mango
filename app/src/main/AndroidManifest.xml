@@ -77,14 +77,15 @@
         <activity android:name=".ui.activity.RegistActivity" />
         <activity
             android:name=".ui.activity.SetNickNameActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity android:name=".ui.activity.UpgradeRoleActivity" />
         <activity android:name=".ui.activity.MyOrderListActivity" />
         <activity android:name=".ui.activity.MyAccountActivity" />
         <activity android:name=".ui.activity.SettingActivity" />
         <activity android:name=".ui.activity.ProfileInfoActivity" />
         <activity android:name=".ui.activity.MyClassesActivity" />
-        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity android:name=".ui.activity.PublishDynamicsActivity" />
         <activity android:name=".ui.activity.InteractAreaActivity" />
         <activity android:name=".ui.activity.TutorClassCategoryActivity" />
@@ -96,12 +97,13 @@
         <activity android:name=".ui.activity.SelectPayActivity" />
         <activity
             android:name=".ui.activity.PlaceOrderActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity android:name=".ui.activity.UpgradeToStudentActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity android:name=".ui.activity.CourseDetailActivity" />
         <activity android:name=".ui.activity.SuccessActivity" />
         <activity android:name=".ui.activity.OrderDetailActivity" />
+        <activity android:name=".ui.activity.WebViewActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

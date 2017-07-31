@@ -11,9 +11,6 @@ import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
-import cn.com.mangopi.android.Application;
-import cn.com.mangopi.android.Constants;
-import cn.com.mangopi.android.model.bean.MemberBean;
 import com.orhanobut.logger.Logger;
 
 import java.io.FileInputStream;
@@ -28,6 +25,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cn.com.mangopi.android.Application;
+import cn.com.mangopi.android.Constants;
+import cn.com.mangopi.android.model.bean.AdvertBean;
+import cn.com.mangopi.android.model.bean.MemberBean;
 
 /**
  * @author 蒋先明
@@ -297,5 +299,20 @@ public class MangoUtils {
             indentityList.add(Constants.UserIndentity.get(indentitys[i]));
         }
         return indentityList;
+    }
+
+    public static void jumpAdvert(Activity activity, AdvertBean.DetailsBean advertDetail){
+        int type = advertDetail.getBind_type();
+        if(type == 0){//超链接
+            ActivityBuilder.startWebViewActivity(activity, advertDetail.getClick_url());
+        } else if(type == 8){//课程
+            if(advertDetail.getEntity_id() != null) {
+                ActivityBuilder.startCourseDetailActivity(activity, advertDetail.getEntity_id().longValue());
+            }
+        } else if(type == 7){//工作包
+
+        } else if(type == 10){//内容
+
+        }
     }
 }
