@@ -2,6 +2,10 @@ package cn.com.mangopi.android.presenter;
 
 import android.content.Context;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
@@ -10,11 +14,6 @@ import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.model.data.PraiseModel;
 import cn.com.mangopi.android.model.data.TrendModel;
 import cn.com.mangopi.android.ui.viewlistener.FoundListener;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import rx.Subscription;
 import rx.functions.Action1;
 
@@ -64,7 +63,7 @@ public class FoundPresenter extends BasePresenter {
 
     public void praise(TrendBean  trend){
         Context context = viewListener.currentContext();
-        Subscription subscription = praiseModel.praise(trend.getId(), Constants.TREND_ENTITY_TYPE_ID, new CreateLoading(context, context.getResources().getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<Object>>(){
+        Subscription subscription = praiseModel.praise(trend.getId(), Constants.EntityType.TREND.getTypeId(), new CreateLoading(context, context.getResources().getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<Object>>(){
             @Override
             public void onError(Throwable e) {
                 super.onError(e);

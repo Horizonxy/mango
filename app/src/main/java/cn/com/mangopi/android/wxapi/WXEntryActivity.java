@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.mcxiaoke.bus.Bus;
 import com.orhanobut.logger.Logger;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -44,9 +45,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private static final String APP_SECRET = "98ad0ece5613c7edf35d56f53c39403b";
     private IWXAPI mWeixinAPI;
     public static final String WEIXIN_APP_ID = "wxea43a55c5ca9f34d";
-    private static final int RETURN_MSG_TYPE_LOGIN = 1;
-    private static final int RETURN_MSG_TYPE_SHARE = 2;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,10 +69,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp resp) {
-        if(RETURN_MSG_TYPE_SHARE == resp.getType()){
+        if(ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX == resp.getType()){
             switch (resp.errCode) {
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                case BaseResp.ErrCode.ERR_USER_CANCEL:
+                //case BaseResp.ErrCode.ERR_USER_CANCEL:
                     AppUtils.showToast(this, "分享失败");
                     break;
                 case BaseResp.ErrCode.ERR_OK:
@@ -82,10 +80,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     break;
             }
             finish();
-        } else if(RETURN_MSG_TYPE_LOGIN == resp.getType()){
+        } else if(ConstantsAPI.COMMAND_SENDAUTH == resp.getType()){
             switch (resp.errCode) {
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                case BaseResp.ErrCode.ERR_USER_CANCEL:
+                //case BaseResp.ErrCode.ERR_USER_CANCEL:
                     AppUtils.showToast(this, "登录失败");
                     finish();
                     break;
@@ -95,6 +93,16 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         String code = sendResp.code;
                         getAccess_token(code);
                     }
+                    break;
+            }
+        } else if(ConstantsAPI.COMMAND_PAY_BY_WX == resp.getType()){
+            switch (resp.errCode) {
+                case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                //case BaseResp.ErrCode.ERR_USER_CANCEL:
+                    AppUtils.showToast(this, "支付失败");
+                    finish();
+                    break;
+                case BaseResp.ErrCode.ERR_OK:
                     break;
             }
         }

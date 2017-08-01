@@ -7,6 +7,7 @@ import java.util.Map;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
+import cn.com.mangopi.android.model.bean.ContentDetailBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
@@ -144,5 +145,9 @@ public class ApiManager {
 
     public static  Observable<RestResult<OrderDetailBean>> getOrder(long id){
         return Application.application.getApiService().getOrder(Application.application.getSessId(), id);
+    }
+
+    public static  Observable<RestResult<ContentDetailBean>> getContent(long id){
+        return Application.application.getApiService().getContent(id);
     }
 }

@@ -110,6 +110,7 @@
             android:name=".ui.activity.UpgradeToTutorActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity android:name=".ui.activity.InputMessageActivity" />
+        <activity android:name=".ui.activity.ContentDetailActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

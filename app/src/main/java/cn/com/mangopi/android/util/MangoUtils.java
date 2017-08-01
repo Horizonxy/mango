@@ -309,10 +309,12 @@ public class MangoUtils {
             if(advertDetail.getEntity_id() != null) {
                 ActivityBuilder.startCourseDetailActivity(activity, advertDetail.getEntity_id().longValue());
             }
-        } else if(type == 7){//工作包
+        } else if(type == 6){//工作包
 
         } else if(type == 10){//内容
-
+            if(advertDetail.getEntity_id() != null) {
+                ActivityBuilder.startContentDetailActivity(activity, advertDetail.getEntity_id().longValue());
+            }
         }
     }
 }

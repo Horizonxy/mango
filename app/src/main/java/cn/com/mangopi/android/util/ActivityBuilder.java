@@ -16,6 +16,7 @@ import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.ui.activity.AddBlankCardActivity;
 import cn.com.mangopi.android.ui.activity.BulletinDetailActivity;
 import cn.com.mangopi.android.ui.activity.CalssListActivity;
+import cn.com.mangopi.android.ui.activity.ContentDetailActivity;
 import cn.com.mangopi.android.ui.activity.CourseDetailActivity;
 import cn.com.mangopi.android.ui.activity.InputMessageActivity;
 import cn.com.mangopi.android.ui.activity.InteractAreaActivity;
@@ -147,6 +148,12 @@ public class ActivityBuilder {
         intent.putExtra(Constants.BUNDLE_TYPE, type);
         intent.putExtra(Constants.BUNDLE_LIMIT_NUM, limitNum);
         intent.putExtra(Constants.BUNDLE_CONTENT, content);
+        activity.startActivity(intent);
+    }
+
+    public static void startContentDetailActivity(Activity activity, long id){
+        Intent intent = new Intent(activity, ContentDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_ORDER_ID, id);
         activity.startActivity(intent);
     }
 }

@@ -356,7 +356,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ib_scan:
-                ActivityBuilder.startWebViewActivity(getActivity(), "https://m.baidu.com");
                 break;
             case R.id.layout_msg:
                 break;

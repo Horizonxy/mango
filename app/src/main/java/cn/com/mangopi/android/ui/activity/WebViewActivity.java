@@ -102,6 +102,9 @@ public class WebViewActivity extends BaseActivity implements MangoWebChromeListe
 
     @Override
     public void onProgressChanged(int newProgress) {
+        if(progress == null){
+            return;
+        }
         progress.setProgress(newProgress);
         if(newProgress == 100){
             progress.setVisibility(View.GONE);

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
+import cn.com.mangopi.android.model.bean.ContentDetailBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
@@ -228,6 +229,12 @@ public interface ApiService {
     @GET("outer/router?order_get")
     Observable<RestResult<OrderDetailBean>> getOrder(
             @Query("lst_sessid") String sessId,
+            @Query("id") long id
+    );
+
+    //5.6.15内容详情接口
+    @GET("outer/router?content_get")
+    Observable<RestResult<ContentDetailBean>> getContent(
             @Query("id") long id
     );
 }
