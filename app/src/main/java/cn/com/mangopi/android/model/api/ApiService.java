@@ -237,4 +237,11 @@ public interface ApiService {
     Observable<RestResult<ContentDetailBean>> getContent(
             @Query("id") long id
     );
+
+    //订单支付接口
+    @POST("outer/router?order_pay")
+    Observable<RestResult<String>> orderPay(
+            @Query("id") long id,
+            @Query("channel") String channel
+    );
 }

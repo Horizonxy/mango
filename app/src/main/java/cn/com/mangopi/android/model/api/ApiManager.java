@@ -150,4 +150,8 @@ public class ApiManager {
     public static  Observable<RestResult<ContentDetailBean>> getContent(long id){
         return Application.application.getApiService().getContent(id);
     }
+
+    public static  Observable<RestResult<String>> orderPay(long id, String channel){
+        return Application.application.getApiService().orderPay(id, channel);
+    }
 }

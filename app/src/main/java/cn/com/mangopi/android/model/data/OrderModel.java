@@ -26,5 +26,9 @@ public class OrderModel {
     public Subscription getOrder(long id, Action0 onSubscribe, Subscriber<RestResult<OrderDetailBean>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getOrder(id), onSubscribe).subscribe(subscriber);
     }
+
+    public Subscription orderPay(long id, String channel, Action0 onSubscribe, Subscriber<RestResult<String>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.orderPay(id, channel), onSubscribe).subscribe(subscriber);
+    }
 }
 
