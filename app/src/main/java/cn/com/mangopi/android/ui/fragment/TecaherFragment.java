@@ -103,7 +103,8 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
                 .setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Toast.makeText(getActivity(), "banner: " + position, Toast.LENGTH_SHORT).show();
+                        CourseBean course = bannerDatas.get(position);
+                        ActivityBuilder.startCourseDetailActivity(getActivity(), course.getId());
                     }
                 });
 
