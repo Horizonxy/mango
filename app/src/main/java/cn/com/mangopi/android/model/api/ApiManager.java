@@ -138,6 +138,10 @@ public class ApiManager {
         return Application.application.getApiService().upgradeStudent(map);
     }
 
+    public static  Observable<RestResult<Object>> upgradeTutor(Map<String, Object> map){
+        return Application.application.getApiService().upgradeTutor(map);
+    }
+
     public static  Observable<RestResult<OrderDetailBean>> getOrder(long id){
         return Application.application.getApiService().getOrder(Application.application.getSessId(), id);
     }

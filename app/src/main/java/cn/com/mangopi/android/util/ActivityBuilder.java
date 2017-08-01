@@ -17,6 +17,7 @@ import cn.com.mangopi.android.ui.activity.AddBlankCardActivity;
 import cn.com.mangopi.android.ui.activity.BulletinDetailActivity;
 import cn.com.mangopi.android.ui.activity.CalssListActivity;
 import cn.com.mangopi.android.ui.activity.CourseDetailActivity;
+import cn.com.mangopi.android.ui.activity.InputMessageActivity;
 import cn.com.mangopi.android.ui.activity.InteractAreaActivity;
 import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
@@ -136,6 +137,16 @@ public class ActivityBuilder {
     public static void startWebViewActivity(Activity activity, String url){
         Intent intent = new Intent(activity, WebViewActivity.class);
         intent.putExtra(Constants.BUNDLE_WEBVIEW_URL, url);
+        activity.startActivity(intent);
+    }
+
+    public static void startInputMessageActivity(Activity activity, String title, String right, String type, int limitNum, String content){
+        Intent intent = new Intent(activity, InputMessageActivity.class);
+        intent.putExtra(Constants.BUNDLE_TITLE, title);
+        intent.putExtra(Constants.BUNDLE_RIGHT_TEXT, right);
+        intent.putExtra(Constants.BUNDLE_TYPE, type);
+        intent.putExtra(Constants.BUNDLE_LIMIT_NUM, limitNum);
+        intent.putExtra(Constants.BUNDLE_CONTENT, content);
         activity.startActivity(intent);
     }
 }

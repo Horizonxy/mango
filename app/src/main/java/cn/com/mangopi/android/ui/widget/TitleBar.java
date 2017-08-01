@@ -100,6 +100,10 @@ public class TitleBar extends FrameLayout implements View.OnClickListener {
         tvRight.setText(title);
     }
 
+    public void setRightColor(int resId){
+        tvRight.setTextColor(getResources().getColor(resId));
+    }
+
     public void setLeftBtnIcon(int resId){
         ibLeft.setImageResource(resId);
     }

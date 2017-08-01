@@ -212,9 +212,15 @@ public interface ApiService {
             @Part("file\"; filename=\"image.png\"") RequestBody file
         );
 
-    //导师课程列表接口
+    //5.1.11	升级会员学生身份接口
     @POST("outer/router?upgrade_student")
     Observable<RestResult<Object>> upgradeStudent(
+            @QueryMap Map<String, Object> map
+    );
+
+    //5.1.12	升级会员导师身份接口
+    @POST("outer/router?upgrade_tutor")
+    Observable<RestResult<Object>> upgradeTutor(
             @QueryMap Map<String, Object> map
     );
 

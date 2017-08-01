@@ -150,4 +150,31 @@ public class UpdateRolePresenter extends BasePresenter {
                 });
         addSubscription(subscription);
     }
+
+    public void upgradeTutor(){
+        UpdateRoleListener upgrdeListener = (UpdateRoleListener) listener;
+        Context context = upgrdeListener.currentContext();
+        Subscription subscription = memberModel.upgradeTutor(upgrdeListener.getUpgradeMap(), new CreateLoading(context),
+                new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            upgrdeListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                upgrdeListener.onSuccess(Constants.UserIndentity.STUDENT);
+                            } else {
+                                upgrdeListener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
 }

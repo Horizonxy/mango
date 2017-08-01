@@ -84,7 +84,8 @@
         <activity android:name=".ui.activity.SettingActivity" />
         <activity android:name=".ui.activity.ProfileInfoActivity" />
         <activity android:name=".ui.activity.MyClassesActivity" />
-        <activity android:name=".ui.activity.LoginActivity"
+        <activity
+            android:name=".ui.activity.LoginActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity android:name=".ui.activity.PublishDynamicsActivity" />
         <activity android:name=".ui.activity.InteractAreaActivity" />
@@ -98,12 +99,17 @@
         <activity
             android:name=".ui.activity.PlaceOrderActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.UpgradeToStudentActivity"
+        <activity
+            android:name=".ui.activity.UpgradeToStudentActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity android:name=".ui.activity.CourseDetailActivity" />
         <activity android:name=".ui.activity.SuccessActivity" />
         <activity android:name=".ui.activity.OrderDetailActivity" />
         <activity android:name=".ui.activity.WebViewActivity" />
+        <activity
+            android:name=".ui.activity.UpgradeToTutorActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
+        <activity android:name=".ui.activity.InputMessageActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>
@@ -175,7 +181,7 @@
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:exported="false"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle" />
 
         <!-- Required SDK核心功能 -->
         <activity

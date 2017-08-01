@@ -112,6 +112,8 @@ public class UpgradeRoleActivity extends BaseTitleBarActivity implements UpdateR
     public void onSuccess(Constants.UserIndentity indentity) {
         if(indentity == Constants.UserIndentity.STUDENT){
             startActivity(new Intent(this, UpgradeToStudentActivity.class));
+        } else if(indentity == Constants.UserIndentity.TUTOR){
+            startActivity(new Intent(this, UpgradeToTutorActivity.class));
         }
     }
 
