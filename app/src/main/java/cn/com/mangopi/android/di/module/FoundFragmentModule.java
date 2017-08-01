@@ -82,7 +82,7 @@ public class FoundFragmentModule {
                         GridView gvPicture =  helper.getView(R.id.gv_picture);
                         gvPicture.setVisibility(View.VISIBLE);
                         LinearLayout.LayoutParams gvParams = (LinearLayout.LayoutParams) gvPicture.getLayoutParams();
-                        if(pictures.size() < 4) {
+                        if(pictures.size() == 4) {
                             gvPicture.setNumColumns(2);
                             gvParams.width = width * 2 + DisplayUtils.dip2px(context, 2);
                         } else {
