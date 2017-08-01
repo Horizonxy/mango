@@ -1,6 +1,7 @@
 package cn.com.mangopi.android.ui.widget.web;
 
 import android.Manifest;
+import android.text.TextUtils;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
@@ -24,12 +25,6 @@ import cn.com.mangopi.android.util.PermissionUtils;
 public class MangoWebViewClient extends WebViewClient {
 
     private static String IMG_CACHE = FileUtils.getEnvPath(Application.application, true, Constants.IMG_WEB_CACHE_DIR);
-    MangoWebChromeListener webChromeListener;
-
-    public MangoWebViewClient(MangoWebChromeListener webChromeListener){
-        super();
-        this.webChromeListener = webChromeListener;
-    }
 
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
@@ -54,8 +49,9 @@ public class MangoWebViewClient extends WebViewClient {
     }
 
     @Override
-    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-        return super.shouldOverrideUrlLoading(view, request);
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        view.loadUrl(url);
+        return true;
     }
 
     @Override
@@ -66,7 +62,6 @@ public class MangoWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
-        webChromeListener.firstLoadAfter();
     }
 
     private InputStream downloadImage2Cache(String url) {
@@ -88,6 +83,9 @@ public class MangoWebViewClient extends WebViewClient {
     }
 
     private boolean isImage(String str) {
+        if(TextUtils.isEmpty(str)){
+            return false;
+        }
         String suffix = str.substring(str.lastIndexOf(".") + 1);
         return (null != suffix) && (suffix.equalsIgnoreCase("jpg") || suffix.equalsIgnoreCase("png") || suffix.equalsIgnoreCase("jpeg") ||
                 suffix.equalsIgnoreCase("bmp") || suffix.equalsIgnoreCase("gif"));

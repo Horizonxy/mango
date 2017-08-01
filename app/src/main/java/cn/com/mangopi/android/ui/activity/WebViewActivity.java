@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.baidu.mobstat.StatService;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
 
@@ -16,6 +17,7 @@ import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.ui.widget.web.MangoWebChromeClient;
 import cn.com.mangopi.android.ui.widget.web.MangoWebChromeListener;
 import cn.com.mangopi.android.ui.widget.web.MangoWebView;
+import cn.com.mangopi.android.ui.widget.web.MangoWebViewClient;
 import cn.com.mangopi.android.util.BusEvent;
 
 public class WebViewActivity extends BaseActivity implements MangoWebChromeListener {
@@ -24,7 +26,6 @@ public class WebViewActivity extends BaseActivity implements MangoWebChromeListe
     MangoWebView webView;
     @Bind(R.id.progress)
     ProgressBar progress;
-
     String url;
 
     @Override
@@ -43,8 +44,11 @@ public class WebViewActivity extends BaseActivity implements MangoWebChromeListe
         ClipDrawable drawable = new ClipDrawable(new ColorDrawable(getResources().getColor(R.color.color_ffb900)), Gravity.LEFT, ClipDrawable.HORIZONTAL);
         progress.setProgressDrawable(drawable);
 
-        webView.setWebChromeClient(new MangoWebChromeClient(this));
-        //webView.setWebViewClient(new MangoWebViewClient(this));
+        //webView.setWebChromeClient(new MangoWebChromeClient(this));
+        // 适用于自动埋点版本，用于对webview加载的h5页面进行自动统计；需要在载入页面前调用，建议在webview初始化时刻调用
+        // 如果有设置的WebChromeClient，则需要将对象传入，否则影响本身回调；如果没有，第三个参数设置为null即可
+        StatService.trackWebView(this, webView, new MangoWebChromeClient(this));
+        webView.setWebViewClient(new MangoWebViewClient());
 
         webView.loadUrl(url);
     }
@@ -98,17 +102,14 @@ public class WebViewActivity extends BaseActivity implements MangoWebChromeListe
 
     @Override
     public void onProgressChanged(int newProgress) {
+        progress.setProgress(newProgress);
         if(newProgress == 100){
             progress.setVisibility(View.GONE);
         } else {
             if(progress.getVisibility() == View.GONE){
                 progress.setVisibility(View.VISIBLE);
             }
-            progress.setProgress(newProgress);
         }
     }
 
-    @Override
-    public void firstLoadAfter() {
-    }
 }
