@@ -50,10 +50,11 @@
                     android:textSize="@dimen/dp_16" />
 
                 <ImageView
-                    android:layout_width="@dimen/dp_40"
-                    android:layout_height="@dimen/dp_40"
+                    android:id="@+id/iv_union_right"
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/more_black" />
+                    android:src="@drawable/selector_res_pay_tip" />
             </LinearLayout>
 
             <View
@@ -84,10 +85,11 @@
                     android:textSize="@dimen/dp_16" />
 
                 <ImageView
-                    android:layout_width="@dimen/dp_40"
-                    android:layout_height="@dimen/dp_40"
+                    android:id="@+id/iv_alipay_right"
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/more_black" />
+                    android:src="@drawable/selector_res_pay_tip" />
             </LinearLayout>
 
             <View
@@ -117,10 +119,11 @@
                     android:textSize="@dimen/dp_16" />
 
                 <ImageView
-                    android:layout_width="@dimen/dp_40"
-                    android:layout_height="@dimen/dp_40"
+                    android:id="@+id/iv_wechat_right"
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/more_black" />
+                    android:src="@drawable/selector_res_pay_tip" />
             </LinearLayout>
 
             <View

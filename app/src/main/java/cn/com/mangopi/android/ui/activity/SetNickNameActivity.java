@@ -37,6 +37,7 @@ public class SetNickNameActivity extends BaseTitleBarActivity implements SetNick
     ImageView ivFemale;
     @Bind(R.id.iv_man)
     ImageView ivMan;
+    int gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,21 +64,20 @@ public class SetNickNameActivity extends BaseTitleBarActivity implements SetNick
                 btnFinish.setEnabled(etNickName.getText().length() > 0);
             }
         });
-
-        ivFemale.setSelected(true);
-        ivMan.setSelected(false);
     }
 
     @OnClick(R.id.iv_female)
     void onClickFemale(View v){
-        ivFemale.setSelected(true);
-        ivMan.setSelected(false);
+        ivFemale.setImageResource(R.drawable.user_pic1_s);
+        ivMan.setImageResource(R.drawable.user_pic2);
+        gender = 0;
     }
 
     @OnClick(R.id.iv_man)
     void onClickMan(View v){
-        ivFemale.setSelected(false);
-        ivMan.setSelected(true);
+        ivFemale.setImageResource(R.drawable.user_pic1);
+        ivMan.setImageResource(R.drawable.user_pic2_s);
+        gender = 1;
     }
 
     @Override
@@ -102,11 +102,7 @@ public class SetNickNameActivity extends BaseTitleBarActivity implements SetNick
 
     @Override
     public int getGender() {
-        if(ivFemale.isSelected()){
-            return 0;
-        } else {
-            return 1;
-        }
+        return gender;
     }
 
     @Override

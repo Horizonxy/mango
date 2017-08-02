@@ -22,7 +22,6 @@ public class MessagePresenter extends BasePresenter {
     }
 
     public void getMessageList(){
-        Context context = messageListener.currentContext();
         Subscription subscription = messageModel.getMessageList(messageListener.getPageNo(),
                 new Action1<Throwable>() {
                     @Override
@@ -43,6 +42,20 @@ public class MessagePresenter extends BasePresenter {
                             }
                         } else {
                             messageListener.onFailure(null);
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
+
+    public void getMessageCheck(){
+        Subscription subscription = messageModel.getMessageCheck(new BaseSubscriber<RestResult<String>>(){
+                    @Override
+                    public void onNext(RestResult<String> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                messageListener.onHasMessage(true);
+                            }
                         }
                     }
                 });

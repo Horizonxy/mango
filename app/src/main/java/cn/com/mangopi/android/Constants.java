@@ -27,6 +27,8 @@ public class Constants {
 	public static final String INDEX_THREEE_ADVERT = "index_three_advert";
 	public static final String INDEX_BANNER = "index_banner";
 
+	public static final String UNION_PAY = "unionpay";
+	public static final String ALI_PAY = "alipay";
 	public static final String WECHAT_PAY = "wechatpay";
 
 	public static final String BUNDLE_CARD_LIST = "bundle_member_card_list";

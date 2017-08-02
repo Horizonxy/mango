@@ -32,7 +32,9 @@
             android:scaleType="centerInside"
             android:src="@drawable/home_xiaoxi" />
         <cn.com.mangopi.android.ui.widget.RedPointView
+            android:id="@+id/point_message"
             android:layout_gravity="right|top"
+            android:visibility="gone"
             android:layout_marginRight="@dimen/dp_12"
             android:layout_marginTop="@dimen/dp_14"
             android:layout_width="@dimen/dp_8"

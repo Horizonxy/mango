@@ -20,6 +20,8 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.mcxiaoke.bus.Bus;
+import com.mcxiaoke.bus.annotation.BusReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +44,11 @@ import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.HomeFragmentListener;
 import cn.com.mangopi.android.ui.widget.ObservableScrollView;
+import cn.com.mangopi.android.ui.widget.RedPointView;
 import cn.com.mangopi.android.ui.widget.VerticalTextview;
 import cn.com.mangopi.android.ui.widget.ViewPagerFixed;
 import cn.com.mangopi.android.util.ActivityBuilder;
+import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 
@@ -70,6 +74,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     @Inject
     HomePresenter homePresenter;
     AdvertDetaiClickListener advertDetaiClickListener;
+    RedPointView messagePoint;
 
     public HomeFragment() {
     }
@@ -77,6 +82,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bus.getDefault().register(this);
         DaggerHomeFragmentComponent.builder().homeFragmentModule(new HomeFragmentModule(this)).build().inject(this);
     }
 
@@ -100,6 +106,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         root.findViewById(R.id.ib_scan).setOnClickListener(this);
         root.findViewById(R.id.iv_message).setOnClickListener(this);
         root.findViewById(R.id.iv_bottom_del).setOnClickListener(this);
+        messagePoint = (RedPointView) root.findViewById(R.id.point_message);
 
         advertDetaiClickListener = new AdvertDetaiClickListener(getActivity());
         ivAdvert1.setOnClickListener(advertDetaiClickListener);
@@ -360,7 +367,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             case R.id.ib_scan:
                 break;
             case R.id.iv_message:
-                startActivity(new Intent(getActivity(), MessageListActivity.class));
+                ActivityBuilder.startMessageListActivity(getActivity());
                 break;
             case R.id.iv_bottom_del:
                 layoutUpdateRole.setVisibility(View.GONE);
@@ -394,11 +401,19 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         return R.layout.fragment_home;
     }
 
+    @BusReceiver
+    public void onHasMessageEvent(BusEvent.HasMessageEvent event){
+        if(event != null){
+            messagePoint.setVisibility(event.isHasMessage() ? View.VISIBLE : View.GONE);
+        }
+    }
+
     @Override
     public void onDestroy() {
-        super.onDestroy();
         if (homePresenter != null) {
             homePresenter.onDestroy();
         }
+        Bus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

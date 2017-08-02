@@ -2,10 +2,13 @@ package cn.com.mangopi.android.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.util.List;
 
@@ -56,6 +59,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
     TextView tvMsgCount;
     TextView tvTrendCount;
     ImageView ivAvatar;
+    DisplayImageOptions.Builder optionsBuilder;
 
     public MyFragment() {
     }
@@ -64,6 +68,10 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DaggerMyFragmentComponent.builder().myFragmentModule(new MyFragmentModule(this)).build().inject(this);
+
+        optionsBuilder = new DisplayImageOptions.Builder()
+                .cacheOnDisk(true)
+                .cacheInMemory(true);
     }
 
     @Override
@@ -108,7 +116,15 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
                         startActivity(new Intent(getActivity(), SettingActivity.class));
                         break;
                     case R.id.tv_update_info:
-                        startActivity(new Intent(getActivity(), ProfileInfoActivity.class));
+                        ActivityBuilder.startProfileInfoActivity(getActivity());
+                        break;
+                    case R.id.layout_message:
+                        ActivityBuilder.startMessageListActivity(getActivity());
+                        break;
+                    case R.id.layout_fav:
+                        ActivityBuilder.startFavListActivity(getActivity());
+                        break;
+                    case R.id.layout_trend:
                         break;
                 }
             }
@@ -120,6 +136,9 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
         vAccount.setOnClickListener(clickListener);
         vSetting.setOnClickListener(clickListener);
         tvUpdateInfo.setOnClickListener(clickListener);
+        root.findViewById(R.id.layout_message).setOnClickListener(clickListener);
+        root.findViewById(R.id.layout_fav).setOnClickListener(clickListener);
+        root.findViewById(R.id.layout_trend).setOnClickListener(clickListener);
     }
 
     @Override
@@ -171,7 +190,23 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
             tvProjectCount.setText("");
             tvUpdateRole.setText("");
         } else {
-            Application.application.getImageLoader().displayImage(member.getAvatar_rsurl(), ivAvatar, Application.application.getDefaultOptions());
+            DisplayImageOptions options;
+            if(member.getGender() == 1){
+                options = optionsBuilder
+                        .showImageOnFail(R.drawable.user_pic2)
+                        .showImageForEmptyUri(R.drawable.user_pic2)
+                        .showImageOnLoading(R.drawable.user_pic2)
+                        .bitmapConfig(Bitmap.Config.RGB_565)
+                        .build();
+            } else {
+                options = optionsBuilder
+                        .showImageOnFail(R.drawable.user_pic1)
+                        .showImageForEmptyUri(R.drawable.user_pic1)
+                        .showImageOnLoading(R.drawable.user_pic1)
+                        .bitmapConfig(Bitmap.Config.RGB_565)
+                        .build();
+            }
+            Application.application.getImageLoader().displayImage(member.getAvatar_rsurl(), ivAvatar, options);
             tvNickName.setText(member.getNick_name());
             tvCollectionCount.setText(String.valueOf(member.getFav_count()));
             tvMsgCount.setText(String.valueOf(member.getMessage_count()));

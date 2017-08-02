@@ -88,4 +88,17 @@ public class BusEvent {
             this.content = content;
         }
     }
+
+    @com.mcxiaoke.bus.annotation.BusEvent
+    public static class HasMessageEvent{
+        private boolean hasMessage;
+
+        public boolean isHasMessage() {
+            return hasMessage;
+        }
+
+        public void setHasMessage(boolean hasMessage) {
+            this.hasMessage = hasMessage;
+        }
+    }
 }

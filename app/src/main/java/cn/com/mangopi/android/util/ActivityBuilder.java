@@ -18,14 +18,18 @@ import cn.com.mangopi.android.ui.activity.BulletinDetailActivity;
 import cn.com.mangopi.android.ui.activity.CalssListActivity;
 import cn.com.mangopi.android.ui.activity.ContentDetailActivity;
 import cn.com.mangopi.android.ui.activity.CourseDetailActivity;
+import cn.com.mangopi.android.ui.activity.FavListActivity;
 import cn.com.mangopi.android.ui.activity.InputMessageActivity;
 import cn.com.mangopi.android.ui.activity.InteractAreaActivity;
 import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
 import cn.com.mangopi.android.ui.activity.MemberCardListActivity;
+import cn.com.mangopi.android.ui.activity.MessageListActivity;
 import cn.com.mangopi.android.ui.activity.MyClassesActivity;
 import cn.com.mangopi.android.ui.activity.OrderDetailActivity;
+import cn.com.mangopi.android.ui.activity.PayResultActivity;
 import cn.com.mangopi.android.ui.activity.PlaceOrderActivity;
+import cn.com.mangopi.android.ui.activity.ProfileInfoActivity;
 import cn.com.mangopi.android.ui.activity.PublishDynamicsActivity;
 import cn.com.mangopi.android.ui.activity.SelectPayActivity;
 import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
@@ -154,6 +158,26 @@ public class ActivityBuilder {
     public static void startContentDetailActivity(Activity activity, long id){
         Intent intent = new Intent(activity, ContentDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_ORDER_ID, id);
+        activity.startActivity(intent);
+    }
+
+    public static void startMessageListActivity(Activity activity){
+        Intent intent = new Intent(activity, MessageListActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void startPayResultActivity(Activity activity){
+        Intent intent = new Intent(activity, PayResultActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void startFavListActivity(Activity activity){
+        Intent intent = new Intent(activity, FavListActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void startProfileInfoActivity(Activity activity){
+        Intent intent = new Intent(activity, ProfileInfoActivity.class);
         activity.startActivity(intent);
     }
 }

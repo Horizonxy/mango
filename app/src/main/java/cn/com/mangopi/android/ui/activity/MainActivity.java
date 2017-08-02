@@ -2,6 +2,9 @@ package cn.com.mangopi.android.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mcxiaoke.bus.Bus;
 import com.orhanobut.logger.Logger;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -26,15 +30,20 @@ import java.util.List;
 
 import butterknife.Bind;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.MessageBean;
+import cn.com.mangopi.android.model.data.MessageModel;
+import cn.com.mangopi.android.presenter.MessagePresenter;
 import cn.com.mangopi.android.ui.adapter.FragmentAdapter;
 import cn.com.mangopi.android.ui.fragment.FoundFragment;
 import cn.com.mangopi.android.ui.fragment.HomeFragment;
 import cn.com.mangopi.android.ui.fragment.MyFragment;
 import cn.com.mangopi.android.ui.fragment.TecaherFragment;
+import cn.com.mangopi.android.ui.viewlistener.MessageListener;
+import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.jpush.android.api.JPushInterface;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MessageListener {
 
     @Bind(R.id.tab_indicator)
     MagicIndicator tabIndicator;
@@ -43,6 +52,8 @@ public class MainActivity extends BaseActivity {
 
     String[] tabTitles;
     List<Fragment> contents = new ArrayList<>();
+    MessagePresenter messagePresenter;
+    Handler messageHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +63,25 @@ public class MainActivity extends BaseActivity {
         initView();
 
         initPush();
+        messagePresenter = new MessagePresenter(new MessageModel(), this);
+        messageHandler = new Handler();
+        messageHandler.postDelayed(new MessageCheckRunnable(), 5 * 1000);
+    }
+
+    class MessageCheckRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            messagePresenter.getMessageCheck();
+            messageHandler.postDelayed(this, 3 * 60 * 1000);
+        }
     }
 
     private void initPush() {
         JPushInterface.resumePush(this);
-        String rid = JPushInterface.getRegistrationID(getApplicationContext());
-        Logger.d("jpush registration id: " + rid);
+//        String rid = JPushInterface.getRegistrationID(getApplicationContext());
+//        Logger.d("jpush registration id: " + rid);
     }
-
 
     private void initView() {
         tabTitles = getResources().getStringArray(R.array.main_tab);
@@ -125,13 +147,49 @@ public class MainActivity extends BaseActivity {
         ViewPagerHelper.bind(tabIndicator, contentPager);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        moveTaskToBack(true);
-//    }
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 
     @Override
     public int statusColorResId() {
         return R.color.color_ffb900;
+    }
+
+    @Override
+    public void onFailure(String message) {}
+
+    @Override
+    public Context currentContext() {
+        return null;
+    }
+
+    @Override
+    public int getPageNo() {
+        return 0;
+    }
+
+    @Override
+    public void onSuccess(List<MessageBean> messageList) {}
+
+    @Override
+    public void onHasMessage(boolean hasMessage) {
+        if(hasMessage){
+            BusEvent.HasMessageEvent event = new BusEvent.HasMessageEvent();
+            event.setHasMessage(true);
+            Bus.getDefault().postSticky(event);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(messageHandler != null && messageHandler.getLooper() == Looper.getMainLooper()){
+            messageHandler.removeCallbacksAndMessages(null);
+        }
+        if(messagePresenter != null){
+            messagePresenter.onDestroy();
+        }
+        super.onDestroy();
     }
 }

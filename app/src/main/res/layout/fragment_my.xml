@@ -56,10 +56,12 @@
                     android:layout_marginTop="@dimen/dp_10">
 
                     <LinearLayout
+                        android:id="@+id/layout_fav"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        style="@style/repple_out_backguound"
                         android:orientation="vertical">
 
                         <ImageView
@@ -87,10 +89,12 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layout_message"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        style="@style/repple_out_backguound"
                         android:orientation="vertical">
 
                         <ImageView
@@ -118,10 +122,12 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layout_trend"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        style="@style/repple_out_backguound"
                         android:orientation="vertical">
 
                         <ImageView
@@ -157,6 +163,7 @@
                 round:border_overlay="true"
                 round:border_width="@dimen/dp_2"
                 round:border_color="@android:color/white"
+                android:src="@drawable/user_pic1"
                 android:layout_width="@dimen/dp_84"
                 android:layout_height="@dimen/dp_84"
                 android:layout_gravity="center_horizontal"

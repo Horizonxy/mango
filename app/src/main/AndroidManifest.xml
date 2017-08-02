@@ -112,6 +112,8 @@
         <activity android:name=".ui.activity.InputMessageActivity" />
         <activity android:name=".ui.activity.ContentDetailActivity" />
         <activity android:name=".ui.activity.MessageListActivity" />
+        <activity android:name=".ui.activity.PayResultActivity" />
+        <activity android:name=".ui.activity.FavListActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

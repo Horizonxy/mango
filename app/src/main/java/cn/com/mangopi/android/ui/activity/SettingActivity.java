@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.SetTransPwdDialog;
 
@@ -79,7 +80,7 @@ public class SettingActivity extends BaseTitleBarActivity {
 
     @OnClick(R.id.layout_profile_info)
     void profileClick(View v){
-        startActivity(new Intent(this, ProfileInfoActivity.class));
+        ActivityBuilder.startProfileInfoActivity(this);
     }
 
     @OnClick(R.id.layout_trans_pwd)

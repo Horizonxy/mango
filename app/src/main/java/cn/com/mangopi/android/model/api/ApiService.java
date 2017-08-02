@@ -10,6 +10,7 @@ import cn.com.mangopi.android.model.bean.ContentDetailBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
+import cn.com.mangopi.android.model.bean.FavBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
@@ -249,6 +250,19 @@ public interface ApiService {
     //会员消息列表接口
     @POST("outer/router?mes_list")
     Observable<RestResult<List<MessageBean>>> getMessageList(
+            @Query("lst_sessid") String lst_sessid,
+            @Query("page_no") int pageNo
+    );
+
+    //消息监测接口
+    @POST("outer/router?mes_check")
+    Observable<RestResult<String>> getMessageCheck(
+            @Query("lst_sessid") String lst_sessid
+    );
+
+    //消息监测接口
+    @GET("outer/router?fav_list")
+    Observable<RestResult<List<FavBean>>> getFavList(
             @Query("lst_sessid") String lst_sessid,
             @Query("page_no") int pageNo
     );

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import butterknife.Bind;
@@ -14,6 +15,7 @@ import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.data.OrderModel;
 import cn.com.mangopi.android.presenter.OrderPayPresenter;
 import cn.com.mangopi.android.ui.viewlistener.OrderPayListener;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 
 public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayListener {
@@ -27,6 +29,12 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
     LinearLayout layoutWechatpay;
     String channel;
     OrderPayPresenter payPresenter;
+    @Bind(R.id.iv_union_right)
+    ImageView ivUnionRight;
+    @Bind(R.id.iv_alipay_right)
+    ImageView ivAlipayRight;
+    @Bind(R.id.iv_wechat_right)
+    ImageView ivWechatRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +47,31 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
         }
         initView();
         payPresenter = new OrderPayPresenter(new OrderModel(), this);
+        layoutWechatpay.performClick();
     }
 
     @OnClick(R.id.layout_unionpay)
     void unionpayClick(View v){
-        channel = "";
+        channel = Constants.UNION_PAY;
+        ivUnionRight.setSelected(true);
+        ivAlipayRight.setSelected(false);
+        ivWechatRight.setSelected(false);
     }
 
     @OnClick(R.id.layout_alipay)
     void alipayClick(View v){
-        channel = "";
+        channel = Constants.ALI_PAY;
+        ivUnionRight.setSelected(false);
+        ivAlipayRight.setSelected(true);
+        ivWechatRight.setSelected(false);
     }
 
     @OnClick(R.id.layout_wechatpay)
     void wechatClick(View v){
         channel = Constants.WECHAT_PAY;
+        ivUnionRight.setSelected(false);
+        ivAlipayRight.setSelected(false);
+        ivWechatRight.setSelected(true);
     }
 
     @OnClick(R.id.btn_pay)
@@ -82,7 +100,8 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
 
     @Override
     public void onSuccess(String payData) {
-
+        ActivityBuilder.startPayResultActivity(this);
+        finish();
     }
 
     @Override

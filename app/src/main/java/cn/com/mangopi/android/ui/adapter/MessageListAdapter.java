@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
@@ -17,7 +18,8 @@ public class MessageListAdapter extends QuickAdapter<MessageBean> {
 
     @Override
     protected void convert(BaseAdapterHelper helper, MessageBean item) {
-        helper.setText(R.id.tv_title, item.getTitle())
+        helper/*.setImageBuilder(R.id.iv_avatar, item.getLogo_rsurl(), Application.application.getDefaultOptions())*/
+                .setText(R.id.tv_title, item.getTitle())
                 .setText(R.id.tv_content, item.getRemark());
     }
 }

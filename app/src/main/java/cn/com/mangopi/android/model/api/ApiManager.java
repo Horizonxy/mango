@@ -11,6 +11,7 @@ import cn.com.mangopi.android.model.bean.ContentDetailBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
+import cn.com.mangopi.android.model.bean.FavBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
@@ -158,5 +159,13 @@ public class ApiManager {
 
     public static  Observable<RestResult<List<MessageBean>>> getMessageList(int pageNo){
         return Application.application.getApiService().getMessageList(Application.application.getSessId(), pageNo);
+    }
+
+    public static  Observable<RestResult<String>> getMessageCheck(){
+        return Application.application.getApiService().getMessageCheck(Application.application.getSessId());
+    }
+
+    public static  Observable<RestResult<List<FavBean>>> getFavList(int pageNo){
+        return Application.application.getApiService().getFavList(Application.application.getSessId(), pageNo);
     }
 }
