@@ -23,6 +23,7 @@
         android:layout_centerVertical="true">
 
         <ImageButton
+            android:id="@+id/iv_message"
             style="@style/repple_out_backguound"
             android:layout_width="@dimen/dp_49"
             android:layout_height="@dimen/dp_49"

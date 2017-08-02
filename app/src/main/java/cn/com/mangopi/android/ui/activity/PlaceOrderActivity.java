@@ -85,6 +85,7 @@ public class PlaceOrderActivity extends BaseTitleBarActivity implements PlaceOrd
     @Override
     public void onSuccess(OrderBean order) {
         ActivityBuilder.startSelectPayActivity(this, order);
+        finish();
     }
 
     @Override

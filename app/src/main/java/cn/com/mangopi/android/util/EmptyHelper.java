@@ -67,7 +67,13 @@ public class EmptyHelper {
         tvMessage.setText(message);
     }
 
+    public void showMessage(boolean show){
+        tvMessage.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+    }
 
+    public void showRefreshButton(boolean show){
+        btnRefresh.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+    }
 
     public interface OnRefreshListener {
         void onRefresh();

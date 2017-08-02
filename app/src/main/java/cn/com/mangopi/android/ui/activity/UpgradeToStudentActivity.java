@@ -181,6 +181,7 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
     @Override
     public void onSuccess(Constants.UserIndentity indentity) {
         ActivityBuilder.startSuccessActivity(this, getString(R.string.check_your_student_role), "信息已提交成功，请等候系统确认。");
+        finish();
     }
 
     @Override

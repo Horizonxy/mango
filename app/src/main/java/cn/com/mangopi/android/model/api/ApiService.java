@@ -13,6 +13,7 @@ import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
+import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
@@ -243,5 +244,12 @@ public interface ApiService {
     Observable<RestResult<String>> orderPay(
             @Query("id") long id,
             @Query("channel") String channel
+    );
+
+    //会员消息列表接口
+    @POST("outer/router?mes_list")
+    Observable<RestResult<List<MessageBean>>> getMessageList(
+            @Query("lst_sessid") String lst_sessid,
+            @Query("page_no") int pageNo
     );
 }

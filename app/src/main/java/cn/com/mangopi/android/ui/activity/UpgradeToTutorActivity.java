@@ -215,6 +215,7 @@ public class UpgradeToTutorActivity extends BaseTitleBarActivity implements Upda
     @Override
     public void onSuccess(Constants.UserIndentity indentity) {
         ActivityBuilder.startSuccessActivity(this, getString(R.string.check_totur_role), "信息已提交成功，请等候系统确认。");
+        finish();
     }
 
     @Override

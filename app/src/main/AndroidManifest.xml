@@ -111,6 +111,7 @@
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity android:name=".ui.activity.InputMessageActivity" />
         <activity android:name=".ui.activity.ContentDetailActivity" />
+        <activity android:name=".ui.activity.MessageListActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

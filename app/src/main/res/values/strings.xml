@@ -120,4 +120,6 @@
     <string name="course_detail">课程详情</string>
 
     <string name="order_detail">订单详情</string>
+
+    <string name="message">消息</string>
 </resources>

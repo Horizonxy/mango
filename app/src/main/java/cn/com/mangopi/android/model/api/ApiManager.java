@@ -14,6 +14,7 @@ import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
+import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
@@ -153,5 +154,9 @@ public class ApiManager {
 
     public static  Observable<RestResult<String>> orderPay(long id, String channel){
         return Application.application.getApiService().orderPay(id, channel);
+    }
+
+    public static  Observable<RestResult<List<MessageBean>>> getMessageList(int pageNo){
+        return Application.application.getApiService().getMessageList(Application.application.getSessId(), pageNo);
     }
 }
