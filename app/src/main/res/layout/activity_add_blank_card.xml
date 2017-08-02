@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_16"
-                    android:text="持卡人："
+                    android:text="银行名称："
                     android:textColor="@color/color_333333" />
 
                 <EditText
@@ -48,9 +48,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:maxLength="10"
                     android:singleLine="true"
                     android:ellipsize="end"
+                    android:hint="请输入银行名称"
+                    android:gravity="right"
                     android:textCursorDrawable="@drawable/shape_color_cursor"
                     android:textColor="@color/color_333333"
                     android:textColorHint="@color/color_cccccc"
@@ -78,8 +79,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:maxLength="10"
                     android:singleLine="true"
+                    android:hint="请输入银行卡号"
+                    android:gravity="right"
                     android:ellipsize="end"
                     android:textCursorDrawable="@drawable/shape_color_cursor"
                     android:textColor="@color/color_333333"

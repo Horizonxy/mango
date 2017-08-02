@@ -73,7 +73,7 @@ public class MemberModel {
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getCardList(), onSubscribe).subscribe(subscriber);
     }
 
-    public Subscription addBlankCard(String blankName, String cardNo, Action0 onSubscribe, Subscriber<RestResult<List<MemberCardBean>>> subscriber){
+    public Subscription addBlankCard(String blankName, String cardNo, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.addBlankCard(blankName, cardNo), onSubscribe).subscribe(subscriber);
     }
 

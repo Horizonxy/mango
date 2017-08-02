@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.di.component.DaggerSetNickNameActivityComponent;
 import cn.com.mangopi.android.di.module.SetNickNameActivityModule;
@@ -70,14 +71,14 @@ public class SetNickNameActivity extends BaseTitleBarActivity implements SetNick
     void onClickFemale(View v){
         ivFemale.setImageResource(R.drawable.user_pic1_s);
         ivMan.setImageResource(R.drawable.user_pic2);
-        gender = 0;
+        gender =  Constants.GENDER_FEMALE;
     }
 
     @OnClick(R.id.iv_man)
     void onClickMan(View v){
         ivFemale.setImageResource(R.drawable.user_pic1);
         ivMan.setImageResource(R.drawable.user_pic2_s);
-        gender = 1;
+        gender = Constants.GENDER_MAN;
     }
 
     @Override

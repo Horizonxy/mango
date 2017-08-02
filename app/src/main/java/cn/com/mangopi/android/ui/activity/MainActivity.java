@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
@@ -15,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mcxiaoke.bus.Bus;
-import com.orhanobut.logger.Logger;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -65,7 +63,7 @@ public class MainActivity extends BaseActivity implements MessageListener {
         initPush();
         messagePresenter = new MessagePresenter(new MessageModel(), this);
         messageHandler = new Handler();
-        messageHandler.postDelayed(new MessageCheckRunnable(), 5 * 1000);
+        messageHandler.postDelayed(new MessageCheckRunnable(), 3 * 1000);
     }
 
     class MessageCheckRunnable implements Runnable {

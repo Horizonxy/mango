@@ -10,6 +10,7 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.data.MemberModel;
 import cn.com.mangopi.android.ui.fragment.MyFragment;
+import cn.com.mangopi.android.ui.viewlistener.AddBlankCardListener;
 import cn.com.mangopi.android.ui.viewlistener.BaseViewListener;
 import cn.com.mangopi.android.ui.viewlistener.SetNickNameListener;
 import cn.com.mangopi.android.util.AppUtils;
@@ -33,7 +34,7 @@ public class MemberPresenter extends BasePresenter {
         String nickName = listener.getNickName();
         int gender = listener.getGender();
         Context context = listener.currentContext();
-        if(gender != Constants.GENDER_MAN && gender != Constants.GENDER_WUMEN){
+        if(gender != Constants.GENDER_MAN && gender != Constants.GENDER_FEMALE){
             AppUtils.showToast(context, context.getResources().getString(R.string.please_select_gender));
             return;
         }
@@ -106,6 +107,33 @@ public class MemberPresenter extends BasePresenter {
                 }
             }
         });
+        addSubscription(subscription);
+    }
+
+    public void addBlankCard(){
+        AddBlankCardListener listener = (AddBlankCardListener) this.listener;
+        Context context = listener.currentContext();
+        Subscription subscription = memberModel.addBlankCard(listener.getBlankName(), listener.getCardNo(),
+                new CreateLoading(context), new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            listener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                listener.onSuccess();
+                            } else {
+                                listener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
         addSubscription(subscription);
     }
 }

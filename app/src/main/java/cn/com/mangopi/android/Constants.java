@@ -23,7 +23,7 @@ public class Constants {
 	public static final String SESS_ID = "sess_id";
 	public static final String FILE_PREFIX = "file://";
 	public static final int GENDER_MAN = 1;
-	public static final int GENDER_WUMEN = 0;
+	public static final int GENDER_FEMALE = 0;
 	public static final String INDEX_THREEE_ADVERT = "index_three_advert";
 	public static final String INDEX_BANNER = "index_banner";
 
@@ -66,8 +66,9 @@ public class Constants {
 
 		public static UserIndentity get(String indentity) {
 			for (UserIndentity inst : values()) {
-				if (indentity == inst.indentity)
+				if (indentity.equals(inst.indentity)) {
 					return inst;
+				}
 			}
 			return UserIndentity.PUBLIC;
 		}

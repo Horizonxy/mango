@@ -23,7 +23,6 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.presenter.MemberPresenter;
 import cn.com.mangopi.android.ui.activity.MyAccountActivity;
 import cn.com.mangopi.android.ui.activity.MyOrderListActivity;
-import cn.com.mangopi.android.ui.activity.ProfileInfoActivity;
 import cn.com.mangopi.android.ui.activity.SettingActivity;
 import cn.com.mangopi.android.ui.activity.UpgradeRoleActivity;
 import cn.com.mangopi.android.ui.viewlistener.MyFragmentListener;
@@ -244,8 +243,8 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
     @Override
     public void onSuccess(MemberBean member) {
         this.member = member;
-        setMemberView();
         Application.application.saveMember(member, Application.application.getSessId());
+        setMemberView();
     }
 
     @Override

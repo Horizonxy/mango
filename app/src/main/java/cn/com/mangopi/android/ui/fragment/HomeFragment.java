@@ -3,7 +3,6 @@ package cn.com.mangopi.android.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -38,7 +37,6 @@ import cn.com.mangopi.android.model.bean.BulletinBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.presenter.HomePresenter;
-import cn.com.mangopi.android.ui.activity.MessageListActivity;
 import cn.com.mangopi.android.ui.adapter.ViewPagerAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
@@ -403,7 +401,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @BusReceiver
     public void onHasMessageEvent(BusEvent.HasMessageEvent event){
-        if(event != null){
+        if(event != null && messagePoint != null){
             messagePoint.setVisibility(event.isHasMessage() ? View.VISIBLE : View.GONE);
         }
     }
