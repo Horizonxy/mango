@@ -16,4 +16,9 @@
         <item>所有授课</item>
         <item>上架的授课</item>
     </array>
+
+    <array name="member_trend">
+        <item>我发的动态</item>
+        <item>我回复的动态</item>
+    </array>
 </resources>
