@@ -2,11 +2,8 @@ package cn.com.mangopi.android.presenter;
 
 import android.content.Context;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.RestResult;
@@ -30,12 +27,7 @@ public class FoundPresenter extends BasePresenter {
     }
 
     public void getTrendList(){
-        Context context = viewListener.currentContext();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("lst_sessid", Application.application.getSessId());
-        map.put("page_no", viewListener.getPageNo());
-        map.put("page_size", Constants.PAGE_SIZE);
-        Subscription subscription = trendModel.getTrendList(map, new Action1<Throwable>() {
+        Subscription subscription = trendModel.getTrendList(viewListener.getQueryMap(), new Action1<Throwable>() {
             @Override
             public void call(Throwable e) {
                 if (e != null) {

@@ -137,6 +137,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
                         ActivityBuilder.startFavListActivity(getActivity());
                         break;
                     case R.id.layout_trend:
+                        ActivityBuilder.startMemberTrendActivity(getActivity());
                         break;
                 }
             }

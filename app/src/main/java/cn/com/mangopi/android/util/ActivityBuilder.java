@@ -8,7 +8,6 @@ import java.util.List;
 
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
-import cn.com.mangopi.android.model.bean.BulletinBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
@@ -24,6 +23,7 @@ import cn.com.mangopi.android.ui.activity.InteractAreaActivity;
 import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
 import cn.com.mangopi.android.ui.activity.MemberCardListActivity;
+import cn.com.mangopi.android.ui.activity.MemberTrendActivity;
 import cn.com.mangopi.android.ui.activity.MessageListActivity;
 import cn.com.mangopi.android.ui.activity.MyClassesActivity;
 import cn.com.mangopi.android.ui.activity.OrderDetailActivity;
@@ -178,6 +178,11 @@ public class ActivityBuilder {
 
     public static void startProfileInfoActivity(Activity activity){
         Intent intent = new Intent(activity, ProfileInfoActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void startMemberTrendActivity(Activity activity){
+        Intent intent = new Intent(activity, MemberTrendActivity.class);
         activity.startActivity(intent);
     }
 }

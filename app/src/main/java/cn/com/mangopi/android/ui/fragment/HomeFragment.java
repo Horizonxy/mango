@@ -19,6 +19,8 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
 
@@ -41,6 +43,7 @@ import cn.com.mangopi.android.ui.adapter.ViewPagerAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.HomeFragmentListener;
+import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.ObservableScrollView;
 import cn.com.mangopi.android.ui.widget.RedPointView;
 import cn.com.mangopi.android.ui.widget.VerticalTextview;
@@ -52,6 +55,7 @@ import cn.com.mangopi.android.util.MangoUtils;
 
 public class HomeFragment extends BaseFragment implements HomeFragmentListener, View.OnClickListener {
 
+    MangoPtrFrameLayout refreshLayout;
     ConvenientBanner homeBanner;
     List<AdvertBean> banners;
     VerticalTextview tvScroll;
@@ -86,6 +90,15 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @Override
     void findView(View root) {
+        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
+        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                if(Application.application.getMember() != null) {
+                    initData();
+                }
+            }
+        });
         homeBanner = (ConvenientBanner) root.findViewById(R.id.home_banner);
         tvScroll = (VerticalTextview) root.findViewById(R.id.tv_scroll);
         homePager = (ViewPagerFixed) root.findViewById(R.id.home_pager);
@@ -204,6 +217,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @Override
     public void onSuccess(String position, List<AdvertBean> advertList) {
+        refreshLayout.refreshComplete();
         if (Constants.INDEX_THREEE_ADVERT.equals(position)) {
             if (advertList.size() > 0) {
                 AdvertBean advert1 = advertList.get(0);
@@ -282,11 +296,13 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @Override
     public void onSuccess(List<BulletinBean> bulletinList) {
+        refreshLayout.refreshComplete();
         tvScroll.setTextList(bulletinList);
     }
 
     @Override
     public void onClassifySuccess(List<CourseClassifyBean> courseClassifyList) {
+        refreshLayout.refreshComplete();
         gridViews.clear();
         homeIndicator.removeAllViews();
         for (int i = 0; courseClassifyList != null && i < courseClassifyList.size(); i += 4) {

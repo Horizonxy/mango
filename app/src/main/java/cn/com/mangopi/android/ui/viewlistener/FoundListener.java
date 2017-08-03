@@ -1,8 +1,9 @@
 package cn.com.mangopi.android.ui.viewlistener;
 
-import cn.com.mangopi.android.model.bean.TrendBean;
-
 import java.util.List;
+import java.util.Map;
+
+import cn.com.mangopi.android.model.bean.TrendBean;
 
 public interface FoundListener extends BaseViewListener {
 
@@ -12,4 +13,5 @@ public interface FoundListener extends BaseViewListener {
     void notifyData();
     void onFailure();
     void delOrAddFav(TrendBean trend);
+    Map<String, Object> getQueryMap();
 }

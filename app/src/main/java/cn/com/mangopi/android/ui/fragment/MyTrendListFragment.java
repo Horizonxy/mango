@@ -2,12 +2,9 @@ package cn.com.mangopi.android.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
@@ -18,73 +15,69 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
-import cn.com.mangopi.android.di.component.DaggerFoundFragmentComponent;
-import cn.com.mangopi.android.di.module.FoundFragmentModule;
 import cn.com.mangopi.android.model.bean.TrendBean;
+import cn.com.mangopi.android.model.data.FavModel;
+import cn.com.mangopi.android.model.data.PraiseModel;
+import cn.com.mangopi.android.model.data.TrendModel;
 import cn.com.mangopi.android.presenter.FavPresenter;
 import cn.com.mangopi.android.presenter.FoundPresenter;
+import cn.com.mangopi.android.ui.adapter.TrendListAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
-import cn.com.mangopi.android.ui.viewlistener.FavListener;
 import cn.com.mangopi.android.ui.viewlistener.FoundListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
-import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.EmptyHelper;
-import cn.com.mangopi.android.util.MangoUtils;
 
-public class FoundFragment extends BaseFragment implements AdapterView.OnItemClickListener,View.OnClickListener,FoundListener, FavListener {
 
-    ImageView ivSearch;
-    TextView tvSearch;
-    TextView tvAddTend;
-    View vSearch;
+public class MyTrendListFragment extends BaseFragment implements AdapterView.OnItemClickListener,FoundListener {
+
     MangoPtrFrameLayout refreshLayout;
     ListView listView;
+    public static final int MY_SEND = 1;
+    public static final int MY_REPLY = 2;
+
     int pageNo = 1;
-    boolean hasNext = true;
-    List<TrendBean> datas = new ArrayList<TrendBean>();
-    @Inject
+    List datas = new ArrayList();
     QuickAdapter adapter;
-    @Inject
     FoundPresenter presenter;
-    TextView tvTitle;
-    @Inject
     FavPresenter favPresenter;
-    TrendBean favTrend;
+    boolean hasNext = true;
+    int type;
     EmptyHelper emptyHelper;
+    TrendBean favTrend;
 
-    public FoundFragment() {
+    public MyTrendListFragment() {
+    }
+
+    public static MyTrendListFragment newInstance(int type) {
+        MyTrendListFragment fragment = new MyTrendListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", type);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        DaggerFoundFragmentComponent.builder().foundFragmentModule(new FoundFragmentModule(this, datas)).build().inject(this);
+        type = getArguments().getInt("type");
     }
 
     @Override
-    void findView(View root){
-        ivSearch = (ImageView) root.findViewById(R.id.iv_tab_search);
-        tvSearch = (TextView) root.findViewById(R.id.tv_search);
-        vSearch = root.findViewById(R.id.layout_search);
+    void findView(View root) {
         refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         listView = (ListView) root.findViewById(R.id.listview);
-        tvAddTend = (TextView) root.findViewById(R.id.tv_right);
-        tvAddTend.setOnClickListener(this);
-        tvTitle = (TextView) root.findViewById(R.id.tv_title);
-        tvTitle.setText(getString(R.string.found));
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), null);
+        presenter = new FoundPresenter(new PraiseModel(), new TrendModel(), this);
+        favPresenter = new FavPresenter(new FavModel(), this);
     }
 
     @Override
     void initView() {
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter = new TrendListAdapter(getActivity(), R.layout.listview_item_found, datas, this));
         listView.setOnItemClickListener(this);
         listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
@@ -98,23 +91,16 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
+                pageNo++;
                 loadData();
             }
         });
-
         refreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
                 refreshLayout.autoRefresh(true);
             }
         }, 400);
-
-        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
-        if(!indentityList.contains(Constants.UserIndentity.TUTOR) && !indentityList.contains(Constants.UserIndentity.COMMUNITY)){
-            tvAddTend.setVisibility(View.INVISIBLE);
-        } else {
-            tvAddTend.setVisibility(View.VISIBLE);
-        }
     }
 
     private void loadData() {
@@ -129,21 +115,23 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
 
     @Override
     int getLayoutId() {
-        return R.layout.fragment_found;
+        return R.layout.layout_pull_listview;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TrendBean item = (TrendBean) parent.getAdapter().getItem(position);
+
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.tv_right:
-                ActivityBuilder.startPublishDynamicsActivity(getActivity());
-                break;
+    public void onDestroy() {
+        if(presenter != null){
+            presenter.onDestroy();
         }
+        if(favPresenter != null){
+            favPresenter.onDestroy();
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -221,36 +209,11 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         map.put("lst_sessid", Application.application.getSessId());
         map.put("page_no",getPageNo());
         map.put("page_size", Constants.PAGE_SIZE);
+        if(type == MY_SEND){
+            map.put("is_my_send", 1);
+        } else if(type == MY_REPLY){
+            map.put("is_my_reply", 1);
+        }
         return map;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if(presenter != null) {
-            presenter.onDestroy();
-        }
-        if(favPresenter != null){
-            favPresenter.onDestroy();
-        }
-    }
-
-    @Override
-    public long getEntityId() {
-        if(favTrend != null){
-            return favTrend.getId();
-        }
-        return 0;
-    }
-
-    @Override
-    public int getEntityTypeId() {
-        return Constants.EntityType.TREND.getTypeId();
-    }
-
-    @Override
-    public void onSuccess(boolean success) {
-        favTrend.setIs_favor(success);
-        adapter.notifyDataSetChanged();
     }
 }
