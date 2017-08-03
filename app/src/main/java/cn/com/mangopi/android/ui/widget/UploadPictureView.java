@@ -14,11 +14,20 @@ import android.widget.ProgressBar;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
-import cn.com.mangopi.android.Application;
-import cn.com.mangopi.android.R;
-import cn.com.mangopi.android.model.bean.UploadImageBean;
+import java.io.File;
 
-public class UploadPictureView extends FrameLayout implements View.OnClickListener {
+import cn.com.mangopi.android.Application;
+import cn.com.mangopi.android.Constants;
+import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.UploadBean;
+import cn.com.mangopi.android.model.bean.UploadImageBean;
+import cn.com.mangopi.android.model.data.UploadModel;
+import cn.com.mangopi.android.presenter.UploadPresenter;
+import cn.com.mangopi.android.ui.viewlistener.UploadViewListener;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
+public class UploadPictureView extends FrameLayout implements View.OnClickListener, UploadViewListener {
 
     ImageView ivPicture;
     ProgressBar progress;
@@ -27,8 +36,9 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
     View layoutAdd;
     UploadImageBean imageBean;
     DisplayImageOptions options;
-
+    RequestBody uploadImage;
     OnUploadPictureListener onUploadPictureListener;
+    UploadPresenter presenter;
 
     public UploadPictureView(@NonNull Context context) {
         this(context, null);
@@ -56,14 +66,19 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
         layoutAdd.setOnClickListener(this);
 
         options = new DisplayImageOptions.Builder().cacheInMemory().cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
+        presenter = new UploadPresenter(new UploadModel(), this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_retry:
+                presenter.upload();
                 break;
             case R.id.iv_delete:
+                if(onUploadPictureListener != null){
+                    onUploadPictureListener.onDelView(imageBean);
+                }
                 break;
             case R.id.layout_add:
                 if(onUploadPictureListener != null){
@@ -79,6 +94,9 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
 
     public void setImageBean(UploadImageBean imageBean) {
         this.imageBean = imageBean;
+        if(imageBean.getType() != UploadImageBean.ADD_BTN){
+            uploadImage = RequestBody.create(MediaType.parse("multipart/form-data"), new File(imageBean.getLocalPath()));
+        }
         setImageLayout();
     }
 
@@ -98,10 +116,11 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
             case UploadImageBean.READY:
                 layoutAdd.setVisibility(View.GONE);
                 ivPicture.setVisibility(View.VISIBLE);
-                Application.application.getImageLoader().displayImage(imageBean.getLocalPath(), ivPicture, options);
+                Application.application.getImageLoader().displayImage(Constants.FILE_PREFIX + imageBean.getLocalPath(), ivPicture, options);
                 ivDelete.setVisibility(View.GONE);
-                progress.setVisibility(View.GONE);
+                progress.setVisibility(View.VISIBLE);
                 ivRetry.setVisibility(View.GONE);
+                presenter.uploadWithOutLoading();
                 break;
             case UploadImageBean.UPLOADED:
                 layoutAdd.setVisibility(View.GONE);
@@ -131,8 +150,65 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
         this.onUploadPictureListener = onUploadPictureListener;
     }
 
-    public interface OnUploadPictureListener {
-        void onAddPicture();
+    @Override
+    public void onFailure(String message) {
+        imageBean.setType(UploadImageBean.RETRY);
+        imageBean.setUploadBean(null);
+        setImageLayout();
     }
 
+    @Override
+    public Context currentContext() {
+        return getContext();
+    }
+
+    @Override
+    public void onSuccess(UploadBean upload) {
+        imageBean.setType(UploadImageBean.UPLOADED);
+        imageBean.setUploadBean(upload);
+        setImageLayout();
+    }
+
+    @Override
+    public void onUploadFailure(String message) {
+        imageBean.setType(UploadImageBean.RETRY);
+        imageBean.setUploadBean(null);
+        setImageLayout();
+    }
+
+    @Override
+    public void beforeUpload() {
+    }
+
+    @Override
+    public void afterUpload(boolean success) {
+    }
+
+    @Override
+    public long getEntityId() {
+        return 0;
+    }
+
+    @Override
+    public int getEntityTypeId() {
+        return Constants.EntityType.TREND.getTypeId();
+    }
+
+    @Override
+    public RequestBody getFile() {
+        return uploadImage;
+    }
+
+    public interface OnUploadPictureListener {
+        void onAddPicture();
+        void onDelView(UploadImageBean uploadImage);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        if(presenter != null){
+            presenter.onDestroy();
+        }
+        super.onDetachedFromWindow();
+    }
 }

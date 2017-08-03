@@ -63,7 +63,7 @@ public class FavListActivity extends BaseTitleBarActivity implements FavListList
         titleBar.setTitle(R.string.fav);
         listView.setAdapter(adapter = new FavListAdapter(this, R.layout.listview_item_favlist, datas));
         listView.setOnItemClickListener(this);
-        listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
+        //listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

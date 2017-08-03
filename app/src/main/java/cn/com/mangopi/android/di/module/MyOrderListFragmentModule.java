@@ -42,7 +42,7 @@ public class MyOrderListFragmentModule {
         return new QuickAdapter<OrderBean>(fragment.getContext(), R.layout.listview_item_order_list, datas) {
             @Override
             protected void convert(BaseAdapterHelper helper, OrderBean item) {
-                helper.setText(R.id.tv_order_no, "单号："+item.getOrder_no())
+                helper.setText(R.id.tv_order_no, "单号："+item.getFiveLenOrderNo())
                         .setText(R.id.tv_order_time, DateUtils.dateToString(item.getOrder_time(), DateUtils.TIME_PATTERN_YMDHM))
                         .setText(R.id.tv_pay_state_label, item.getPay_state_label())
                         .setText(R.id.tv_order_count, "x "+item.getOrder_count())

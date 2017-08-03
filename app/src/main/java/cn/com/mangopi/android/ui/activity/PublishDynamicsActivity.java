@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -60,6 +61,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
     private void initView() {
         titleBar.setTitle(R.string.found);
         titleBar.setRightText(R.string.publish);
+        titleBar.setOnTitleBarClickListener(this);
 
         int conentMaxLen = AppUtils.getMaxLength(etContent);
         RxTextView.textChanges(etContent).subscribe(new Action1<CharSequence>() {
@@ -107,6 +109,17 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
     public void onTitleButtonClick(View view) {
         switch (view.getId()) {
             case R.id.tv_right:
+                for (int i = 0; i < pictures.size(); i++){
+                    UploadImageBean uploadImage = pictures.get(i);
+                    if(uploadImage.getUploadBean() == null || uploadImage.getType() != UploadImageBean.UPLOADED){
+                        AppUtils.showToast(this, "图片正在上传，请稍等");
+                        return;
+                    }
+                }
+                if(TextUtils.isEmpty(etContent.getText().toString())){
+                    AppUtils.showToast(this, "请输入动态内容");
+                    return;
+                }
                 presenter.addTrend();
                 break;
         }
@@ -117,8 +130,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
         if (iHandlerCallBack == null) {
             iHandlerCallBack = new IHandlerCallBack() {
                 @Override
-                public void onStart() {
-                }
+                public void onStart() {}
 
                 @Override
                 public void onSuccess(List<String> photoList) {
@@ -127,23 +139,20 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
                     }
                     for (String photoInfo : photoList) {
                         UploadImageBean imageBean = new UploadImageBean(UploadImageBean.READY);
-                        imageBean.setLocalPath(Constants.FILE_PREFIX + photoInfo);
+                        imageBean.setLocalPath(photoInfo);
                         pictures.add(imageBean);
                     }
                     setImageView();
                 }
 
                 @Override
-                public void onCancel() {
-                }
+                public void onCancel() {}
 
                 @Override
-                public void onFinish() {
-                }
+                public void onFinish() {}
 
                 @Override
-                public void onError() {
-                }
+                public void onError() {}
             };
         }
         GalleryConfig galleryConfig = new GalleryConfig.Builder()
@@ -169,6 +178,12 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
     }
 
     @Override
+    public void onDelView(UploadImageBean uploadImage) {
+        pictures.remove(uploadImage);
+        setImageView();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -186,7 +201,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
 
     @Override
     public void onSuccess() {
-
+        finish();
     }
 
     @Override
@@ -196,6 +211,19 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
 
     @Override
     public List<String> getPics() {
-        return null;
+        List<String> urls = new ArrayList<String>();
+        for (int i = 0; i < pictures.size(); i++){
+            UploadImageBean uploadImage = pictures.get(i);
+            urls.add(uploadImage.getUploadBean().getUrl());
+        }
+        return urls;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(presenter != null){
+            presenter.onDestroy();
+        }
+        super.onDestroy();
     }
 }

@@ -18,8 +18,8 @@ public class MessageListAdapter extends QuickAdapter<MessageBean> {
 
     @Override
     protected void convert(BaseAdapterHelper helper, MessageBean item) {
-        helper/*.setImageBuilder(R.id.iv_avatar, item.getLogo_rsurl(), Application.application.getDefaultOptions())*/
-                .setText(R.id.tv_title, item.getTitle())
-                .setText(R.id.tv_content, item.getRemark());
+        helper.setText(R.id.tv_title, item.getTitle())
+                .setText(R.id.tv_content, item.getRemark())
+                .setVisible(R.id.tv_num, item.getState() != null && item.getState().intValue() != 1);
     }
 }

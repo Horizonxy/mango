@@ -102,9 +102,9 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
-    public static void startBulletinDetailActivity(Activity activity, BulletinBean bulletin){
+    public static void startBulletinDetailActivity(Activity activity, long id){
         Intent intent = new Intent(activity, BulletinDetailActivity.class);
-        intent.putExtra(Constants.BUNDLE_BULLETIN, bulletin);
+        intent.putExtra(Constants.BUNDLE_ID, id);
         activity.startActivity(intent);
     }
 

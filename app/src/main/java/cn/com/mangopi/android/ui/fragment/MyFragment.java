@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.util.List;
@@ -26,12 +28,14 @@ import cn.com.mangopi.android.ui.activity.MyOrderListActivity;
 import cn.com.mangopi.android.ui.activity.SettingActivity;
 import cn.com.mangopi.android.ui.activity.UpgradeRoleActivity;
 import cn.com.mangopi.android.ui.viewlistener.MyFragmentListener;
+import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 
 public class MyFragment extends BaseFragment implements MyFragmentListener{
 
+    MangoPtrFrameLayout refreshLayout;
     TextView tvNickName;
     TextView tvUpdateInfo;
     View vRole;
@@ -75,6 +79,15 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
 
     @Override
     void findView(View root) {
+        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
+        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                if(Application.application.getMember() != null) {
+                    memberPresenter.getMember();
+                }
+            }
+        });
         tvNickName = (TextView) root.findViewById(R.id.tv_nick_name);
         tvUpdateInfo = (TextView) root.findViewById(R.id.tv_update_info);
         vRole = root.findViewById(R.id.layout_role);
@@ -178,7 +191,11 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
             vClasses.setVisibility(View.VISIBLE);
             vAccount.setVisibility(View.VISIBLE);
         }
-
+        if(!indentityList.contains(Constants.UserIndentity.COMMUNITY)) {
+            vWorks.setVisibility(View.VISIBLE);
+        } else {
+            vWorks.setVisibility(View.GONE);
+        }
         if(member == null){
             tvNickName.setText("");
             tvCollectionCount.setText("-");
@@ -242,6 +259,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
 
     @Override
     public void onSuccess(MemberBean member) {
+        refreshLayout.refreshComplete();
         this.member = member;
         Application.application.saveMember(member, Application.application.getSessId());
         setMemberView();

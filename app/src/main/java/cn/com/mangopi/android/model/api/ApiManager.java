@@ -168,4 +168,8 @@ public class ApiManager {
     public static  Observable<RestResult<List<FavBean>>> getFavList(int pageNo){
         return Application.application.getApiService().getFavList(Application.application.getSessId(), pageNo);
     }
+
+    public static  Observable<RestResult<BulletinBean>> getBulletin(long id){
+        return Application.application.getApiService().getBulletin(id);
+    }
 }

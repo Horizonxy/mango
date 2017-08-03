@@ -3,6 +3,7 @@ package cn.com.mangopi.android.ui.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import cn.com.mangopi.android.presenter.MemberWalletPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.MemeberWalletListener;
+import cn.com.mangopi.android.ui.widget.AddSpaceTextWatcher;
 import cn.com.mangopi.android.ui.widget.ListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
@@ -50,8 +52,10 @@ public class MemberCardListActivity extends BaseTitleBarActivity implements Meme
         lvCard.setAdapter(adapter = new QuickAdapter<MemberCardBean>(this, R.layout.listview_item_card_list, cardList) {
             @Override
             protected void convert(BaseAdapterHelper helper, MemberCardBean item) {
-                helper.setText(R.id.tv_blank_name, item.getBank_name())
-                        .setText(R.id.tv_card_no, item.getCard_no());
+                EditText tvCardNo = helper.getView(R.id.tv_card_no);
+                new AddSpaceTextWatcher(tvCardNo, 48).setSpaceType(AddSpaceTextWatcher.SpaceType.bankCardNumberType);
+                tvCardNo.setText(item.getDealCardNo());
+                helper.setText(R.id.tv_blank_name, item.getBank_name());
             }
         });
     }

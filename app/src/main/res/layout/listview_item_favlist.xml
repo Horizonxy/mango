@@ -8,7 +8,7 @@
         android:id="@+id/iv_avatar"
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_60"
-        android:src="@drawable/none" />
+        android:src="@mipmap/logo" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -24,6 +24,7 @@ import cn.com.mangopi.android.ui.viewlistener.FavListener;
 import cn.com.mangopi.android.ui.viewlistener.FoundListener;
 import cn.com.mangopi.android.ui.widget.GridView;
 import cn.com.mangopi.android.util.ActivityBuilder;
+import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 import dagger.Module;
 import dagger.Provides;
@@ -54,7 +55,7 @@ public class FoundFragmentModule {
             @Override
             protected void convert(BaseAdapterHelper helper, TrendBean item) {
                 helper.setText(R.id.tv_publisher_name, item.getPublisher_name());
-                helper.setText(R.id.tv_publish_time_labe, item.getPublish_time_label());
+                helper.setText(R.id.tv_publish_time_labe, DateUtils.getShowTime(item.getPublish_time()));
                 helper.setImageUrl(R.id.iv_publisher_avatar, item.getAvatar_rsurl());
                 helper.setText(R.id.tv_content, item.getContent());
                 if(TextUtils.isEmpty(item.getCity())){

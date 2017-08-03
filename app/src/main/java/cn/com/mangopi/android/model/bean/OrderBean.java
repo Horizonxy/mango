@@ -39,6 +39,13 @@ public class OrderBean implements Serializable {
         this.id = id;
     }
 
+    public String getFiveLenOrderNo(){
+        if(order_no != null){
+            return order_no.length() > 5 ? order_no.substring(order_no.length() - 5) : order_no;
+        }
+        return "";
+    }
+
     public String getOrder_no() {
         return order_no;
     }

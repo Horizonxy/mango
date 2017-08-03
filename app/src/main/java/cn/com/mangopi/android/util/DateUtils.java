@@ -415,7 +415,36 @@ public class DateUtils{
 			e.printStackTrace(); 
 			return System.currentTimeMillis();
 		}  
-	} 
+	}
+
+	public static String getShowTime(Date composeDate) {
+		String time = null;
+		Date dateNow = new Date();
+		if (composeDate != null) {
+			Calendar calendar1 = Calendar.getInstance(), calendar2 = Calendar.getInstance();
+			calendar1.setTime(dateNow);
+			calendar2.setTime(composeDate);
+			if (calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)) {
+				int secDiff = (int) ((dateNow.getTime() - composeDate.getTime()) / 1000);
+				if (secDiff < 3600) {
+					int min = secDiff / 60;
+					time = min + "分钟前";
+				} else if (secDiff >= 3600 && secDiff < 24 * 3600) {
+					int hour = secDiff / 3600;
+					time = hour + "小时前";
+				} else if (secDiff >= 24 * 3600 && secDiff < 7 * 24 * 3600) {
+					int day = secDiff / (3600 * 24);
+					time = day + "天前";
+				} else {
+					SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+					time = format.format(composeDate);
+				}
+			} else {
+				time = dateToString(composeDate, DATE_PATTERN);
+			}
+		}
+		return time;
+	}
 }
 
 

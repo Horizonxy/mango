@@ -6,6 +6,7 @@ import cn.com.mangopi.android.model.bean.RestResult;
 
 import java.util.ArrayList;
 
+import cn.com.mangopi.android.util.RxJavaUtils;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,5 +27,9 @@ public class BulletinModel {
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
+    }
+
+    public Subscription getBulletin(long id, Action0 onSubscribe, Subscriber<RestResult<BulletinBean>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getBulletin(id), onSubscribe).subscribe(subscriber);
     }
 }

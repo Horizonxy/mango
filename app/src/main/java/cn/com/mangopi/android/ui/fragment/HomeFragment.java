@@ -139,7 +139,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         tvScroll.setOnItemClickListener(new VerticalTextview.OnItemClickListener() {
             @Override
             public void onItemClick(Object contentVo, int position) {
-                ActivityBuilder.startBulletinDetailActivity(getActivity(), (BulletinBean) contentVo);
+                ActivityBuilder.startBulletinDetailActivity(getActivity(), ((BulletinBean) contentVo).getId());
             }
         });
 

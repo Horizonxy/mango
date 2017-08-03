@@ -35,6 +35,14 @@ public class MemberCardBean implements Serializable {
         this.bank_name = bank_name;
     }
 
+    public String getDealCardNo(){
+        if(card_no != null && card_no.length() > 4){
+            String prefix = card_no.substring(0, card_no.length() - 4);
+            return prefix.replaceAll("\\d", "*").concat(card_no.substring(card_no.length() - 4));
+        }
+        return  "";
+    }
+
     public String getCard_no() {
         return card_no;
     }

@@ -14,4 +14,8 @@ public class UploadModel {
     public Subscription upload(long entityId, int entityTypeId, RequestBody file, Action0 onSubscribe, Subscriber<RestResult<UploadBean>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.upload(entityId, entityTypeId, file), onSubscribe).subscribe(subscriber);
     }
+
+    public Subscription uploadWithOutLoading(long entityId, int entityTypeId, RequestBody file, Subscriber<RestResult<UploadBean>> subscriber){
+        return RxJavaUtils.schedulersIoMain(ApiManager.upload(entityId, entityTypeId, file)).subscribe(subscriber);
+    }
 }

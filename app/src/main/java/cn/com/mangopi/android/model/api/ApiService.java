@@ -102,7 +102,7 @@ public interface ApiService {
     Observable<RestResult<Object>> addTrend(
             @Query("lst_sessid") String sessId,
             @Query("content") String content,
-            @Query("entity_type_id") List<String> pics
+            @Query("pics") List<String> pics
     );
 
     //5.1.17会员钱包详情接口
@@ -265,5 +265,11 @@ public interface ApiService {
     Observable<RestResult<List<FavBean>>> getFavList(
             @Query("lst_sessid") String lst_sessid,
             @Query("page_no") int pageNo
+    );
+
+    //5.6.12	公告详情接口
+    @POST("outer/router?bulletin_get")
+    Observable<RestResult<BulletinBean>> getBulletin(
+            @Query("id") long id
     );
 }

@@ -64,7 +64,6 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
 
         listView.setAdapter(adapter = new MessageListAdapter(this, R.layout.listview_item_messagelist, datas));
         listView.setOnItemClickListener(this);
-        listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

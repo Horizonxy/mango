@@ -12,8 +12,8 @@
 
         <ImageButton
             android:id="@+id/ib_back"
-            android:layout_width="@dimen/dp_24"
-            android:layout_height="@dimen/dp_24"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
             android:background="@android:color/transparent"
             android:layout_gravity="center"
             android:scaleType="fitXY"
