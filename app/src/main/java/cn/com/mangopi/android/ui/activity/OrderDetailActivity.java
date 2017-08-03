@@ -3,6 +3,7 @@ package cn.com.mangopi.android.ui.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -43,6 +44,10 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     @Bind(R.id.tv_pay_price)
     TextView tvPayPrice;
     OrderDetailBean orderDetail;
+    @Bind(R.id.btn_cancle)
+    Button btnCancel;
+    @Bind(R.id.btn_pay)
+    Button btnPay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         this.orderDetail = orderDetail;
         tvOrderNo.setText("单号："+orderDetail.getFiveLenOrderNo());
         tvOrderTime.setText(DateUtils.dateToString(orderDetail.getOrder_time(), DateUtils.TIME_PATTERN_YMDHM));
-        tvStateLabel.setText(orderDetail.getPay_state_label());
+        tvStateLabel.setText(orderDetail.getState_label());
         tvOrderName.setText(orderDetail.getOrder_name());
         tvOrderCount.setText("x "+orderDetail.getOrder_count());
         tvMemberName.setText(orderDetail.getTutor_name());
@@ -78,6 +83,13 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         }
         if(orderDetail.getPay_price() != null) {
             tvPayPrice.setText(getString(R.string.rmb)+orderDetail.getPay_price().toString());
+        }
+        if(orderDetail.getState() != null && orderDetail.getState().intValue() == 2) {
+            btnCancel.setVisibility(View.VISIBLE);
+            btnPay.setVisibility(View.VISIBLE);
+        } else {
+            btnCancel.setVisibility(View.GONE);
+            btnPay.setVisibility(View.GONE);
         }
     }
 

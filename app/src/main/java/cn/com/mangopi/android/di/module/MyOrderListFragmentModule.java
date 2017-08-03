@@ -44,14 +44,19 @@ public class MyOrderListFragmentModule {
             protected void convert(BaseAdapterHelper helper, OrderBean item) {
                 helper.setText(R.id.tv_order_no, "单号："+item.getFiveLenOrderNo())
                         .setText(R.id.tv_order_time, DateUtils.dateToString(item.getOrder_time(), DateUtils.TIME_PATTERN_YMDHM))
-                        .setText(R.id.tv_pay_state_label, item.getPay_state_label())
+                        .setText(R.id.tv_pay_state_label, item.getState_label())
                         .setText(R.id.tv_order_count, "x "+item.getOrder_count())
                         .setText(R.id.tv_course_name, item.getOrder_name());
                 if(relation == 1) {
                     helper.setText(R.id.tv_member_name, item.getTutor_name());
                     helper.setVisible(R.id.btn_act, false);
-                    helper.setVisible(R.id.btn_pay, true);
-                    helper.setVisible(R.id.btn_cancle, true);
+                    if(item.getState() != null && item.getState().intValue() == 2) {
+                        helper.setVisible(R.id.layout_action, true);
+                        helper.setVisible(R.id.v_line, true);
+                    } else {
+                        helper.setVisible(R.id.layout_action, false);
+                        helper.setVisible(R.id.v_line, false);
+                    }
                 } else if(relation == 2){
                     helper.setText(R.id.tv_member_name, item.getMember_name());
                     helper.setVisible(R.id.btn_act, true);
