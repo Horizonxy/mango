@@ -179,8 +179,16 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
 
     @Override
     public void onDelView(UploadImageBean uploadImage) {
-        pictures.remove(uploadImage);
-        setImageView();
+        int index = 0;
+        for (int i = 0; i < pictures.size(); i++){
+            if(pictures.get(i) == uploadImage){
+                index = i;
+                break;
+            }
+        }
+        if(pictures.remove(uploadImage)) {
+            gridPicture.removeViewAt(index);
+        }
     }
 
     @Override

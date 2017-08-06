@@ -42,7 +42,7 @@
         android:layout_gravity="right|top"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/dele_white"
         android:visibility="gone" />
 
 </FrameLayout>

@@ -93,6 +93,11 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         refreshLayout.setPtrHandler(new PtrDefaultHandler() {
             @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return !(svContent.getScrollY() > 0);
+            }
+
+            @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 if(Application.application.getMember() != null) {
                     initData();

@@ -167,6 +167,7 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
         imageBean.setType(UploadImageBean.UPLOADED);
         imageBean.setUploadBean(upload);
         setImageLayout();
+        uploadImage = null;
     }
 
     @Override
