@@ -6,6 +6,8 @@ import java.util.List;
 
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.di.FragmentScope;
+import cn.com.mangopi.android.model.data.CourseModel;
+import cn.com.mangopi.android.presenter.CourseListPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import dagger.Module;
@@ -36,5 +38,4 @@ public class MyClassesFragmentModule {
             }
         };
     }
-
 }

@@ -1,6 +1,7 @@
 package cn.com.mangopi.android.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -50,8 +51,8 @@ public class MyClassesActivity extends BaseActivity {
     private void initView() {
         tabTitles = getResources().getStringArray(R.array.classes_tab);
 
-        fragmentList.add(new MyClassesFragment());
-        fragmentList.add(new MyClassesFragment());
+        fragmentList.add(MyClassesFragment.newInstance(MyClassesFragment.TPYE_ALL));
+        fragmentList.add(MyClassesFragment.newInstance(MyClassesFragment.TPYE_ON));
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tabIndicator.getLayoutParams();
         params.width = (int) (getResources().getDimension(R.dimen.dp_112) * 2);
@@ -121,6 +122,6 @@ public class MyClassesActivity extends BaseActivity {
 
     @OnClick(R.id.tv_add_class)
     void addClass(){
-        Toast.makeText(this, "+授课", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, AddCourseActivity.class));
     }
 }

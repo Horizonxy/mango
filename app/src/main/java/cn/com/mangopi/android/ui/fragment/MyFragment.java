@@ -175,12 +175,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
         ((ImageView)vAccount.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_zhanghu);
         ((ImageView)vSetting.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_shezhi);
 
-
         setMemberView();
-
-        if(Application.application.getMember() != null) {
-            memberPresenter.getMember();
-        }
     }
 
     private void setMemberView(){
@@ -283,6 +278,14 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
         }
 
         abstract void onLoginClick(View v);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(Application.application.getMember() != null) {
+            memberPresenter.getMember();
+        }
     }
 
     @Override

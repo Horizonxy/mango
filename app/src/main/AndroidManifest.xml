@@ -115,6 +115,7 @@
         <activity android:name=".ui.activity.PayResultActivity" />
         <activity android:name=".ui.activity.FavListActivity" />
         <activity android:name=".ui.activity.MemberTrendActivity" />
+        <activity android:name=".ui.activity.AddCourseActivity" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

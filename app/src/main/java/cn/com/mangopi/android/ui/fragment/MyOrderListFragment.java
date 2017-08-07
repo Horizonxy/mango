@@ -64,6 +64,8 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
         listView = (ListView) root.findViewById(R.id.listview);
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), this);
+        emptyHelper.showRefreshButton(false);
+        emptyHelper.showMessage(false);
     }
 
     @Override
