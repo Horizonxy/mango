@@ -201,7 +201,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Object item = parent.getAdapter().getItem(position);
         if(item instanceof CourseClassifyBean){
-            if(position == 7){
+            if(position == (gridDatas.size() - 1)){
                 ArrayList<CourseClassifyBean> classifyList = new ArrayList<>();
                 classifyList.addAll(gridDatas.subList(0, gridDatas.size() - 1));
                 ActivityBuilder.startTutorClassCategoryActivity(getActivity(), classifyList);

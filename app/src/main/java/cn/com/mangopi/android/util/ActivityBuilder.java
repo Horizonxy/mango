@@ -36,6 +36,7 @@ import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
 import cn.com.mangopi.android.ui.activity.SuccessActivity;
 import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
 import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
+import cn.com.mangopi.android.ui.activity.UpgradeRoleActivity;
 import cn.com.mangopi.android.ui.activity.WebViewActivity;
 
 /**
@@ -183,6 +184,12 @@ public class ActivityBuilder {
 
     public static void startMemberTrendActivity(Activity activity){
         Intent intent = new Intent(activity, MemberTrendActivity.class);
+        activity.startActivity(intent);
+    }
+
+
+    public static void startUpgradeRoleActivityy(Activity activity){
+        Intent intent = new Intent(activity, UpgradeRoleActivity.class);
         activity.startActivity(intent);
     }
 }

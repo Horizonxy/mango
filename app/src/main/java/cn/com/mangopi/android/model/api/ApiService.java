@@ -10,6 +10,7 @@ import cn.com.mangopi.android.model.bean.ContentDetailBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
+import cn.com.mangopi.android.model.bean.CourseTypeBean;
 import cn.com.mangopi.android.model.bean.FavBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
@@ -82,6 +83,9 @@ public interface ApiService {
             @QueryMap Map<String, Long> map
     );
 
+    //课程类型列表接口
+    @GET("outer/router?courseType_list")
+    Observable<RestResult<ArrayList<CourseTypeBean>>> getTypeList();
 
     //动态列表接口
     @GET("outer/router?trend_list")

@@ -47,7 +47,7 @@ public class TeacherFragmentModule {
             @Override
             protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
 
-                if(helper.getPosition() == 7){
+                if(helper.getPosition() == (gridDatas.size() - 1)){
                     helper.setImageResource(R.id.iv_logo, R.drawable.daoshi_08);
                 } else {
                     helper.setImageUrl(R.id.iv_logo, item.getLogo_rsurl());

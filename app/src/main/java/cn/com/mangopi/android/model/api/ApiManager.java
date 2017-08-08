@@ -11,6 +11,7 @@ import cn.com.mangopi.android.model.bean.ContentDetailBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
+import cn.com.mangopi.android.model.bean.CourseTypeBean;
 import cn.com.mangopi.android.model.bean.FavBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
@@ -59,6 +60,10 @@ public class ApiManager {
 
     public static  Observable<RestResult<ArrayList<CourseClassifyBean>>> getClassifyList(Map<String, Long> map){
         return Application.application.getApiService().getClassifyList(map);
+    }
+
+    public static  Observable<RestResult<ArrayList<CourseTypeBean>>> getTypeList(){
+        return Application.application.getApiService().getTypeList();
     }
 
     public static  Observable<RestResult<List<TrendBean>>> getTrendList(Map<String, Object> map){

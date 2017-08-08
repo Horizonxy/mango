@@ -108,4 +108,12 @@ public class MyAccountActivity extends BaseTitleBarActivity implements MemeberWa
             tvCardRight.setText("");
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        if(presenter != null){
+            presenter.onDestroy();
+        }
+        super.onDestroy();
+    }
 }

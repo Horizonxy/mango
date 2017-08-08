@@ -110,6 +110,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         homeIndicator = (LinearLayout) root.findViewById(R.id.home_indicator);
         svContent = (ObservableScrollView) root.findViewById(R.id.sv_content);
         layoutUpdateRole = (RelativeLayout) root.findViewById(R.id.layout_update_role);
+        root.findViewById(R.id.btn_update_info).setOnClickListener(this);
         tvTitle1 = (TextView) root.findViewById(R.id.tv_title1);
         tvIntro1 = (TextView) root.findViewById(R.id.tv_intro1);
         ivAdvert1 = (ImageView) root.findViewById(R.id.iv_advert1);
@@ -337,7 +338,11 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             homeIndicator.addView(imageView);
         }
 
-        homePager.setAdapter(new ViewPagerAdapter(gridViews));
+        if(homePager.getAdapter() == null) {
+            homePager.setAdapter(new ViewPagerAdapter(gridViews));
+        } else {
+            homePager.getAdapter().notifyDataSetChanged();
+        }
         homePager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -390,6 +395,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 break;
             case R.id.iv_bottom_del:
                 layoutUpdateRole.setVisibility(View.GONE);
+                break;
+            case R.id.btn_update_info:
+                ActivityBuilder.startUpgradeRoleActivityy(getActivity());
                 break;
 
         }

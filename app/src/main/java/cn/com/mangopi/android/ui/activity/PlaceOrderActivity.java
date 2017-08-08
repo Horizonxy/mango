@@ -105,9 +105,9 @@ public class PlaceOrderActivity extends BaseTitleBarActivity implements PlaceOrd
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if(presenter != null) {
             presenter.onDestroy();
         }
+        super.onDestroy();
     }
 }

@@ -115,7 +115,8 @@
         <activity android:name=".ui.activity.PayResultActivity" />
         <activity android:name=".ui.activity.FavListActivity" />
         <activity android:name=".ui.activity.MemberTrendActivity" />
-        <activity android:name=".ui.activity.AddCourseActivity" />
+        <activity android:name=".ui.activity.AddCourseActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

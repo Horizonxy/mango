@@ -110,7 +110,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
             void onLoginClick(View v) {
                 switch (v.getId()) {
                     case R.id.layout_role:
-                        startActivity(new Intent(getActivity(), UpgradeRoleActivity.class));
+                        ActivityBuilder.startUpgradeRoleActivityy(getActivity());
                         break;
                     case R.id.layout_order_list:
                         startActivity(new Intent(getActivity(), MyOrderListActivity.class));

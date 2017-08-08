@@ -15,6 +15,11 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
+    public int getItemPosition(Object object) {
+        return PagerAdapter.POSITION_NONE;
+    }
+
+    @Override
     public int getCount() {
         return vList == null ? 0 : vList.size();
     }
@@ -32,6 +37,6 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup view, int position, Object object) {
-        view.removeView(vList.get(position));
+        view.removeView((View) object);
     }
 }

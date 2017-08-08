@@ -49,7 +49,7 @@ public class CalssListActivity extends BaseTitleBarActivity {
     private void initView() {
         titleBar.setTitle(classify.getClassify_name());
 
-        for (int i = 0; i < tabTitles.size(); i++){
+        for (int i = 0; tabTitles != null && i < tabTitles.size(); i++){
             viewLists.add(ClassListFragment.newInstance(tabTitles.get(i)));
         }
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), viewLists));

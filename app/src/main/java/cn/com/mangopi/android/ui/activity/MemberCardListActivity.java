@@ -43,6 +43,11 @@ public class MemberCardListActivity extends BaseTitleBarActivity implements Meme
         }
         initView();
         presenter = new MemberWalletPresenter(new MemberModel(), this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         presenter.getCardList();
     }
 
@@ -83,5 +88,13 @@ public class MemberCardListActivity extends BaseTitleBarActivity implements Meme
         cardList.clear();
         cardList.addAll(memberCardList);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(presenter != null){
+            presenter.onDestroy();
+        }
+        super.onDestroy();
     }
 }
