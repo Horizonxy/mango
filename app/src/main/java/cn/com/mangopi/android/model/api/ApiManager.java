@@ -177,4 +177,8 @@ public class ApiManager {
     public static  Observable<RestResult<BulletinBean>> getBulletin(long id){
         return Application.application.getApiService().getBulletin(id);
     }
+
+    public static  Observable<RestResult<Object>> addCourse(Map<String, Object> map){
+        return Application.application.getApiService().addCourse(map);
+    }
 }

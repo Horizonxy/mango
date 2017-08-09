@@ -26,7 +26,6 @@ import cn.com.mangopi.android.presenter.MemberPresenter;
 import cn.com.mangopi.android.ui.activity.MyAccountActivity;
 import cn.com.mangopi.android.ui.activity.MyOrderListActivity;
 import cn.com.mangopi.android.ui.activity.SettingActivity;
-import cn.com.mangopi.android.ui.activity.UpgradeRoleActivity;
 import cn.com.mangopi.android.ui.viewlistener.MyFragmentListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.util.ActivityBuilder;
@@ -51,6 +50,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
     TextView tvClasses;
     TextView tvAccount;
     TextView tvSetting;
+    TextView tvOrderCount;
     TextView tvClassCount;
     TextView tvProjectCount;
     TextView tvUpdateRole;
@@ -100,6 +100,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
         tvMsgCount = (TextView) root.findViewById(R.id.tv_msg_count);
         tvTrendCount = (TextView) root.findViewById(R.id.tv_trend_count);
         ivAvatar = (ImageView) root.findViewById(R.id.iv_avatar);
+        tvOrderCount = (TextView) vOrderList.findViewById(R.id.tv_right);
         tvClassCount = (TextView) vClasses.findViewById(R.id.tv_right);
         tvProjectCount = (TextView) vWorks.findViewById(R.id.tv_right);
         tvUpdateRole = (TextView) vRole.findViewById(R.id.tv_right);
@@ -198,6 +199,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
             tvMsgCount.setText("-");
             tvTrendCount.setText("-");
             tvRole.setText(getString(R.string.my_role));
+            tvOrderCount.setText("");
             tvClassCount.setText("");
             tvProjectCount.setText("");
             tvUpdateRole.setText("");
@@ -224,6 +226,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
             tvMsgCount.setText(String.valueOf(member.getMessage_count()));
             tvTrendCount.setText(String.valueOf(member.getTrend_count()));
             tvRole.setText(String.format(getString(R.string.my_role), member.getUser_identity_label()));
+            tvOrderCount.setText(String.valueOf(member.getOrder_count()));
             tvClassCount.setText(String.valueOf(member.getCourse_count()));
             tvProjectCount.setText(String.valueOf(member.getProject_count()));
 

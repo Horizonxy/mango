@@ -43,7 +43,7 @@ public class MangoLoadMoreViewFooter implements ILoadMoreViewFactory {
         @Override
         public void showNomore() {
             tvLoadMore.setVisibility(View.VISIBLE);
-            tvLoadMore.setText("没有更多了");
+            tvLoadMore.setText("已经到最后");
             gifProgress.setVisibility(View.GONE);
             footerView.setOnClickListener(null);
         }

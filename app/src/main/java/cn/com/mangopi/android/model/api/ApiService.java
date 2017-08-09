@@ -276,4 +276,10 @@ public interface ApiService {
     Observable<RestResult<BulletinBean>> getBulletin(
             @Query("id") long id
     );
+
+    //5.1.11	升级会员学生身份接口
+    @POST("outer/router?course_add")
+    Observable<RestResult<Object>> addCourse(
+            @QueryMap Map<String, Object> map
+    );
 }

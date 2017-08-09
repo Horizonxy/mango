@@ -2,12 +2,19 @@ package cn.com.mangopi.android.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseTypeBean;
@@ -33,14 +40,15 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
     TextView tvEachTime;
     List<String> serviceTimeList = new ArrayList<>();
     List<String> eachTimeList = new ArrayList<>();
+    @Bind(R.id.et_course_title)
+    EditText etTitle;
+    @Bind(R.id.et_content)
+    EditText etContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_course);
-
-        initView();
-        addPresenter = new AddCoursePresenter(new CourseModel(), this);
 
         serviceTimeList.add("一次");
         serviceTimeList.add("二次");
@@ -52,10 +60,16 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
         eachTimeList.add("每次约4小时");
         eachTimeList.add("每次约8小时");
         eachTimeList.add("每次约12小时");
+
+        initView();
+        addPresenter = new AddCoursePresenter(new CourseModel(), this);
     }
 
     private void initView() {
         titleBar.setTitle(R.string.add_course);
+
+        tvServiceTime.setText(serviceTimeList.get(0));
+        tvEachTime.setText(eachTimeList.get(0));
     }
 
     @OnClick(R.id.tv_class)
@@ -118,6 +132,31 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
         }
     }
 
+    @OnClick(R.id.btn_save)
+    void onSaveClick(View v){
+        if(TextUtils.isEmpty(etTitle.getText())){
+            AppUtils.showToast(this, "请输入课程标题");
+            return;
+        }
+        if(tvType.getTag() == null){
+            AppUtils.showToast(this, "请选择课程分类");
+            return;
+        }
+        if(tvClassify.getTag() == null){
+            AppUtils.showToast(this, "请选择课程类型");
+            return;
+        }
+        if(TextUtils.isEmpty(tvServiceTime.getText()) || TextUtils.isEmpty(tvEachTime.getText())){
+            AppUtils.showToast(this, "请选择服务时长");
+            return;
+        }
+        if(TextUtils.isEmpty(etContent.getText())){
+            AppUtils.showToast(this, "请输入课程内容");
+            return;
+        }
+        addPresenter.addCourse();
+    }
+
     @OnClick(R.id.tv_each_time)
     void onEachTimeClick(View v){
         String data = (String) tvEachTime.getTag();
@@ -178,6 +217,28 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
         this.typeList.clear();
         this.typeList.addAll(typeList);
         showTypeList(typeList);
+    }
+
+    @Override
+    public void onAddCourseSuccess(Object object) {
+        if(object != null) {
+            AppUtils.showToast(this, "保存课程成功，下拉刷新查看");
+        }
+    }
+
+    @Override
+    public Map<String, Object> getAddMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("lst_sessid", Application.application.getSessId());
+        map.put("course_title", etTitle.getText().toString());
+        map.put("type_id", ((CourseTypeBean)tvType.getTag()).getId());
+        map.put("service_time", tvServiceTime.getText().toString());
+        map.put("each_time", tvEachTime.getText().toString());
+        map.put("course_content", etContent.getText().toString());
+        map.put("material_rsurls", new String[]{});
+        map.put("class_id", ((CourseClassifyBean)tvClassify.getTag()).getId());
+        map.put("city", "");
+        return map;
     }
 
     @Override

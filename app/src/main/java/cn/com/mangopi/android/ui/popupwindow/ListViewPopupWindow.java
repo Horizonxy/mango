@@ -38,6 +38,8 @@ public abstract class ListViewPopupWindow<T> extends BasePopupWindow {
                 fiddData(helper, item);
                 if(dataT == item){
                     helper.setTextColorRes(R.id.tv_text, R.color.color_ffb900);
+                } else {
+                    helper.setTextColorRes(R.id.tv_text, R.color.color_666666);
                 }
             }
         });

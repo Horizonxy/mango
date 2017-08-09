@@ -1,5 +1,9 @@
 package cn.com.mangopi.android.model.data;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import cn.com.mangopi.android.model.api.ApiManager;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
@@ -7,11 +11,6 @@ import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.CourseTypeBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.util.RxJavaUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
@@ -37,5 +36,9 @@ public class CourseModel {
 
     public Subscription getCourse(long id, Action0 onSubscribe, Subscriber<RestResult<CourseDetailBean>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getCourse(id), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription addCourse(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.addCourse(map), onSubscribe).subscribe(subscriber);
     }
 }

@@ -75,4 +75,30 @@ public class AddCoursePresenter extends BasePresenter {
                 });
         addSubscription(subscription);
     }
+
+    public void addCourse(){
+        Context context = addCourseLisetener.currentContext();
+        Subscription subscription = courseModel.addCourse(addCourseLisetener.getAddMap(),
+                new CreateLoading(context), new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            addCourseLisetener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                addCourseLisetener.onAddCourseSuccess(restResult.getData());
+                            } else {
+                                addCourseLisetener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
 }

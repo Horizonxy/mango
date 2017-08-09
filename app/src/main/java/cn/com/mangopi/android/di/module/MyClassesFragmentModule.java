@@ -6,8 +6,7 @@ import java.util.List;
 
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.di.FragmentScope;
-import cn.com.mangopi.android.model.data.CourseModel;
-import cn.com.mangopi.android.presenter.CourseListPresenter;
+import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import dagger.Module;
@@ -31,10 +30,17 @@ public class MyClassesFragmentModule {
     @FragmentScope
     @Provides
     public QuickAdapter provideQuickAdapter(){
-        return new QuickAdapter<String>(activity, R.layout.listview_item_class_list, datas) {
+        return new QuickAdapter<CourseBean>(activity, R.layout.listview_item_class_list, datas) {
             @Override
-            protected void convert(BaseAdapterHelper helper, String item) {
-
+            protected void convert(BaseAdapterHelper helper, CourseBean item) {
+                helper.setText(R.id.tv_course_title, item.getCourse_title())
+                        .setText(R.id.tv_type_method, item.getType_method() + "  |  " + item.getApprove_state_label() + "  |  " + item.getState_label());
+                if(item.getSale_price() != null){
+                    helper.setVisible(R.id.tv_price, true);
+                    helper.setText(R.id.tv_price, activity.getResources().getString(R.string.rmb) + item.getSale_price().toString());
+                } else {
+                    helper.setVisible(R.id.tv_price, false);
+                }
             }
         };
     }
