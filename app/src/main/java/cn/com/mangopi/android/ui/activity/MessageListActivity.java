@@ -6,11 +6,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.chanven.lib.cptr.PtrDefaultHandler;
-import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.Bind;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
@@ -19,10 +18,8 @@ import cn.com.mangopi.android.model.data.MessageModel;
 import cn.com.mangopi.android.presenter.MessagePresenter;
 import cn.com.mangopi.android.ui.adapter.MessageListAdapter;
 import cn.com.mangopi.android.ui.viewlistener.MessageListener;
-import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
-import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.DialogUtil;
 import cn.com.mangopi.android.util.EmptyHelper;
 
@@ -62,8 +59,6 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
 
         listView.setAdapter(adapter = new MessageListAdapter(this, R.layout.listview_item_messagelist, datas));
         listView.setOnItemClickListener(this);
-        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_0_5));
-
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

@@ -95,4 +95,5 @@ dependencies {
     compile 'com.github.YancyYe:GalleryPick:1.2.1'
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.fang:dashview:v1.0.0'
 }

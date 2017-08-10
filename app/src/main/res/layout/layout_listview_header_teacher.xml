@@ -43,5 +43,5 @@
 
     <View
         style="@style/horizontal_line"
-        android:layout_marginTop="@dimen/dp_5"/>
+        android:layout_marginTop="@dimen/dp_2"/>
 </LinearLayout>

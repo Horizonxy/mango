@@ -6,11 +6,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.chanven.lib.cptr.PtrDefaultHandler;
-import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.Bind;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
@@ -19,7 +18,6 @@ import cn.com.mangopi.android.model.data.FavModel;
 import cn.com.mangopi.android.presenter.FavPresenter;
 import cn.com.mangopi.android.ui.adapter.FavListAdapter;
 import cn.com.mangopi.android.ui.viewlistener.FavListListener;
-import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.EmptyHelper;
@@ -59,7 +57,6 @@ public class FavListActivity extends BaseTitleBarActivity implements FavListList
         titleBar.setTitle(R.string.fav);
         listView.setAdapter(adapter = new FavListAdapter(this, R.layout.listview_item_favlist, datas));
         listView.setOnItemClickListener(this);
-        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_0_5));
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

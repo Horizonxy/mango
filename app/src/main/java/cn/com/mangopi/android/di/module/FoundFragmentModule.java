@@ -32,7 +32,6 @@ public class FoundFragmentModule {
     public FoundFragmentModule(Fragment fragment, List datas) {
         this.fragment = fragment;
         this.datas = datas;
-
     }
 
     @FragmentScope

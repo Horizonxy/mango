@@ -6,10 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.chanven.lib.cptr.PtrDefaultHandler;
-import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +23,6 @@ import cn.com.mangopi.android.presenter.FoundPresenter;
 import cn.com.mangopi.android.ui.adapter.TrendListAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.FoundListener;
-import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.AppUtils;
@@ -82,7 +77,6 @@ public class MyTrendListFragment extends BaseFragment implements AdapterView.OnI
     void initView() {
         listView.setAdapter(adapter = new TrendListAdapter(getActivity(), R.layout.listview_item_found, datas, this));
         listView.setOnItemClickListener(this);
-        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

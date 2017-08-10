@@ -61,6 +61,8 @@ public class MemberCardListActivity extends BaseTitleBarActivity implements Meme
                 new AddSpaceTextWatcher(tvCardNo, 48).setSpaceType(AddSpaceTextWatcher.SpaceType.bankCardNumberType);
                 tvCardNo.setText(item.getDealCardNo());
                 helper.setText(R.id.tv_blank_name, item.getBank_name());
+
+                helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
             }
         });
     }

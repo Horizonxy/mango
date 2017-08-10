@@ -87,6 +87,8 @@ public class MyClassesFragmentModule {
                 } else {
                     helper.setVisible(R.id.tv_price, false);
                 }
+
+                helper.setVisible(R.id.v_divider_line, helper.getPosition() < (datas.size() - 1));
             }
         };
     }

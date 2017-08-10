@@ -110,4 +110,10 @@
     <View style="@style/horizontal_line" />
 
     <include layout="@layout/layout_found_item_bottom" />
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/color_efeff4" />
 </LinearLayout>

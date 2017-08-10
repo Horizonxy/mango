@@ -7,11 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.chanven.lib.cptr.PtrDefaultHandler;
-import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +25,6 @@ import cn.com.mangopi.android.model.data.CourseModel;
 import cn.com.mangopi.android.presenter.CourseListPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.CourseListListener;
-import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
@@ -84,7 +78,6 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
     void initView() {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

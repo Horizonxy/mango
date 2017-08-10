@@ -92,6 +92,8 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         helper.getView(R.id.layout_comment).setOnClickListener(clickListener);
         helper.getView(R.id.layout_like).setOnClickListener(clickListener);
         helper.getView(R.id.iv_right).setOnClickListener(clickListener);
+
+        helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
     }
 
     class ItemOnClickListener implements View.OnClickListener {

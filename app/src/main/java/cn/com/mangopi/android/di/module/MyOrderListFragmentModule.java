@@ -72,6 +72,8 @@ public class MyOrderListFragmentModule {
                 ItemClickListener clickListener = new ItemClickListener(item);
                 helper.setOnClickListener(R.id.btn_pay, clickListener);
                 helper.setOnClickListener(R.id.btn_cancle, clickListener);
+
+                helper.setVisible(R.id.v_divider_line, helper.getPosition() < (datas.size() - 1));
             }
         };
     }

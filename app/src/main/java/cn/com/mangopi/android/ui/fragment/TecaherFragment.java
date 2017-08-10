@@ -9,15 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
-import com.chanven.lib.cptr.PtrDefaultHandler;
-import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +34,6 @@ import cn.com.mangopi.android.presenter.TeacherPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.TeacherListener;
 import cn.com.mangopi.android.ui.widget.GridView;
-import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
@@ -86,7 +81,6 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     void initView() {
         View headerView = LayoutInflater.from(getContext()).inflate(R.layout.layout_listview_header_teacher, null, false);
         courseBanner = (ConvenientBanner) headerView.findViewById(R.id.course_banner);
-        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_0_5));
         listView.getRefreshableView().addHeaderView(headerView);
         gvCategory = (GridView) headerView.findViewById(R.id.gv_category);
         gvCategory.setAdapter(gridAdapter);

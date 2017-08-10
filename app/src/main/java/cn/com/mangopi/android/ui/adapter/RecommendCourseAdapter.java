@@ -40,5 +40,6 @@ public class RecommendCourseAdapter extends QuickAdapter<CourseBean> {
                 ActivityBuilder.startTutorDetailActivity((Activity) context, item.getMember_id());
             }
         });
+        helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
     }
 }

@@ -228,11 +228,14 @@
                         android:adjustViewBounds="true"
                         android:scaleType="centerCrop" />
 
-                    <View
+                    <com.fang.dashview.DashView
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/shape_dotted_line"
-                        android:layerType="software" />
+                        android:layout_height="wrap_content"
+                        cube_ptr:dashWidth="4dp"
+                        cube_ptr:lineWidth="4dp"
+                        cube_ptr:lineColor="@color/color_efeff4"
+                        cube_ptr:dashOrientation="0"
+                        cube_ptr:lineHeight="1dp" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"

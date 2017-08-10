@@ -41,6 +41,7 @@ public class InteractAreaActivityModule {
                         Toast.makeText(activity, "comment: " + item, Toast.LENGTH_SHORT).show();
                     }
                 });
+                helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
             }
         };
     }
