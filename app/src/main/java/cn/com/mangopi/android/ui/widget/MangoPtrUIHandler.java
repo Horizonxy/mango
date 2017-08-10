@@ -73,11 +73,11 @@ public class MangoPtrUIHandler extends FrameLayout implements PtrUIHandler {
     public void onUIRefreshPrepare(PtrFrameLayout frame) {
         ivRotate.setVisibility(VISIBLE);
         tvRefresh.setVisibility(VISIBLE);
-        if (frame.isPullToRefresh()) {
-            tvRefresh.setText(getResources().getString(com.chanven.lib.cptr.R.string.cube_ptr_pull_down_to_refresh));
-        } else {
-            tvRefresh.setText(getResources().getString(com.chanven.lib.cptr.R.string.cube_ptr_pull_down));
-        }
+//        if (frame.isPullToRefresh()) {
+            tvRefresh.setText(getResources().getString(R.string.pull_to_refresh_pull_label));
+//        } else {
+//            tvRefresh.setText(getResources().getString(com.chanven.lib.cptr.R.string.cube_ptr_pull_down));
+//        }
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MangoPtrUIHandler extends FrameLayout implements PtrUIHandler {
         hideRotateView();
         gifProgress.setVisibility(VISIBLE);
         tvRefresh.setVisibility(VISIBLE);
-        tvRefresh.setText(com.chanven.lib.cptr.R.string.cube_ptr_refreshing);
+        tvRefresh.setText(R.string.pull_to_refresh_refreshing_label);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class MangoPtrUIHandler extends FrameLayout implements PtrUIHandler {
         gifProgress.setVisibility(INVISIBLE);
 
         tvRefresh.setVisibility(VISIBLE);
-        tvRefresh.setText(getResources().getString(com.chanven.lib.cptr.R.string.cube_ptr_refresh_complete));
+        tvRefresh.setText(getResources().getString(R.string.pull_to_refresh_success));
     }
 
     @Override
@@ -124,17 +124,17 @@ public class MangoPtrUIHandler extends FrameLayout implements PtrUIHandler {
 
     private void crossRotateLineFromBottomUnderTouch(PtrFrameLayout frame) {
         tvRefresh.setVisibility(VISIBLE);
-        if (frame.isPullToRefresh()) {
-            tvRefresh.setText(getResources().getString(com.chanven.lib.cptr.R.string.cube_ptr_pull_down_to_refresh));
-        } else {
-            tvRefresh.setText(getResources().getString(com.chanven.lib.cptr.R.string.cube_ptr_pull_down));
-        }
+//        if (frame.isPullToRefresh()) {
+            tvRefresh.setText(getResources().getString(R.string.pull_to_refresh_pull_label));
+//        } else {
+//            tvRefresh.setText(getResources().getString(com.chanven.lib.cptr.R.string.cube_ptr_pull_down));
+//        }
     }
 
     private void crossRotateLineFromTopUnderTouch(PtrFrameLayout frame) {
         if (!frame.isPullToRefresh()) {
             tvRefresh.setVisibility(VISIBLE);
-            tvRefresh.setText(com.chanven.lib.cptr.R.string.cube_ptr_release_to_refresh);
+            tvRefresh.setText(R.string.pull_to_refresh_release_label);
         }
     }
 }

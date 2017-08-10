@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="点击加载更多"
+        android:textStyle="bold"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/sp_12" />
 

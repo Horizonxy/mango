@@ -39,13 +39,14 @@ import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.TeacherListener;
 import cn.com.mangopi.android.ui.widget.GridView;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.MangoUtils;
 
 public class TecaherFragment extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener, TeacherListener {
 
-    MangoPtrFrameLayout refreshLayout;
-    ListView listView;
+    PullToRefreshListView listView;
     int pageNo = 1;
     List<CourseBean> listDatas = new ArrayList<CourseBean>();
     @Inject
@@ -74,8 +75,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
 
     @Override
     void findView(View root) {
-        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
-        listView = (ListView) root.findViewById(R.id.listview);
+        listView = (PullToRefreshListView) root.findViewById(R.id.listview);
         root.findViewById(R.id.tv_left).setOnClickListener(this);
 
         tvMyClass = (TextView) root.findViewById(R.id.tv_right);
@@ -86,7 +86,8 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     void initView() {
         View headerView = LayoutInflater.from(getContext()).inflate(R.layout.layout_listview_header_teacher, null, false);
         courseBanner = (ConvenientBanner) headerView.findViewById(R.id.course_banner);
-        listView.addHeaderView(headerView);
+        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_0_5));
+        listView.getRefreshableView().addHeaderView(headerView);
         gvCategory = (GridView) headerView.findViewById(R.id.gv_category);
         gvCategory.setAdapter(gridAdapter);
         gvCategory.setOnItemClickListener(this);
@@ -110,27 +111,20 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
 
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
-        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo = 1;
                 hasNext = true;
                 initData();
             }
-        });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
             @Override
-            public void loadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 loadData();
             }
         });
-
-        refreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.autoRefresh(true);
-            }
-        }, 400);
+        listView.setRefreshing(true);
 
         List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
         if(!indentityList.contains(Constants.UserIndentity.TUTOR)){
@@ -185,10 +179,6 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     private void loadData() {
         if(hasNext) {
             presenter.getCourseList(2);
-        } else {
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
-            refreshLayout.setNoMoreData();
         }
     }
 
@@ -227,11 +217,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     public void onFailure(String message) {
         if(TextUtils.isEmpty(message)) {
-            if (pageNo == 1) {
-                refreshLayout.refreshComplete();
-            }
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
+            listView.onRefreshComplete();
         }
     }
 
@@ -245,15 +231,14 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
         if(hotTypes == 2) {
             if (pageNo == 1) {
                 listDatas.clear();
-                refreshLayout.refreshComplete();
             }
 
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
+            listView.onRefreshComplete();
             if (hasNext = (listDatas.size() >= Constants.PAGE_SIZE)) {
                 pageNo++;
+                listView.setMode(PullToRefreshBase.Mode.BOTH);
             } else {
-                refreshLayout.setNoMoreData();
+                listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
             }
 
             listDatas.addAll(courseList);

@@ -164,6 +164,13 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
+    public static void startContentDetailActivity(Activity activity, String title, String content){
+        Intent intent = new Intent(activity, ContentDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_TITLE, title);
+        intent.putExtra(Constants.BUNDLE_CONTENT, content);
+        activity.startActivity(intent);
+    }
+
     public static void startMessageListActivity(Activity activity){
         Intent intent = new Intent(activity, MessageListActivity.class);
         activity.startActivity(intent);

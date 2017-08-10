@@ -9,4 +9,5 @@ public interface MessageListener extends BaseViewListener {
     int getPageNo();
     void onSuccess(List<MessageBean> messageList);
     void onHasMessage(boolean hasMessage);
+    void readMessageSuccess();
 }

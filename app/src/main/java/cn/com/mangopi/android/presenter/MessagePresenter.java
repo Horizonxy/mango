@@ -52,13 +52,23 @@ public class MessagePresenter extends BasePresenter {
         Subscription subscription = messageModel.getMessageCheck(new BaseSubscriber<RestResult<String>>(){
                     @Override
                     public void onNext(RestResult<String> restResult) {
-                        if(restResult != null){
-                            if(restResult.isSuccess()){
-                                messageListener.onHasMessage(true);
-                            }
+                        if(restResult != null && restResult.isSuccess()){
+                            messageListener.onHasMessage(true);
                         }
                     }
                 });
+        addSubscription(subscription);
+    }
+
+    public void readMessage(long id){
+        Subscription subscription = messageModel.readMessage(id, new BaseSubscriber<RestResult<Object>>(){
+            @Override
+            public void onNext(RestResult<Object> restResult) {
+                if(restResult != null && restResult.isSuccess()){
+                    messageListener.readMessageSuccess();
+                }
+            }
+        });
         addSubscription(subscription);
     }
 }

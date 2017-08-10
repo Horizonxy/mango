@@ -11,12 +11,6 @@ import com.baidu.mobstat.StatService;
 
 import cn.com.mangopi.android.BuildConfig;
 
-
-/**
- * @author 蒋先明
- * @date 2017/6/30
- */
-
 public abstract class BaseFragment extends Fragment {
 
     View root;

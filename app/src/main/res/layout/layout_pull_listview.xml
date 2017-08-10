@@ -1,31 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/color_efeff4">
 
-    <cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        cube_ptr:ptr_duration_to_close="200"
-        cube_ptr:ptr_duration_to_close_header="700"
-        cube_ptr:ptr_keep_header_when_refresh="true"
-        cube_ptr:ptr_pull_to_fresh="false"
-        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_resistance="1.8">
-
-        <ListView
-            android:id="@+id/listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:cacheColorHint="@android:color/transparent"
-            android:divider="@color/color_efeff4"
-            android:dividerHeight="@dimen/dp_0.5"
-            android:drawSelectorOnTop="true" />
-    </cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout>
+    <cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView
+        xmlns:mango="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="@color/color_efeff4"
+        mango:ptrAnimationStyle="flip"
+        mango:ptrMode="both"
+        mango:ptrShowIndicator="false" />
 
     <include
         android:id="@+id/layout_empty"

@@ -185,4 +185,12 @@ public class ApiManager {
     public static  Observable<RestResult<Object>> delCourse(long id){
         return Application.application.getApiService().delCourse(Application.application.getSessId(), id);
     }
+
+    public static  Observable<RestResult<Object>> readMessage(long id){
+        return Application.application.getApiService().readMessage(Application.application.getSessId(), id);
+    }
+
+    public static  Observable<RestResult<Object>> cancelOrder(long id){
+        return Application.application.getApiService().cancelOrder(Application.application.getSessId(), id);
+    }
 }

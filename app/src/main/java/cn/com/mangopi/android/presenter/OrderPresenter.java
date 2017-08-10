@@ -89,6 +89,32 @@ public class OrderPresenter extends BasePresenter {
         addSubscription(subscription);
     }
 
+    public void cancelOrder(OrderBean order){
+        OrderListListener listener = (OrderListListener) viewListener;
+        Context context = listener.currentContext();
+        Subscription subscription = orderModel.cancelOrder(order.getId(), new CreateLoading(context), new BaseLoadingSubscriber<RestResult<Object>>(){
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if(e != null){
+                    listener.onFailure(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(RestResult<Object> restResult) {
+                if(restResult != null){
+                    if(restResult.isSuccess()){
+                        listener.onCancelSuccess(order);
+                    } else {
+                        listener.onFailure(restResult.getRet_msg());
+                    }
+                }
+            }
+        });
+        addSubscription(subscription);
+    }
+
     public void getOrder(){
         OrderDetailListener listener = (OrderDetailListener) viewListener;
         Context context = listener.currentContext();

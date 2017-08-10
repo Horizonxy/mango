@@ -31,6 +31,8 @@ import cn.com.mangopi.android.presenter.CourseListPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.CourseListListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.EmptyHelper;
@@ -40,8 +42,7 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
     public static final int TPYE_ALL = 0;
     public static final int TPYE_ON = 1;
 
-    MangoPtrFrameLayout refreshLayout;
-    ListView listView;
+    PullToRefreshListView listView;
 
     int pageNo = 1;
     List datas = new ArrayList();
@@ -73,8 +74,7 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     void findView(View root) {
-        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
-        listView = (ListView) root.findViewById(R.id.listview);
+        listView = (PullToRefreshListView) root.findViewById(R.id.listview);
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), null);
         emptyHelper.showRefreshButton(false);
         emptyHelper.showMessage(false);
@@ -84,28 +84,22 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
     void initView() {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
-        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo = 1;
                 hasNext = true;
                 loadData();
             }
-        });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
             @Override
-            public void loadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo++;
                 loadData();
             }
         });
-        refreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.autoRefresh(true);
-            }
-        }, 400);
+        listView.setRefreshing(true);
     }
 
     @Override
@@ -116,10 +110,6 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
     private void loadData() {
         if(hasNext) {
             presenter.getCourseList();
-        } else {
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
-            refreshLayout.setNoMoreData();
         }
     }
 
@@ -132,16 +122,12 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
     @Override
     public void onFailure(String message) {
         if(TextUtils.isEmpty(message)) {
-            if (pageNo == 1) {
-                refreshLayout.refreshComplete();
-            }
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
+            listView.onRefreshComplete();
 
             if(datas == null || datas.size() == 0){
-                emptyHelper.showEmptyView(refreshLayout);
+                emptyHelper.showEmptyView(listView);
             } else {
-                emptyHelper.hideEmptyView(refreshLayout);
+                emptyHelper.hideEmptyView(listView);
             }
         } else {
             AppUtils.showToast(getContext(), message);
@@ -157,23 +143,22 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
     public void onSuccess(List<CourseBean> courseList) {
         if(pageNo == 1){
             datas.clear();
-            refreshLayout.refreshComplete();
         }
 
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
+        listView.onRefreshComplete();
         if(hasNext = (courseList.size() >= Constants.PAGE_SIZE)){
             pageNo++;
+            listView.setMode(PullToRefreshBase.Mode.BOTH);
         } else {
-            refreshLayout.setNoMoreData();
+            listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
         datas.addAll(courseList);
 
         if(datas == null || datas.size() == 0){
-            emptyHelper.showEmptyView(refreshLayout);
+            emptyHelper.showEmptyView(listView);
         } else {
-            emptyHelper.hideEmptyView(refreshLayout);
+            emptyHelper.hideEmptyView(listView);
             adapter.notifyDataSetChanged();
         }
     }
@@ -196,9 +181,9 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
     public void onDelSuccess(CourseBean course) {
         datas.remove(course);
         if(datas == null || datas.size() == 0){
-            emptyHelper.showEmptyView(refreshLayout);
+            emptyHelper.showEmptyView(listView);
         } else {
-            emptyHelper.hideEmptyView(refreshLayout);
+            emptyHelper.hideEmptyView(listView);
             adapter.notifyDataSetChanged();
         }
     }

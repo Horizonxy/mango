@@ -27,8 +27,15 @@ public class ContentDetailActivity extends BaseTitleBarActivity implements Conte
         setContentView(R.layout.activity_content_detail);
 
         id = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
+        if(id > 0) {
+            contentPresenter = new ContentPresenter(new ContentModel(), this);
+        } else {
+            String title = getIntent().getStringExtra(Constants.BUNDLE_TITLE);
+            String content = getIntent().getStringExtra(Constants.BUNDLE_CONTENT);
 
-        contentPresenter = new ContentPresenter(new ContentModel(), this);
+            titleBar.setTitle(title);
+            webView.loadData(MangoUtils.makeHtml(content), "text/html; charset=UTF-8", null);
+        }
     }
 
 

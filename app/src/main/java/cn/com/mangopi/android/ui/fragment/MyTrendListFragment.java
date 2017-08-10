@@ -28,14 +28,15 @@ import cn.com.mangopi.android.ui.adapter.TrendListAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.FoundListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.EmptyHelper;
 
 
 public class MyTrendListFragment extends BaseFragment implements AdapterView.OnItemClickListener,FoundListener {
 
-    MangoPtrFrameLayout refreshLayout;
-    ListView listView;
+    PullToRefreshListView listView;
     public static final int MY_SEND = 1;
     public static final int MY_REPLY = 2;
 
@@ -68,8 +69,7 @@ public class MyTrendListFragment extends BaseFragment implements AdapterView.OnI
 
     @Override
     void findView(View root) {
-        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
-        listView = (ListView) root.findViewById(R.id.listview);
+        listView = (PullToRefreshListView) root.findViewById(R.id.listview);
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), null);
         emptyHelper.setImageRes(R.drawable.null_dt);
         emptyHelper.showMessage(false);
@@ -82,37 +82,27 @@ public class MyTrendListFragment extends BaseFragment implements AdapterView.OnI
     void initView() {
         listView.setAdapter(adapter = new TrendListAdapter(getActivity(), R.layout.listview_item_found, datas, this));
         listView.setOnItemClickListener(this);
-        listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
-        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo = 1;
                 hasNext = true;
                 loadData();
             }
-        });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
             @Override
-            public void loadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo++;
                 loadData();
             }
         });
-        refreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.autoRefresh(true);
-            }
-        }, 400);
+        listView.setRefreshing(true);
     }
 
     private void loadData() {
         if(hasNext) {
             presenter.getTrendList();
-        } else {
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
-            refreshLayout.setNoMoreData();
         }
     }
 
@@ -123,7 +113,6 @@ public class MyTrendListFragment extends BaseFragment implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
     }
 
     @Override
@@ -151,23 +140,22 @@ public class MyTrendListFragment extends BaseFragment implements AdapterView.OnI
     public void onSuccess(List<TrendBean> trendList) {
         if(pageNo == 1){
             datas.clear();
-            refreshLayout.refreshComplete();
         }
 
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
+        listView.onRefreshComplete();
         if(hasNext = (trendList.size() >= Constants.PAGE_SIZE)){
             pageNo++;
+            listView.setMode(PullToRefreshBase.Mode.BOTH);
         } else {
-            refreshLayout.setNoMoreData();
+            listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
         datas.addAll(trendList);
 
         if(datas == null || datas.size() == 0){
-            emptyHelper.showEmptyView(refreshLayout);
+            emptyHelper.showEmptyView(listView);
         } else {
-            emptyHelper.hideEmptyView(refreshLayout);
+            emptyHelper.hideEmptyView(listView);
             adapter.notifyDataSetChanged();
         }
     }
@@ -189,11 +177,7 @@ public class MyTrendListFragment extends BaseFragment implements AdapterView.OnI
 
     @Override
     public void onFailure() {
-        if(pageNo == 1){
-            refreshLayout.refreshComplete();
-        }
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
+        listView.onRefreshComplete();
     }
 
     @Override

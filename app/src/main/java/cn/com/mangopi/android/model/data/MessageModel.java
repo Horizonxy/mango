@@ -21,4 +21,7 @@ public class MessageModel {
         return RxJavaUtils.schedulersIoMain(ApiManager.getMessageCheck()).subscribe(subscriber);
     }
 
+    public Subscription readMessage(long id, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMain(ApiManager.readMessage(id)).subscribe(subscriber);
+    }
 }

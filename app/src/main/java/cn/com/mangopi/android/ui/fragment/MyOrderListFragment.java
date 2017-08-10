@@ -25,13 +25,14 @@ import cn.com.mangopi.android.presenter.OrderPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.OrderListListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.EmptyHelper;
 
-public class MyOrderListFragment extends BaseFragment implements AdapterView.OnItemClickListener, OrderListListener, EmptyHelper.OnRefreshListener {
+public class MyOrderListFragment extends BaseFragment implements AdapterView.OnItemClickListener, OrderListListener, EmptyHelper.OnRefreshListener, MyOrderListFragmentModule.OnOrderStateListener {
 
-    MangoPtrFrameLayout refreshLayout;
-    ListView listView;
+    PullToRefreshListView listView;
 
     int pageNo = 1;
     List datas = new ArrayList();
@@ -56,13 +57,12 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         relation = getArguments().getInt("relation");
 
-        DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(this, datas, relation)).build().inject(this);
+        DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(this, datas, relation, this)).build().inject(this);
     }
 
     @Override
     void findView(View root) {
-        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
-        listView = (ListView) root.findViewById(R.id.listview);
+        listView = (PullToRefreshListView) root.findViewById(R.id.listview);
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), this);
         emptyHelper.showRefreshButton(false);
         emptyHelper.showMessage(false);
@@ -72,28 +72,22 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     void initView() {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
-        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo = 1;
                 hasNext = true;
                 loadData();
             }
-        });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
             @Override
-            public void loadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo++;
                 loadData();
             }
         });
-        refreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.autoRefresh(true);
-            }
-        }, 400);
+        listView.setRefreshing(true);
     }
 
     @Override
@@ -104,10 +98,6 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     private void loadData() {
         if(hasNext) {
             presenter.getOrderList();
-        } else {
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
-            refreshLayout.setNoMoreData();
         }
     }
 
@@ -120,16 +110,12 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onFailure(String message) {
         if(TextUtils.isEmpty(message)) {
-            if (pageNo == 1) {
-                refreshLayout.refreshComplete();
-            }
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
+            listView.onRefreshComplete();
 
             if(datas == null || datas.size() == 0){
-                emptyHelper.showEmptyView(refreshLayout);
+                emptyHelper.showEmptyView(listView);
             } else {
-                emptyHelper.hideEmptyView(refreshLayout);
+                emptyHelper.hideEmptyView(listView);
             }
         }
     }
@@ -143,23 +129,22 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     public void onOrderListSuccess(List<OrderBean> orderList) {
         if(pageNo == 1){
             datas.clear();
-            refreshLayout.refreshComplete();
         }
 
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
+        listView.onRefreshComplete();
         if(hasNext = (orderList.size() >= Constants.PAGE_SIZE)){
             pageNo++;
+            listView.setMode(PullToRefreshBase.Mode.BOTH);
         } else {
-            refreshLayout.setNoMoreData();
+            listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
         datas.addAll(orderList);
 
         if(datas == null || datas.size() == 0){
-            emptyHelper.showEmptyView(refreshLayout);
+            emptyHelper.showEmptyView(listView);
         } else {
-            emptyHelper.hideEmptyView(refreshLayout);
+            emptyHelper.hideEmptyView(listView);
             adapter.notifyDataSetChanged();
         }
     }
@@ -175,6 +160,14 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     }
 
     @Override
+    public void onCancelSuccess(OrderBean order) {
+        order.setState(-1);
+        order.setState_label("订单已取消");
+
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onRefresh() {
         pageNo = 1;
         hasNext = true;
@@ -187,5 +180,10 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         if(presenter != null) {
             presenter.onDestroy();
         }
+    }
+
+    @Override
+    public void onCancel(OrderBean order) {
+        presenter.cancelOrder(order);
     }
 }

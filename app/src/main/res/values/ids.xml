@@ -3,4 +3,11 @@
     <item name="iv_empty" type="id"/>
     <item name="tv_empty" type="id"/>
     <item name="btn_empty" type="id"/>
+
+    <item name="gridview" type="id"/>
+    <item name="webview" type="id"/>
+    <item name="scrollview" type="id"/>
+    <item name="viewpager" type="id"/>
+    <item name="left_view" type="id"/>
+    <item name="right_view" type="id"/>
 </resources>

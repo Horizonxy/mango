@@ -20,14 +20,16 @@ import cn.com.mangopi.android.presenter.MessagePresenter;
 import cn.com.mangopi.android.ui.adapter.MessageListAdapter;
 import cn.com.mangopi.android.ui.viewlistener.MessageListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
+import cn.com.mangopi.android.util.ActivityBuilder;
+import cn.com.mangopi.android.util.DialogUtil;
 import cn.com.mangopi.android.util.EmptyHelper;
 
 public class MessageListActivity extends BaseTitleBarActivity implements MessageListener, AdapterView.OnItemClickListener{
 
-    @Bind(R.id.refresh_layout)
-    MangoPtrFrameLayout refreshLayout;
     @Bind(R.id.listview)
-    ListView listView;
+    PullToRefreshListView listView;
     int pageNo = 1;
     boolean hasNext = true;
     List<MessageBean> datas = new ArrayList<MessageBean>();
@@ -52,10 +54,6 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
     private void loadData() {
         if(hasNext) {
             messagePresenter.getMessageList();
-        } else {
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
-            refreshLayout.setNoMoreData();
         }
     }
 
@@ -64,42 +62,34 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
 
         listView.setAdapter(adapter = new MessageListAdapter(this, R.layout.listview_item_messagelist, datas));
         listView.setOnItemClickListener(this);
-        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_0_5));
+
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo = 1;
                 hasNext = true;
                 loadData();
             }
-        });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
             @Override
-            public void loadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo++;
                 loadData();
             }
         });
-        refreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.autoRefresh(true);
-            }
-        }, 400);
+        listView.setRefreshing(true);
     }
 
     @Override
     public void onFailure(String message) {
         if(TextUtils.isEmpty(message)) {
-            if (pageNo == 1) {
-                refreshLayout.refreshComplete();
-            }
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
+            listView.onRefreshComplete();
 
             if(datas == null || datas.size() == 0){
-                emptyHelper.showEmptyView(refreshLayout);
+                emptyHelper.showEmptyView(listView);
             } else {
-                emptyHelper.hideEmptyView(refreshLayout);
+                emptyHelper.hideEmptyView(listView);
             }
         }
     }
@@ -118,29 +108,31 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
     public void onSuccess(List<MessageBean> messageList) {
         if(pageNo == 1){
             datas.clear();
-            refreshLayout.refreshComplete();
+            listView.onRefreshComplete();
         }
 
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
         if(hasNext = (messageList.size() >= Constants.PAGE_SIZE)){
             pageNo++;
+            listView.setMode(PullToRefreshBase.Mode.BOTH);
         } else {
-            refreshLayout.setNoMoreData();
+            listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
         datas.addAll(messageList);
 
         if(datas == null || datas.size() == 0){
-            emptyHelper.showEmptyView(refreshLayout);
+            emptyHelper.showEmptyView(listView);
         } else {
-            emptyHelper.hideEmptyView(refreshLayout);
+            emptyHelper.hideEmptyView(listView);
             adapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void onHasMessage(boolean hasMessage) {}
+
+    @Override
+    public void readMessageSuccess() {}
 
     @Override
     protected void onDestroy() {
@@ -153,5 +145,8 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MessageBean messageBean = (MessageBean) parent.getAdapter().getItem(position);
+        DialogUtil.createAlertDialog(this, messageBean.getResult()+"\n\n"+messageBean.getRemark(), "确定");
+//        ActivityBuilder.startContentDetailActivity(this, messageBean.getTitle(), messageBean.getResult()+"<br/>"+messageBean.getRemark());
+        messagePresenter.readMessage(messageBean.getId());
     }
 }

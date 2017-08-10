@@ -181,6 +181,9 @@ public class MainActivity extends BaseActivity implements MessageListener {
     }
 
     @Override
+    public void readMessageSuccess() {}
+
+    @Override
     protected void onDestroy() {
         if(messageHandler != null && messageHandler.getLooper() == Looper.getMainLooper()){
             messageHandler.removeCallbacksAndMessages(null);

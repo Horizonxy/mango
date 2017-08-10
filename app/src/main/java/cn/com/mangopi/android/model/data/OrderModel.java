@@ -30,5 +30,9 @@ public class OrderModel {
     public Subscription orderPay(long id, String channel, Action0 onSubscribe, Subscriber<RestResult<String>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.orderPay(id, channel), onSubscribe).subscribe(subscriber);
     }
+
+    public Subscription cancelOrder(long id, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.cancelOrder(id), onSubscribe).subscribe(subscriber);
+    }
 }
 

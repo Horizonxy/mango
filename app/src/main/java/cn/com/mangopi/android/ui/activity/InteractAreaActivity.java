@@ -20,14 +20,14 @@ import cn.com.mangopi.android.di.component.DaggerInteractAreaActivityComponent;
 import cn.com.mangopi.android.di.module.InteractAreaActivityModule;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.AppUtils;
 
 public class InteractAreaActivity extends BaseTitleBarActivity implements AdapterView.OnItemClickListener {
 
-    @Bind(R.id.refresh_layout)
-    MangoPtrFrameLayout refreshLayout;
     @Bind(R.id.listview)
-    ListView listView;
+    PullToRefreshListView listView;
     int pageNo = 1;
     List datas = new ArrayList();
     @Inject
@@ -47,27 +47,21 @@ public class InteractAreaActivity extends BaseTitleBarActivity implements Adapte
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
-        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo = 1;
                 loadData();
             }
-        });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
             @Override
-            public void loadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo++;
                 loadData();
             }
         });
-        refreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.autoRefresh(true);
-            }
-        }, 400);
+        listView.setRefreshing(true);
     }
 
     private void loadData() {
@@ -77,11 +71,7 @@ public class InteractAreaActivity extends BaseTitleBarActivity implements Adapte
 
         adapter.notifyDataSetChanged();
 
-        if(pageNo == 1){
-            refreshLayout.refreshComplete();
-        }
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
+        listView.onRefreshComplete();
     }
 
     @Override

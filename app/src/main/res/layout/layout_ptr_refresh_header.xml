@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/iv_rotate"
-            android:layout_width="@dimen/dp_25"
-            android:layout_height="@dimen/dp_25"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
             android:layout_gravity="center"
             android:src="@drawable/ptr_rotate_arrow" />
 
@@ -31,6 +31,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginBottom="@dimen/dp_10"
+        android:textStyle="bold"
         android:singleLine="true"
         android:textColor="@color/color_333333"
         android:textSize="@dimen/sp_12" />

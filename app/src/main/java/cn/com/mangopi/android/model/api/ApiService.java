@@ -289,4 +289,18 @@ public interface ApiService {
             @Query("lst_sessid") String lst_sessid,
             @Query("id") long id
     );
+
+    //5.6.10	 阅读消息接口
+    @POST("outer/router?mes_read")
+    Observable<RestResult<Object>> readMessage(
+            @Query("lst_sessid") String lst_sessid,
+            @Query("id") long id
+    );
+
+    //取消订单接口
+    @POST("outer/router?order_cancel")
+    Observable<RestResult<Object>> cancelOrder(
+            @Query("lst_sessid") String lst_sessid,
+            @Query("id") long id
+    );
 }

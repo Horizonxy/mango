@@ -28,13 +28,14 @@ import cn.com.mangopi.android.ui.adapter.RecommendCourseAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.TeacherListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.EmptyHelper;
 
 public class ClassListFragment extends BaseFragment implements AdapterView.OnItemClickListener, TeacherListener, EmptyHelper.OnRefreshListener {
 
-    MangoPtrFrameLayout refreshLayout;
-    ListView listView;
+    PullToRefreshListView listView;
 
     int pageNo = 1;
     List datas = new ArrayList();
@@ -61,8 +62,7 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     void findView(View root) {
-        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
-        listView = (ListView) root.findViewById(R.id.listview);
+        listView = (PullToRefreshListView) root.findViewById(R.id.listview);
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), this);
     }
 
@@ -70,36 +70,26 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
     void initView() {
         listView.setAdapter(adapter = new RecommendCourseAdapter(getContext(), R.layout.listview_item_recommend_teacher_class, datas));
         listView.setOnItemClickListener(this);
-        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo = 1;
                 hasNext = true;
                 loadData();
             }
-        });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
             @Override
-            public void loadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo++;
                 loadData();
             }
         });
-        refreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.autoRefresh(true);
-            }
-        }, 400);
+        listView.setRefreshing(true);
     }
 
     private void loadData() {
         if(hasNext) {
             presenter.getCourseList(0);
-        } else {
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
-            refreshLayout.setNoMoreData();
         }
     }
 
@@ -117,17 +107,13 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
     @Override
     public void onFailure(String message) {
         if(TextUtils.isEmpty(message)) {
-            if (pageNo == 1) {
-                refreshLayout.refreshComplete();
-            }
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
+            listView.onRefreshComplete();
         }
 
         if(datas == null || datas.size() == 0){
-            emptyHelper.showEmptyView(refreshLayout);
+            emptyHelper.showEmptyView(listView);
         } else {
-            emptyHelper.hideEmptyView(refreshLayout);
+            emptyHelper.hideEmptyView(listView);
         }
     }
 
@@ -140,15 +126,14 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
     public void onCourseListSuccess(int hotTypes, List<CourseBean> courseList) {
         if (pageNo == 1) {
             datas.clear();
-            refreshLayout.refreshComplete();
         }
 
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
+        listView.onRefreshComplete();
         if (hasNext = (datas.size() >= Constants.PAGE_SIZE)) {
             pageNo++;
+            listView.setMode(PullToRefreshBase.Mode.BOTH);
         } else {
-            refreshLayout.setNoMoreData();
+            listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
         datas.addAll(courseList);
@@ -156,9 +141,9 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
         adapter.notifyDataSetChanged();
 
         if(datas == null || datas.size() == 0){
-            emptyHelper.showEmptyView(refreshLayout);
+            emptyHelper.showEmptyView(listView);
         } else {
-            emptyHelper.hideEmptyView(refreshLayout);
+            emptyHelper.hideEmptyView(listView);
             adapter.notifyDataSetChanged();
         }
     }

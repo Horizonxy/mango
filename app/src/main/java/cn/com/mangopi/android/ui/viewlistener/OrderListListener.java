@@ -9,4 +9,5 @@ public interface OrderListListener extends BaseViewListener {
     void onOrderListSuccess(List<OrderBean> orderList);
     int getPageNo();
     int getRelation();
+    void onCancelSuccess(OrderBean order);
 }

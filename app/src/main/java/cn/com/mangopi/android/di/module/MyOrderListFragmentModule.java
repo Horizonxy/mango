@@ -29,11 +29,13 @@ public class MyOrderListFragmentModule {
     List datas;
     /** 1: 我下的订单2：我收到的订单 */
     int relation;
+    OnOrderStateListener onOrderStateListener;
 
-    public MyOrderListFragmentModule(Fragment fragment, List datas, int relation) {
+    public MyOrderListFragmentModule(Fragment fragment, List datas, int relation, OnOrderStateListener onOrderStateListener) {
         this.fragment = fragment;
         this.datas = datas;
         this.relation = relation;
+        this.onOrderStateListener = onOrderStateListener;
     }
 
     @FragmentScope
@@ -69,6 +71,7 @@ public class MyOrderListFragmentModule {
 
                 ItemClickListener clickListener = new ItemClickListener(item);
                 helper.setOnClickListener(R.id.btn_pay, clickListener);
+                helper.setOnClickListener(R.id.btn_cancle, clickListener);
             }
         };
     }
@@ -78,7 +81,6 @@ public class MyOrderListFragmentModule {
     public OrderPresenter provideOrderPresenter(){
         return new OrderPresenter(new OrderModel(), (BaseViewListener) fragment);
     }
-
 
     class ItemClickListener implements View.OnClickListener{
 
@@ -94,7 +96,16 @@ public class MyOrderListFragmentModule {
                 case R.id.btn_pay:
                     ActivityBuilder.startSelectPayActivity(fragment.getActivity(), order);
                     break;
+                case R.id.btn_cancle:
+                    if(onOrderStateListener != null){
+                        onOrderStateListener.onCancel(order);
+                    }
+                    break;
             }
         }
+    }
+
+    public interface OnOrderStateListener {
+        void onCancel(OrderBean order);
     }
 }

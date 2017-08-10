@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@android:color/white"
     android:layout_height="wrap_content">
 
     <com.bigkoo.convenientbanner.ConvenientBanner xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -37,5 +38,10 @@
             android:text="课程推荐"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/sp_16" />
+
     </LinearLayout>
+
+    <View
+        style="@style/horizontal_line"
+        android:layout_marginTop="@dimen/dp_5"/>
 </LinearLayout>

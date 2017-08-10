@@ -32,6 +32,8 @@ import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.FavListener;
 import cn.com.mangopi.android.ui.viewlistener.FoundListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.EmptyHelper;
@@ -43,8 +45,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     TextView tvSearch;
     TextView tvAddTend;
     View vSearch;
-    MangoPtrFrameLayout refreshLayout;
-    ListView listView;
+    PullToRefreshListView listView;
     int pageNo = 1;
     boolean hasNext = true;
     List<TrendBean> datas = new ArrayList<TrendBean>();
@@ -73,8 +74,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         ivSearch = (ImageView) root.findViewById(R.id.iv_tab_search);
         tvSearch = (TextView) root.findViewById(R.id.tv_search);
         vSearch = root.findViewById(R.id.layout_search);
-        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
-        listView = (ListView) root.findViewById(R.id.listview);
+        listView = (PullToRefreshListView) root.findViewById(R.id.listview);
         tvAddTend = (TextView) root.findViewById(R.id.tv_right);
         tvAddTend.setOnClickListener(this);
         tvTitle = (TextView) root.findViewById(R.id.tv_title);
@@ -86,28 +86,21 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     void initView() {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        listView.setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
-        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pageNo = 1;
                 hasNext = true;
                 loadData();
             }
-        });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
             @Override
-            public void loadMore() {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 loadData();
             }
         });
-
-        refreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.autoRefresh(true);
-            }
-        }, 400);
+        listView.setRefreshing(true);
 
         List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
         if(!indentityList.contains(Constants.UserIndentity.TUTOR) && !indentityList.contains(Constants.UserIndentity.COMMUNITY)){
@@ -120,10 +113,6 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     private void loadData() {
         if(hasNext) {
             presenter.getTrendList();
-        } else {
-            refreshLayout.setLoadMoreEnable(true);
-            refreshLayout.loadMoreComplete(true);
-            refreshLayout.setNoMoreData();
         }
     }
 
@@ -160,23 +149,22 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     public void onSuccess(List<TrendBean> trendList) {
         if(pageNo == 1){
             datas.clear();
-            refreshLayout.refreshComplete();
         }
 
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
+        listView.onRefreshComplete();
         if(hasNext = (trendList.size() >= Constants.PAGE_SIZE)){
             pageNo++;
+            listView.setMode(PullToRefreshBase.Mode.BOTH);
         } else {
-            refreshLayout.setNoMoreData();
+            listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
         datas.addAll(trendList);
 
         if(datas == null || datas.size() == 0){
-            emptyHelper.showEmptyView(refreshLayout);
+            emptyHelper.showEmptyView(listView);
         } else {
-            emptyHelper.hideEmptyView(refreshLayout);
+            emptyHelper.hideEmptyView(listView);
             adapter.notifyDataSetChanged();
         }
     }
@@ -198,11 +186,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
 
     @Override
     public void onFailure() {
-        if(pageNo == 1){
-            refreshLayout.refreshComplete();
-        }
-        refreshLayout.setLoadMoreEnable(true);
-        refreshLayout.loadMoreComplete(true);
+        listView.onRefreshComplete();
     }
 
     @Override
