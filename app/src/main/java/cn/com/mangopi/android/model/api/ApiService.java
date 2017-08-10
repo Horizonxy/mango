@@ -282,4 +282,11 @@ public interface ApiService {
     Observable<RestResult<Object>> addCourse(
             @QueryMap Map<String, Object> map
     );
+
+    //删除授课接口
+    @POST("outer/router?course_del")
+    Observable<RestResult<Object>> delCourse(
+            @Query("lst_sessid") String lst_sessid,
+            @Query("id") long id
+    );
 }

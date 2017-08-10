@@ -40,6 +40,8 @@ public class PlaceOrderActivity extends BaseTitleBarActivity implements PlaceOrd
     @Bind(R.id.tv_total_price)
     TextView tvTotalPrice;
     String promotionCode;
+    @Bind(R.id.tv_code_desc)
+    TextView tvCodeDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,11 @@ public class PlaceOrderActivity extends BaseTitleBarActivity implements PlaceOrd
             tvSalePrice.setText(getString(R.string.rmb) + courseDetail.getSale_price().toString());
             tvTotalPrice.setText(getString(R.string.rmb) + courseDetail.getSale_price().toString());
         }
+    }
+
+    @OnClick(R.id.btn_use)
+    void onUseClick(View v){
+
     }
 
     @OnClick(R.id.btn_add_order)

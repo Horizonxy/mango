@@ -39,6 +39,7 @@ public class MyAccountActivity extends BaseTitleBarActivity implements MemeberWa
     TextView tvCash;
     TextView tvDetail;
     List<MemberCardBean> memberCardList;
+    MemberWalletBean memberWallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,9 @@ public class MyAccountActivity extends BaseTitleBarActivity implements MemeberWa
         tvCardRight = (TextView) layoutCard.findViewById(R.id.tv_right);
         tvCash = (TextView) layoutCash.findViewById(R.id.tv_left);
         tvDetail = (TextView) layoutDetail.findViewById(R.id.tv_left);
-        tvCard.setText("我的银行卡");
-        tvCash.setText("提现");
-        tvDetail.setText("交易明细");
+        tvCard.setText(getString(R.string.my_blank_card));
+        tvCash.setText(getString(R.string.get_cash));
+        tvDetail.setText(getString(R.string.trasn_detail));
         ((ImageView) layoutCard.findViewById(R.id.iv_left)).setImageResource(R.drawable.iocn_card);
         ((ImageView) layoutCash.findViewById(R.id.iv_left)).setImageResource(R.drawable.iocn_tixian);
         ((ImageView) layoutDetail.findViewById(R.id.iv_left)).setImageResource(R.drawable.iocn_jiaoyi);
@@ -75,6 +76,13 @@ public class MyAccountActivity extends BaseTitleBarActivity implements MemeberWa
         }
     }
 
+    @OnClick(R.id.layout_cash)
+    void onCashClick(View v){
+        if(memberWallet != null) {
+            ActivityBuilder.startGetCashActivity(this, memberWallet.getAvailable_amount());
+        }
+    }
+
     @Override
     public void onFailure(String message) {
         AppUtils.showToast(this, message);
@@ -87,6 +95,7 @@ public class MyAccountActivity extends BaseTitleBarActivity implements MemeberWa
 
     @Override
     public void onWalletSuccess(MemberWalletBean memberWallet) {
+        this.memberWallet = memberWallet;
         if(memberWallet.getTotal_amount() != null) {
             tvTotal.setText(memberWallet.getTotal_amount().toString());
         }

@@ -27,9 +27,14 @@ public class RecommendCourseAdapter extends QuickAdapter<CourseBean> {
                 .setText(R.id.tv_course_title, item.getCourse_title())
                 .setText(R.id.tv_member_name, item.getMember_name())
                 .setText(R.id.tv_type_name, item.getType_name())
-                .setText(R.id.tv_jobs, item.getTutor_jobs())
-                .setText(R.id.tv_want_count, item.getWant_count() + "人想听")
-        .setOnClickListener(R.id.iv_avatar, new View.OnClickListener() {
+                .setText(R.id.tv_jobs, item.getTutor_jobs());
+        if(item.getWant_count() > 0) {
+            helper.setText(R.id.tv_want_count, item.getWant_count() + "人想听");
+            helper.setVisible(R.id.tv_want_count, true);
+        } else {
+            helper.setVisible(R.id.tv_want_count, false);
+        }
+        helper.setOnClickListener(R.id.iv_avatar, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityBuilder.startTutorDetailActivity((Activity) context, item.getMember_id());

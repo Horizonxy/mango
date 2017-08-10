@@ -4,10 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.OrderBean;
@@ -15,9 +20,11 @@ import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.data.OrderModel;
 import cn.com.mangopi.android.presenter.OrderPresenter;
 import cn.com.mangopi.android.ui.viewlistener.OrderDetailListener;
+import cn.com.mangopi.android.ui.widget.UploadPictureView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
+import cn.com.mangopi.android.util.DisplayUtils;
 
 public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDetailListener {
 
@@ -48,6 +55,14 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     Button btnCancel;
     @Bind(R.id.btn_pay)
     Button btnPay;
+    @Bind(R.id.layout_material)
+    LinearLayout layoutMaterial;
+    @Bind(R.id.grid_material)
+    GridLayout gridMaterial;
+    @Bind(R.id.line_material)
+    View lineMaterial;
+    int dp5;
+    FrameLayout.LayoutParams rsItemLp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +73,10 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         initView();
         presenter = new OrderPresenter(new OrderModel(), this);
         presenter.getOrder();
+
+        dp5 = (int) getResources().getDimension(R.dimen.dp_5);
+        int width = (int) ((DisplayUtils.screenWidth(this) - getResources().getDimension(R.dimen.dp_15) * 2 - dp5 * 4) / 5);
+        rsItemLp = new FrameLayout.LayoutParams(width, width);
     }
 
     private void initView() {
@@ -66,6 +85,32 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 
     private void fillData(OrderDetailBean orderDetail){
         this.orderDetail = orderDetail;
+        if(orderDetail.getMaterial_rsurls() == null || orderDetail.getMaterial_rsurls().size() == 0){
+            layoutMaterial.setVisibility(View.GONE);
+            lineMaterial.setVisibility(View.GONE);
+        } else {
+            layoutMaterial.setVisibility(View.VISIBLE);
+            lineMaterial.setVisibility(View.VISIBLE);
+            for (int i = 0; i < orderDetail.getMaterial_rsurls().size(); i++){
+                String rsurl = orderDetail.getMaterial_rsurls().get(i);
+                ImageView item = new ImageView(this);
+                item.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                Application.application.getImageLoader().displayImage(rsurl, item, Application.application.getDefaultOptions());
+                GridLayout.LayoutParams gl = new GridLayout.LayoutParams(rsItemLp);
+                if(i >= 5){
+                    gl.topMargin = dp5;
+                }
+                if (i % 5 == 1) {
+                    gl.leftMargin = dp5;
+                } else if(i % 5 == 2) {
+                    gl.leftMargin = dp5;
+                    gl.rightMargin = dp5;
+                } else if(i % 5 == 3){
+                    gl.rightMargin = dp5;
+                }
+                gridMaterial.addView(item, i, gl);
+            }
+        }
         tvOrderNo.setText("单号："+orderDetail.getFiveLenOrderNo());
         tvOrderTime.setText(DateUtils.dateToString(orderDetail.getOrder_time(), DateUtils.TIME_PATTERN_YMDHM));
         tvStateLabel.setText(orderDetail.getState_label());
@@ -75,7 +120,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         if(orderDetail.getSale_price() != null) {
             tvSalePrice.setText(getString(R.string.rmb)+orderDetail.getSale_price().toString());
         }
-        if(orderDetail.getSale_price() != null) {
+        if(orderDetail.getTotal_price() != null) {
             tvTotalPrice.setText(getString(R.string.rmb)+orderDetail.getTotal_price().toString());
         }
         if(orderDetail.getDiscount_price() != null) {

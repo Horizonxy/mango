@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import cn.com.mangopi.android.Constants;
@@ -18,6 +19,7 @@ import cn.com.mangopi.android.ui.activity.CalssListActivity;
 import cn.com.mangopi.android.ui.activity.ContentDetailActivity;
 import cn.com.mangopi.android.ui.activity.CourseDetailActivity;
 import cn.com.mangopi.android.ui.activity.FavListActivity;
+import cn.com.mangopi.android.ui.activity.GetCashActivity;
 import cn.com.mangopi.android.ui.activity.InputMessageActivity;
 import cn.com.mangopi.android.ui.activity.InteractAreaActivity;
 import cn.com.mangopi.android.ui.activity.LoginActivity;
@@ -190,6 +192,12 @@ public class ActivityBuilder {
 
     public static void startUpgradeRoleActivityy(Activity activity){
         Intent intent = new Intent(activity, UpgradeRoleActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void startGetCashActivity(Activity activity, BigDecimal availableAmount){
+        Intent intent = new Intent(activity, GetCashActivity.class);
+        intent.putExtra(Constants.BUNDLE_AMOUNT, availableAmount);
         activity.startActivity(intent);
     }
 }

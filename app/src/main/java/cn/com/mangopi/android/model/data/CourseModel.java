@@ -41,4 +41,8 @@ public class CourseModel {
     public Subscription addCourse(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.addCourse(map), onSubscribe).subscribe(subscriber);
     }
+
+    public Subscription delCourse(long id, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.delCourse(id), onSubscribe).subscribe(subscriber);
+    }
 }

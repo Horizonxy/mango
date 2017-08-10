@@ -10,4 +10,5 @@ public interface CourseListListener extends BaseViewListener {
     void onSuccess(List<CourseBean> courseList);
     Map<String, Object> getQueryMap();
 
+    void onDelSuccess(CourseBean course);
 }

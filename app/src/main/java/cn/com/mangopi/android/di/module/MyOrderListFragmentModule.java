@@ -63,8 +63,8 @@ public class MyOrderListFragmentModule {
                     helper.setVisible(R.id.btn_pay, false);
                     helper.setVisible(R.id.btn_cancle, false);
                 }
-                if(item.getSale_price() != null) {
-                    helper.setText(R.id.tv_sale_price, fragment.getString(R.string.rmb) + item.getSale_price().toString());
+                if(item.getPay_price() != null) {
+                    helper.setText(R.id.tv_sale_price, fragment.getString(R.string.rmb) + item.getPay_price().toString());
                 }
 
                 ItemClickListener clickListener = new ItemClickListener(item);

@@ -17,12 +17,16 @@ public class CourseDetailBean implements Serializable {
     private String state_label;
     private String type_name;
     private BigDecimal sale_price;
+    private String type_explains;
+    private int type_id;
     private String type_method;
     private String avatar_rsurl;
     private String member_name;
     private long member_id;
     private List<String> material_rsurls;
     private boolean is_favor;
+    private Integer approve_state;
+    private String approve_state_label;
 
     public long getId() {
         return id;
@@ -158,5 +162,37 @@ public class CourseDetailBean implements Serializable {
 
     public void setIs_favor(boolean is_favor) {
         this.is_favor = is_favor;
+    }
+
+    public String getType_explains() {
+        return type_explains;
+    }
+
+    public void setType_explains(String type_explains) {
+        this.type_explains = type_explains;
+    }
+
+    public int getType_id() {
+        return type_id;
+    }
+
+    public void setType_id(int type_id) {
+        this.type_id = type_id;
+    }
+
+    public Integer getApprove_state() {
+        return approve_state;
+    }
+
+    public void setApprove_state(Integer approve_state) {
+        this.approve_state = approve_state;
+    }
+
+    public String getApprove_state_label() {
+        return approve_state_label;
+    }
+
+    public void setApprove_state_label(String approve_state_label) {
+        this.approve_state_label = approve_state_label;
     }
 }

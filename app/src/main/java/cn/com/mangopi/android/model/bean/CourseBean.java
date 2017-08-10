@@ -25,6 +25,7 @@ public class CourseBean implements Serializable {
     private long member_id;
     private String tutor_jobs;
     private String hot_types;
+    private String tutor_logo_rsurl;
 
     public long getId() {
         return id;
@@ -184,5 +185,13 @@ public class CourseBean implements Serializable {
 
     public void setHot_types(String hot_types) {
         this.hot_types = hot_types;
+    }
+
+    public String getTutor_logo_rsurl() {
+        return tutor_logo_rsurl;
+    }
+
+    public void setTutor_logo_rsurl(String tutor_logo_rsurl) {
+        this.tutor_logo_rsurl = tutor_logo_rsurl;
     }
 }

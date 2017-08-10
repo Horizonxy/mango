@@ -50,6 +50,8 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     CourseDetailPresenter presenter;
     CourseDetailBean courseDetail;
     FavPresenter favPresenter;
+    @Bind(R.id.tv_type_explains)
+    TextView tvTypeExplains;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,6 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
         titleBar.setRightBtnIcon(R.drawable.icon_share);
         titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
         titleBar.setOnTitleBarClickListener(this);
-        btnPlaceOrder.setEnabled(false);
     }
 
     @Override
@@ -89,10 +90,15 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     public void onSuccess(CourseDetailBean courseDetail) {
         this.courseDetail = courseDetail;
         fillCourseData(courseDetail);
-        btnPlaceOrder.setEnabled(true);
     }
 
     private void fillCourseData(CourseDetailBean courseDetail) {
+        if(courseDetail.getApprove_state() != null && courseDetail.getApprove_state().intValue() == 50 && courseDetail.getState() != null && courseDetail.getState().intValue() == 50){
+            btnPlaceOrder.setEnabled(true);
+        } else {
+            btnPlaceOrder.setEnabled(false);
+        }
+
         Application.application.getImageLoader().displayImage(courseDetail.getAvatar_rsurl(), ivLogo, Application.application.getDefaultOptions());
         tvCourseTitle.setText(courseDetail.getCourse_title());
         if(courseDetail.getMember_name() != null) {
@@ -113,7 +119,8 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
         tvContent.setText(courseDetail.getCourse_content());
         tvTypeMethod.setText(courseDetail.getType_method()+"，"
                 + courseDetail.getEach_time() +"/" + courseDetail.getService_time()+"  "
-                +getString(R.string.rmb)+courseDetail.getSale_price().toString());
+                +getString(R.string.rmb)+courseDetail.getSale_price().toString()+"元");
+        tvTypeExplains.setText(courseDetail.getType_explains());
     }
 
     @OnClick(R.id.btn_place_order)

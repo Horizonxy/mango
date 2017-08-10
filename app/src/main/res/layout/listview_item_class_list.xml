@@ -13,7 +13,6 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="@dimen/dp_15"
-            android:text="如何写好第一封求职信"
             android:textSize="@dimen/sp_16"
             android:textColor="@color/color_333333"/>
 
@@ -39,7 +38,6 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@id/tv_price"
-            android:text="阳光一对一（线下） | 已审核 | 已上架"
             android:textSize="@dimen/sp_14"
             android:textColor="@color/color_666666"/>
     </RelativeLayout>
@@ -53,6 +51,7 @@
         android:layout_marginTop="@dimen/dp_10">
 
         <Button
+            android:id="@+id/btn_del"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="0dp"
@@ -67,6 +66,7 @@
             android:paddingRight="@dimen/dp_20"/>
 
         <Button
+            android:id="@+id/btn_function"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="0dp"
@@ -75,6 +75,7 @@
             android:background="@drawable/selector_btn_bg_lesser_corners"
             android:textColor="@drawable/selector_text_color_lesser_btn"
             android:textSize="@dimen/sp_14"
+            android:visibility="gone"
             android:text="下架"
             android:paddingTop="@dimen/dp_8"
             android:paddingBottom="@dimen/dp_8"

@@ -31,9 +31,11 @@ import cn.com.mangopi.android.presenter.CourseListPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.CourseListListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
+import cn.com.mangopi.android.util.ActivityBuilder;
+import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.EmptyHelper;
 
-public class MyClassesFragment extends BaseFragment implements AdapterView.OnItemClickListener,CourseListListener {
+public class MyClassesFragment extends BaseFragment implements AdapterView.OnItemClickListener,CourseListListener,MyClassesFragmentModule.CourseStateListener {
 
     public static final int TPYE_ALL = 0;
     public static final int TPYE_ON = 1;
@@ -63,7 +65,7 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerMyClassesFragmentComponent.builder().myClassesFragmentModule(new MyClassesFragmentModule(getActivity(), datas)).build().inject(this);
+        DaggerMyClassesFragmentComponent.builder().myClassesFragmentModule(new MyClassesFragmentModule(getActivity(), datas, this)).build().inject(this);
         type = getArguments().getInt("type");
 
         presenter = new CourseListPresenter(new CourseModel(), this);
@@ -123,8 +125,8 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String item = (String) parent.getAdapter().getItem(position);
-        Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
+        CourseBean item = (CourseBean) parent.getAdapter().getItem(position);
+        ActivityBuilder.startCourseDetailActivity(getActivity(), item.getId());
     }
 
     @Override
@@ -141,6 +143,8 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
             } else {
                 emptyHelper.hideEmptyView(refreshLayout);
             }
+        } else {
+            AppUtils.showToast(getContext(), message);
         }
     }
 
@@ -187,11 +191,33 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
         return map;
     }
 
+
+    @Override
+    public void onDelSuccess(CourseBean course) {
+        datas.remove(course);
+        if(datas == null || datas.size() == 0){
+            emptyHelper.showEmptyView(refreshLayout);
+        } else {
+            emptyHelper.hideEmptyView(refreshLayout);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void onDestroy() {
         if(presenter != null){
             presenter.onDestroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onStateChanged(CourseBean course, int state) {
+        //上下架
+    }
+
+    @Override
+    public void onDelCourse(CourseBean course) {
+        presenter.delCourse(course);
     }
 }

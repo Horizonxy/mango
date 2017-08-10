@@ -100,6 +100,8 @@
     <string name="my_community_role">我的社团身份</string>
 
     <string name="my_blank_card">我的银行卡</string>
+    <string name="get_cash">提现</string>
+    <string name="trasn_detail">交易明细</string>
 
     <string name="place_order">下单</string>
     <string name="place_order_to_pay">下单支付</string>
@@ -126,4 +128,6 @@
     <string name="fav">收藏</string>
 
     <string name="add_course">新建课程</string>
+
+    <string name="can_get_cash_amount">可提取金额：%s</string>
 </resources>

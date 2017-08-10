@@ -181,4 +181,8 @@ public class ApiManager {
     public static  Observable<RestResult<Object>> addCourse(Map<String, Object> map){
         return Application.application.getApiService().addCourse(map);
     }
+
+    public static  Observable<RestResult<Object>> delCourse(long id){
+        return Application.application.getApiService().delCourse(Application.application.getSessId(), id);
+    }
 }

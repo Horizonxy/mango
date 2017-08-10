@@ -1,5 +1,7 @@
 package cn.com.mangopi.android.presenter;
 
+import android.content.Context;
+
 import java.util.List;
 
 import cn.com.mangopi.android.model.bean.CourseBean;
@@ -41,6 +43,28 @@ public class CourseListPresenter extends BasePresenter {
                             } else {
                                 courseListListener.onFailure(restResult.getRet_msg());
                             }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
+
+    public void delCourse(CourseBean course){
+        Context context = courseListListener.currentContext();
+        Subscription subscription = courseModel.delCourse(course.getId(),
+                new CreateLoading(context), new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            courseListListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null && restResult.isSuccess()){
+                            courseListListener.onDelSuccess(course);
                         }
                     }
                 });
