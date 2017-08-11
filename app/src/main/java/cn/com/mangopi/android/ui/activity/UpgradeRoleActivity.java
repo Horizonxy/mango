@@ -35,7 +35,6 @@ public class UpgradeRoleActivity extends BaseTitleBarActivity implements UpdateR
     View vCompany;
     @Bind(R.id.layout_corporation)
     View vCorporation;
-    MemberBean member;
     List<Constants.UserIndentity> indentityList;
 
     UpdateRolePresenter presenter;
@@ -72,13 +71,7 @@ public class UpgradeRoleActivity extends BaseTitleBarActivity implements UpdateR
 
     @OnClick(R.id.layout_student)
     void studentClick(View v){
-        if(indentityList.contains(Constants.UserIndentity.COMPANY)){
-            DialogUtil.createUpdateRoleAlertDialog(this, getString(R.string.check_student_role),
-                    "您当前的身份是"+member.getUser_identity_label()+"\n不可再拥有学生身份", "好的");
-            return;
-        } else {
-            presenter.checkUpgradeStudent();
-        }
+        presenter.checkUpgradeStudent();
     }
 
     @OnClick(R.id.layout_teacher)
@@ -88,24 +81,12 @@ public class UpgradeRoleActivity extends BaseTitleBarActivity implements UpdateR
 
     @OnClick(R.id.layout_corporation)
     void corporationClick(View v){
-        if(indentityList.contains(Constants.UserIndentity.COMPANY)){
-            DialogUtil.createUpdateRoleAlertDialog(this, getString(R.string.check_community_role),
-                    "您当前的身份是"+member.getUser_identity_label()+"\n不可再注册为社团", "好的");
-            return;
-        } else {
-            presenter.checkUpgradeCommunity();
-        }
+        presenter.checkUpgradeCommunity();
     }
 
     @OnClick(R.id.layout_company)
     void companyClick(View v){
-        if(indentityList.contains(Constants.UserIndentity.STUDENT) || indentityList.contains(Constants.UserIndentity.COMMUNITY)){
-            DialogUtil.createUpdateRoleAlertDialog(this, getString(R.string.check_company_role),
-                    "您当前的身份是"+member.getUser_identity_label()+"\n不可再注册为企业", "好的");
-            return;
-        } else {
-            presenter.checkUpgradeCompany();
-        }
+        presenter.checkUpgradeCompany();
     }
 
     @Override
