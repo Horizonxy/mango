@@ -29,6 +29,7 @@ public class ContentDetailActivity extends BaseTitleBarActivity implements Conte
         id = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
         if(id > 0) {
             contentPresenter = new ContentPresenter(new ContentModel(), this);
+            contentPresenter.getContent();
         } else {
             String title = getIntent().getStringExtra(Constants.BUNDLE_TITLE);
             String content = getIntent().getStringExtra(Constants.BUNDLE_CONTENT);

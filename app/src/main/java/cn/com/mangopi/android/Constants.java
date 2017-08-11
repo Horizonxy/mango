@@ -24,6 +24,7 @@ public class Constants {
 	public static final String FILE_PREFIX = "file://";
 	public static final int GENDER_MAN = 1;
 	public static final int GENDER_FEMALE = 0;
+	public static final String INDEX_TWO_ADVERT = "index_two_banner";
 	public static final String INDEX_THREEE_ADVERT = "index_three_advert";
 	public static final String INDEX_BANNER = "index_banner";
 

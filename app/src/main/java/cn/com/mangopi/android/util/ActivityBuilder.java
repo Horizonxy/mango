@@ -160,7 +160,7 @@ public class ActivityBuilder {
 
     public static void startContentDetailActivity(Activity activity, long id){
         Intent intent = new Intent(activity, ContentDetailActivity.class);
-        intent.putExtra(Constants.BUNDLE_ORDER_ID, id);
+        intent.putExtra(Constants.BUNDLE_ID, id);
         activity.startActivity(intent);
     }
 

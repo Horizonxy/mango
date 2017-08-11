@@ -77,6 +77,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     HomePresenter homePresenter;
     AdvertDetaiClickListener advertDetaiClickListener;
     RedPointView messagePoint;
+    LinearLayout layoutTwoGroup;
+    ImageView ivGroup1, ivGroup2;
 
     public HomeFragment() {
     }
@@ -128,6 +130,12 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         advertDetaiClickListener = new AdvertDetaiClickListener(getActivity());
         ivAdvert1.setOnClickListener(advertDetaiClickListener);
         ivAdvert3.setOnClickListener(advertDetaiClickListener);
+
+        layoutTwoGroup = (LinearLayout) root.findViewById(R.id.layout_two_group);
+        ivGroup1 = (ImageView) root.findViewById(R.id.iv_group1);
+        ivGroup2 = (ImageView) root.findViewById(R.id.iv_group2);
+        ivGroup1.setOnClickListener(advertDetaiClickListener);
+        ivGroup2.setOnClickListener(advertDetaiClickListener);
     }
 
     @Override
@@ -177,6 +185,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     private void initData() {
         homePresenter.getHomeBulletinList();
         homePresenter.getAdvert(Constants.INDEX_BANNER);
+        homePresenter.getAdvert(Constants.INDEX_TWO_ADVERT);
         homePresenter.getCourseClassify();
         homePresenter.getAdvert(Constants.INDEX_THREEE_ADVERT);
     }
@@ -280,6 +289,29 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             banners.clear();
             banners.addAll(advertList);
             homeBanner.notifyDataSetChanged();
+        } else if(Constants.INDEX_TWO_ADVERT.equals(position)){
+            if(advertList.size() > 0) {
+                layoutTwoGroup.setVisibility(View.VISIBLE);
+                List<AdvertBean.DetailsBean> details = advertList.get(0).getDetails();
+                if (details.size() > 0) {
+                    AdvertBean.DetailsBean detail1 = details.get(0);
+                    Application.application.getImageLoader().displayImage(detail1.getFile_path(), ivGroup1, Application.application.getDefaultOptions());
+                    ivGroup1.setTag(detail1);
+                } else {
+                    ivGroup1.setImageResource(0);
+                    ivGroup1.setTag(null);
+                }
+                if (details.size() > 1) {
+                    AdvertBean.DetailsBean detail2 = details.get(1);
+                    Application.application.getImageLoader().displayImage(detail2.getFile_path(), ivGroup2, Application.application.getDefaultOptions());
+                    ivGroup2.setTag(detail2);
+                } else {
+                    ivGroup2.setImageResource(0);
+                    ivGroup2.setTag(null);
+                }
+            } else {
+                layoutTwoGroup.setVisibility(View.GONE);
+            }
         }
     }
 

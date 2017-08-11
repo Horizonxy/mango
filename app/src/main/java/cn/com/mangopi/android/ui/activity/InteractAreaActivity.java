@@ -47,7 +47,6 @@ public class InteractAreaActivity extends BaseTitleBarActivity implements Adapte
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        listView.getRefreshableView().setDividerHeight((int) getResources().getDimension(R.dimen.dp_10));
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
