@@ -100,7 +100,7 @@ public class UpgradeToTutorActivity extends BaseTitleBarActivity implements Upda
                 @Override
                 public void onSuccess(List<String> photoList) {
                     if (photoList != null && photoList.size() > 0) {
-                        File file = new File(photoList.get(0));
+                        File file = FileUtils.compressImageFromPath(UpgradeToTutorActivity.this, photoList.get(0));
                         tutorLogoImage = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                         if(tutorLogoImage == null){
                             return;

@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import com.orhanobut.logger.Logger;
+
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import cn.com.mangopi.android.Constants;
 
 public class FileUtils {
 
@@ -218,7 +222,6 @@ public class FileUtils {
 	 * @return
 	 */
 	public static Bitmap fitSizePic(File file) {
-		Bitmap resizeBmp = null;
 		BitmapFactory.Options opts = new BitmapFactory.Options();
 		// 数字越大读出的图片占用的heap越小 不然总是溢出
 		if (file.length() < 20480) { // 0-20k
@@ -234,7 +237,7 @@ public class FileUtils {
 		} else {
 			opts.inSampleSize = 10;
 		}
-		resizeBmp = BitmapFactory.decodeFile(file.getPath(), opts);
+		Bitmap resizeBmp = BitmapFactory.decodeFile(file.getPath(), opts);
 		return resizeBmp;
 	}
 
@@ -730,5 +733,13 @@ public class FileUtils {
 			e.printStackTrace();  
 		}  
 		return null;  
-	}  
+	}
+
+	public static File compressImageFromPath(Context context, String path){
+		Bitmap bitmap = fitSizePic(new File(path));
+		String dir = getEnvPath(context, true, Constants.PICTURE_DIR);
+		String fileName = "compress_".concat(path.substring(path.lastIndexOf("/") + 1));
+
+		return BitmapUtils.saveBmp2SD(bitmap, getEnvPath(context, true, dir), fileName);
+	}
 }

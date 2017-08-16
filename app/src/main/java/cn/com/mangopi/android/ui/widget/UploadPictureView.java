@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
@@ -24,6 +25,7 @@ import cn.com.mangopi.android.model.bean.UploadImageBean;
 import cn.com.mangopi.android.model.data.UploadModel;
 import cn.com.mangopi.android.presenter.UploadPresenter;
 import cn.com.mangopi.android.ui.viewlistener.UploadViewListener;
+import cn.com.mangopi.android.util.FileUtils;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
@@ -95,7 +97,8 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
     public void setImageBean(UploadImageBean imageBean) {
         this.imageBean = imageBean;
         if(imageBean.getType() != UploadImageBean.ADD_BTN){
-            uploadImage = RequestBody.create(MediaType.parse("multipart/form-data"), new File(imageBean.getLocalPath()));
+            File file = FileUtils.compressImageFromPath(getContext(), imageBean.getLocalPath());
+            uploadImage = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         }
         setImageLayout();
     }

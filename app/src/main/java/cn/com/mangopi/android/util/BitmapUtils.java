@@ -13,9 +13,9 @@ import java.io.OutputStream;
  */
 public class BitmapUtils {
 
-    public static boolean saveBmp2SD(Bitmap bmp, String path, String name){
+    public static File saveBmp2SD(Bitmap bmp, String path, String name){
         if(bmp == null){
-            return false;
+            return null;
         }
         File dir = new File(path);
         if(!dir.exists()){
@@ -27,7 +27,7 @@ public class BitmapUtils {
                 file.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
-                return false;
+                return null;
             }
         }
         OutputStream os = null;
@@ -38,8 +38,8 @@ public class BitmapUtils {
             os.close();
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
+        return file;
     }
 }

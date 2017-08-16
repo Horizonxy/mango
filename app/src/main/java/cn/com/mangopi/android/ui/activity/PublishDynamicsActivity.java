@@ -92,8 +92,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
             pictureView.setImageBean(imageBean);
             GridLayout.LayoutParams gl = new GridLayout.LayoutParams(pictureItemLp);
             gl.topMargin = dp5;
-            if (i % 3 == 1) {
-                gl.leftMargin = dp5;
+            if (i % 3 == 0 || i % 3 == 1) {
                 gl.rightMargin = dp5;
             }
             gridPicture.addView(pictureView, i, gl);

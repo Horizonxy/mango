@@ -89,7 +89,7 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
                 @Override
                 public void onSuccess(List<String> photoList) {
                     if (photoList != null && photoList.size() > 0) {
-                        File file = new File(photoList.get(0));
+                        File file = FileUtils.compressImageFromPath(UpgradeToStudentActivity.this, photoList.get(0));
                         studentCardImage = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                         if(studentCardImage == null){
                             return;
