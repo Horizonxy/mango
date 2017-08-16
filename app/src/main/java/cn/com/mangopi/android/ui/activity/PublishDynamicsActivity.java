@@ -157,7 +157,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
         GalleryConfig galleryConfig = new GalleryConfig.Builder()
                 .imageLoader(new SelectorImageLoader())    // ImageLoader 加载框架（必填）
                 .iHandlerCallBack(iHandlerCallBack)     // 监听接口（必填）
-                .provider("com.mango.fileprovider")   // provider(必填)
+                .provider(getPackageName() + ".fileprovider")   // provider(必填)
                 .multiSelect(true, 9 - pictures.size())                   // 配置是否多选的同时 配置多选数量   默认：false ， 9
                 .crop(false)                             // 快捷开启裁剪功能，仅当单选 或直接开启相机时有效
                 .isShowCamera(true)                     // 是否现实相机按钮  默认：false

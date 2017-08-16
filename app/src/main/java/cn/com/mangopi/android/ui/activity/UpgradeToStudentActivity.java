@@ -121,7 +121,7 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
             galleryConfig = new GalleryConfig.Builder()
                     .imageLoader(new SelectorImageLoader())    // ImageLoader 加载框架（必填）
                     .iHandlerCallBack(iHandlerCallBack)     // 监听接口（必填）
-                    .provider("com.mango.fileprovider")   // provider(必填)
+                    .provider(getPackageName() + ".fileprovider")   // provider(必填)
                     .multiSelect(false)                      // 是否多选   默认：false
                     .crop(true, 1, 1, 720, 720)             // 配置裁剪功能的参数，   默认裁剪比例 1:1
                     .isShowCamera(true)                     // 是否现实相机按钮  默认：false

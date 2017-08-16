@@ -740,6 +740,6 @@ public class FileUtils {
 		String dir = getEnvPath(context, true, Constants.PICTURE_DIR);
 		String fileName = "compress_".concat(path.substring(path.lastIndexOf("/") + 1));
 
-		return BitmapUtils.saveBmp2SD(bitmap, getEnvPath(context, true, dir), fileName);
+		return BitmapUtils.saveBmp2SD(bitmap, dir, fileName);
 	}
 }
