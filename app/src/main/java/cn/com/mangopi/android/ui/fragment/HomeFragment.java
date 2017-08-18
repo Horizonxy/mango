@@ -55,7 +55,7 @@ import cn.com.mangopi.android.util.MangoUtils;
 
 public class HomeFragment extends BaseFragment implements HomeFragmentListener, View.OnClickListener {
 
-    MangoPtrFrameLayout refreshLayout;
+//    MangoPtrFrameLayout refreshLayout;
     ConvenientBanner homeBanner;
     List<AdvertBean> banners;
     VerticalTextview tvScroll;
@@ -92,20 +92,20 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @Override
     void findView(View root) {
-        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
-        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return !(svContent.getScrollY() > 0);
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                if(Application.application.getMember() != null) {
-                    initData();
-                }
-            }
-        });
+//        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
+//        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+//            @Override
+//            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+//                return !(svContent.getScrollY() > 0);
+//            }
+//
+//            @Override
+//            public void onRefreshBegin(PtrFrameLayout frame) {
+//                if(Application.application.getMember() != null) {
+//                    initData();
+//                }
+//            }
+//        });
         homeBanner = (ConvenientBanner) root.findViewById(R.id.home_banner);
         tvScroll = (VerticalTextview) root.findViewById(R.id.tv_scroll);
         homePager = (ViewPagerFixed) root.findViewById(R.id.home_pager);
@@ -232,7 +232,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @Override
     public void onSuccess(String position, List<AdvertBean> advertList) {
-        refreshLayout.refreshComplete();
+//        refreshLayout.refreshComplete();
         if (Constants.INDEX_THREEE_ADVERT.equals(position)) {
             if (advertList.size() > 0) {
                 AdvertBean advert1 = advertList.get(0);
@@ -334,13 +334,13 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @Override
     public void onSuccess(List<BulletinBean> bulletinList) {
-        refreshLayout.refreshComplete();
+//        refreshLayout.refreshComplete();
         tvScroll.setTextList(bulletinList);
     }
 
     @Override
     public void onClassifySuccess(List<CourseClassifyBean> courseClassifyList) {
-        refreshLayout.refreshComplete();
+//        refreshLayout.refreshComplete();
         gridViews.clear();
         homeIndicator.removeAllViews();
         for (int i = 0; courseClassifyList != null && i < courseClassifyList.size(); i += 4) {

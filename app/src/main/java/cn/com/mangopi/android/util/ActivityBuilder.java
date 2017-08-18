@@ -149,12 +149,17 @@ public class ActivityBuilder {
     }
 
     public static void startInputMessageActivity(Activity activity, String title, String right, String type, int limitNum, String content){
+        startInputMessageActivity(activity, title, right, type, limitNum, content, false);
+    }
+
+    public static void startInputMessageActivity(Activity activity, String title, String right, String type, int limitNum, String content, boolean must){
         Intent intent = new Intent(activity, InputMessageActivity.class);
         intent.putExtra(Constants.BUNDLE_TITLE, title);
         intent.putExtra(Constants.BUNDLE_RIGHT_TEXT, right);
         intent.putExtra(Constants.BUNDLE_TYPE, type);
         intent.putExtra(Constants.BUNDLE_LIMIT_NUM, limitNum);
         intent.putExtra(Constants.BUNDLE_CONTENT, content);
+        intent.putExtra(Constants.BUNDLE_MUST, must);
         activity.startActivity(intent);
     }
 

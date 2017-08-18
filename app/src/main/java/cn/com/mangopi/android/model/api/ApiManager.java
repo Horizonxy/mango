@@ -193,4 +193,8 @@ public class ApiManager {
     public static  Observable<RestResult<Object>> cancelOrder(long id){
         return Application.application.getApiService().cancelOrder(Application.application.getSessId(), id);
     }
+
+    public static  Observable<RestResult<Object>> settingMember(Map<String, Object> map){
+        return Application.application.getApiService().settingMember(map);
+    }
 }

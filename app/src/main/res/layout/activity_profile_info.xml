@@ -27,18 +27,21 @@
             android:background="@android:color/white">
 
             <include
+                android:id="@+id/layout_avatar"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_nick_name"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_sign"
                 layout="@layout/layout_item_setting" />
         </LinearLayout>
 
@@ -59,18 +62,21 @@
             android:background="@android:color/white">
 
             <include
+                android:id="@+id/layout_real_name"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_gender"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_birthday"
                 layout="@layout/layout_item_setting" />
         </LinearLayout>
 
@@ -91,18 +97,21 @@
             android:background="@android:color/white">
 
             <include
+                android:id="@+id/layout_school"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_professional"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_enter_date"
                 layout="@layout/layout_item_setting" />
         </LinearLayout>
 
@@ -123,24 +132,28 @@
             android:background="@android:color/white">
 
             <include
+                android:id="@+id/layout_project"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_works"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_cv"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_evaluation"
                 layout="@layout/layout_item_setting" />
         </LinearLayout>
 
@@ -161,24 +174,28 @@
             android:background="@android:color/white">
 
             <include
+                android:id="@+id/layout_qq"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_wechat"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_phone"
                 layout="@layout/layout_item_setting" />
 
             <View
                 style="@style/margin_horizontal_line" />
 
             <include
+                android:id="@+id/layout_email"
                 layout="@layout/layout_item_setting" />
         </LinearLayout>
 

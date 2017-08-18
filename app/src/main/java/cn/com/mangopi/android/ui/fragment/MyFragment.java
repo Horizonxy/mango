@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
+import com.mcxiaoke.bus.Bus;
+import com.mcxiaoke.bus.annotation.BusReceiver;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.util.List;
@@ -30,6 +32,7 @@ import cn.com.mangopi.android.ui.viewlistener.MyFragmentListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.MangoUtils;
 
 public class MyFragment extends BaseFragment implements MyFragmentListener{
@@ -70,6 +73,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bus.getDefault().register(this);
         DaggerMyFragmentComponent.builder().myFragmentModule(new MyFragmentModule(this)).build().inject(this);
 
         optionsBuilder = new DisplayImageOptions.Builder()
@@ -291,11 +295,20 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
         }
     }
 
+    @BusReceiver
+    public void OnRefreshMember(BusEvent.RefreshMemberEvent event){
+        if(event != null){
+            member = Application.application.getMember();
+            setMemberView();
+        }
+    }
+
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        Bus.getDefault().unregister(this);
         if(memberPresenter != null) {
             memberPresenter.onDestroy();
         }
+        super.onDestroy();
     }
 }

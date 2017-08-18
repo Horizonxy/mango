@@ -100,4 +100,8 @@ public class MemberModel {
     public Subscription upgradeTutor(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.upgradeTutor(map), onSubscribe).subscribe(subscriber);
     }
+
+    public Subscription settingMember(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.settingMember(map), onSubscribe).subscribe(subscriber);
+    }
 }

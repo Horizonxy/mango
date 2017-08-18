@@ -57,7 +57,7 @@ public class GetCashActivity extends BaseTitleBarActivity implements MemeberWall
         titleBar.setTitle(R.string.get_cash);
 
         etAmount.setFilters(new InputFilter[] { new PointLengthFilter() });
-        tvCanCashAmount.setText(String.format(getString(R.string.my_current_role), availableAmount.toString()));
+        tvCanCashAmount.setText(String.format(getString(R.string.can_get_cash_amount), availableAmount.toString()));
     }
 
     @OnClick(R.id.tv_card_no)

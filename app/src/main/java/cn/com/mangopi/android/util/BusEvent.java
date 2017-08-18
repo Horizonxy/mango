@@ -101,4 +101,9 @@ public class BusEvent {
             this.hasMessage = hasMessage;
         }
     }
+
+    @com.mcxiaoke.bus.annotation.BusEvent
+    public static class RefreshMemberEvent {
+
+    }
 }

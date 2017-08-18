@@ -303,4 +303,10 @@ public interface ApiService {
             @Query("lst_sessid") String lst_sessid,
             @Query("id") long id
     );
+
+    //5.1.17	设置会员信息接口
+    @POST("outer/router?member_setting")
+    Observable<RestResult<Object>> settingMember(
+            @QueryMap Map<String, Object> map
+    );
 }

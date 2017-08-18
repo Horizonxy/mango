@@ -281,6 +281,9 @@ public class DateUtils{
 	 */
 	@SuppressLint("SimpleDateFormat")
 	public static String dateToString(Date date, String pattern) {
+		if(date == null){
+			return "";
+		}
 		if (pattern != null && !pattern.equals(""))
 			return (new SimpleDateFormat(pattern)).format(date);
 		else

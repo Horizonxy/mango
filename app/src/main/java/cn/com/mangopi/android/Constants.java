@@ -48,6 +48,7 @@ public class Constants {
     public static final String BUNDLE_LIMIT_NUM = "bundle_limit_num";
     public static final String BUNDLE_TYPE = "bundle_type";
     public static final String BUNDLE_CONTENT = "bundle_content";
+    public static final String BUNDLE_MUST = "bundle_must";
     public static final String BUNDLE_AMOUNT = "bundle_amount";
 
     public static enum UserIndentity {

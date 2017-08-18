@@ -3,6 +3,7 @@ package cn.com.mangopi.android.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,8 +53,7 @@ public class SettingActivity extends BaseTitleBarActivity {
         tvPhoneNunLeft = (TextView) vPhoneNum.findViewById(R.id.tv_left);
         tvPhoneNunRight = (TextView) vPhoneNum.findViewById(R.id.tv_right);
         vPhoneNum.findViewById(R.id.iv_right).setVisibility(View.GONE);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tvPhoneNunRight.getLayoutParams();
-        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tvPhoneNunRight.getLayoutParams();
         params.rightMargin = (int) getResources().getDimension(R.dimen.dp_15);
         tvPhoneNunRight.setLayoutParams(params);
         tvTransPwdLeft = (TextView) vTransPwd.findViewById(R.id.tv_left);

@@ -31,6 +31,7 @@ public class InputMessageActivity extends BaseTitleBarActivity implements TitleB
     String type;
     int limitNum;
     String content;
+    boolean must;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class InputMessageActivity extends BaseTitleBarActivity implements TitleB
         limitNum = intent.getIntExtra(Constants.BUNDLE_LIMIT_NUM, 0);
         type = intent.getStringExtra(Constants.BUNDLE_TYPE);
         content = intent.getStringExtra(Constants.BUNDLE_CONTENT);
+        must = intent.getBooleanExtra(Constants.BUNDLE_MUST, true);
 
         initView();
     }
@@ -71,7 +73,7 @@ public class InputMessageActivity extends BaseTitleBarActivity implements TitleB
     public void onTitleButtonClick(View view) {
         switch (view.getId()){
             case R.id.tv_right:
-                if(TextUtils.isEmpty(etContent.getText().toString())){
+                if(must && TextUtils.isEmpty(etContent.getText().toString())){
                     AppUtils.showToast(this, "请输入内容");
                     return;
                 }
