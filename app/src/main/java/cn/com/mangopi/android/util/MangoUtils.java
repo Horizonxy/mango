@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.widget.ImageView;
 
 import com.orhanobut.logger.Logger;
 
@@ -316,5 +317,12 @@ public class MangoUtils {
                 ActivityBuilder.startContentDetailActivity(activity, advertDetail.getEntity_id().longValue());
             }
         }
+    }
+
+    public static SmallPicInfo getSmallPicInfo(ImageView imageView, String url){
+        int[] screenLocation = new int[2];
+        imageView.getLocationOnScreen(screenLocation);
+        SmallPicInfo info = new SmallPicInfo(url, screenLocation[0], screenLocation[1], imageView.getWidth(), imageView.getHeight(), 0);
+        return info;
     }
 }

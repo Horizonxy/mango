@@ -18,10 +18,15 @@
     </style>
 
     <!-- 启动样式 -->
-    <style name="Theme.Start" parent="AppTheme">
+    <style name="start_theme" parent="AppTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
+    <style name="activity_translucent" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <!--边界内点击水波纹-->

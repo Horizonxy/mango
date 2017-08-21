@@ -65,7 +65,8 @@
 
         <activity
             android:name=".ui.activity.WelcomeActivity"
-            android:theme="@style/Theme.Start"
+            android:theme="@style/start_theme"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,54 +77,91 @@
         <activity android:name=".ui.activity.TabViewPagerActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.RegistActivity" />
+        <activity android:name=".ui.activity.RegistActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.SetNickNameActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.UpgradeRoleActivity" />
-        <activity android:name=".ui.activity.MyOrderListActivity" />
-        <activity android:name=".ui.activity.MyAccountActivity" />
-        <activity android:name=".ui.activity.SettingActivity" />
-        <activity android:name=".ui.activity.ProfileInfoActivity" />
-        <activity android:name=".ui.activity.MyClassesActivity" />
+        <activity android:name=".ui.activity.UpgradeRoleActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.MyOrderListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.MyAccountActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.SettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.ProfileInfoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.MyClassesActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.PublishDynamicsActivity" />
-        <activity android:name=".ui.activity.InteractAreaActivity" />
-        <activity android:name=".ui.activity.TutorClassCategoryActivity" />
-        <activity android:name=".ui.activity.CalssListActivity" />
-        <activity android:name=".ui.activity.AddBlankCardActivity" />
-        <activity android:name=".ui.activity.MemberCardListActivity" />
-        <activity android:name=".ui.activity.TutorDetailActivity" />
-        <activity android:name=".ui.activity.BulletinDetailActivity" />
-        <activity android:name=".ui.activity.SelectPayActivity" />
+        <activity android:name=".ui.activity.PublishDynamicsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.InteractAreaActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.TutorClassCategoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.CalssListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.AddBlankCardActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.MemberCardListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.TutorDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.BulletinDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.SelectPayActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.PlaceOrderActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.UpgradeToStudentActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.CourseDetailActivity" />
-        <activity android:name=".ui.activity.SuccessActivity" />
-        <activity android:name=".ui.activity.OrderDetailActivity" />
-        <activity android:name=".ui.activity.WebViewActivity" />
+        <activity android:name=".ui.activity.CourseDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.SuccessActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.OrderDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.WebViewActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.UpgradeToTutorActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.InputMessageActivity" />
-        <activity android:name=".ui.activity.ContentDetailActivity" />
-        <activity android:name=".ui.activity.MessageListActivity" />
-        <activity android:name=".ui.activity.PayResultActivity" />
-        <activity android:name=".ui.activity.FavListActivity" />
-        <activity android:name=".ui.activity.MemberTrendActivity" />
+        <activity android:name=".ui.activity.InputMessageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.ContentDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.MessageListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.PayResultActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.FavListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.MemberTrendActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.AddCourseActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity android:name=".ui.activity.GetCashActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-
+        <activity
+            android:name=".ui.activity.PictureDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/activity_translucent" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

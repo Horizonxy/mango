@@ -367,6 +367,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             ImageView imageView = new ImageView(getContext());
             imageView.setPadding(DisplayUtils.dip2px(getContext(), 2.5F), 0, DisplayUtils.dip2px(getContext(), 2.5F), 0);
             imageView.setImageResource(R.drawable.shape_indicator_normal);
+            imageView.setBackgroundResource(android.R.color.transparent);
             homeIndicator.addView(imageView);
         }
 

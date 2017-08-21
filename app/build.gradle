@@ -4,7 +4,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion "26.0.0"
 
     defaultConfig {
         applicationId "cn.com.mangopi.android"
@@ -96,4 +96,5 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.fang:dashview:v1.0.0'
+    compile 'com.github.chrisbanes.photoview:library:1.2.4'
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.mangopi.android.Constants;
@@ -30,6 +31,7 @@ import cn.com.mangopi.android.ui.activity.MessageListActivity;
 import cn.com.mangopi.android.ui.activity.MyClassesActivity;
 import cn.com.mangopi.android.ui.activity.OrderDetailActivity;
 import cn.com.mangopi.android.ui.activity.PayResultActivity;
+import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
 import cn.com.mangopi.android.ui.activity.PlaceOrderActivity;
 import cn.com.mangopi.android.ui.activity.ProfileInfoActivity;
 import cn.com.mangopi.android.ui.activity.PublishDynamicsActivity;
@@ -212,4 +214,21 @@ public class ActivityBuilder {
         intent.putExtra(Constants.BUNDLE_AMOUNT, availableAmount);
         activity.startActivity(intent);
     }
+
+    public static void startPictureDetailActivity(Activity activity, SmallPicInfo smallPicInfo){
+        List<SmallPicInfo> smallPicInfos = new ArrayList<>();
+        smallPicInfos.add(smallPicInfo);
+        startPictureDetailActivity(activity, smallPicInfos, -1);
+    }
+
+    public static void startPictureDetailActivity(Activity activity, List<SmallPicInfo> smallPicInfos, int position){
+        Intent intent = new Intent(activity, PictureDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_URL_LIST, (Serializable) smallPicInfos);
+        intent.putExtra(Constants.BUNDLE_POSITION, position);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(0, 0);
+    }
+
+
+
 }
