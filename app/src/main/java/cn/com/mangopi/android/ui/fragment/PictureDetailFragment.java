@@ -37,6 +37,7 @@ public class PictureDetailFragment extends BaseFragment {
     private final int DURATION = 250;
     private int screenWidth, screenHeight;
     DisplayImageOptions options;
+    public Bitmap bitmap;
 
     public static PictureDetailFragment newInstance(SmallPicInfo smallPicInfo){
         PictureDetailFragment fragment = new PictureDetailFragment();
@@ -44,6 +45,10 @@ public class PictureDetailFragment extends BaseFragment {
         bundle.putSerializable("small_pic_info", smallPicInfo);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     @Override
@@ -73,12 +78,16 @@ public class PictureDetailFragment extends BaseFragment {
         DiskCache diskCache = Application.application.getImageLoader().getDiskCache();
         File file = diskCache.get(smallPicInfo.url);
         if (file != null && file.exists()) {
-            Application.application.getImageLoader().loadImage(smallPicInfo.url, new SimpleImageLoadingListener(){
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    loadOnCache(loadedImage);
-                }
-            });
+            if (bitmap != null && !bitmap.isRecycled()) {
+                loadOnCache(bitmap);
+            } else {
+                Application.application.getImageLoader().loadImage(smallPicInfo.url, options, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        loadOnCache(loadedImage);
+                    }
+                });
+            }
         } else {
             loadOnNetwork();
         }
@@ -134,6 +143,10 @@ public class PictureDetailFragment extends BaseFragment {
         lp.width = smallPicInfo.width;
         lp.height = smallPicInfo.height;
         ivDetail.setLayoutParams(lp);
+
+        if(bitmap != null && !bitmap.isRecycled()) {
+            ivDetail.setImageBitmap(bitmap);
+        }
 
         int smallDeltaX = smallPicInfo.left - (screenWidth - smallPicInfo.width) / 2;
         int smallDeltaY = smallPicInfo.top - (screenHeight - smallPicInfo.height + DisplayUtils.getStatusBarHeight(getContext())) / 2;

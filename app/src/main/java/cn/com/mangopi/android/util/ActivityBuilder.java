@@ -218,7 +218,7 @@ public class ActivityBuilder {
     public static void startPictureDetailActivity(Activity activity, SmallPicInfo smallPicInfo){
         List<SmallPicInfo> smallPicInfos = new ArrayList<>();
         smallPicInfos.add(smallPicInfo);
-        startPictureDetailActivity(activity, smallPicInfos, -1);
+        startPictureDetailActivity(activity, smallPicInfos, 0);
     }
 
     public static void startPictureDetailActivity(Activity activity, List<SmallPicInfo> smallPicInfos, int position){

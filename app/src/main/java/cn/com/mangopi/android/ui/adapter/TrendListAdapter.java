@@ -158,6 +158,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         }).subscribe(new Action1<List<SmallPicInfo>>() {
             @Override
             public void call(List<SmallPicInfo> smallPicInfos) {
+                PictureDetailActivity.bmp = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
                 ActivityBuilder.startPictureDetailActivity((Activity) context, smallPicInfos, position);
             }
         });
@@ -181,6 +182,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                 .subscribe(new Action1<SmallPicInfo>() {
                     @Override
                     public void call(SmallPicInfo smallPicInfo) {
+                        PictureDetailActivity.bmp = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
                         ActivityBuilder.startPictureDetailActivity((Activity) context, smallPicInfo);
                     }
                 });

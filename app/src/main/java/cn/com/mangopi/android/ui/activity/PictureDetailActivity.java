@@ -2,6 +2,7 @@ package cn.com.mangopi.android.ui.activity;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class PictureDetailActivity extends FragmentActivity {
     @Bind(R.id.indicator)
     LinearLayout indicator;
     private int position;
+    public static Bitmap bmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,12 @@ public class PictureDetailActivity extends FragmentActivity {
         fragments = new ArrayList<>();
         indicator.removeAllViews();
         for (int i = 0; i < smallPicInfos.size(); i++){
-            fragments.add(PictureDetailFragment.newInstance(smallPicInfos.get(i)));
+            PictureDetailFragment fragment = PictureDetailFragment.newInstance(smallPicInfos.get(i));
+            if(i == position && bmp != null && !bmp.isRecycled()){
+                fragment.setBitmap(bmp);
+            }
+            fragments.add(fragment);
+
             ImageView imageView = new ImageView(this);
             imageView.setPadding(DisplayUtils.dip2px(this, 2.5F), 0, DisplayUtils.dip2px(this, 2.5F), 0);
             imageView.setImageResource(R.drawable.shape_indicator_normal);
@@ -144,6 +151,13 @@ public class PictureDetailActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         smallPicInfos = null;
+        if(bmp != null && !bmp.isRecycled()){
+            if(position > 0) {
+                ((PictureDetailFragment)fragments.get(position)).setBitmap(null);
+                bmp.recycle();
+                bmp = null;
+            }
+        }
         ButterKnife.unbind(this);
     }
 
