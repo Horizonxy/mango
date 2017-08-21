@@ -160,7 +160,7 @@
                         android:adjustViewBounds="true"
                         android:scaleType="centerInside"
                         style="@style/repple_out_backguound"
-                        android:src="@drawable/wx_logo" />
+                        android:src="@drawable/wechat" />
                 </LinearLayout>
             </LinearLayout>
 
