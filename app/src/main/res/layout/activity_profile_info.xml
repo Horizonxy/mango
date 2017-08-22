@@ -26,9 +26,66 @@
             android:orientation="vertical"
             android:background="@android:color/white">
 
-            <include
+            <LinearLayout
                 android:id="@+id/layout_avatar"
-                layout="@layout/layout_item_setting" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="@dimen/dp_15"
+                    android:paddingBottom="@dimen/dp_15"
+                    android:text="头像："
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/dp_14" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tv_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:background="@android:color/transparent"
+                        android:ellipsize="end"
+                        android:gravity="right|center_vertical"
+                        android:hint="点击上传图片或拍照"
+                        android:singleLine="true"
+                        android:visibility="visible"
+                        android:textColor="@color/color_333333"
+                        android:textColorHint="@color/color_cccccc"
+                        android:textSize="@dimen/dp_14" />
+
+                    <cn.com.mangopi.android.ui.widget.RoundImageView
+                        android:id="@+id/iv_avatar"
+                        xmlns:round="http://schemas.android.com/apk/res-auto"
+                        round:border_overlay="true"
+                        android:layout_width="44dp"
+                        android:src="@drawable/none"
+                        android:layout_height="44dp"
+                        android:visibility="gone"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/dp_7"/>
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:visibility="visible"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_more" />
+            </LinearLayout>
 
             <View
                 style="@style/margin_horizontal_line" />

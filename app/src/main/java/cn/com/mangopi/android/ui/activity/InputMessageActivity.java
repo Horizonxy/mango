@@ -3,6 +3,7 @@ package cn.com.mangopi.android.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -32,6 +33,12 @@ public class InputMessageActivity extends BaseTitleBarActivity implements TitleB
     int limitNum;
     String content;
     boolean must;
+    /**
+     * 1、数字
+     * 2、字母
+     * 3、字母+数字
+     */
+    int inputType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,7 @@ public class InputMessageActivity extends BaseTitleBarActivity implements TitleB
         type = intent.getStringExtra(Constants.BUNDLE_TYPE);
         content = intent.getStringExtra(Constants.BUNDLE_CONTENT);
         must = intent.getBooleanExtra(Constants.BUNDLE_MUST, true);
+        inputType = intent.getIntExtra(Constants.BUNDLE_INPUT_TYPE, -1);
 
         initView();
     }
@@ -58,6 +66,16 @@ public class InputMessageActivity extends BaseTitleBarActivity implements TitleB
         InputFilter[] filters = {new InputFilter.LengthFilter(limitNum)};
         etContent.setFilters(filters);
         tvNum.setText(String.valueOf(limitNum));
+
+        if(inputType > 0){
+            if(inputType == 1){
+                etContent.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+            } else if(inputType == 2){
+                etContent.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+            } else if(inputType == 3){
+                etContent.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+            }
+        }
 
         RxTextView.textChanges(etContent).subscribe(new Action1<CharSequence>() {
             @Override
