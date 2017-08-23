@@ -37,6 +37,7 @@ import cn.com.mangopi.android.ui.activity.ProfileInfoActivity;
 import cn.com.mangopi.android.ui.activity.PublishDynamicsActivity;
 import cn.com.mangopi.android.ui.activity.SelectPayActivity;
 import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
+import cn.com.mangopi.android.ui.activity.SetOrderCalendarActivity;
 import cn.com.mangopi.android.ui.activity.SuccessActivity;
 import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
 import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
@@ -239,6 +240,10 @@ public class ActivityBuilder {
         activity.overridePendingTransition(0, 0);
     }
 
+    public static void startSetOrderCalendarActivity(Activity activity){
+        Intent intent = new Intent(activity, SetOrderCalendarActivity.class);
+        activity.startActivity(intent);
+    }
 
 
 }

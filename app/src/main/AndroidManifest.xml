@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
 
     <!-- 百度统计需要申明的权限 -->
@@ -65,8 +65,8 @@
 
         <activity
             android:name=".ui.activity.WelcomeActivity"
-            android:theme="@style/start_theme"
             android:screenOrientation="portrait"
+            android:theme="@style/start_theme"
             android:windowSoftInputMode="stateHidden|stateUnchanged">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -77,48 +77,64 @@
         <activity android:name=".ui.activity.TabViewPagerActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.RegistActivity"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.RegistActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.SetNickNameActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.UpgradeRoleActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.MyOrderListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.MyAccountActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.SettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.ProfileInfoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.MyClassesActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.UpgradeRoleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MyOrderListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MyAccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ProfileInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MyClassesActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.PublishDynamicsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.InteractAreaActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.TutorClassCategoryActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.CalssListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.AddBlankCardActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.MemberCardListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.TutorDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.BulletinDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.SelectPayActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.PublishDynamicsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.InteractAreaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TutorClassCategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CalssListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AddBlankCardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MemberCardListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.TutorDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.BulletinDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SelectPayActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.PlaceOrderActivity"
             android:screenOrientation="portrait"
@@ -127,41 +143,54 @@
             android:name=".ui.activity.UpgradeToStudentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.CourseDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.SuccessActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.OrderDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.WebViewActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.CourseDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.OrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.WebViewActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.UpgradeToTutorActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.InputMessageActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.ContentDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.MessageListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.PayResultActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.FavListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.MemberTrendActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.InputMessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ContentDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MessageListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.PayResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.FavListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MemberTrendActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.AddCourseActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.GetCashActivity"
+        <activity
+            android:name=".ui.activity.GetCashActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.PictureDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/activity_translucent" />
+        <activity android:name=".ui.activity.SetOrderCalendarActivity"
+            android:screenOrientation="portrait"/>
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>
@@ -334,7 +363,6 @@
             android:name="JPUSH_APPKEY"
             android:value="45cff4eb5903e8d0b616362e" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- JPush end -->
-
 
     </application>
 

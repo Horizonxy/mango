@@ -448,6 +448,11 @@ public class DateUtils{
 		}
 		return time;
 	}
+
+	public static String calendarToString(Calendar calendar, String pattern){
+		SimpleDateFormat df = new SimpleDateFormat(pattern);
+		return df.format(calendar.getTime());
+	}
 }
 
 
