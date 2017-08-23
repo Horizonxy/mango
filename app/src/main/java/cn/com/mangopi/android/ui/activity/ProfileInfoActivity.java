@@ -274,7 +274,12 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
 
     @OnClick(R.id.layout_sign)
     void clickSign(View v){
-        ActivityBuilder.startInputMessageActivity(this, "修改微信", "确定", "sign", 50, tvWechat.getText().toString());
+        ActivityBuilder.startInputMessageActivity(this, "修改签名", "确定", "sign", 50, tvWechat.getText().toString());
+    }
+
+    @OnClick(R.id.layout_email)
+    void clickEmail(View v){
+        ActivityBuilder.startInputMessageActivity(this, "修改邮箱", "确定", "email", 50, tvEmail.getText().toString());
     }
 
     @OnClick(R.id.layout_nick_name)
@@ -293,6 +298,8 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
             tvWechat.setText(event.getContent());
         } else if("sign".equals(type)){
             tvSign.setText(event.getContent());
+        } else if("email".equals(type)){
+            tvEmail.setText(event.getContent());
         }
     }
 
@@ -329,6 +336,7 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         }
         member.setMy_signature(tvSign.getText().toString());
         member.setWeixin(tvWechat.getText().toString());
+        member.setEmail(tvEmail.getText().toString());
         Application.application.saveMember(member, Application.application.getSessId());
 
         BusEvent.RefreshMemberEvent event = new BusEvent.RefreshMemberEvent();
@@ -345,7 +353,8 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         map.put("nick_name", tvNickName.getText().toString());
         map.put("weixin", tvWechat.getText().toString());
         map.put("my_signature", tvSign.getText().toString());
-        if(memberAvatar != null){
+        map.put("email", tvEmail.getText().toString());
+        if(uploadBean != null){
             map.put("avatar_rsurl", uploadBean.getFile_name());
         }
         return map;
@@ -365,16 +374,16 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
     @Override
     public void beforeUpload() {
         this.uploadBean = null;
-        AppUtils.showToast(this, "图片正在上传，请稍候");
+        AppUtils.showToast(this, R.string.picture_uploading);
         layoutAvatar.setEnabled(false);
     }
 
     @Override
     public void afterUpload(boolean success) {
         if(success){
-            AppUtils.showToast(this, "图片上传成功");
+            AppUtils.showToast(this, R.string.picture_upload_success);
         } else {
-            AppUtils.showToast(this, "图片上传失败");
+            AppUtils.showToast(this, R.string.picture_upload_failure);
         }
         layoutAvatar.setEnabled(true);
     }

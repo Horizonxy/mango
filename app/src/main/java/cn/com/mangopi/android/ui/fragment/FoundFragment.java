@@ -81,7 +81,6 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     void initView() {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -160,8 +159,8 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
             emptyHelper.showEmptyView(listView);
         } else {
             emptyHelper.hideEmptyView(listView);
-            adapter.notifyDataSetChanged();
         }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

@@ -144,8 +144,8 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
             emptyHelper.showEmptyView(listView);
         } else {
             emptyHelper.hideEmptyView(listView);
-            adapter.notifyDataSetChanged();
         }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

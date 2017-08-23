@@ -208,16 +208,16 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
 
     @Override
     public void beforeUpload() {
-        AppUtils.showToast(this, "图片正在上传，请稍候");
+        AppUtils.showToast(this, R.string.picture_uploading);
         btnSubmit.setEnabled(false);
     }
 
     @Override
     public void afterUpload(boolean success) {
         if(success){
-            AppUtils.showToast(this, "图片上传成功");
+            AppUtils.showToast(this, R.string.picture_upload_success);
         } else {
-            AppUtils.showToast(this, "图片上传失败");
+            AppUtils.showToast(this, R.string.picture_upload_failure);
         }
         btnSubmit.setEnabled(true);
     }

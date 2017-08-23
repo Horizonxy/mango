@@ -112,8 +112,8 @@ public class FavListActivity extends BaseTitleBarActivity implements FavListList
             emptyHelper.showEmptyView(listView);
         } else {
             emptyHelper.hideEmptyView(listView);
-            adapter.notifyDataSetChanged();
         }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

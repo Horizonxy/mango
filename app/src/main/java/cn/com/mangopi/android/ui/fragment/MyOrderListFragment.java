@@ -139,8 +139,8 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
             emptyHelper.showEmptyView(listView);
         } else {
             emptyHelper.hideEmptyView(listView);
-            adapter.notifyDataSetChanged();
         }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

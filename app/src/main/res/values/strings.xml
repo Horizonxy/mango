@@ -130,4 +130,9 @@
     <string name="add_course">新建课程</string>
 
     <string name="can_get_cash_amount">可提取金额：%s</string>
+
+    <string name="picture_uploading">图片正在上传，请稍候</string>
+    <string name="picture_upload_success">图片上传成功</string>
+    <string name="picture_upload_failure">图片上传失败</string>
+
 </resources>

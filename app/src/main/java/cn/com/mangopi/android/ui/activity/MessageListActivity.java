@@ -119,8 +119,8 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
             emptyHelper.showEmptyView(listView);
         } else {
             emptyHelper.hideEmptyView(listView);
-            adapter.notifyDataSetChanged();
         }
+        adapter.notifyDataSetChanged();
     }
 
     @Override

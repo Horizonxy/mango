@@ -228,7 +228,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
             }
 
             listView.onRefreshComplete();
-            if (hasNext = (listDatas.size() >= Constants.PAGE_SIZE)) {
+            if (hasNext = (courseList.size() >= Constants.PAGE_SIZE)) {
                 pageNo++;
                 listView.setMode(PullToRefreshBase.Mode.BOTH);
             } else {
