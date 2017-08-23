@@ -16,6 +16,7 @@ import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.widget.GridView;
 import cn.com.mangopi.android.ui.widget.TitleBar;
+import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 
 public class SetOrderCalendarActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener{
@@ -23,8 +24,10 @@ public class SetOrderCalendarActivity extends BaseTitleBarActivity implements Ti
     @Bind(R.id.gv_calendar)
     GridView gvCalendar;
     Calendar currentCalendar;
+    Calendar systemCalendar;
     List<String> datas = new ArrayList<>();
     QuickAdapter<String> calendarAdapter;
+    boolean today;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,24 +39,31 @@ public class SetOrderCalendarActivity extends BaseTitleBarActivity implements Ti
     }
 
     private void initData() {
+        systemCalendar = Calendar.getInstance();
         currentCalendar = Calendar.getInstance();
         Calendar firstDayCalendar = Calendar.getInstance();
         firstDayCalendar.set(Calendar.DATE, 1);
         int weekDay = firstDayCalendar.get(Calendar.DAY_OF_WEEK);
         int dayOfMonth = currentCalendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
         fillDatas(weekDay, dayOfMonth);
+        titleBar.setTitle(DateUtils.calendarToString(firstDayCalendar, DateUtils.DATE_MONTH_CN));
 
         int width = (DisplayUtils.screenWidth(this) - DisplayUtils.dip2px(this, 15) * 2 - DisplayUtils.dip2px(this, 0.5F) * 6) / 7;
         gvCalendar.setAdapter(calendarAdapter = new QuickAdapter<String>(this, R.layout.gridview_item_order_calendar, datas) {
             @Override
             protected void convert(BaseAdapterHelper helper, String item) {
                 helper.setText(R.id.tv_day, item);
-                if(!TextUtils.isEmpty(item) && (helper.getPosition() % 7 == 5 || helper.getPosition() % 7 == 6)){
+                FrameLayout layoutDay = helper.getView(R.id.layout_day);
+                if(today && !TextUtils.isEmpty(item) && (systemCalendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(item))){
+                    helper.setTextColorRes(R.id.tv_day, R.color.white);
+                    layoutDay.setBackgroundResource(R.color.color_ffb900);
+                } else if(!TextUtils.isEmpty(item) && (helper.getPosition() % 7 == 5 || helper.getPosition() % 7 == 6)){
                     helper.setTextColorRes(R.id.tv_day, R.color.color_ffb900);
+                    layoutDay.setBackgroundResource(R.color.white);
                 } else {
                     helper.setTextColorRes(R.id.tv_day, R.color.color_333333);
+                    layoutDay.setBackgroundResource(R.color.white);
                 }
-                FrameLayout layoutDay = helper.getView(R.id.layout_day);
                 AbsListView.LayoutParams params = (AbsListView.LayoutParams) layoutDay.getLayoutParams();
                 params.width = params.height = width;
                 layoutDay.setLayoutParams(params);
@@ -78,6 +88,9 @@ public class SetOrderCalendarActivity extends BaseTitleBarActivity implements Ti
 //            datas.add(DateUtils.calendarToString(currentCalendar, DateUtils.DATE_PATTERN));
             datas.add(String.valueOf(i + 1));
         }
+
+        today = (systemCalendar.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR) &&
+                (systemCalendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)));
     }
 
     private void initView() {
@@ -89,7 +102,13 @@ public class SetOrderCalendarActivity extends BaseTitleBarActivity implements Ti
     @Override
     public void onTitleButtonClick(View view) {
        if(view.getId() == R.id.tv_right){
-
+           currentCalendar.add(Calendar.MONTH , 1);
+           currentCalendar.set(Calendar.DATE, 1);
+           int weekDay = currentCalendar.get(Calendar.DAY_OF_WEEK);
+           int dayOfMonth = currentCalendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+           fillDatas(weekDay, dayOfMonth);
+           titleBar.setTitle(DateUtils.calendarToString(currentCalendar, DateUtils.DATE_MONTH_CN));
+           calendarAdapter.notifyDataSetChanged();
        }
     }
 }
