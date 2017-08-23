@@ -13,12 +13,12 @@ public class ViewPagerFixed extends android.support.v4.view.ViewPager {
     public ViewPagerFixed(Context context, AttributeSet attrs) {
         super(context, attrs);  
     }
-      
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         try {
             return super.onTouchEvent(ev);
-        } catch (IllegalArgumentException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return false;
@@ -28,7 +28,7 @@ public class ViewPagerFixed extends android.support.v4.view.ViewPager {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         try {
             return super.onInterceptTouchEvent(ev);
-        } catch (IllegalArgumentException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return false;

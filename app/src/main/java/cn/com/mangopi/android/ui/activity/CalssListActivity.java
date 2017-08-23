@@ -35,6 +35,7 @@ public class CalssListActivity extends BaseTitleBarActivity {
     List<Fragment> viewLists = new ArrayList<>();
 
     CourseClassifyBean classify;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class CalssListActivity extends BaseTitleBarActivity {
         setContentView(R.layout.activity_calss_list);
 
         classify = (CourseClassifyBean) getIntent().getSerializableExtra(Constants.BUNDLE_CLASSIFY);
+        position = getIntent().getIntExtra(Constants.BUNDLE_POSITION, 0);
         tabTitles = classify.getDetails();
         initView();
     }
@@ -55,6 +57,10 @@ public class CalssListActivity extends BaseTitleBarActivity {
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), viewLists));
 
         initIndicatorViewPager();
+
+        if(position > 0){
+            viewPager.setCurrentItem(position, false);
+        }
     }
 
     private void initIndicatorViewPager() {
@@ -92,7 +98,6 @@ public class CalssListActivity extends BaseTitleBarActivity {
             }
         });
         tabIndicator.setNavigator(commonNavigator);
-        viewPager.setOffscreenPageLimit(2);
         ViewPagerHelper.bind(tabIndicator, viewPager);
     }
 }

@@ -84,8 +84,13 @@ public class ActivityBuilder {
     }
 
     public static void startCalssListActivity(Activity activity, CourseClassifyBean classify){
+        startCalssListActivity(activity, classify, 0);
+    }
+
+    public static void startCalssListActivity(Activity activity, CourseClassifyBean classify, int postion){
         Intent intent = new Intent(activity, CalssListActivity.class);
         intent.putExtra(Constants.BUNDLE_CLASSIFY, classify);
+        intent.putExtra(Constants.BUNDLE_POSITION, postion);
         activity.startActivity(intent);
     }
 
