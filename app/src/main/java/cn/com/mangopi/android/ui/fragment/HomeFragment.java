@@ -6,8 +6,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -23,6 +27,7 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +46,10 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.presenter.HomePresenter;
 import cn.com.mangopi.android.ui.adapter.ViewPagerAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
+import cn.com.mangopi.android.ui.adapter.quickadapter.MultiItemTypeSupport;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.HomeFragmentListener;
+import cn.com.mangopi.android.ui.widget.ListView;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.ObservableScrollView;
 import cn.com.mangopi.android.ui.widget.RedPointView;
@@ -55,7 +62,7 @@ import cn.com.mangopi.android.util.MangoUtils;
 
 public class HomeFragment extends BaseFragment implements HomeFragmentListener, View.OnClickListener {
 
-//    MangoPtrFrameLayout refreshLayout;
+    MangoPtrFrameLayout refreshLayout;
     ConvenientBanner homeBanner;
     List<AdvertBean> banners;
     VerticalTextview tvScroll;
@@ -65,20 +72,17 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     RelativeLayout layoutHomeBar;
     RelativeLayout layoutUpdateRole;
     List<View> gridViews = new ArrayList<>();
-    TextView tvTitle1;
-    TextView tvIntro1;
-    ImageView ivAdvert1;
-    TextView tvTitle2;
-    TextView tvIntro2;
-    LinearLayout layoutAdvert2;
-    TextView tvTitle3;
-    ImageView ivAdvert3;
+
     @Inject
     HomePresenter homePresenter;
     AdvertDetaiClickListener advertDetaiClickListener;
     RedPointView messagePoint;
     LinearLayout layoutTwoGroup;
     ImageView ivGroup1, ivGroup2;
+
+    ListView lvAdverts;
+    ArrayList<AdvertBean> advertList = new ArrayList<>();
+    QuickAdapter<AdvertBean> advertAdapter;
 
     public HomeFragment() {
     }
@@ -92,20 +96,21 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @Override
     void findView(View root) {
-//        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
-//        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
-//            @Override
-//            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-//                return !(svContent.getScrollY() > 0);
-//            }
-//
-//            @Override
-//            public void onRefreshBegin(PtrFrameLayout frame) {
-//                if(Application.application.getMember() != null) {
-//                    initData();
-//                }
-//            }
-//        });
+        refreshLayout = (MangoPtrFrameLayout) root.findViewById(R.id.refresh_layout);
+        refreshLayout.disableWhenHorizontalMove(true);
+        refreshLayout.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return !(svContent.getScrollY() > 0);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                if(Application.application.getMember() != null) {
+                    initData();
+                }
+            }
+        });
         homeBanner = (ConvenientBanner) root.findViewById(R.id.home_banner);
         tvScroll = (VerticalTextview) root.findViewById(R.id.tv_scroll);
         homePager = (ViewPagerFixed) root.findViewById(R.id.home_pager);
@@ -113,14 +118,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         svContent = (ObservableScrollView) root.findViewById(R.id.sv_content);
         layoutUpdateRole = (RelativeLayout) root.findViewById(R.id.layout_update_role);
         root.findViewById(R.id.btn_update_info).setOnClickListener(this);
-        tvTitle1 = (TextView) root.findViewById(R.id.tv_title1);
-        tvIntro1 = (TextView) root.findViewById(R.id.tv_intro1);
-        ivAdvert1 = (ImageView) root.findViewById(R.id.iv_advert1);
-        tvTitle2 = (TextView) root.findViewById(R.id.tv_title2);
-        tvIntro2 = (TextView) root.findViewById(R.id.tv_intro2);
-        layoutAdvert2 = (LinearLayout) root.findViewById(R.id.layout_advert2);
-        tvTitle3 = (TextView) root.findViewById(R.id.tv_title3);
-        ivAdvert3 = (ImageView) root.findViewById(R.id.iv_advert3);
+
         layoutHomeBar = (RelativeLayout) root.findViewById(R.id.layout_home_bar);
         root.findViewById(R.id.ib_scan).setOnClickListener(this);
         root.findViewById(R.id.iv_message).setOnClickListener(this);
@@ -128,14 +126,14 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         messagePoint = (RedPointView) root.findViewById(R.id.point_message);
 
         advertDetaiClickListener = new AdvertDetaiClickListener(getActivity());
-        ivAdvert1.setOnClickListener(advertDetaiClickListener);
-        ivAdvert3.setOnClickListener(advertDetaiClickListener);
 
         layoutTwoGroup = (LinearLayout) root.findViewById(R.id.layout_two_group);
         ivGroup1 = (ImageView) root.findViewById(R.id.iv_group1);
         ivGroup2 = (ImageView) root.findViewById(R.id.iv_group2);
         ivGroup1.setOnClickListener(advertDetaiClickListener);
         ivGroup2.setOnClickListener(advertDetaiClickListener);
+
+        lvAdverts = (ListView) root.findViewById(R.id.lv_adverts);
     }
 
     @Override
@@ -170,9 +168,89 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             }
         });
 
-        barColorWithScroll();
+        lvAdverts.setAdapter(advertAdapter = new QuickAdapter<AdvertBean>(getContext(), advertList, new MultiItemTypeSupport<AdvertBean>() {
+            @Override
+            public int getLayoutId(int position, AdvertBean advertBean) {
+                int type = getItemViewType(position, advertBean);
+                if(1 == type){
+                    return R.layout.layout_home_setting_one;
+                } else if(2 == type){
+                    return R.layout.layout_home_setting_more;
+                }
+                return R.layout.layout_home_setting_advert;
+            }
+
+            @Override
+            public int getViewTypeCount() {
+                return 3;
+            }
+
+            @Override
+            public int getItemViewType(int postion, AdvertBean advertBean) {
+                if("1".equals(advertBean.getType())){
+                    return 1;
+                } else if("2".equals(advertBean.getType())){
+                    return 2;
+                }
+                return 3;
+            }
+        }) {
+            @Override
+            protected void convert(BaseAdapterHelper helper, AdvertBean item) {
+                Logger.e(helper.getPosition()+" "+helper.layoutId);
+                switch (helper.layoutId){
+                    case R.layout.layout_home_setting_one:
+                        helper.setText(R.id.tv_title1, item.getTitle())
+                                .setText(R.id.tv_intro1, item.getIntro())
+                                .setImageResource(R.id.iv_advert1, 0);
+                        List<AdvertBean.DetailsBean> details = item.getDetails();
+                        if (details != null && details.size() > 0) {
+                            helper.setImageUrl(R.id.iv_advert1, details.get(0).getFile_path());
+                            helper.setTag(R.id.iv_advert1, details.get(0));
+                        }else {
+                            helper.setTag(R.id.iv_advert1, null);
+                        }
+                        helper.setOnClickListener(R.id.iv_advert1, advertDetaiClickListener);
+                        break;
+                    case R.layout.layout_home_setting_more:
+                        helper.setText(R.id.tv_title2, item.getTitle())
+                                .setText(R.id.tv_intro2, item.getIntro());
+                        LinearLayout layoutAdvert = helper.getView(R.id.layout_advert2);
+                        layoutAdvert.removeAllViews();
+                        details = item.getDetails();
+                        int dp10 = (int) getResources().getDimension(R.dimen.dp_10);
+                        int width = (int) ((DisplayUtils.screenWidth(getContext()) - dp10 * 4) / 3.4);
+                        for (int j = 0; details != null && j < details.size(); j++) {
+                            ImageView itemImageView = new ImageView(getContext());
+                            itemImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(width, HorizontalScrollView.LayoutParams.MATCH_PARENT);
+                            itemImageView.setLayoutParams(params);
+                            Application.application.getImageLoader().displayImage(details.get(j).getFile_path(), itemImageView, Application.application.getDefaultOptions());
+                            layoutAdvert.addView(itemImageView);
+                            itemImageView.setTag(details.get(j));
+                            itemImageView.setOnClickListener(advertDetaiClickListener);
+                        }
+                        break;
+                    case R.layout.layout_home_setting_advert:
+                        helper.setText(R.id.tv_title3, item.getTitle())
+                                .setImageResource(R.id.iv_advert3, 0);
+
+                        details = item.getDetails();
+                        if (details != null && details.size() > 0) {
+                            helper.setImageUrl(R.id.iv_advert3, details.get(0).getFile_path());
+                            helper.setTag(R.id.iv_advert3, details.get(0));
+                        } else {
+                            helper.setTag(R.id.iv_advert3, null);
+                        }
+                        helper.setOnClickListener(R.id.iv_advert3, advertDetaiClickListener);
+                        break;
+                }
+            }
+        });
 
         initData();
+
+        barColorWithScroll();
 
         List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
         if (!indentityList.contains(Constants.UserIndentity.PUBLIC)) {
@@ -180,6 +258,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         } else {
             layoutUpdateRole.setVisibility(View.VISIBLE);
         }
+
     }
 
     private void initData() {
@@ -232,59 +311,12 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @Override
     public void onSuccess(String position, List<AdvertBean> advertList) {
-//        refreshLayout.refreshComplete();
+        refreshLayout.refreshComplete();
         if (Constants.INDEX_THREEE_ADVERT.equals(position)) {
-            if (advertList.size() > 0) {
-                AdvertBean advert1 = advertList.get(0);
-                tvTitle1.setText(advert1.getTitle());
-                tvIntro1.setText(advert1.getIntro());
-                List<AdvertBean.DetailsBean> details = advert1.getDetails();
-                if (details != null && details.size() > 0) {
-                    Application.application.getImageLoader().displayImage(details.get(0).getFile_path(), ivAdvert1, Application.application.getDefaultOptions());
-                }
-                ivAdvert1.setTag(details.get(0));
-            } else {
-                tvTitle1.setText("");
-                tvIntro1.setText("");
-                ivAdvert1.setImageResource(0);
-                ivAdvert1.setTag(null);
-            }
-            if (advertList.size() > 1) {
-                AdvertBean advert2 = advertList.get(1);
-                tvTitle2.setText(advert2.getTitle());
-                tvIntro2.setText(advert2.getIntro());
-                layoutAdvert2.removeAllViews();
-                List<AdvertBean.DetailsBean> details = advert2.getDetails();
-                int dp10 = (int) getResources().getDimension(R.dimen.dp_10);
-                int width = (int) ((DisplayUtils.screenWidth(getContext()) - dp10 * 4) / 3.4);
-                for (int i = 0; details != null && i < details.size(); i++) {
-                    ImageView item = new ImageView(getContext());
-                    item.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(width, HorizontalScrollView.LayoutParams.MATCH_PARENT);
-                    item.setLayoutParams(params);
-                    Application.application.getImageLoader().displayImage(details.get(i).getFile_path(), item, Application.application.getDefaultOptions());
-                    layoutAdvert2.addView(item);
-                    item.setTag(details.get(i));
-                    item.setOnClickListener(advertDetaiClickListener);
-                }
-            } else {
-                tvTitle2.setText("");
-                tvIntro2.setText("");
-                layoutAdvert2.removeAllViews();
-            }
-            if (advertList.size() > 2) {
-                AdvertBean advert3 = advertList.get(2);
-                tvTitle3.setText(advert3.getTitle());
-                List<AdvertBean.DetailsBean> details = advert3.getDetails();
-                if (details != null && details.size() > 0) {
-                    Application.application.getImageLoader().displayImage(details.get(0).getFile_path(), ivAdvert3, Application.application.getDefaultOptions());
-                }
-                ivAdvert3.setTag(details.get(0));
-            } else {
-                tvTitle3.setText("");
-                ivAdvert3.setImageResource(0);
-                ivAdvert3.setTag(null);
-            }
+            this.advertList.clear();
+            this.advertList.addAll(advertList);
+            advertAdapter.notifyDataSetChanged();
+
         } else if (Constants.INDEX_BANNER.equals(position)) {
             banners.clear();
             banners.addAll(advertList);
@@ -334,13 +366,13 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @Override
     public void onSuccess(List<BulletinBean> bulletinList) {
-//        refreshLayout.refreshComplete();
+        refreshLayout.refreshComplete();
         tvScroll.setTextList(bulletinList);
     }
 
     @Override
     public void onClassifySuccess(List<CourseClassifyBean> courseClassifyList) {
-//        refreshLayout.refreshComplete();
+        refreshLayout.refreshComplete();
         gridViews.clear();
         homeIndicator.removeAllViews();
         for (int i = 0; courseClassifyList != null && i < courseClassifyList.size(); i += 4) {
