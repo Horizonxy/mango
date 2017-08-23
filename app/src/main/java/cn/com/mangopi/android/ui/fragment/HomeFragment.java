@@ -6,18 +6,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
@@ -27,7 +22,6 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -197,7 +191,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         }) {
             @Override
             protected void convert(BaseAdapterHelper helper, AdvertBean item) {
-                Logger.e(helper.getPosition()+" "+helper.layoutId);
                 switch (helper.layoutId){
                     case R.layout.layout_home_setting_one:
                         helper.setText(R.id.tv_title1, item.getTitle())
@@ -248,7 +241,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             }
         });
 
-        initData();
+        refreshLayout.autoRefresh(true);
+//        initData();
 
         barColorWithScroll();
 
@@ -316,7 +310,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             this.advertList.clear();
             this.advertList.addAll(advertList);
             advertAdapter.notifyDataSetChanged();
-
+            refreshLayout.scrollTo(0, 0);
         } else if (Constants.INDEX_BANNER.equals(position)) {
             banners.clear();
             banners.addAll(advertList);

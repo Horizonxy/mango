@@ -126,9 +126,16 @@ public class BasePresenter {
     class CreateLoading implements Action0 {
 
         String message;
+        boolean show = true;
 
         public CreateLoading(Context cxt){
             context = cxt;
+            message = cxt.getResources().getString(R.string.please_wait);
+        }
+
+        public CreateLoading(Context cxt, boolean show){
+            context = cxt;
+            this.show = show;
             message = cxt.getResources().getString(R.string.please_wait);
         }
 
@@ -139,7 +146,9 @@ public class BasePresenter {
 
         @Override
         public void call() {
-            createLoading(context, message);
+            if(show) {
+                createLoading(context, message);
+            }
         }
     }
 
