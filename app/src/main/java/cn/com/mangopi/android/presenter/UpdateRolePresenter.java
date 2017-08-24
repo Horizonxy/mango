@@ -4,9 +4,11 @@ import android.content.Context;
 
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.CompanyDetailBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.data.MemberModel;
 import cn.com.mangopi.android.ui.viewlistener.BaseViewListener;
+import cn.com.mangopi.android.ui.viewlistener.CompanyListener;
 import cn.com.mangopi.android.ui.viewlistener.UpdateRoleListener;
 import rx.Subscription;
 
@@ -171,6 +173,87 @@ public class UpdateRolePresenter extends BasePresenter {
                                 upgrdeListener.onSuccess(Constants.UserIndentity.STUDENT);
                             } else {
                                 upgrdeListener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
+
+    public void upgradeCommunity(){
+        UpdateRoleListener upgrdeListener = (UpdateRoleListener) listener;
+        Context context = upgrdeListener.currentContext();
+        Subscription subscription = memberModel.upgradeCommunity(upgrdeListener.getUpgradeMap(), new CreateLoading(context),
+                new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            upgrdeListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                upgrdeListener.onSuccess(Constants.UserIndentity.STUDENT);
+                            } else {
+                                upgrdeListener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
+
+    public void upgradeCompany(){
+        UpdateRoleListener upgrdeListener = (UpdateRoleListener) listener;
+        Context context = upgrdeListener.currentContext();
+        Subscription subscription = memberModel.upgradeCompany(upgrdeListener.getUpgradeMap(), new CreateLoading(context),
+                new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            upgrdeListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                upgrdeListener.onSuccess(Constants.UserIndentity.STUDENT);
+                            } else {
+                                upgrdeListener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
+
+    public void getCompany(){
+        CompanyListener companyListener = (CompanyListener) listener;
+        Context context = companyListener.currentContext();
+        Subscription subscription = memberModel.getCompany(companyListener.getCompanyNo(), new CreateLoading(context),
+                new BaseLoadingSubscriber<RestResult<CompanyDetailBean>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            companyListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<CompanyDetailBean> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                companyListener.onCompanySuccess(restResult.getData());
+                            } else {
+                                companyListener.onFailure(restResult.getRet_msg());
                             }
                         }
                     }

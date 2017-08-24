@@ -169,7 +169,7 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
                 public void onSuccess(List<String> photoList) {
                     if (photoList != null && photoList.size() > 0) {
                         File file = FileUtils.compressImageFromPath(ProfileInfoActivity.this, photoList.get(0));
-                        memberAvatar = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                        memberAvatar = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
                         if(memberAvatar == null){
                             return;
                         }

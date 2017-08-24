@@ -41,7 +41,7 @@
             android:layout_marginTop="@dimen/dp_10" />
 
         <include
-            android:id="@+id/layout_corporation"
+            android:id="@+id/layout_community"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             layout="@layout/layout_item_update_role"

@@ -54,6 +54,8 @@ public class Constants {
 	public static final String BUNDLE_POSITION = "bundle_position";
 	public static final String BUNDLE_INPUT_TYPE = "bundle_input_type";
 
+	public static final String FORM_DATA = "multipart/form-data";
+
 	public static enum UserIndentity {
 
 		PUBLIC("public", "自由人"),

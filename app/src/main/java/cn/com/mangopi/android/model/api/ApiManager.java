@@ -7,6 +7,9 @@ import java.util.Map;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
+import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
+import cn.com.mangopi.android.model.bean.CommunityTypeBean;
+import cn.com.mangopi.android.model.bean.CompanyDetailBean;
 import cn.com.mangopi.android.model.bean.ContentDetailBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
@@ -148,6 +151,26 @@ public class ApiManager {
 
     public static  Observable<RestResult<Object>> upgradeTutor(Map<String, Object> map){
         return Application.application.getApiService().upgradeTutor(map);
+    }
+
+    public static  Observable<RestResult<Object>> upgradeCommunity(Map<String, Object> map){
+        return Application.application.getApiService().upgradeCommunity(map);
+    }
+
+    public static  Observable<RestResult<Object>> upgradeCompany(Map<String, Object> map){
+        return Application.application.getApiService().upgradeCompany(map);
+    }
+
+    public static  Observable<RestResult<CompanyDetailBean>> getCompany(String companyNo){
+        return Application.application.getApiService().getCompany(companyNo);
+    }
+
+    public static  Observable<RestResult<List<CommunityTypeBean>>> getCommunityTypeList(){
+        return Application.application.getApiService().getCommunityTypeList();
+    }
+
+    public static  Observable<RestResult<List<CommunityClassifyBean>>> getCommunityClassifyList(){
+        return Application.application.getApiService().getCommunityClassifyList();
     }
 
     public static  Observable<RestResult<OrderDetailBean>> getOrder(long id){

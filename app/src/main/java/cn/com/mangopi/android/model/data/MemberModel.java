@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.com.mangopi.android.model.api.ApiManager;
+import cn.com.mangopi.android.model.bean.CompanyDetailBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
@@ -99,6 +100,18 @@ public class MemberModel {
 
     public Subscription upgradeTutor(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.upgradeTutor(map), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription upgradeCommunity(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.upgradeCommunity(map), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription upgradeCompany(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.upgradeCompany(map), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription getCompany(String companyNo, Action0 onSubscribe, Subscriber<RestResult<CompanyDetailBean>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getCompany(companyNo), onSubscribe).subscribe(subscriber);
     }
 
     public Subscription settingMember(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){

@@ -6,6 +6,9 @@ import java.util.Map;
 
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
+import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
+import cn.com.mangopi.android.model.bean.CommunityTypeBean;
+import cn.com.mangopi.android.model.bean.CompanyDetailBean;
 import cn.com.mangopi.android.model.bean.ContentDetailBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
@@ -230,6 +233,32 @@ public interface ApiService {
     Observable<RestResult<Object>> upgradeTutor(
             @QueryMap Map<String, Object> map
     );
+
+    //5.1.16	升级会员社团身份接口
+    @POST("outer/router?upgrade_community")
+    Observable<RestResult<Object>> upgradeCommunity(
+            @QueryMap Map<String, Object> map
+    );
+
+    //5.1.15	升级会员企业身份接口
+    @POST("outer/router?upgrade_company")
+    Observable<RestResult<Object>> upgradeCompany(
+            @QueryMap Map<String, Object> map
+    );
+
+    //5.1.28	 企业详情接口
+    @POST("outer/router?company_get")
+    Observable<RestResult<CompanyDetailBean>> getCompany(
+            @Query("company_no") String companyNo
+    );
+
+    //5.1.27	社团类型列表接口
+    @GET("outer/router?communityType_list")
+    Observable<RestResult<List<CommunityTypeBean>>> getCommunityTypeList();
+
+    //5.1.26	社团分类列表接口
+    @GET("outer/router?communityClassic_list")
+    Observable<RestResult<List<CommunityClassifyBean>>> getCommunityClassifyList();
 
     //5.3.3订单详情接口
     @GET("outer/router?order_get")
