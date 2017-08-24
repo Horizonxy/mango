@@ -25,6 +25,7 @@ import cn.com.mangopi.android.di.component.DaggerMyFragmentComponent;
 import cn.com.mangopi.android.di.module.MyFragmentModule;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.presenter.MemberPresenter;
+import cn.com.mangopi.android.ui.activity.MemberWorksActivity;
 import cn.com.mangopi.android.ui.activity.MyAccountActivity;
 import cn.com.mangopi.android.ui.activity.MyOrderListActivity;
 import cn.com.mangopi.android.ui.activity.SettingActivity;
@@ -121,7 +122,7 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
                         startActivity(new Intent(getActivity(), MyOrderListActivity.class));
                         break;
                     case R.id.layout_works:
-
+                        startActivity(new Intent(getActivity(), MemberWorksActivity.class));
                         break;
                     case R.id.layout_classes:
                         ActivityBuilder.startMyClassesActivity(getActivity());

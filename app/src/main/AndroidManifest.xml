@@ -197,8 +197,9 @@
             android:name=".ui.activity.PictureDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/activity_translucent" />
-        <activity android:name=".ui.activity.SetOrderCalendarActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.SetOrderCalendarActivity"
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>
@@ -372,6 +373,7 @@
             android:value="45cff4eb5903e8d0b616362e" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- JPush end -->
 
+        <activity android:name=".ui.activity.MemberWorksActivity"></activity>
     </application>
 
 </manifest>
