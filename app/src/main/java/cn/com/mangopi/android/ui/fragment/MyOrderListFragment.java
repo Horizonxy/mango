@@ -42,7 +42,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     public static MyOrderListFragment newInstance(int relation) {
         MyOrderListFragment fragment = new MyOrderListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("relation", relation);
+        bundle.putInt(Constants.BUNDLE_ORDER_RELATION, relation);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -50,7 +50,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        relation = getArguments().getInt("relation");
+        relation = getArguments().getInt(Constants.BUNDLE_ORDER_RELATION);
 
         DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(this, datas, relation, this)).build().inject(this);
     }
@@ -98,7 +98,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         OrderBean item = (OrderBean) parent.getAdapter().getItem(position);
-        ActivityBuilder.startOrderDetailActivity(getActivity(), item.getId());
+        ActivityBuilder.startOrderDetailActivity(getActivity(), item.getId(), relation);
     }
 
     @Override

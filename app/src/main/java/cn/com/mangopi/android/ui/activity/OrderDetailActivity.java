@@ -2,6 +2,7 @@ package cn.com.mangopi.android.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -9,6 +10,8 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -51,8 +54,10 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     @Bind(R.id.tv_pay_price)
     TextView tvPayPrice;
     OrderDetailBean orderDetail;
-    @Bind(R.id.btn_cancle)
+    @Bind(R.id.btn_cancel)
     Button btnCancel;
+    @Bind(R.id.btn_cancel1)
+    Button btnCancel1;
     @Bind(R.id.btn_pay)
     Button btnPay;
     @Bind(R.id.layout_material)
@@ -63,6 +68,41 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     View lineMaterial;
     int dp5;
     FrameLayout.LayoutParams rsItemLp;
+    @Bind(R.id.layout_after_info)
+    LinearLayout layoutAfterInfo;
+    @Bind(R.id.tv_after_info)
+    TextView tvAfterInfo;
+    @Bind(R.id.line_after_info)
+    View lineAfterInfo;
+    @Bind(R.id.layout_content)
+    LinearLayout layoutContent;
+    @Bind(R.id.tv_content)
+    TextView tvContent;
+    @Bind(R.id.line_content)
+    View lineContent;
+    @Bind(R.id.tv_like_tip)
+    TextView tvLikeTip;
+    @Bind(R.id.line_like_tip)
+    View lineLikeTip;
+    int relation;
+    @Bind(R.id.layout_make)
+    LinearLayout laoutMake;
+    @Bind(R.id.layout_make2)
+    LinearLayout layoutMake2;
+    @Bind(R.id.layout_received)
+    LinearLayout layoutReceived;
+    @Bind(R.id.btn_act)
+    Button btnAct;
+    @Bind(R.id.btn_un_act)
+    Button btnUnAct;
+    @Bind(R.id.btn_reply)
+    Button btnReply;
+    @Bind(R.id.btn_comment)
+    Button btnComment;
+    @Bind(R.id.layout_reward)
+    LinearLayout layoutReward;
+    @Bind(R.id.btn_reward)
+    Button btnReward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +110,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         setContentView(R.layout.activity_order_detail);
 
         id = getIntent().getLongExtra(Constants.BUNDLE_ORDER_ID, 0);
+        relation = getIntent().getIntExtra(Constants.BUNDLE_ORDER_RELATION, 1);
         initView();
         presenter = new OrderPresenter(new OrderModel(), this);
         presenter.getOrder();
@@ -85,6 +126,79 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 
     private void fillData(OrderDetailBean orderDetail){
         this.orderDetail = orderDetail;
+
+        tvOrderNo.setText("单号："+orderDetail.getFiveLenOrderNo());
+        tvOrderTime.setText(DateUtils.dateToString(orderDetail.getOrder_time(), DateUtils.TIME_PATTERN_YMDHM));
+        tvStateLabel.setText(orderDetail.getState_label());
+        tvOrderName.setText(orderDetail.getOrder_name());
+        tvOrderCount.setText("x "+orderDetail.getOrder_count());
+
+        String afterInfo = orderDetail.getAfter_sale_info();
+        if(TextUtils.isEmpty(afterInfo)){
+            layoutAfterInfo.setVisibility(View.GONE);
+            lineAfterInfo.setVisibility(View.GONE);
+        } else {
+            tvAfterInfo.setText(afterInfo);
+            lineAfterInfo.setVisibility(View.VISIBLE);
+            layoutAfterInfo.setVisibility(View.VISIBLE);
+        }
+        List<OrderDetailBean.Comment> commentList = orderDetail.getComments();
+        if(commentList == null || commentList.size() == 0){
+            layoutContent.setVisibility(View.GONE);
+            lineContent.setVisibility(View.GONE);
+        } else {
+            layoutContent.setVisibility(View.VISIBLE);
+            lineContent.setVisibility(View.VISIBLE);
+        }
+
+        if(relation ==1){
+            tvMemberName.setText(orderDetail.getTutor_name());
+            bindMakeOrder(orderDetail);
+        } else if(relation == 2){
+            tvMemberName.setText(orderDetail.getMember_name());
+            bindReceivedOrder(orderDetail);
+        }
+
+    }
+
+    private void bindReceivedOrder(OrderDetailBean orderDetail){
+        laoutMake.setVisibility(View.GONE);
+        layoutMake2.setVisibility(View.GONE);
+        layoutReceived.setVisibility(View.VISIBLE);
+        if(orderDetail.getTotal_price() != null) {
+            tvSalePrice.setText(getString(R.string.rmb)+orderDetail.getTotal_price().toString());
+        } else {
+            tvSalePrice.setText("");
+        }
+
+        if(orderDetail.getState() != null){
+            if(orderDetail.getState().intValue() == 2){
+                btnCancel1.setVisibility(View.VISIBLE);
+            } else if (orderDetail.getState().intValue() == 5){
+                btnUnAct.setVisibility(View.VISIBLE);
+            } else if (orderDetail.getState().intValue() == 4){
+                btnAct.setVisibility(View.VISIBLE);
+            } else {
+                btnCancel1.setVisibility(View.GONE);
+                btnUnAct.setVisibility(View.GONE);
+                btnAct.setVisibility(View.GONE);
+            }
+        } else {
+            btnCancel1.setVisibility(View.GONE);
+            btnUnAct.setVisibility(View.GONE);
+            btnAct.setVisibility(View.GONE);
+        }
+        if(orderDetail.getComments() != null && orderDetail.getComments().size() > 0){
+            btnReply.setVisibility(View.VISIBLE);
+        } else {
+            btnReply.setVisibility(View.GONE);
+        }
+    }
+
+    private void bindMakeOrder(OrderDetailBean orderDetail){
+        laoutMake.setVisibility(View.VISIBLE);
+        layoutMake2.setVisibility(View.VISIBLE);
+        layoutReceived.setVisibility(View.GONE);
         if(orderDetail.getMaterial_rsurls() == null || orderDetail.getMaterial_rsurls().size() == 0){
             layoutMaterial.setVisibility(View.GONE);
             lineMaterial.setVisibility(View.GONE);
@@ -111,36 +225,100 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
                 gridMaterial.addView(item, i, gl);
             }
         }
-        tvOrderNo.setText("单号："+orderDetail.getFiveLenOrderNo());
-        tvOrderTime.setText(DateUtils.dateToString(orderDetail.getOrder_time(), DateUtils.TIME_PATTERN_YMDHM));
-        tvStateLabel.setText(orderDetail.getState_label());
-        tvOrderName.setText(orderDetail.getOrder_name());
-        tvOrderCount.setText("x "+orderDetail.getOrder_count());
-        tvMemberName.setText(orderDetail.getTutor_name());
+
         if(orderDetail.getSale_price() != null) {
             tvSalePrice.setText(getString(R.string.rmb)+orderDetail.getSale_price().toString());
+        } else {
+            tvSalePrice.setText("");
         }
         if(orderDetail.getTotal_price() != null) {
             tvTotalPrice.setText(getString(R.string.rmb)+orderDetail.getTotal_price().toString());
+        } else {
+            tvTotalPrice.setText("");
         }
         if(orderDetail.getDiscount_price() != null) {
             tvDiscountPrice.setText(getString(R.string.rmb)+orderDetail.getDiscount_price().toString());
+        } else {
+            tvDiscountPrice.setText("");
         }
         if(orderDetail.getPay_price() != null) {
             tvPayPrice.setText(getString(R.string.rmb)+orderDetail.getPay_price().toString());
+        } else {
+            tvPayPrice.setText("");
         }
-        if(orderDetail.getState() != null && orderDetail.getState().intValue() == 2) {
-            btnCancel.setVisibility(View.VISIBLE);
-            btnPay.setVisibility(View.VISIBLE);
+
+        if(orderDetail.getState() != null){
+            if(orderDetail.getState().intValue() == 2){
+                btnCancel.setVisibility(View.VISIBLE);
+                btnPay.setVisibility(View.VISIBLE);
+                layoutReward.setVisibility(View.GONE);
+                tvLikeTip.setVisibility(View.GONE);
+                lineLikeTip.setVisibility(View.GONE);
+                btnComment.setVisibility(View.GONE);
+            }  else if(orderDetail.getState().intValue() == 3 ||orderDetail.getState().intValue() == 4
+                    || orderDetail.getState().intValue() == 5 || orderDetail.getState().intValue() == 50){
+                layoutReward.setVisibility(View.VISIBLE);
+                tvLikeTip.setVisibility(View.VISIBLE);
+                lineLikeTip.setVisibility(View.VISIBLE);
+                btnCancel.setVisibility(View.GONE);
+                btnPay.setVisibility(View.GONE);
+
+                if(orderDetail.getComments() == null || orderDetail.getComments().size() == 0){
+                    btnComment.setVisibility(View.VISIBLE);
+                } else {
+                    btnComment.setVisibility(View.GONE);
+                }
+            } else {
+                layoutReward.setVisibility(View.GONE);
+                tvLikeTip.setVisibility(View.GONE);
+                lineLikeTip.setVisibility(View.GONE);
+                btnCancel.setVisibility(View.GONE);
+                btnPay.setVisibility(View.GONE);
+                btnComment.setVisibility(View.GONE);
+            }
         } else {
             btnCancel.setVisibility(View.GONE);
             btnPay.setVisibility(View.GONE);
+            layoutReward.setVisibility(View.GONE);
+            tvLikeTip.setVisibility(View.GONE);
+            lineLikeTip.setVisibility(View.GONE);
+            btnComment.setVisibility(View.GONE);
         }
     }
 
     @OnClick(R.id.btn_pay)
     void onPay(View v){
         ActivityBuilder.startSelectPayActivity(this, converOrderBean(orderDetail));
+    }
+
+    @OnClick({R.id.btn_cancel, R.id.btn_cancel1})
+    void onCancel(View v){
+
+    }
+
+    @OnClick(R.id.btn_act)
+    void onAct(View v){
+
+    }
+
+    @OnClick(R.id.btn_un_act)
+    void onUnAct(View v){
+
+    }
+
+    @OnClick(R.id.btn_reply)
+    void onReply(View v){
+
+    }
+
+    @OnClick(R.id.btn_reward)
+    void onReward(View v){
+
+    }
+
+    @OnClick(R.id.btn_comment)
+    void onComment(View v){
+
     }
 
     @Override

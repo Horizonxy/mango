@@ -144,9 +144,10 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
-    public static void startOrderDetailActivity(Activity activity, long id){
+    public static void startOrderDetailActivity(Activity activity, long id, int relation){
         Intent intent = new Intent(activity, OrderDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_ORDER_ID, id);
+        intent.putExtra(Constants.BUNDLE_ORDER_RELATION, relation);
         activity.startActivity(intent);
     }
 
