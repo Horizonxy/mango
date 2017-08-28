@@ -78,6 +78,11 @@ public class SettingActivity extends BaseTitleBarActivity {
 
     }
 
+    @OnClick(R.id.btn_login_out)
+    void loginOut(View v){
+        ActivityBuilder.startLoginActivity(this);
+    }
+
     @OnClick(R.id.layout_profile_info)
     void profileClick(View v){
         ActivityBuilder.startProfileInfoActivity(this);

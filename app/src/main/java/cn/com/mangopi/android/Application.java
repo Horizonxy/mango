@@ -83,8 +83,8 @@ public class Application extends MultiDexApplication {
 
     public String getSessId(){
         if(TextUtils.isEmpty(sessId)){
-//            sessId = PreUtils.getString(this, cn.com.mangopi.android.Constants.SESS_ID, "");
-            sessId = "d0bb18b2-ff49-49fc-88b0-115a1a1c7c90";
+            sessId = PreUtils.getString(this, cn.com.mangopi.android.Constants.SESS_ID, "");
+//            sessId = "d0bb18b2-ff49-49fc-88b0-115a1a1c7c90";
         }
         return sessId;
     }
@@ -95,8 +95,8 @@ public class Application extends MultiDexApplication {
         }
         if(!TextUtils.isEmpty(getSessId())){
             CommonDaoImpl commonDao = getCommonDao();
-//            List<CommonBean> members = commonDao.findByColumn(CommonBean.DATA_TYPE, MemberBean.DATA_TYPE + "_" + getSessId());
-            List<CommonBean> members = commonDao.findByColumn(CommonBean.DATA_TYPE, MemberBean.DATA_TYPE + "_" + PreUtils.getString(this, cn.com.mangopi.android.Constants.SESS_ID, ""));
+            List<CommonBean> members = commonDao.findByColumn(CommonBean.DATA_TYPE, MemberBean.DATA_TYPE + "_" + getSessId());
+//            List<CommonBean> members = commonDao.findByColumn(CommonBean.DATA_TYPE, MemberBean.DATA_TYPE + "_" + PreUtils.getString(this, cn.com.mangopi.android.Constants.SESS_ID, ""));
             if(members!= null && members.size() > 0){
                 return (MemberBean) members.get(0).getData();
             } else {
@@ -143,6 +143,14 @@ public class Application extends MultiDexApplication {
                 activity.finish();
             }
             System.exit(0);
+        }
+    }
+
+    public void finishBesides(Activity besides){
+        for (Activity activity : activities.get()) {
+            if (activity != null && !activity.isFinishing() && besides != activity) {
+                activity.finish();
+            }
         }
     }
 }

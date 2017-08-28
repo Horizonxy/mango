@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     TextView tvMyClass;
     ConvenientBanner courseBanner;
     List<CourseBean> bannerDatas;
+    EditText etSearch;
 
     public TecaherFragment() {
     }
@@ -75,6 +77,9 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
 
         tvMyClass = (TextView) root.findViewById(R.id.tv_right);
         tvMyClass.setOnClickListener(this);
+
+        root.findViewById(R.id.iv_tab_search).setOnClickListener(this);
+        etSearch = (EditText) root.findViewById(R.id.et_search);
     }
 
     @Override
@@ -204,6 +209,11 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
         switch (v.getId()){
             case R.id.tv_right:
                 ActivityBuilder.startMyClassesActivity(getActivity());
+                break;
+            case R.id.iv_tab_search:
+                if(!TextUtils.isEmpty(etSearch.getText())) {
+                    ActivityBuilder.startSearchActivity(getActivity(), etSearch.getText().toString());
+                }
                 break;
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,9 +25,10 @@ import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.popupwindow.TutorCourseListPopupWindow;
 import cn.com.mangopi.android.ui.viewlistener.TutorDetailListener;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 
-public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDetailListener {
+public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDetailListener, AdapterView.OnItemClickListener {
 
     ImageView ivLogo;
     TextView tvCity;
@@ -78,6 +80,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
                 }
             }
         });
+        lvCourses.setOnItemClickListener(this);
     }
 
     private void fillTutor(TutorBean tutor){
@@ -141,6 +144,14 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         super.onDestroy();
         if(presenter != null) {
             presenter.onDestroy();
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        CourseBean courseBean = (CourseBean) parent.getAdapter().getItem(position);
+        if(courseBean != null) {
+            ActivityBuilder.startCourseDetailActivity(this, courseBean.getId());
         }
     }
 }

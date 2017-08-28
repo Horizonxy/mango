@@ -120,7 +120,7 @@
                         android:maxLength="6"
                         android:inputType="number"
                         android:textCursorDrawable="@drawable/shape_color_cursor"
-                        android:hint="@string/please_input_password"
+                        android:hint="@string/please_input_smscode"
                         android:textColor="@color/color_333333"
                         android:textColorHint="@color/color_cccccc"
                         android:textSize="@dimen/sp_16" />

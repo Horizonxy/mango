@@ -64,16 +64,16 @@
             android:src="@drawable/sousuo"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"/>
-        <TextView
-            android:id="@+id/tv_search"
+        <EditText
+            android:id="@+id/et_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_16"
-            android:textColor="@color/color_999999"
+            android:textColorHint="@color/color_999999"
             android:layout_centerVertical="true"
-            android:gravity="center"
+            android:background="@null"
             android:textSize="@dimen/sp_12"
-            android:text="输入您需要的工作包或导师"/>
+            android:hint="输入您需要的工作包或导师"/>
 
     </RelativeLayout>
 

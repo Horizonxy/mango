@@ -1,6 +1,7 @@
 package cn.com.mangopi.android.model.data;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -116,5 +117,9 @@ public class MemberModel {
 
     public Subscription settingMember(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.settingMember(map), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription walletDraw(long cardId, BigDecimal amount, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.walletDraw(cardId, amount), onSubscribe).subscribe(subscriber);
     }
 }

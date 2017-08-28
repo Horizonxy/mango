@@ -1,10 +1,12 @@
 package cn.com.mangopi.android.model.api;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import cn.com.mangopi.android.Application;
+import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
 import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
@@ -24,6 +26,7 @@ import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
+import cn.com.mangopi.android.model.bean.SearchBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
 import cn.com.mangopi.android.model.bean.UploadBean;
@@ -219,5 +222,13 @@ public class ApiManager {
 
     public static  Observable<RestResult<Object>> settingMember(Map<String, Object> map){
         return Application.application.getApiService().settingMember(map);
+    }
+
+    public static  Observable<RestResult<Object>> walletDraw(long cardId, BigDecimal amount){
+        return Application.application.getApiService().walletDraw(Application.application.getSessId(), cardId, amount);
+    }
+
+    public static  Observable<RestResult<List<SearchBean>>> fullSearch(String searchText, int pageNo){
+        return Application.application.getApiService().fullSearch(searchText, pageNo, Constants.PAGE_SIZE);
     }
 }

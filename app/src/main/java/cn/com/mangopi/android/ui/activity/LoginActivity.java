@@ -32,6 +32,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.di.component.DaggerLoginActivityComponent;
 import cn.com.mangopi.android.di.module.LoginActivityModule;
@@ -70,6 +71,8 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
         DaggerLoginActivityComponent.builder().loginActivityModule(new LoginActivityModule(this)).build().inject(this);
 
         initView();
+
+        Application.application.finishBesides(this);
     }
 
     private void initView() {

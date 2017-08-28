@@ -100,14 +100,28 @@ public class Constants {
 	}
 
 	public static enum EntityType {
+		HOME(1),
 		MEMBER(4),
+		ORDER(5),
+		WORKS(6),
 		TREND(7),
-		COURSE(8);
+		COURSE(8),
+		COURSE_CLASSIFY(9),
+		NONE(-1);
 
 		private int typeId;
 
 		EntityType(int typeId) {
 			this.typeId = typeId;
+		}
+
+		public static EntityType get(int type) {
+			for (EntityType inst : values()) {
+				if (type == inst.typeId) {
+					return inst;
+				}
+			}
+			return EntityType.NONE;
 		}
 
 		public int getTypeId() {

@@ -78,6 +78,7 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.RegistActivity"
@@ -199,6 +200,10 @@
             android:theme="@style/activity_translucent" />
         <activity
             android:name=".ui.activity.SetOrderCalendarActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.MemberWorksActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.SearchActivity"
             android:screenOrientation="portrait" />
 
         <receiver android:name=".receiver.NetReceiver">
@@ -373,7 +378,7 @@
             android:value="45cff4eb5903e8d0b616362e" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- JPush end -->
 
-        <activity android:name=".ui.activity.MemberWorksActivity"></activity>
+
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package cn.com.mangopi.android.model.api;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
+import cn.com.mangopi.android.model.bean.SearchBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
 import cn.com.mangopi.android.model.bean.UploadBean;
@@ -337,5 +339,21 @@ public interface ApiService {
     @POST("outer/router?member_setting")
     Observable<RestResult<Object>> settingMember(
             @QueryMap Map<String, Object> map
+    );
+
+    //5.1.22	提现申请接口
+    @POST("outer/router?wallet_draw")
+    Observable<RestResult<Object>> walletDraw(
+            @Query("lst_sessid") String sessid,
+            @Query("card_id") long cardId,
+            @Query("amount") BigDecimal amount
+    );
+
+    //5.6.16	全文搜索列表接口
+    @POST("outer/router?full_search")
+    Observable<RestResult<List<SearchBean>>> fullSearch(
+            @Query("search_text") String searchText,
+            @Query("page_no") int pageNo,
+            @Query("page_size") int pageSize
     );
 }

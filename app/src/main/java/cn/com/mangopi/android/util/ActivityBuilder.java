@@ -35,6 +35,7 @@ import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
 import cn.com.mangopi.android.ui.activity.PlaceOrderActivity;
 import cn.com.mangopi.android.ui.activity.ProfileInfoActivity;
 import cn.com.mangopi.android.ui.activity.PublishDynamicsActivity;
+import cn.com.mangopi.android.ui.activity.SearchActivity;
 import cn.com.mangopi.android.ui.activity.SelectPayActivity;
 import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
 import cn.com.mangopi.android.ui.activity.SetOrderCalendarActivity;
@@ -246,5 +247,10 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
+    public static void startSearchActivity(Activity activity, String searchText){
+        Intent intent = new Intent(activity, SearchActivity.class);
+        intent.putExtra(Constants.BUNDLE_TEXT, searchText);
+        activity.startActivity(intent);
+    }
 
 }

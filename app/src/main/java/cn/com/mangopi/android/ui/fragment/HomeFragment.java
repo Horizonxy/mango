@@ -6,8 +6,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -78,6 +80,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     ArrayList<AdvertBean> advertList = new ArrayList<>();
     QuickAdapter<AdvertBean> advertAdapter;
 
+    EditText etSearch;
+
     public HomeFragment() {
     }
 
@@ -128,6 +132,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         ivGroup2.setOnClickListener(advertDetaiClickListener);
 
         lvAdverts = (ListView) root.findViewById(R.id.lv_adverts);
+
+        root.findViewById(R.id.iv_tab_search).setOnClickListener(this);
+        etSearch = (EditText) root.findViewById(R.id.et_search);
     }
 
     @Override
@@ -183,7 +190,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             public int getItemViewType(int postion, AdvertBean advertBean) {
                 if("1".equals(advertBean.getType())){
                     return 1;
-                } else if("2".equals(advertBean.getType())){
+                } else if("2".equals(advertBean.getType()) || "3".equals(advertBean.getType())){
                     return 2;
                 }
                 return 3;
@@ -252,7 +259,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         } else {
             layoutUpdateRole.setVisibility(View.VISIBLE);
         }
-
     }
 
     private void initData() {
@@ -459,7 +465,11 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             case R.id.btn_update_info:
                 ActivityBuilder.startUpgradeRoleActivityy(getActivity());
                 break;
-
+            case R.id.iv_tab_search:
+                if(!TextUtils.isEmpty(etSearch.getText())) {
+                    ActivityBuilder.startSearchActivity(getActivity(), etSearch.getText().toString());
+                }
+                break;
         }
     }
 
@@ -503,4 +513,6 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         Bus.getDefault().unregister(this);
         super.onDestroy();
     }
+
+
 }

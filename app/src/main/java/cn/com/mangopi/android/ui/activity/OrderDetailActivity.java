@@ -23,13 +23,14 @@ import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.data.OrderModel;
 import cn.com.mangopi.android.presenter.OrderPresenter;
 import cn.com.mangopi.android.ui.viewlistener.OrderDetailListener;
+import cn.com.mangopi.android.ui.viewlistener.OrderListListener;
 import cn.com.mangopi.android.ui.widget.UploadPictureView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 
-public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDetailListener {
+public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDetailListener, OrderListListener {
 
     long id;
     OrderPresenter presenter;
@@ -293,7 +294,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 
     @OnClick({R.id.btn_cancel, R.id.btn_cancel1})
     void onCancel(View v){
-
+        presenter.cancelOrder(converOrderBean(orderDetail));
     }
 
     @OnClick(R.id.btn_act)
@@ -356,5 +357,25 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         order.setOrder_no(orderDetail.getOrder_no());
         order.setPromotion_code(orderDetail.getPromotion_code());
         return order;
+    }
+
+    @Override
+    public void onOrderListSuccess(List<OrderBean> orderList) {}
+
+    @Override
+    public int getPageNo() {
+        return 0;
+    }
+
+    @Override
+    public int getRelation() {
+        return relation;
+    }
+
+    @Override
+    public void onCancelSuccess(OrderBean order) {
+        orderDetail.setState(-1);
+        orderDetail.setState_label("订单已取消");
+        fillData(orderDetail);
     }
 }
