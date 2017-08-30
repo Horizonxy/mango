@@ -4,13 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -19,10 +20,11 @@ import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.presenter.WorksProjectPresenter;
+import cn.com.mangopi.android.ui.adapter.ProjectDetailProgressAdapter;
 import cn.com.mangopi.android.ui.viewlistener.WorksProjectDetailListener;
 import cn.com.mangopi.android.ui.widget.HorizontalListView;
 import cn.com.mangopi.android.util.AppUtils;
-import cn.com.mangopi.android.util.MangoUtils;
+import cn.com.mangopi.android.util.DateUtils;
 
 public class WorksProjectDetailActivity extends BaseTitleBarActivity implements WorksProjectDetailListener {
 
@@ -62,6 +64,9 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
     RelativeLayout layoutInstruHead;
     @Bind(R.id.line_instru)
     View lineInstru;
+
+    ProjectDetailProgressAdapter progressAdapter;
+    List<ProjectDetailProgressAdapter.ProgressBean> progressDatas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +115,42 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
             lineInstru.setVisibility(View.VISIBLE);
             tvInstruContent.setText(projectDetail.getEntry_instructions());
         }
+
+        initProgressDatas(projectDetail);
+        if(progressAdapter == null){
+            lvProgress.setAdapter(progressAdapter = new ProjectDetailProgressAdapter(this, R.layout.listview_item_project_detail_progress, progressDatas));
+        } else{
+            progressAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void initProgressDatas(ProjectDetailBean projectDetail){
+        progressDatas.clear();
+        Date now = new Date();
+
+        ProjectDetailProgressAdapter.ProgressBean progressBean1 = new ProjectDetailProgressAdapter.ProgressBean();
+        progressBean1.setTop(DateUtils.dateToString(projectDetail.getPublish_time(), DateUtils.DATE_PATTERN));
+        progressBean1.setBottom("开始报名");
+        progressBean1.setReach(now.after(projectDetail.getPublish_time()));
+        progressDatas.add(progressBean1);
+
+        ProjectDetailProgressAdapter.ProgressBean progressBean2 = new ProjectDetailProgressAdapter.ProgressBean();
+        progressBean2.setBottom(DateUtils.dateToString(projectDetail.getApply_abort_time(), DateUtils.DATE_PATTERN));
+        progressBean2.setTop("报名截止");
+        progressBean2.setReach(now.after(projectDetail.getApply_abort_time()));
+        progressDatas.add(progressBean2);
+
+        ProjectDetailProgressAdapter.ProgressBean progressBean3 = new ProjectDetailProgressAdapter.ProgressBean();
+        progressBean3.setTop(DateUtils.dateToString(projectDetail.getWorks_abort_time(), DateUtils.DATE_PATTERN));
+        progressBean3.setBottom("作品截止");
+        progressBean3.setReach(now.after(projectDetail.getWorks_abort_time()));
+        progressDatas.add(progressBean3);
+
+        ProjectDetailProgressAdapter.ProgressBean progressBean4 = new ProjectDetailProgressAdapter.ProgressBean();
+        progressBean4.setBottom(DateUtils.dateToString(projectDetail.getAppraise_abort_time(), DateUtils.DATE_PATTERN));
+        progressBean4.setTop("评审结束");
+        progressBean4.setReach(now.after(projectDetail.getAppraise_abort_time()));
+        progressDatas.add(progressBean4);
     }
 
     @OnClick(R.id.tv_prizes_icon)

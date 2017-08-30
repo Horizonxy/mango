@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mcxiaoke.bus.Bus;
@@ -37,6 +38,7 @@ import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DateUtils;
+import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.FileUtils;
 import cn.com.mangopi.android.util.SelectorImageLoader;
 import okhttp3.MediaType;
@@ -156,6 +158,11 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         tvWechat = (TextView) layoutWechat.findViewById(R.id.tv_right);
         ((TextView)layoutPhone.findViewById(R.id.tv_left)).setText("手机号码：");
         tvPhone = (TextView) layoutPhone.findViewById(R.id.tv_right);
+        tvPhone.setTextColor(getResources().getColor(R.color.color_666666));
+        LinearLayout.LayoutParams phoneParam = (LinearLayout.LayoutParams) tvPhone.getLayoutParams();
+        phoneParam.rightMargin = DisplayUtils.dip2px(this, 15);
+        tvPhone.setLayoutParams(phoneParam);
+        layoutPhone.findViewById(R.id.iv_right).setVisibility(View.GONE);
         ((TextView)layoutEmail.findViewById(R.id.tv_left)).setText("邮箱：");
         tvEmail = (TextView) layoutEmail.findViewById(R.id.tv_right);
 
@@ -238,6 +245,12 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         tvWechat.setText(member.getWeixin());
         tvPhone.setText(member.getMobile());
         tvEmail.setText(member.getEmail());
+
+        tvSchool.setText(member.getCollege());
+        tvProfessional.setText(member.getProfession());
+        tvProject.setText(member.getProject_experience());
+        tvWorks.setText(member.getWork_experience());
+        tvEvaluation.setText(member.getSelf_evaluation());
     }
 
     @OnClick(R.id.layout_avatar)
@@ -287,6 +300,31 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         ActivityBuilder.startInputMessageActivity(this, "修改昵称", "确定", "nick_name", 20, tvSign.getText().toString());
     }
 
+    @OnClick(R.id.layout_school)
+    void clickSchool(View v){
+        ActivityBuilder.startInputMessageActivity(this, "修改院校", "确定", "school", 50, tvSchool.getText().toString());
+    }
+
+    @OnClick(R.id.layout_professional)
+    void clickProfessional(View v){
+        ActivityBuilder.startInputMessageActivity(this, "修改专业", "确定", "professional", 50, tvProfessional.getText().toString());
+    }
+
+    @OnClick(R.id.layout_project)
+    void clickProject(View v){
+        ActivityBuilder.startInputMessageActivity(this, "修改项目经验", "确定", "project", 200, tvProject.getText().toString());
+    }
+
+    @OnClick(R.id.layout_works)
+    void clickWorks(View v){
+        ActivityBuilder.startInputMessageActivity(this, "修改实习经历", "确定", "works", 200, tvWorks.getText().toString());
+    }
+
+    @OnClick(R.id.layout_evaluation)
+    void clickEvaluation(View v){
+        ActivityBuilder.startInputMessageActivity(this, "修改自我评价", "确定", "evaluation", 200, tvEvaluation.getText().toString());
+    }
+
     @BusReceiver
     public void onInputEvent(BusEvent.InputEvent event){
         String type = event.getType();
@@ -300,6 +338,16 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
             tvSign.setText(event.getContent());
         } else if("email".equals(type)){
             tvEmail.setText(event.getContent());
+        } else if("school".equals(type)){
+            tvSchool.setText(event.getContent());
+        } else if("professional".equals(type)){
+            tvProfessional.setText(event.getContent());
+        } else if("project".equals(type)){
+            tvProject.setText(event.getContent());
+        } else if("works".equals(type)){
+            tvWorks.setText(event.getContent());
+        } else if("evaluation".equals(type)){
+            tvEvaluation.setText(event.getContent());
         }
     }
 
@@ -337,6 +385,11 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         member.setMy_signature(tvSign.getText().toString());
         member.setWeixin(tvWechat.getText().toString());
         member.setEmail(tvEmail.getText().toString());
+        member.setCollege(tvSchool.getText().toString());
+        member.setProfession(tvProfessional.getText().toString());
+        member.setProject_experience(tvProject.getText().toString());
+        member.setWork_experience(tvWorks.getText().toString());
+        member.setSelf_evaluation(tvEvaluation.getText().toString());
         Application.application.saveMember(member, Application.application.getSessId());
 
         BusEvent.RefreshMemberEvent event = new BusEvent.RefreshMemberEvent();
@@ -357,6 +410,11 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         if(uploadBean != null){
             map.put("avatar_rsurl", uploadBean.getFile_name());
         }
+        map.put("college", tvSchool.getText().toString());
+        map.put("profession", tvProfessional.getText().toString());
+        map.put("project_experience", tvProject.getText().toString());
+        map.put("work_experience", tvWorks.getText().toString());
+        map.put("self_evaluation", tvEvaluation.getText().toString());
         return map;
     }
 

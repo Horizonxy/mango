@@ -214,4 +214,9 @@
         <attr name="android:fadingEdgeLength" />
     </declare-styleable>
 
+    <declare-styleable name="RedPointView">
+        <attr name="point_color" format="color"/>
+        <attr name="radius" format="dimension"/>
+    </declare-styleable>
+
 </resources>

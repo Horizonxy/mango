@@ -1,6 +1,7 @@
 package cn.com.mangopi.android.ui.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.util.DisplayUtils;
 
 /**
@@ -17,7 +19,8 @@ import cn.com.mangopi.android.util.DisplayUtils;
 public class RedPointView extends View {
 
     Paint paint;
-    int radius;
+    float radius;
+    int color = Color.RED;
 
     public RedPointView(Context context) {
         this(context, null);
@@ -29,15 +32,27 @@ public class RedPointView extends View {
 
     public RedPointView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        radius = DisplayUtils.dip2px(getContext(), 4);
+        if(attrs != null){
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RedPointView);
+
+            color = a.getColor(R.styleable.RedPointView_point_color, color);
+            radius = a.getDimension(R.styleable.RedPointView_radius, radius);
+        }
         initView();
     }
 
     private void initView() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.RED);
+        paint.setColor(color);
+    }
 
-        radius = DisplayUtils.dip2px(getContext(), 4);
+    public void setColor(int color) {
+        this.color = getResources().getColor(color);
+        paint.setColor(this.color);
+        postInvalidate();
     }
 
     @Override
