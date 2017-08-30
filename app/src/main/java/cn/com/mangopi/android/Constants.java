@@ -44,6 +44,7 @@ public class Constants {
 	public static final String BUNDLE_ORDER = "bundle_order";
     public static final String BUNDLE_ORDER_ID = "bundle_order_id";
 	public static final String BUNDLE_ORDER_RELATION = "bundle_order_relation";
+	public static final String BUNDLE_WORKS_RELATION = "bundle_works_relation";
     public static final String BUNDLE_WEBVIEW_URL = "bundle_webview_url";
     public static final String BUNDLE_RIGHT_TEXT = "bundle_right_text";
     public static final String BUNDLE_LIMIT_NUM = "bundle_limit_num";

@@ -22,6 +22,7 @@ import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
+import cn.com.mangopi.android.model.bean.ProjectListBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.SearchBean;
@@ -350,10 +351,19 @@ public interface ApiService {
     );
 
     //5.6.16	全文搜索列表接口
-    @POST("outer/router?full_search")
+    @GET("outer/router?full_search")
     Observable<RestResult<List<SearchBean>>> fullSearch(
             @Query("search_text") String searchText,
             @Query("page_no") int pageNo,
             @Query("page_size") int pageSize
+    );
+
+    //5.4.1	 工作包列表接口
+    @GET("outer/router?project_list")
+    Observable<RestResult<List<ProjectListBean>>> getProjectList(
+            @Query("lst_sessid") String sessid,
+            @Query("page_no") int pageNo,
+            @Query("page_size") int pageSize,
+            @Query("relation") int relation
     );
 }

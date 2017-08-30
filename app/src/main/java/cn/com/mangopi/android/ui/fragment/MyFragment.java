@@ -122,7 +122,10 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
                         startActivity(new Intent(getActivity(), MyOrderListActivity.class));
                         break;
                     case R.id.layout_works:
-                        startActivity(new Intent(getActivity(), MemberWorksActivity.class));
+                        Constants.UserIndentity indentity = (Constants.UserIndentity) vWorks.getTag();
+                        if(indentity != null) {
+                            ActivityBuilder.startMemberWorksActivity(getActivity(), indentity);
+                        }
                         break;
                     case R.id.layout_classes:
                         ActivityBuilder.startMyClassesActivity(getActivity());
@@ -193,11 +196,16 @@ public class MyFragment extends BaseFragment implements MyFragmentListener{
             vClasses.setVisibility(View.VISIBLE);
             vAccount.setVisibility(View.VISIBLE);
         }
-        if(!indentityList.contains(Constants.UserIndentity.COMMUNITY)) {
+        if(indentityList.contains(Constants.UserIndentity.COMPANY)){
             vWorks.setVisibility(View.VISIBLE);
+            vWorks.setTag(Constants.UserIndentity.COMPANY);
+        } else if(indentityList.contains(Constants.UserIndentity.STUDENT)){
+            vWorks.setVisibility(View.VISIBLE);
+            vWorks.setTag(Constants.UserIndentity.STUDENT);
         } else {
             vWorks.setVisibility(View.GONE);
         }
+
         if(member == null){
             tvNickName.setText("");
             tvCollectionCount.setText("-");

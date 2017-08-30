@@ -24,6 +24,7 @@ import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
+import cn.com.mangopi.android.model.bean.ProjectListBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.SearchBean;
@@ -230,5 +231,9 @@ public class ApiManager {
 
     public static  Observable<RestResult<List<SearchBean>>> fullSearch(String searchText, int pageNo){
         return Application.application.getApiService().fullSearch(searchText, pageNo, Constants.PAGE_SIZE);
+    }
+
+    public static  Observable<RestResult<List<ProjectListBean>>> getProjectList(int pageNo, int relation){
+        return Application.application.getApiService().getProjectList(Application.application.getSessId(), pageNo, Constants.PAGE_SIZE, relation);
     }
 }

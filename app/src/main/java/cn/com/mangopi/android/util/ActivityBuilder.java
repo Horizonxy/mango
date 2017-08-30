@@ -2,6 +2,7 @@ package cn.com.mangopi.android.util;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -27,6 +28,7 @@ import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
 import cn.com.mangopi.android.ui.activity.MemberCardListActivity;
 import cn.com.mangopi.android.ui.activity.MemberTrendActivity;
+import cn.com.mangopi.android.ui.activity.MemberWorksActivity;
 import cn.com.mangopi.android.ui.activity.MessageListActivity;
 import cn.com.mangopi.android.ui.activity.MyClassesActivity;
 import cn.com.mangopi.android.ui.activity.OrderDetailActivity;
@@ -253,4 +255,13 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
+    public static void startMemberWorksActivity(Activity activity, @NonNull Constants.UserIndentity indentity){
+        Intent intent = new Intent(activity, MemberWorksActivity.class);
+        if(indentity == Constants.UserIndentity.COMPANY) {
+            intent.putExtra(Constants.BUNDLE_WORKS_RELATION, 2);
+        } else if(indentity == Constants.UserIndentity.STUDENT){
+            intent.putExtra(Constants.BUNDLE_WORKS_RELATION, 1);
+        }
+        activity.startActivity(intent);
+    }
 }

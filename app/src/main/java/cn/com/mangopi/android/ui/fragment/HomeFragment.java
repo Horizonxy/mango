@@ -254,7 +254,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         barColorWithScroll();
 
         List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
-        if (!indentityList.contains(Constants.UserIndentity.PUBLIC)) {
+        if (indentityList.contains(Constants.UserIndentity.STUDENT) ||
+                indentityList.contains(Constants.UserIndentity.TUTOR) ||
+                indentityList.contains(Constants.UserIndentity.COMMUNITY) ||
+                indentityList.contains(Constants.UserIndentity.COMPANY)) {
             layoutUpdateRole.setVisibility(View.GONE);
         } else {
             layoutUpdateRole.setVisibility(View.VISIBLE);
