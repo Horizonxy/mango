@@ -138,4 +138,8 @@
 
     <string name="my_join_works">我参与的工作包</string>
     <string name="my_company_works">我的企业工作包</string>
+
+    <string name="works_project_detail">工作包详情</string>
+    <string name="works_project_location">活动地点：%s</string>
+    <string name="works_project_join_want">%1$d人想去&#160;&#160;&#160;&#160;%2$d人已报名</string>
 </resources>

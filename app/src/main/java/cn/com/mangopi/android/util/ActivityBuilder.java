@@ -46,6 +46,7 @@ import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
 import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
 import cn.com.mangopi.android.ui.activity.UpgradeRoleActivity;
 import cn.com.mangopi.android.ui.activity.WebViewActivity;
+import cn.com.mangopi.android.ui.activity.WorksProjectDetailActivity;
 
 /**
  * @author 蒋先明
@@ -262,6 +263,12 @@ public class ActivityBuilder {
         } else if(indentity == Constants.UserIndentity.STUDENT){
             intent.putExtra(Constants.BUNDLE_WORKS_RELATION, 1);
         }
+        activity.startActivity(intent);
+    }
+
+    public static void startWorksProjectDetailActivity(Activity activity, long id){
+        Intent intent = new Intent(activity, WorksProjectDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_ID, id);
         activity.startActivity(intent);
     }
 }

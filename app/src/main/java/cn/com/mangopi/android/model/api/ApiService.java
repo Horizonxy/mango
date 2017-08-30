@@ -22,6 +22,7 @@ import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
+import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.model.bean.ProjectListBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
@@ -365,5 +366,12 @@ public interface ApiService {
             @Query("page_no") int pageNo,
             @Query("page_size") int pageSize,
             @Query("relation") int relation
+    );
+
+    //工作包详情接口接口
+    @GET("outer/router?project_get")
+    Observable<RestResult<ProjectDetailBean>> getProject(
+            @Query("lst_sessid") String sessid,
+            @Query("id") long id
     );
 }

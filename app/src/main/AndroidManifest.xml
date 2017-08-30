@@ -78,8 +78,8 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.RegistActivity"
             android:screenOrientation="portrait" />
@@ -201,9 +201,13 @@
         <activity
             android:name=".ui.activity.SetOrderCalendarActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.MemberWorksActivity"
+        <activity
+            android:name=".ui.activity.MemberWorksActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.SearchActivity"
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.WorksProjectDetailActivity"
             android:screenOrientation="portrait" />
 
         <receiver android:name=".receiver.NetReceiver">

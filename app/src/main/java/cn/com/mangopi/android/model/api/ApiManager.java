@@ -24,6 +24,7 @@ import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
+import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.model.bean.ProjectListBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
@@ -235,5 +236,9 @@ public class ApiManager {
 
     public static  Observable<RestResult<List<ProjectListBean>>> getProjectList(int pageNo, int relation){
         return Application.application.getApiService().getProjectList(Application.application.getSessId(), pageNo, Constants.PAGE_SIZE, relation);
+    }
+
+    public static  Observable<RestResult<ProjectDetailBean>> getProject(long id){
+        return Application.application.getApiService().getProject(Application.application.getSessId(), id);
     }
 }
