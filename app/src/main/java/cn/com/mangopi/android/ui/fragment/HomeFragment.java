@@ -104,7 +104,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                if(Application.application.getMember() != null) {
+                if (Application.application.getMember() != null) {
                     initData();
                 }
             }
@@ -152,7 +152,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                     @Override
                     public void onItemClick(int position) {
                         AdvertBean.DetailsBean advertDetail = banners.get(position).getDetails().get(0);
-                        if(advertDetail != null) {
+                        if (advertDetail != null) {
                             MangoUtils.jumpAdvert(HomeFragment.this.getActivity(), advertDetail);
                         }
                     }
@@ -173,9 +173,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             @Override
             public int getLayoutId(int position, AdvertBean advertBean) {
                 int type = getItemViewType(position, advertBean);
-                if(1 == type){
+                if (1 == type) {
                     return R.layout.layout_home_setting_one;
-                } else if(2 == type){
+                } else if (2 == type) {
                     return R.layout.layout_home_setting_more;
                 }
                 return R.layout.layout_home_setting_advert;
@@ -188,9 +188,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
             @Override
             public int getItemViewType(int postion, AdvertBean advertBean) {
-                if("1".equals(advertBean.getType())){
+                if ("1".equals(advertBean.getType())) {
                     return 1;
-                } else if("2".equals(advertBean.getType()) || "3".equals(advertBean.getType())){
+                } else if ("2".equals(advertBean.getType()) || "3".equals(advertBean.getType())) {
                     return 2;
                 }
                 return 3;
@@ -198,26 +198,27 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         }) {
             @Override
             protected void convert(BaseAdapterHelper helper, AdvertBean item) {
-                switch (helper.layoutId){
+                switch (helper.layoutId) {
                     case R.layout.layout_home_setting_one:
                         helper.setText(R.id.tv_title1, item.getTitle())
                                 .setText(R.id.tv_intro1, item.getIntro())
-                                .setImageResource(R.id.iv_advert1, 0);
-                        List<AdvertBean.DetailsBean> details = item.getDetails();
-                        if (details != null && details.size() > 0) {
-                            helper.setImageUrl(R.id.iv_advert1, details.get(0).getFile_path());
-                            helper.setTag(R.id.iv_advert1, details.get(0));
-                        }else {
-                            helper.setTag(R.id.iv_advert1, null);
-                        }
-                        helper.setOnClickListener(R.id.iv_advert1, advertDetaiClickListener);
+                                .setAdapter(R.id.lv_advert_one_item, new QuickAdapter<AdvertBean.DetailsBean>(context, R.layout.listview_item_home_advert_one_item, item.getDetails()) {
+                                    @Override
+                                    protected void convert(BaseAdapterHelper helper, AdvertBean.DetailsBean item) {
+                                        helper.setImageResource(R.id.iv_advert_one_item, 0)
+                                                .setImageUrl(R.id.iv_advert_one_item, item.getFile_path())
+                                                .setTag(R.id.iv_advert_one_item, item)
+                                                .setOnClickListener(R.id.iv_advert_one_item, advertDetaiClickListener)
+                                                .setVisible(R.id.line_divider, helper.getPosition() < (data.size() - 1));
+                                    }
+                                });
                         break;
                     case R.layout.layout_home_setting_more:
                         helper.setText(R.id.tv_title2, item.getTitle())
                                 .setText(R.id.tv_intro2, item.getIntro());
                         LinearLayout layoutAdvert = helper.getView(R.id.layout_advert2);
                         layoutAdvert.removeAllViews();
-                        details = item.getDetails();
+                        List<AdvertBean.DetailsBean> details = item.getDetails();
                         int dp10 = (int) getResources().getDimension(R.dimen.dp_10);
                         int width = (int) ((DisplayUtils.screenWidth(getContext()) - dp10 * 4) / 3.4);
                         for (int j = 0; details != null && j < details.size(); j++) {
@@ -233,16 +234,16 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                         break;
                     case R.layout.layout_home_setting_advert:
                         helper.setText(R.id.tv_title3, item.getTitle())
-                                .setImageResource(R.id.iv_advert3, 0);
-
-                        details = item.getDetails();
-                        if (details != null && details.size() > 0) {
-                            helper.setImageUrl(R.id.iv_advert3, details.get(0).getFile_path());
-                            helper.setTag(R.id.iv_advert3, details.get(0));
-                        } else {
-                            helper.setTag(R.id.iv_advert3, null);
-                        }
-                        helper.setOnClickListener(R.id.iv_advert3, advertDetaiClickListener);
+                                .setAdapter(R.id.lv_advert_item_item, new QuickAdapter<AdvertBean.DetailsBean>(context, R.layout.listview_item_home_advert_item_item, item.getDetails()) {
+                                    @Override
+                                    protected void convert(BaseAdapterHelper helper, AdvertBean.DetailsBean item) {
+                                        helper.setImageResource(R.id.iv_advert_item_item, 0)
+                                                .setImageUrl(R.id.iv_advert_item_item, item.getFile_path())
+                                                .setTag(R.id.iv_advert_item_item, item)
+                                                .setOnClickListener(R.id.iv_advert_item_item, advertDetaiClickListener)
+                                                .setVisible(R.id.line_divider, helper.getPosition() < (data.size() - 1));
+                                    }
+                                });
                         break;
                 }
             }
@@ -324,8 +325,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             banners.clear();
             banners.addAll(advertList);
             homeBanner.notifyDataSetChanged();
-        } else if(Constants.INDEX_TWO_ADVERT.equals(position)){
-            if(advertList.size() > 0) {
+        } else if (Constants.INDEX_TWO_ADVERT.equals(position)) {
+            if (advertList.size() > 0) {
                 layoutTwoGroup.setVisibility(View.VISIBLE);
                 List<AdvertBean.DetailsBean> details = advertList.get(0).getDetails();
                 if (details.size() > 0) {
@@ -350,7 +351,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         }
     }
 
-    private static class AdvertDetaiClickListener implements View.OnClickListener{
+    private static class AdvertDetaiClickListener implements View.OnClickListener {
 
         Activity activity;
 
@@ -361,7 +362,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         @Override
         public void onClick(View v) {
             AdvertBean.DetailsBean advertDetail = (AdvertBean.DetailsBean) v.getTag();
-            if(advertDetail != null) {
+            if (advertDetail != null) {
                 MangoUtils.jumpAdvert(activity, advertDetail);
             }
         }
@@ -406,7 +407,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             homeIndicator.addView(imageView);
         }
 
-        if(homePager.getAdapter() == null) {
+        if (homePager.getAdapter() == null) {
             homePager.setAdapter(new ViewPagerAdapter(gridViews));
         } else {
             homePager.getAdapter().notifyDataSetChanged();
@@ -437,7 +438,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     @Override
     public String getUserIdentity() {
         MemberBean member = Application.application.getMember();
-        if(member != null){
+        if (member != null) {
             return member.getUser_identity_label();
         }
         return "public";
@@ -469,7 +470,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 ActivityBuilder.startUpgradeRoleActivityy(getActivity());
                 break;
             case R.id.iv_tab_search:
-                if(!TextUtils.isEmpty(etSearch.getText())) {
+                if (!TextUtils.isEmpty(etSearch.getText())) {
                     ActivityBuilder.startSearchActivity(getActivity(), etSearch.getText().toString());
                 }
                 break;
@@ -502,8 +503,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     }
 
     @BusReceiver
-    public void onHasMessageEvent(BusEvent.HasMessageEvent event){
-        if(event != null && messagePoint != null){
+    public void onHasMessageEvent(BusEvent.HasMessageEvent event) {
+        if (event != null && messagePoint != null) {
             messagePoint.setVisibility(event.isHasMessage() ? View.VISIBLE : View.GONE);
         }
     }

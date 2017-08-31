@@ -7,7 +7,7 @@ import cn.com.mangopi.android.di.FragmentScope;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.data.MemberModel;
 import cn.com.mangopi.android.presenter.MemberPresenter;
-import cn.com.mangopi.android.ui.viewlistener.MyFragmentListener;
+import cn.com.mangopi.android.ui.viewlistener.MemberDetailListener;
 
 import dagger.Module;
 import dagger.Provides;
@@ -24,7 +24,7 @@ public class MyFragmentModule {
     @FragmentScope
     @Provides
     public MemberPresenter provideMemberPresenter(){
-        return new MemberPresenter(new MemberModel(), (MyFragmentListener)fragment);
+        return new MemberPresenter(new MemberModel(), (MemberDetailListener)fragment);
     }
 
     @FragmentScope

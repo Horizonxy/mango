@@ -9,9 +9,9 @@ import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.data.MemberModel;
-import cn.com.mangopi.android.ui.fragment.MyFragment;
 import cn.com.mangopi.android.ui.viewlistener.AddBlankCardListener;
 import cn.com.mangopi.android.ui.viewlistener.BaseViewListener;
+import cn.com.mangopi.android.ui.viewlistener.MemberDetailListener;
 import cn.com.mangopi.android.ui.viewlistener.SetNickNameListener;
 import cn.com.mangopi.android.util.AppUtils;
 
@@ -83,7 +83,7 @@ public class MemberPresenter extends BasePresenter {
     }
 
     public void getMember(){
-        MyFragment listener = (MyFragment) this.listener;
+        MemberDetailListener listener = (MemberDetailListener) this.listener;
         Subscription subscription = memberModel.getMember(listener.getMemberId(), new Action0() {
             @Override
             public void call() {

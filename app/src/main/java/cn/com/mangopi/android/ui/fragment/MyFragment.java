@@ -25,18 +25,17 @@ import cn.com.mangopi.android.di.component.DaggerMyFragmentComponent;
 import cn.com.mangopi.android.di.module.MyFragmentModule;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.presenter.MemberPresenter;
-import cn.com.mangopi.android.ui.activity.MemberWorksActivity;
 import cn.com.mangopi.android.ui.activity.MyAccountActivity;
 import cn.com.mangopi.android.ui.activity.MyOrderListActivity;
 import cn.com.mangopi.android.ui.activity.SettingActivity;
-import cn.com.mangopi.android.ui.viewlistener.MyFragmentListener;
+import cn.com.mangopi.android.ui.viewlistener.MemberDetailListener;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.MangoUtils;
 
-public class MyFragment extends BaseFragment implements MyFragmentListener{
+public class MyFragment extends BaseFragment implements MemberDetailListener {
 
     MangoPtrFrameLayout refreshLayout;
     TextView tvNickName;

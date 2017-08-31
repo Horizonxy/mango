@@ -35,15 +35,14 @@
             android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/iv_advert3"
+    <cn.com.mangopi.android.ui.widget.ListView
+        android:id="@+id/lv_advert_item_item"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_240"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_20"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
-
+        android:cacheColorHint="@android:color/transparent"/>
 </LinearLayout>

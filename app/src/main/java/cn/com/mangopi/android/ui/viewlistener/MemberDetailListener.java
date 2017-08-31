@@ -7,7 +7,7 @@ import cn.com.mangopi.android.model.bean.MemberBean;
  * @date 2017/7/7
  */
 
-public interface MyFragmentListener extends BaseViewListener {
+public interface MemberDetailListener extends BaseViewListener {
 
     void onSuccess(MemberBean member);
     long getMemberId();
