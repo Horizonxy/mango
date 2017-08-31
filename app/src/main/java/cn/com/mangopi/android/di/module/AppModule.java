@@ -58,8 +58,7 @@ public class AppModule {
                 .denyCacheImageMultipleSizesInMemory()
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
                 .defaultDisplayImageOptions(provideDisplayImageOptions())
-                .imageDownloader(new BaseImageDownloader(application, 5 * 1000, 10 * 1000))
-                .writeDebugLogs();
+                .imageDownloader(new BaseImageDownloader(application, 5 * 1000, 10 * 1000));
         if(PermissionUtils.checkPermissions(application, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE})){
             builder.discCache(new UnlimitedDiskCache(imgFile));
         }
