@@ -15,7 +15,7 @@
             android:id="@+id/iv_avatar"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_60"
-            android:src="@drawable/none" />
+            android:src="@mipmap/logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +29,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="如何利用直播和网红来营销你的产品"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_16" />
 
@@ -44,7 +43,6 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="王先生"
                     android:textColor="@color/color_ff0030"
                     android:textSize="@dimen/sp_14" />
 
@@ -55,7 +53,6 @@
                     android:layout_marginLeft="@dimen/dp_10"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="创始人"
                     android:textColor="@color/color_666666"
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>
@@ -71,7 +68,6 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="微课一对一"
                     android:textColor="@color/color_999999"
                     android:textSize="@dimen/sp_12" />
 
@@ -82,7 +78,6 @@
                     android:layout_marginLeft="@dimen/dp_10"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="100人想听"
                     android:textColor="@color/color_999999"
                     android:textSize="@dimen/sp_12" />
             </LinearLayout>

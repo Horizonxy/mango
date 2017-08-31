@@ -74,9 +74,9 @@ public class AppModule {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
                 .cacheInMemory(true)
-                .showImageOnFail(R.drawable.none)
-                .showImageForEmptyUri(R.drawable.none)
-                .showImageOnLoading(R.drawable.none)
+                .showImageOnFail(R.drawable.image_small_failure)
+                .showImageForEmptyUri(R.drawable.image_small_default)
+                .showImageOnLoading(R.drawable.image_small_default)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                /* .displayer(new FadeInBitmapDisplayer(2000))*/
                 .build();

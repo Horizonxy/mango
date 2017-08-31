@@ -68,7 +68,6 @@
                         xmlns:round="http://schemas.android.com/apk/res-auto"
                         round:border_overlay="true"
                         android:layout_width="44dp"
-                        android:src="@drawable/none"
                         android:layout_height="44dp"
                         android:visibility="gone"
                         android:layout_centerVertical="true"
