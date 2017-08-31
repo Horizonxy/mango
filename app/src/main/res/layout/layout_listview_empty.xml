@@ -20,7 +20,6 @@
         android:paddingRight="25dip"
         android:layout_marginTop="40dp"
         android:textColor="@color/color_666666"
-        android:text="暂无数据"
         android:textSize="@dimen/sp_14" />
 
     <Button
@@ -29,6 +28,7 @@
         android:layout_height="32dp"
         android:layout_marginTop="20dp"
         android:text="@string/refresh"
+        android:visibility="invisible"
         style="@style/lesser_corners_btn"
         android:textSize="@dimen/sp_14"/>
 

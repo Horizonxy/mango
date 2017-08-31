@@ -66,9 +66,9 @@ public class MyTrendListFragment extends BaseFragment implements AdapterView.OnI
     void findView(View root) {
         listView = (PullToRefreshListView) root.findViewById(R.id.listview);
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), null);
-        emptyHelper.setImageRes(R.drawable.null_dt);
-        emptyHelper.showMessage(false);
-        emptyHelper.showRefreshButton(false);
+        emptyHelper.setImageRes(R.drawable.page_icon_04);
+        emptyHelper.setMessage(R.string.page_no_trend);
+
         presenter = new FoundPresenter(new PraiseModel(), new TrendModel(), this);
         favPresenter = new FavPresenter(new FavModel(), this);
     }

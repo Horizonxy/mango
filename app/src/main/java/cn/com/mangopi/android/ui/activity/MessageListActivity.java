@@ -41,9 +41,8 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
 
         initView();
         emptyHelper = new EmptyHelper(this, findViewById(R.id.layout_empty), null);
-        emptyHelper.setImageRes(R.drawable.null_msg);
-        emptyHelper.showMessage(false);
-        emptyHelper.showRefreshButton(false);
+        emptyHelper.setImageRes(R.drawable.page_icon_02);
+        emptyHelper.setMessage(R.string.page_no_message);
         messagePresenter = new MessagePresenter(new MessageModel(), this);
         loadData();
     }

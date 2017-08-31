@@ -75,6 +75,8 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         tvTitle = (TextView) root.findViewById(R.id.tv_title);
         tvTitle.setText(getString(R.string.found));
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), null);
+        emptyHelper.setImageRes(R.drawable.page_icon_04);
+        emptyHelper.setMessage(R.string.page_no_trend);
     }
 
     @Override

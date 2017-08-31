@@ -10,6 +10,14 @@
     <string name="please_wait">请稍候...</string>
     <string name="uninstalled_wx">您还未安装微信</string>
 
+    <string name="page_no_message">暂无消息</string>
+    <string name="page_no_trend">暂无动态</string>
+    <string name="page_no_collection">暂无收藏</string>
+    <string name="page_no_search">搜索无结果</string>
+    <string name="page_no_data">暂无数据</string>
+    <string name="page_no_works_project">暂无工作包</string>
+    <string name="page_no_course">暂无授课</string>
+
     <string name="please_input_phone">请输入11位手机号码</string>
     <string name="please_input_smscode">请输入验证码</string>
     <string name="please_input_password">请输入密码</string>

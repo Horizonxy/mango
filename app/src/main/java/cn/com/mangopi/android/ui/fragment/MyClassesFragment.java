@@ -70,8 +70,8 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
     void findView(View root) {
         listView = (PullToRefreshListView) root.findViewById(R.id.listview);
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), null);
-        emptyHelper.showRefreshButton(false);
-        emptyHelper.showMessage(false);
+        emptyHelper.setImageRes(R.drawable.page_icon_07);
+        emptyHelper.setMessage(R.string.page_no_course);
     }
 
     @Override

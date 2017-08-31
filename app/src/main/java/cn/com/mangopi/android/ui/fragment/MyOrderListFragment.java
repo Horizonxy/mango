@@ -59,8 +59,8 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     void findView(View root) {
         listView = (PullToRefreshListView) root.findViewById(R.id.listview);
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), this);
-        emptyHelper.showRefreshButton(false);
-        emptyHelper.showMessage(false);
+        emptyHelper.setImageRes(R.drawable.page_icon_06);
+        emptyHelper.setMessage(R.string.page_no_data);
     }
 
     @Override

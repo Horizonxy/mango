@@ -50,8 +50,8 @@ public class SearchActivity extends BaseActivity implements SearchListener, Adap
 
     private void initView() {
         emptyHelper = new EmptyHelper(this, findViewById(R.id.layout_empty), null);
-        emptyHelper.showRefreshButton(false);
-        emptyHelper.showMessage(false);
+        emptyHelper.setImageRes(R.drawable.page_icon_05);
+        emptyHelper.setMessage(R.string.page_no_search);
 
         tvSearch.setText(searchText);
         listView.setAdapter(searchAdapter = new SearchResultAdapter(this, R.layout.listview_item_search_result, datas));

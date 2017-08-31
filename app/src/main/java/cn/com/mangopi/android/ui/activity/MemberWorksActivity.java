@@ -53,9 +53,8 @@ public class MemberWorksActivity extends BaseTitleBarActivity implements WorksPr
         initView();
 
         emptyHelper = new EmptyHelper(this, findViewById(R.id.layout_empty), null);
-//        emptyHelper.setImageRes(R.drawable.null_msg);
-        emptyHelper.showMessage(false);
-        emptyHelper.showRefreshButton(false);
+        emptyHelper.setImageRes(R.drawable.page_icon_07);
+        emptyHelper.setMessage(R.string.page_no_works_project);
         projectPresenter = new WorksProjectPresenter(this);
         loadData();
     }
