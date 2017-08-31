@@ -7,13 +7,26 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.File;
+
+import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.ui.widget.LoadingDialog;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.DataCleanManager;
+import cn.com.mangopi.android.util.FileUtils;
 import cn.com.mangopi.android.util.SetTransPwdDialog;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.mangopi.android.util.SimpleSubscriber;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class SettingActivity extends BaseTitleBarActivity {
 
@@ -29,6 +42,7 @@ public class SettingActivity extends BaseTitleBarActivity {
     View vShareToFriend;
     @Bind(R.id.layout_clear_cache)
     View vClearCache;
+    LoadingDialog loadingDialog = null;
 
     TextView tvProfileLeft, tvProfileRight;
     TextView tvPhoneNunLeft, tvPhoneNunRight;
@@ -76,20 +90,80 @@ public class SettingActivity extends BaseTitleBarActivity {
         tvShareToLeft.setText(getString(R.string.share_to_friend));
         tvClearCacheft.setText(getString(R.string.clear_cache));
 
+        tvClearCacheRight.setText(DataCleanManager.getFormatSize(getCacheSize()));
     }
 
     @OnClick(R.id.btn_login_out)
-    void loginOut(View v){
+    void loginOut(View v) {
         ActivityBuilder.startLoginActivity(this);
     }
 
     @OnClick(R.id.layout_profile_info)
-    void profileClick(View v){
+    void profileClick(View v) {
         ActivityBuilder.startProfileInfoActivity(this);
     }
 
+    @OnClick(R.id.layout_clear_cache)
+    void clearCacheClick(View v) {
+        Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                DataCleanManager.cleanFiles(SettingActivity.this);
+                DataCleanManager.cleanInternalCache(SettingActivity.this);
+                DataCleanManager.cleanCustomCache(Constants.BASE_DIR);
+
+                subscriber.onNext(DataCleanManager.getFormatSize(getCacheSize()));
+                subscriber.onCompleted();
+            }
+        }).subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+            @Override
+            public void call() {
+                loadingDialog = new LoadingDialog(SettingActivity.this, getResources().getString(R.string.please_wait));
+                loadingDialog.show();
+                loadingDialog.setCancelable(true);
+            }
+        }).subscribeOn(AndroidSchedulers.mainThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new SimpleSubscriber<String>() {
+            @Override
+            public void onNextRx(String obj) {
+                if(loadingDialog != null && loadingDialog.isShowing()){
+                    loadingDialog.dismiss();
+                }
+                tvClearCacheRight.setText(obj);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                if(loadingDialog != null && loadingDialog.isShowing()){
+                    loadingDialog.dismiss();
+                }
+            }
+        });
+
+    }
+
+    private long getCacheSize() {
+        long size = 0;
+        try {
+            long cacheDir = DataCleanManager.getFolderSize(getCacheDir());
+            size = size + cacheDir;
+            long fileDir = DataCleanManager.getFolderSize(getFilesDir());
+            size = size + fileDir;
+            File sd = new File(Constants.BASE_DIR);
+            if (sd != null && sd.exists()) {
+                long sdDir = DataCleanManager.getFolderSize(sd);
+                size = size + sdDir;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return size;
+    }
+
     @OnClick(R.id.layout_trans_pwd)
-    void setTransPwd(View v){
+    void setTransPwd(View v) {
         new SetTransPwdDialog(this, new SetTransPwdDialog.onPwdFinishListener() {
             @Override
             public void onFinish(String pwd) {

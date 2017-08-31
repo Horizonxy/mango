@@ -48,7 +48,9 @@ public class Application extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        //AppUtils.initCarsh(this);
+        if(!BuildConfig.DEBUG) {
+            AppUtils.initCarsh(this);
+        }
         DaggerAppComponent.builder().apiModule(new ApiModule()).appModule(new AppModule(this)).build().inject(this);
         application = this;
         Logger.init(getResources().getString(R.string.app_name));
@@ -104,6 +106,15 @@ public class Application extends MultiDexApplication {
             }
         }
         return null;
+    }
+
+    public void loginOut(){
+        CommonDaoImpl commonDao = getCommonDao();
+        List<CommonBean> members = commonDao.findByColumn(CommonBean.DATA_TYPE, MemberBean.DATA_TYPE + "_" + getSessId());
+        commonDao.deleteList(members);
+
+        member = null;
+        PreUtils.putString(this, cn.com.mangopi.android.Constants.SESS_ID, "");
     }
 
     public void saveMember(MemberBean member, String sessId){

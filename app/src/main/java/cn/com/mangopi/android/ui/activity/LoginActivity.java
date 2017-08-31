@@ -72,6 +72,7 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
 
         initView();
 
+        Application.application.loginOut();
         Application.application.finishBesides(this);
     }
 
@@ -152,7 +153,7 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
         span.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Toast.makeText(LoginActivity.this, userProtocol, Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
