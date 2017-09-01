@@ -1,6 +1,7 @@
 package cn.com.mangopi.android.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -81,6 +82,11 @@ public class MyAccountActivity extends BaseTitleBarActivity implements MemeberWa
         if(memberWallet != null) {
             ActivityBuilder.startGetCashActivity(this, memberWallet.getAvailable_amount());
         }
+    }
+
+    @OnClick(R.id.layout_detail)
+    void onTransListClick(View v){
+        startActivity(new Intent(this, MemberTransListActivity.class));
     }
 
     @Override

@@ -150,4 +150,7 @@
     <string name="works_project_detail">工作包详情</string>
     <string name="works_project_location">活动地点：%s</string>
     <string name="works_project_join_want">%1$d人想去&#160;&#160;&#160;&#160;%2$d人已报名</string>
+
+    <string name="member_trans_list">交易明细</string>
+    <string name="member_trans_detail">交易详情</string>
 </resources>

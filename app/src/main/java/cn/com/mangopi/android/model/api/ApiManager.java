@@ -29,7 +29,9 @@ import cn.com.mangopi.android.model.bean.ProjectListBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.SearchBean;
+import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
+import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
 import cn.com.mangopi.android.model.bean.UploadBean;
 import okhttp3.RequestBody;
@@ -240,5 +242,13 @@ public class ApiManager {
 
     public static  Observable<RestResult<ProjectDetailBean>> getProject(long id){
         return Application.application.getApiService().getProject(Application.application.getSessId(), id);
+    }
+
+    public static  Observable<RestResult<TrendDetailBean>> getTrend(long id){
+        return Application.application.getApiService().getTrend(id);
+    }
+
+    public static  Observable<RestResult<List<TransListBean>>> walletTransList(int pageNo){
+        return Application.application.getApiService().walletTransList(Application.application.getSessId(), pageNo, Constants.PAGE_SIZE);
     }
 }

@@ -31,7 +31,8 @@ public class DateUtils{
 
 	public static String DATE_PATTERN_YYYYMMTDDHMSZ = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static String DATE_MONTH_CN = "yyyy年MM月";
-	
+	public static String DATE_MONTH_DAY_CN = "yyyy年MM月dd日";
+
 	public static enum TimeInterval {
 		YEAR,
 		MONTH,

@@ -1,11 +1,11 @@
 package cn.com.mangopi.android.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,26 +13,33 @@ import java.util.List;
 import butterknife.Bind;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
+import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.model.data.MessageModel;
+import cn.com.mangopi.android.presenter.MemberWalletPresenter;
 import cn.com.mangopi.android.presenter.MessagePresenter;
+import cn.com.mangopi.android.presenter.WalletTransListPresenter;
+import cn.com.mangopi.android.ui.adapter.MemberTransListAdapter;
 import cn.com.mangopi.android.ui.adapter.MessageListAdapter;
-import cn.com.mangopi.android.ui.viewlistener.MessageListener;
+import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
+import cn.com.mangopi.android.ui.viewlistener.WalletTransListListener;
+import cn.com.mangopi.android.ui.widget.ListView;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
-import cn.com.mangopi.android.util.DialogUtil;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.EmptyHelper;
 
-public class MessageListActivity extends BaseTitleBarActivity implements MessageListener, AdapterView.OnItemClickListener{
+public class MemberTransListActivity extends BaseTitleBarActivity implements WalletTransListListener, AdapterView.OnItemClickListener{
 
     @Bind(R.id.listview)
     PullToRefreshListView listView;
     int pageNo = 1;
     boolean hasNext = true;
-    List<MessageBean> datas = new ArrayList<MessageBean>();
+    List<TransListBean> datas = new ArrayList<TransListBean>();
     EmptyHelper emptyHelper;
-    MessagePresenter messagePresenter;
-    MessageListAdapter adapter;
+    WalletTransListPresenter transListPresenter;
+    MemberTransListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,38 +47,38 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
         setContentView(R.layout.layout_pull_listview);
 
         emptyHelper = new EmptyHelper(this, findViewById(R.id.layout_empty), null);
-        emptyHelper.setImageRes(R.drawable.page_icon_02);
-        emptyHelper.setMessage(R.string.page_no_message);
-        messagePresenter = new MessagePresenter(new MessageModel(), this);
+        emptyHelper.setImageRes(R.drawable.page_icon_06);
+        emptyHelper.setMessage(R.string.page_no_data);
+        transListPresenter = new WalletTransListPresenter(this);
         initView();
     }
 
-    private void loadData() {
-        if(hasNext) {
-            messagePresenter.getMessageList();
-        }
-    }
-
     private void initView() {
-        titleBar.setTitle(R.string.message);
+        titleBar.setTitle(R.string.member_trans_list);
 
-        listView.setAdapter(adapter = new MessageListAdapter(this, R.layout.listview_item_messagelist, datas));
+        listView.setAdapter(adapter = new MemberTransListAdapter(this, R.layout.listview_item_member_trans_list, datas));
         listView.setOnItemClickListener(this);
-        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<android.widget.ListView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullDownToRefresh(PullToRefreshBase<android.widget.ListView> refreshView) {
                 pageNo = 1;
                 hasNext = true;
                 loadData();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullUpToRefresh(PullToRefreshBase<android.widget.ListView> refreshView) {
                 pageNo++;
                 loadData();
             }
         });
         listView.setRefreshing(true);
+    }
+
+    private void loadData() {
+        if(hasNext) {
+            transListPresenter.walletTransList();
+        }
     }
 
     @Override
@@ -98,20 +105,20 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
     }
 
     @Override
-    public void onSuccess(List<MessageBean> messageList) {
+    public void onTransListSuccess(List<TransListBean> transList) {
         if(pageNo == 1){
             datas.clear();
             listView.onRefreshComplete();
         }
 
-        if(hasNext = (messageList.size() >= Constants.PAGE_SIZE)){
+        if(hasNext = (transList.size() >= Constants.PAGE_SIZE)){
             pageNo++;
             listView.setMode(PullToRefreshBase.Mode.BOTH);
         } else {
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(messageList);
+        datas.addAll(transList);
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);
@@ -122,24 +129,19 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
     }
 
     @Override
-    public void onHasMessage(boolean hasMessage) {}
-
-    @Override
-    public void readMessageSuccess() {}
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        TransListBean trans = (TransListBean) parent.getAdapter().getItem(position);
+        if(trans != null){
+            ActivityBuilder.startTransDetailActivity(this, trans);
+        }
+    }
 
     @Override
     protected void onDestroy() {
-        if(messagePresenter != null){
-            messagePresenter.onDestroy();
+        if(transListPresenter != null){
+            transListPresenter.onDestroy();
         }
         super.onDestroy();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MessageBean messageBean = (MessageBean) parent.getAdapter().getItem(position);
-        DialogUtil.createAlertDialog(this, messageBean.getResult()+"\n\n"+messageBean.getRemark(), "确定");
-//        ActivityBuilder.startContentDetailActivity(this, messageBean.getTitle(), messageBean.getResult()+"<br/>"+messageBean.getRemark());
-        messagePresenter.readMessage(messageBean.getId());
-    }
 }

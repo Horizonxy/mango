@@ -10,13 +10,16 @@ import cn.com.mangopi.android.model.bean.CompanyDetailBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
+import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
+import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.util.RxJavaUtils;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class MemberModel {
@@ -121,5 +124,9 @@ public class MemberModel {
 
     public Subscription walletDraw(long cardId, BigDecimal amount, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.walletDraw(cardId, amount), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription walletTransList(int pageNo, Action1 onError,  Subscriber<RestResult<List<TransListBean>>> subscriber){
+        return RxJavaUtils.schedulersIoMainError(ApiManager.walletTransList(pageNo), onError).subscribe(subscriber);
     }
 }

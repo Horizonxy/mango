@@ -27,7 +27,9 @@ import cn.com.mangopi.android.model.bean.ProjectListBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.SearchBean;
+import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
+import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
 import cn.com.mangopi.android.model.bean.UploadBean;
 import okhttp3.RequestBody;
@@ -98,6 +100,12 @@ public interface ApiService {
     @GET("outer/router?trend_list")
     Observable<RestResult<List<TrendBean>>> getTrendList(
             @QueryMap Map<String, Object> map
+    );
+
+    //5.5.5	 动态详情接口
+    @GET("outer/router?trend_get")
+    Observable<RestResult<TrendDetailBean>> getTrend(
+            @Query("id") long id
     );
 
     //点赞接口
@@ -349,6 +357,14 @@ public interface ApiService {
             @Query("lst_sessid") String sessid,
             @Query("card_id") long cardId,
             @Query("amount") BigDecimal amount
+    );
+
+    //5.1.25	会员交易列表接口
+    @POST("outer/router?wallet_trans")
+    Observable<RestResult<List<TransListBean>>> walletTransList(
+            @Query("lst_sessid") String sessid,
+            @Query("page_no") int pageNo,
+            @Query("page_size") int pageSize
     );
 
     //5.6.16	全文搜索列表接口

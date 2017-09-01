@@ -37,13 +37,12 @@ public class FavListActivity extends BaseTitleBarActivity implements FavListList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_pull_listview);
-        
-        initView();
+
         emptyHelper = new EmptyHelper(this, findViewById(R.id.layout_empty), null);
         emptyHelper.setImageRes(R.drawable.page_icon_03);
         emptyHelper.setMessage(R.string.page_no_collection);
         favPresenter = new FavPresenter(new FavModel(), this);
-        loadData();
+        initView();
     }
 
     private void loadData() {

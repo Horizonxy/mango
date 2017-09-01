@@ -15,6 +15,7 @@ import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
+import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.ui.activity.AddBlankCardActivity;
 import cn.com.mangopi.android.ui.activity.BulletinDetailActivity;
 import cn.com.mangopi.android.ui.activity.CalssListActivity;
@@ -42,6 +43,7 @@ import cn.com.mangopi.android.ui.activity.SelectPayActivity;
 import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
 import cn.com.mangopi.android.ui.activity.SetOrderCalendarActivity;
 import cn.com.mangopi.android.ui.activity.SuccessActivity;
+import cn.com.mangopi.android.ui.activity.TransDetailActivity;
 import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
 import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
 import cn.com.mangopi.android.ui.activity.UpgradeRoleActivity;
@@ -269,6 +271,12 @@ public class ActivityBuilder {
     public static void startWorksProjectDetailActivity(Activity activity, long id){
         Intent intent = new Intent(activity, WorksProjectDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_ID, id);
+        activity.startActivity(intent);
+    }
+
+    public static void startTransDetailActivity(Activity activity, TransListBean trans){
+        Intent intent = new Intent(activity, TransDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_DATA, trans);
         activity.startActivity(intent);
     }
 }
