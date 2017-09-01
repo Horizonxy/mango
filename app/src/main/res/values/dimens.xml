@@ -9,6 +9,11 @@
     <dimen name="header_footer_left_right_padding">24dp</dimen>
     <dimen name="header_footer_top_bottom_padding">22dp</dimen>
 
+    <dimen name="message_dialog_picker_item_padding_top">3dp</dimen>
+    <dimen name="message_dialog_picker_item_padding_bottom">4dp</dimen>
+    <dimen name="message_dialog_picker_arrow_padding_outside">20dp</dimen>
+    <dimen name="message_dialog_picker_arrow_padding_inside">13dp</dimen>
+    <dimen name="message_dialog_picker_div_padding">45dp</dimen>
 
     <dimen name="sp_10">10sp</dimen>
     <dimen name="sp_12">12sp</dimen>

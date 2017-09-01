@@ -3,12 +3,15 @@ package cn.com.mangopi.android.ui.activity;
 import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.j256.ormlite.stmt.query.In;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -17,6 +20,8 @@ import com.yancy.gallerypick.config.GalleryPick;
 import com.yancy.gallerypick.inter.IHandlerCallBack;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,10 +39,12 @@ import cn.com.mangopi.android.presenter.SettingMemberPresenter;
 import cn.com.mangopi.android.presenter.UploadPresenter;
 import cn.com.mangopi.android.ui.viewlistener.ProfileSettingListener;
 import cn.com.mangopi.android.ui.viewlistener.UploadViewListener;
+import cn.com.mangopi.android.ui.widget.MangoDateItemPicker;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DateUtils;
+import cn.com.mangopi.android.util.DialogUtil;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.FileUtils;
 import cn.com.mangopi.android.util.SelectorImageLoader;
@@ -107,6 +114,12 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
     UploadPresenter uploadPresenter;
     UploadBean uploadBean;
     GalleryConfig galleryConfig;
+    int birthYear = 1990, birthMonth = 1, birthDay = 1;
+    Date newBirthday;
+    int enterSchoolYear = 2010, enterSchoolMonth = 9, enterSchoolDay = 1;
+    Date newEnterSchool;
+
+    int gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,6 +264,31 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         tvProject.setText(member.getProject_experience());
         tvWorks.setText(member.getWork_experience());
         tvEvaluation.setText(member.getSelf_evaluation());
+
+        tvBirthday.setText(DateUtils.dateToString(member.getBirthday(), DateUtils.DATE_PATTERN));
+        if(member.getBirthday() != null){
+            birthYear = member.getBirthday().getYear();
+            birthMonth = member.getBirthday().getMonth();
+            birthDay = member.getBirthday().getDate();
+        }
+
+        if(!TextUtils.isEmpty(member.getEnter_school())){
+            String[] enters = member.getEnter_school().split("-");
+            if(enters.length > 0){
+                enterSchoolYear = Integer.parseInt(enters[0]);
+            }
+            if(enters.length > 1){
+                enterSchoolMonth = Integer.parseInt(enters[1]);
+            }
+            if(enters.length > 2){
+                enterSchoolDay = Integer.parseInt(enters[2]);
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, enterSchoolYear);
+            calendar.set(Calendar.MONTH, enterSchoolMonth - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, enterSchoolDay);
+            tvEnterDate.setText(DateUtils.calendarToString(calendar, DateUtils.DATE_PATTERN));
+        }
     }
 
     @OnClick(R.id.layout_avatar)
@@ -273,6 +311,53 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
     @OnClick(R.id.ib_left)
     void clickBack(View v){
         presenter.settingMember();
+    }
+
+    @OnClick(R.id.layout_birthday)
+    void clickBirthday(View v){
+        MangoDateItemPicker picker = new MangoDateItemPicker(this, birthYear, birthMonth, birthDay);
+        DialogUtil.createDatePickerDialog(this, "选择出生日期", picker, "确定", "取消", new DialogUtil.OnChooseDialogListener() {
+            @Override
+            public void onChoose() {
+                birthYear = Integer.parseInt(picker.getYear());
+                birthMonth = Integer.parseInt(picker.getMonth());
+                birthDay = Integer.parseInt(picker.getDay());
+                newBirthday = DateUtils.stringToDate(picker.getDate(), DateUtils.DATE_PATTERN);
+                tvBirthday.setText(picker.getDate());
+            }
+        });
+    }
+
+    @OnClick(R.id.layout_enter_date)
+    void clickEnterSchool(View v){
+        MangoDateItemPicker picker = new MangoDateItemPicker(this, enterSchoolYear, enterSchoolMonth, enterSchoolDay);
+        DialogUtil.createDatePickerDialog(this, "选择入学日期", picker, "确定", "取消", new DialogUtil.OnChooseDialogListener() {
+            @Override
+            public void onChoose() {
+                enterSchoolYear = Integer.parseInt(picker.getYear());
+                enterSchoolMonth = Integer.parseInt(picker.getMonth());
+                enterSchoolDay = Integer.parseInt(picker.getDay());
+                newEnterSchool = DateUtils.stringToDate(picker.getDate(), DateUtils.DATE_PATTERN);
+                tvEnterDate.setText(picker.getDate());
+            }
+        });
+    }
+
+    @OnClick(R.id.layout_gender)
+    void clickGender(View v){
+        RadioGroup group = (RadioGroup) getLayoutInflater().inflate(R.layout.layout_select_gender_in_dialog, null, false);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+
+            }
+        });
+        DialogUtil.createDatePickerDialog(this, "选择性别", group, "确定", "取消", new DialogUtil.OnChooseDialogListener() {
+            @Override
+            public void onChoose() {
+
+            }
+        });
     }
 
     @OnClick(R.id.layout_qq)
@@ -390,6 +475,12 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         member.setProject_experience(tvProject.getText().toString());
         member.setWork_experience(tvWorks.getText().toString());
         member.setSelf_evaluation(tvEvaluation.getText().toString());
+        if(newBirthday != null){
+            member.setBirthday(newBirthday);
+        }
+        if(newEnterSchool != null){
+            member.setEnter_school(tvEnterDate.getText().toString());
+        }
         Application.application.saveMember(member, Application.application.getSessId());
 
         BusEvent.RefreshMemberEvent event = new BusEvent.RefreshMemberEvent();
@@ -415,6 +506,12 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         map.put("project_experience", tvProject.getText().toString());
         map.put("work_experience", tvWorks.getText().toString());
         map.put("self_evaluation", tvEvaluation.getText().toString());
+        if(newBirthday != null) {
+            map.put("birthday", tvBirthday.getText().toString());
+        }
+        if(newEnterSchool != null) {
+            map.put("enter_school", tvEnterDate.getText().toString());
+        }
         return map;
     }
 

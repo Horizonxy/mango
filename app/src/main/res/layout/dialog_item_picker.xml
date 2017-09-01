@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dip"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/imageButtonPrev"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/message_dialog_picker_arrow_padding_inside"
+        android:paddingTop="@dimen/message_dialog_picker_arrow_padding_outside"
+        android:src="@drawable/ic_arrow_up" />
+
+    <cn.com.mangopi.android.ui.widget.WheelView
+        android:id="@+id/wheelview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/message_dialog_picker_arrow_padding_inside"
+        android:paddingTop="@dimen/message_dialog_picker_arrow_padding_outside" >
+    </cn.com.mangopi.android.ui.widget.WheelView>
+
+    <ImageView
+        android:id="@+id/imageButtonNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/message_dialog_picker_arrow_padding_outside"
+        android:paddingTop="@dimen/message_dialog_picker_arrow_padding_inside"
+        android:src="@drawable/ic_arrow_down" />
+
+</LinearLayout>

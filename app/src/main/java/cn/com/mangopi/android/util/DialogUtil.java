@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import cn.com.mangopi.android.R;
@@ -115,4 +116,35 @@ public class DialogUtil {
         void onChoose();
     }
 
+
+    public static void createDatePickerDialog(Context context, String title, View contentView, String btnOkMsg, String btnCancelMsg, final OnChooseDialogListener onChooseDialogListener){
+        final AlertDialog dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_date_select, null ,false);
+        dialog.setContentView(view);
+        TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
+        FrameLayout layoutContent = (FrameLayout) view.findViewById(R.id.layout_content);
+        layoutContent.addView(contentView);
+        TextView tvOk = (TextView) view.findViewById(R.id.tv_ok);
+        TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+        tvTitle.setText(title);
+        tvOk.setText(btnOkMsg);
+        tvCancel.setText(btnCancelMsg);
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onChooseDialogListener != null){
+                    onChooseDialogListener.onChoose();
+                }
+                dialog.dismiss();
+            }
+        });
+
+    }
 }
