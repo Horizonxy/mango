@@ -269,11 +269,14 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         tvWorks.setText(member.getWork_experience());
         tvEvaluation.setText(member.getSelf_evaluation());
 
-        tvBirthday.setText(DateUtils.dateToString(member.getBirthday(), DateUtils.DATE_PATTERN));
         if(member.getBirthday() != null){
-            birthYear = member.getBirthday().getYear();
-            birthMonth = member.getBirthday().getMonth();
-            birthDay = member.getBirthday().getDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(member.getBirthday());
+            tvBirthday.setText(DateUtils.dateToString(member.getBirthday(), DateUtils.DATE_PATTERN));
+
+            birthYear = calendar.get(Calendar.YEAR);
+            birthMonth = calendar.get(Calendar.MONTH) + 1;
+            birthDay = calendar.get(Calendar.DAY_OF_MONTH);
         }
 
         if(!TextUtils.isEmpty(member.getEnter_school())){
@@ -430,6 +433,11 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         ActivityBuilder.startInputMessageActivity(this, "修改自我评价", "确定", "evaluation", 200, tvEvaluation.getText().toString());
     }
 
+    @OnClick(R.id.layout_real_name)
+    void clickRealName(View v){
+        ActivityBuilder.startInputMessageActivity(this, "修改姓名", "确定", "real_name", 10, tvRealName.getText().toString());
+    }
+
     @BusReceiver
     public void onInputEvent(BusEvent.InputEvent event){
         String type = event.getType();
@@ -453,6 +461,8 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
             tvWorks.setText(event.getContent());
         } else if("evaluation".equals(type)){
             tvEvaluation.setText(event.getContent());
+        } else if("real_name".equals(event.getType())){
+            tvRealName.setText(event.getContent());
         }
     }
 
@@ -504,6 +514,7 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         if(gender >= 0){
             member.setGender(gender);
         }
+        member.setName(tvRealName.getText().toString());
         Application.application.saveMember(member, Application.application.getSessId());
 
         BusEvent.RefreshMemberEvent event = new BusEvent.RefreshMemberEvent();
@@ -538,6 +549,7 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         if(gender >= 0){
             map.put("gender", gender);
         }
+        map.put("name", tvRealName.getText().toString());
         return map;
     }
 
