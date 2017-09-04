@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -120,6 +121,7 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
     Date newEnterSchool;
 
     int gender;
+    int selectedGender = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,8 +245,10 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
 
         tvRealName.setText(member.getName());
         if(member.getGender() != null) {
-            tvGender.setText(member.getGender() == 1 ? "男" : "女");
+            tvGender.setText(member.getGender().intValue() == 1 ? "男" : "女");
+            gender = member.getGender().intValue();
         } else {
+            gender = -1;
             tvGender.setText("");
         }
         tvBirthday.setText(DateUtils.dateToString(member.getBirthday(), DateUtils.DATE_PATTERN));
@@ -346,16 +350,32 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
     @OnClick(R.id.layout_gender)
     void clickGender(View v){
         RadioGroup group = (RadioGroup) getLayoutInflater().inflate(R.layout.layout_select_gender_in_dialog, null, false);
+        RadioButton male = (RadioButton) group.findViewById(R.id.rb_male);
+        RadioButton female = (RadioButton) group.findViewById(R.id.rb_female);
+        if("男".equals(tvGender.getText())){
+            male.setChecked(true);
+        } else if("女".equals(tvGender.getText())){
+            female.setChecked(true);
+        }
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-
+                if(male.getId() == checkedId){
+                    selectedGender = 1;
+                } else if(female.getId() == checkedId){
+                    selectedGender = 0;
+                } else {
+                    selectedGender = -1;
+                }
             }
         });
         DialogUtil.createDatePickerDialog(this, "选择性别", group, "确定", "取消", new DialogUtil.OnChooseDialogListener() {
             @Override
             public void onChoose() {
-
+                if(selectedGender >= 0) {
+                    gender = selectedGender;
+                    tvGender.setText(gender == 1 ? "男" : "女");
+                }
             }
         });
     }
@@ -372,7 +392,7 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
 
     @OnClick(R.id.layout_sign)
     void clickSign(View v){
-        ActivityBuilder.startInputMessageActivity(this, "修改签名", "确定", "sign", 50, tvWechat.getText().toString());
+        ActivityBuilder.startInputMessageActivity(this, "修改签名", "确定", "sign", 50, tvSign.getText().toString());
     }
 
     @OnClick(R.id.layout_email)
@@ -382,7 +402,7 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
 
     @OnClick(R.id.layout_nick_name)
     void clickNickName(View v){
-        ActivityBuilder.startInputMessageActivity(this, "修改昵称", "确定", "nick_name", 20, tvSign.getText().toString());
+        ActivityBuilder.startInputMessageActivity(this, "修改昵称", "确定", "nick_name", 20, tvNickName.getText().toString());
     }
 
     @OnClick(R.id.layout_school)
@@ -481,6 +501,9 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         if(newEnterSchool != null){
             member.setEnter_school(tvEnterDate.getText().toString());
         }
+        if(gender >= 0){
+            member.setGender(gender);
+        }
         Application.application.saveMember(member, Application.application.getSessId());
 
         BusEvent.RefreshMemberEvent event = new BusEvent.RefreshMemberEvent();
@@ -511,6 +534,9 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         }
         if(newEnterSchool != null) {
             map.put("enter_school", tvEnterDate.getText().toString());
+        }
+        if(gender >= 0){
+            map.put("gender", gender);
         }
         return map;
     }
