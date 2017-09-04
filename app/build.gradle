@@ -29,9 +29,9 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
-            zipAlignEnabled false
-            shrinkResources false
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -65,6 +65,8 @@ dependencies {
     compile files('libs/Baidu_Mtj_3.8.0.2.jar')
     compile files('libs/jcore-android-1.1.6.jar')
     compile files('libs/jpush-android-3.0.8.jar')
+    compile files('libs/libammsdk.jar')
+    compile files('libs/alipaySdk-20170725.jar')
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.zhy:autolayout:1.4.5'
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
@@ -89,12 +91,12 @@ dependencies {
     compile 'com.chanven.lib:cptr:1.1.0'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.bigkoo:convenientbanner:2.0.5'
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+//    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'liji.library.dev:citypickerview:1.1.0'
     compile 'com.github.YancyYe:GalleryPick:1.2.1'
-    apt 'com.google.dagger:dagger-compiler:2.0.2'
-    provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.fang:dashview:v1.0.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
+    apt 'com.google.dagger:dagger-compiler:2.0.2'
+    provided 'javax.annotation:jsr250-api:1.0'
 }

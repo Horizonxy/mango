@@ -10,7 +10,7 @@ import cn.com.mangopi.android.ui.widget.TitleBar;
 
 public class BaseTitleBarActivity extends BaseActivity {
 
-    TitleBar titleBar;
+    public TitleBar titleBar;
     FrameLayout flContent;
 
     @Override

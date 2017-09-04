@@ -1,6 +1,5 @@
 package cn.com.mangopi.android.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import cn.com.mangopi.android.R;
