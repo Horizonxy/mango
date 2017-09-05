@@ -2,6 +2,7 @@ package cn.com.mangopi.android.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import cn.com.mangopi.android.model.data.MemberModel;
 import cn.com.mangopi.android.presenter.MemberPresenter;
 import cn.com.mangopi.android.ui.viewlistener.MemberDetailListener;
 import cn.com.mangopi.android.util.ActivityBuilder;
+import cn.com.mangopi.android.util.PreUtils;
 import cn.com.mangopi.android.util.SystemStatusManager;
 
 public class WelcomeActivity extends Activity implements MemberDetailListener {
@@ -20,12 +22,15 @@ public class WelcomeActivity extends Activity implements MemberDetailListener {
     private Handler handler = new Handler();
     MemberBean member;
     MemberPresenter memberPresenter;
+    boolean first;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SystemStatusManager.setTranslucentStatusRes(this, android.R.color.transparent);
         setContentView(R.layout.activity_welcome);
+
+        first = PreUtils.getBoolean(this, "first", true);
 
         initView();
 
@@ -46,8 +51,13 @@ public class WelcomeActivity extends Activity implements MemberDetailListener {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                PreUtils.putBoolean(WelcomeActivity.this, "first", false);
                 if(member == null){
-                    ActivityBuilder.startLoginActivity(WelcomeActivity.this);
+                    if(first){
+                        startActivity(new Intent(WelcomeActivity.this, GuideActivity.class));
+                    } else {
+                        ActivityBuilder.startLoginActivity(WelcomeActivity.this);
+                    }
                 } else {
                     if(member.getGender() == null || TextUtils.isEmpty(member.getNick_name())){
                         ActivityBuilder.startSetNickNameActivity(WelcomeActivity.this);
