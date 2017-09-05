@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,6 +45,12 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
     EditText etTitle;
     @Bind(R.id.et_content)
     EditText etContent;
+    @Bind(R.id.layout_classify)
+    View layoutClassify;
+    @Bind(R.id.layout_type)
+    View layoutType;
+    @Bind(R.id.tv_price)
+    TextView tvPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +103,7 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
                     helper.setText(R.id.tv_text, item.getClassify_name());
                 }
             };
-            classifyPopupWindow.showAsDropDown(tvClassify);
+            classifyPopupWindow.showAsDropDown(layoutClassify);
         } else {
             onFailure("无课程分类");
         }
@@ -116,17 +123,20 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
             ListViewPopupWindow<CourseTypeBean> typePopupWindow = new ListViewPopupWindow<CourseTypeBean>(this, typeList, (CourseTypeBean) tvType.getTag(), new ListViewPopupWindow.OnListViewListener<CourseTypeBean>() {
                 @Override
                 public void onItemClick(CourseTypeBean data) {
-                    tvType.setText(data.getType());
+                    tvType.setText(data.getType() + "(" + data.getMethod() + ")");
                     tvType.setTag(data);
+                    if(data.getSale_price() != null) {
+                        tvPrice.setText(getResources().getString(R.string.rmb) + data.getSale_price().toString());
+                    }
                 }
             }){
 
                 @Override
                 public void fiddData(BaseAdapterHelper helper, CourseTypeBean item) {
-                    helper.setText(R.id.tv_text, item.getType());
+                    helper.setText(R.id.tv_text, item.getType() + "(" + item.getMethod() + ")");
                 }
             };
-            typePopupWindow.showAsDropDown(tvType);
+            typePopupWindow.showAsDropDown(layoutType);
         } else {
             onFailure("无课程类型");
         }

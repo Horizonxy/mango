@@ -77,6 +77,10 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
     ImageView ivCamera;
     @Bind(R.id.tv_logo_tip)
     TextView tvLogoTip;
+    @Bind(R.id.line_type)
+    View lineType;
+    @Bind(R.id.line_classify)
+    View lineClassify;
 
     GalleryConfig galleryConfig;
     UploadPresenter uploadPresenter;
@@ -332,7 +336,7 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
                     helper.setText(R.id.tv_text, item.getType_name());
                 }
             };
-            typePopupWindow.showAsDropDown(tvCommunityType);
+            typePopupWindow.showAsDropDown(lineType);
         } else {
             onFailure("无社团类型");
         }
@@ -369,7 +373,7 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
                     helper.setText(R.id.tv_text, item.getClassic_name());
                 }
             };
-            typePopupWindow.showAsDropDown(tvCommunityClassify);
+            typePopupWindow.showAsDropDown(lineClassify);
         } else {
             onFailure("无社团分类");
         }

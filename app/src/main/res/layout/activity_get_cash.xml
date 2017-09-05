@@ -48,7 +48,9 @@
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
-            <View style="@style/margin_horizontal_line" />
+            <View
+                android:id="@+id/line_no"
+                style="@style/margin_horizontal_line" />
 
             <LinearLayout
                 android:layout_width="match_parent"

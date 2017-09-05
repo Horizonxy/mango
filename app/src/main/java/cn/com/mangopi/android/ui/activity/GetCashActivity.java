@@ -42,6 +42,8 @@ public class GetCashActivity extends BaseTitleBarActivity implements MemeberWall
     MemberCardBean selectCard;
     MemberWalletPresenter presenter;
     WalletDrawPresenter drawPresenter;
+    @Bind(R.id.line_no)
+    View lineNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +106,7 @@ public class GetCashActivity extends BaseTitleBarActivity implements MemeberWall
                     helper.setText(R.id.tv_text, item.getBank_name());
                 }
             };
-            cardListPopupWindow.showAsDropDown(tvCardNo);
+            cardListPopupWindow.showAsDropDown(lineNo);
         } else {
             onFailure("请先绑定银行卡");
         }
