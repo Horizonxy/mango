@@ -24,7 +24,6 @@ import cn.com.mangopi.android.model.data.OrderModel;
 import cn.com.mangopi.android.presenter.OrderPresenter;
 import cn.com.mangopi.android.ui.viewlistener.OrderDetailListener;
 import cn.com.mangopi.android.ui.viewlistener.OrderListListener;
-import cn.com.mangopi.android.ui.widget.UploadPictureView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
@@ -100,10 +99,10 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     Button btnReply;
     @Bind(R.id.btn_comment)
     Button btnComment;
-    @Bind(R.id.layout_reward)
-    LinearLayout layoutReward;
-    @Bind(R.id.btn_reward)
-    Button btnReward;
+//    @Bind(R.id.layout_reward)
+//    LinearLayout layoutReward;
+//    @Bind(R.id.btn_reward)
+//    Button btnReward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,13 +251,13 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
             if(orderDetail.getState().intValue() == 2){
                 btnCancel.setVisibility(View.VISIBLE);
                 btnPay.setVisibility(View.VISIBLE);
-                layoutReward.setVisibility(View.GONE);
+//                layoutReward.setVisibility(View.GONE);
                 tvLikeTip.setVisibility(View.GONE);
                 lineLikeTip.setVisibility(View.GONE);
                 btnComment.setVisibility(View.GONE);
             }  else if(orderDetail.getState().intValue() == 3 ||orderDetail.getState().intValue() == 4
                     || orderDetail.getState().intValue() == 5 || orderDetail.getState().intValue() == 50){
-                layoutReward.setVisibility(View.VISIBLE);
+//                layoutReward.setVisibility(View.VISIBLE);
                 tvLikeTip.setVisibility(View.VISIBLE);
                 lineLikeTip.setVisibility(View.VISIBLE);
                 btnCancel.setVisibility(View.GONE);
@@ -270,7 +269,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
                     btnComment.setVisibility(View.GONE);
                 }
             } else {
-                layoutReward.setVisibility(View.GONE);
+//                layoutReward.setVisibility(View.GONE);
                 tvLikeTip.setVisibility(View.GONE);
                 lineLikeTip.setVisibility(View.GONE);
                 btnCancel.setVisibility(View.GONE);
@@ -280,7 +279,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         } else {
             btnCancel.setVisibility(View.GONE);
             btnPay.setVisibility(View.GONE);
-            layoutReward.setVisibility(View.GONE);
+//            layoutReward.setVisibility(View.GONE);
             tvLikeTip.setVisibility(View.GONE);
             lineLikeTip.setVisibility(View.GONE);
             btnComment.setVisibility(View.GONE);

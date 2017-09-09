@@ -104,6 +104,8 @@ public class MemberPresenter extends BasePresenter {
             public void onNext(RestResult<MemberBean> restResult) {
                 if(restResult != null && restResult.isSuccess()){
                     listener.onSuccess(restResult.getData());
+                } else {
+                    listener.onFailure(restResult.getRet_msg());
                 }
             }
         });

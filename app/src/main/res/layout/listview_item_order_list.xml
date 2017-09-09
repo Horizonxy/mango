@@ -10,7 +10,9 @@
         android:background="@android:color/white"
         android:descendantFocusability="blocksDescendants"
         android:orientation="vertical"
-        android:padding="@dimen/dp_15">
+        android:paddingTop="@dimen/dp_15"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -120,10 +122,11 @@
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingRight="@dimen/dp_10"
                 android:paddingTop="@dimen/dp_8"
+                android:layout_marginBottom="@dimen/dp_15"
                 android:text="取消安排"
                 android:textColor="@drawable/selector_text_color_lesser_btn"
                 android:textSize="@dimen/sp_14"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btn_cancle"
@@ -138,6 +141,7 @@
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingRight="@dimen/dp_10"
                 android:paddingTop="@dimen/dp_8"
+                android:layout_marginBottom="@dimen/dp_15"
                 android:text="取消订单"
                 android:textColor="@drawable/selector_text_color_cancel_btn"
                 android:textSize="@dimen/sp_14" />
@@ -155,12 +159,12 @@
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingRight="@dimen/dp_10"
                 android:paddingTop="@dimen/dp_8"
+                android:layout_marginBottom="@dimen/dp_15"
                 android:text="立即付款"
                 android:textColor="@drawable/selector_text_color_important_btn"
                 android:textSize="@dimen/sp_14" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 
