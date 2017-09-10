@@ -37,7 +37,7 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_order_calendar);
+        setContentView(R.layout.activity_order_schedule_calendar);
 
         initView();
         scheduleCalendarPresenter = new ScheduleCalendarPresenter(this);
