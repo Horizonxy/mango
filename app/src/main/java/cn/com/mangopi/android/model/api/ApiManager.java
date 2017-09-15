@@ -251,4 +251,8 @@ public class ApiManager {
     public static  Observable<RestResult<List<TransListBean>>> walletTransList(int pageNo){
         return Application.application.getApiService().walletTransList(Application.application.getSessId(), pageNo, Constants.PAGE_SIZE);
     }
+
+    public static  Observable<RestResult<String>> scheduleCalendar(){
+        return Application.application.getApiService().scheduleCalendar(Application.application.getSessId());
+    }
 }

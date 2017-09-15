@@ -390,4 +390,10 @@ public interface ApiService {
             @Query("lst_sessid") String sessid,
             @Query("id") long id
     );
+
+    //5.3.12课程安排日历接口
+    @GET("outer/router?schedule_calendar")
+    Observable<RestResult<String>> scheduleCalendar(
+            @Query("lst_sessid") String sessid
+    );
 }

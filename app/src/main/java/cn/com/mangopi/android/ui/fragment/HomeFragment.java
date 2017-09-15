@@ -435,7 +435,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ib_scan:
-                ActivityBuilder.startSetOrderCalendarActivity(getActivity());
+
                 break;
             case R.id.iv_message:
                 ActivityBuilder.startMessageListActivity(getActivity());

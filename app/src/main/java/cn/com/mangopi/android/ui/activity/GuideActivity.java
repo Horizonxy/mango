@@ -88,7 +88,7 @@ public class GuideActivity extends BaseActivity {
 
     @OnClick(R.id.btn_start)
     void clickStart(){
-        ActivityBuilder.startMainActivity(this);
+        ActivityBuilder.startLoginActivity(this);
         ActivityBuilder.defaultTransition(this);
         finish();
     }

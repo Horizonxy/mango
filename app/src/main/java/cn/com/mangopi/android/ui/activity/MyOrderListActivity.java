@@ -4,11 +4,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
@@ -24,6 +25,7 @@ import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.ui.adapter.FragmentAdapter;
 import cn.com.mangopi.android.ui.fragment.MyOrderListFragment;
 import cn.com.mangopi.android.ui.widget.ViewPagerFixed;
+import cn.com.mangopi.android.util.ActivityBuilder;
 
 public class MyOrderListActivity extends BaseActivity {
 
@@ -33,6 +35,8 @@ public class MyOrderListActivity extends BaseActivity {
     MagicIndicator tabIndicator;
     @Bind(R.id.view_pager)
     ViewPagerFixed viewPager;
+    @Bind(R.id.tv_see_plan)
+    TextView tvSeePlan;
 
     String[] tabTitles;
     List<Fragment> fragmentList = new ArrayList<>();
@@ -107,11 +111,29 @@ public class MyOrderListActivity extends BaseActivity {
         });
         tabIndicator.setNavigator(commonNavigator);
         viewPager.setOffscreenPageLimit(2);
-        ViewPagerHelper.bind(tabIndicator, viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                tabIndicator.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            public void onPageSelected(int position) {
+                tabIndicator.onPageSelected(position);
+                tvSeePlan.setVisibility(1 == position ? View.VISIBLE : View.GONE);
+            }
+
+            public void onPageScrollStateChanged(int state) {
+                tabIndicator.onPageScrollStateChanged(state);
+            }
+        });
     }
 
     @OnClick(R.id.ib_left)
     void backClick(View v){
         finish();
+    }
+
+    @OnClick(R.id.tv_see_plan)
+    void planClick(View v){
+        ActivityBuilder.startOrderScheduleCalendarActivity(this);
     }
 }

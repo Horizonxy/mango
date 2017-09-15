@@ -1,7 +1,6 @@
 package cn.com.mangopi.android.ui.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -196,9 +195,9 @@ public class UpgradeToTutorActivity extends BaseTitleBarActivity implements Upda
             return;
         }
         if(TextUtils.isEmpty(tutorLogoRsurl)){
-            AppUtils.showToast(this, "请选择学生证照片或重传");
+            AppUtils.showToast(this, "请选择形象照片或重传");
             return;
-        }
+       }
         updateRolePresenter.upgradeTutor();
     }
 

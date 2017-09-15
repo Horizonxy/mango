@@ -1,5 +1,6 @@
 package cn.com.mangopi.android.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,14 +13,17 @@ import java.util.List;
 
 import butterknife.Bind;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.presenter.ScheduleCalendarPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
+import cn.com.mangopi.android.ui.viewlistener.OrderScheduleCalendarListener;
 import cn.com.mangopi.android.ui.widget.GridView;
 import cn.com.mangopi.android.ui.widget.TitleBar;
+import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 
-public class SetOrderCalendarActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener{
+public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener, OrderScheduleCalendarListener {
 
     @Bind(R.id.gv_calendar)
     GridView gvCalendar;
@@ -28,13 +32,16 @@ public class SetOrderCalendarActivity extends BaseTitleBarActivity implements Ti
     List<String> datas = new ArrayList<>();
     QuickAdapter<String> calendarAdapter;
     boolean today;
+    ScheduleCalendarPresenter scheduleCalendarPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_order_calendar);
+        setContentView(R.layout.activity_order_schedule_calendar);
 
         initView();
+        scheduleCalendarPresenter = new ScheduleCalendarPresenter(this);
+        scheduleCalendarPresenter.scheduleCalendar();
         initData();
     }
 
@@ -110,5 +117,23 @@ public class SetOrderCalendarActivity extends BaseTitleBarActivity implements Ti
            titleBar.setTitle(DateUtils.calendarToString(currentCalendar, DateUtils.DATE_MONTH_CN));
            calendarAdapter.notifyDataSetChanged();
        }
+    }
+
+    @Override
+    public void onFailure(String message) {
+        AppUtils.showToast(this, message);
+    }
+
+    @Override
+    public Context currentContext() {
+        return this;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(scheduleCalendarPresenter != null){
+            scheduleCalendarPresenter.onDestroy();
+        }
+        super.onDestroy();
     }
 }

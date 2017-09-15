@@ -33,6 +33,7 @@ import cn.com.mangopi.android.ui.activity.MemberWorksActivity;
 import cn.com.mangopi.android.ui.activity.MessageListActivity;
 import cn.com.mangopi.android.ui.activity.MyClassesActivity;
 import cn.com.mangopi.android.ui.activity.OrderDetailActivity;
+import cn.com.mangopi.android.ui.activity.OrderScheduleCalendarActivity;
 import cn.com.mangopi.android.ui.activity.PayResultActivity;
 import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
 import cn.com.mangopi.android.ui.activity.PlaceOrderActivity;
@@ -41,7 +42,6 @@ import cn.com.mangopi.android.ui.activity.PublishDynamicsActivity;
 import cn.com.mangopi.android.ui.activity.SearchActivity;
 import cn.com.mangopi.android.ui.activity.SelectPayActivity;
 import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
-import cn.com.mangopi.android.ui.activity.SetOrderCalendarActivity;
 import cn.com.mangopi.android.ui.activity.SuccessActivity;
 import cn.com.mangopi.android.ui.activity.TransDetailActivity;
 import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
@@ -247,8 +247,8 @@ public class ActivityBuilder {
         activity.overridePendingTransition(0, 0);
     }
 
-    public static void startSetOrderCalendarActivity(Activity activity){
-        Intent intent = new Intent(activity, SetOrderCalendarActivity.class);
+    public static void startOrderScheduleCalendarActivity(Activity activity){
+        Intent intent = new Intent(activity, OrderScheduleCalendarActivity.class);
         activity.startActivity(intent);
     }
 

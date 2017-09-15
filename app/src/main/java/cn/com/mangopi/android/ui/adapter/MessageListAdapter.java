@@ -19,8 +19,8 @@ public class MessageListAdapter extends QuickAdapter<MessageBean> {
 
     @Override
     protected void convert(BaseAdapterHelper helper, MessageBean item) {
-        helper.setText(R.id.tv_title, item.getTitle())
-                .setText(R.id.tv_content, item.getRemark())
+        helper.setText(R.id.tv_title, item.getSend_user_name())
+                .setText(R.id.tv_content, item.getTitle() + "：" + item.getResult() + "，" + item.getRemark())
                 .setVisible(R.id.tv_num, item.getState() != null && item.getState().intValue() != 1);
 
         helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));

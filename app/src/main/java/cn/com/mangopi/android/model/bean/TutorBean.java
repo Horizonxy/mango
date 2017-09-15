@@ -15,6 +15,15 @@ public class TutorBean implements Serializable {
     private int wanted_count;
     private boolean is_favor;
     private List<CourseBean> courses;
+    private String intro;
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
 
     public long getId() {
         return id;

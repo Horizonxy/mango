@@ -44,6 +44,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
     TutorDetailPresenter presenter;
     List<CourseBean> courseList = new ArrayList<>();
     QuickAdapter<CourseBean> adapter;
+    TextView tvIntro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         tvCity = (TextView) header.findViewById(R.id.tv_city);
         tvWantCount = (TextView) header.findViewById(R.id.tv_want_count);
         tvWantedCount = (TextView) header.findViewById(R.id.tv_wanted_count);
+        tvIntro = (TextView) header.findViewById(R.id.tv_tutor_intro);
 
         lvCourses.addHeaderView(header);
         lvCourses.setDivider(null);
@@ -105,6 +107,8 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         } else {
             ivWant.setImageResource(R.drawable.faxian_xiangting);
         }
+
+        tvIntro.setText(tutor.getIntro());
 
         courseList.clear();
         courseList.addAll(tutor.getCourses());
