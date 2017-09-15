@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
@@ -76,9 +78,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     LinearLayout layoutTwoGroup;
     ImageView ivGroup1, ivGroup2;
 
-    ListView lvAdverts;
-    ArrayList<AdvertBean> advertList = new ArrayList<>();
-    QuickAdapter<AdvertBean> advertAdapter;
+    LinearLayout layoutAdverts;
 
     EditText etSearch;
 
@@ -131,7 +131,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         ivGroup1.setOnClickListener(advertDetaiClickListener);
         ivGroup2.setOnClickListener(advertDetaiClickListener);
 
-        lvAdverts = (ListView) root.findViewById(R.id.lv_adverts);
+        layoutAdverts = (LinearLayout) root.findViewById(R.id.layout_adverts);
 
         root.findViewById(R.id.iv_tab_search).setOnClickListener(this);
         etSearch = (EditText) root.findViewById(R.id.et_search);
@@ -169,89 +169,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             }
         });
 
-        lvAdverts.setAdapter(advertAdapter = new QuickAdapter<AdvertBean>(getContext(), advertList, new MultiItemTypeSupport<AdvertBean>() {
-            @Override
-            public int getLayoutId(int position, AdvertBean advertBean) {
-                int type = getItemViewType(position, advertBean);
-                if (1 == type) {
-                    return R.layout.layout_home_setting_one;
-                } else if (2 == type) {
-                    return R.layout.layout_home_setting_more;
-                }
-                return R.layout.layout_home_setting_advert;
-            }
-
-            @Override
-            public int getViewTypeCount() {
-                return 3;
-            }
-
-            @Override
-            public int getItemViewType(int postion, AdvertBean advertBean) {
-                if ("1".equals(advertBean.getType())) {
-                    return 1;
-                } else if ("2".equals(advertBean.getType()) || "3".equals(advertBean.getType())) {
-                    return 2;
-                }
-                return 3;
-            }
-        }) {
-            @Override
-            protected void convert(BaseAdapterHelper helper, AdvertBean item) {
-                switch (helper.layoutId) {
-                    case R.layout.layout_home_setting_one:
-                        helper.setText(R.id.tv_title1, item.getTitle())
-                                .setText(R.id.tv_intro1, item.getIntro())
-                                .setAdapter(R.id.lv_advert_one_item, new QuickAdapter<AdvertBean.DetailsBean>(context, R.layout.listview_item_home_advert_one_item, item.getDetails()) {
-                                    @Override
-                                    protected void convert(BaseAdapterHelper helper, AdvertBean.DetailsBean item) {
-                                        helper.setImageResource(R.id.iv_advert_one_item, 0)
-                                                .setImageUrl(R.id.iv_advert_one_item, item.getFile_path())
-                                                .setTag(R.id.iv_advert_one_item, item)
-                                                .setOnClickListener(R.id.iv_advert_one_item, advertDetaiClickListener)
-                                                .setVisible(R.id.line_divider, helper.getPosition() < (data.size() - 1));
-                                    }
-                                });
-                        break;
-                    case R.layout.layout_home_setting_more:
-                        helper.setText(R.id.tv_title2, item.getTitle())
-                                .setText(R.id.tv_intro2, item.getIntro());
-                        LinearLayout layoutAdvert = helper.getView(R.id.layout_advert2);
-                        layoutAdvert.removeAllViews();
-                        List<AdvertBean.DetailsBean> details = item.getDetails();
-                        int dp10 = (int) getResources().getDimension(R.dimen.dp_10);
-                        int width = (int) ((DisplayUtils.screenWidth(getContext()) - dp10 * 4) / 3.4);
-                        for (int j = 0; details != null && j < details.size(); j++) {
-                            ImageView itemImageView = new ImageView(getContext());
-                            itemImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                            HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(width, HorizontalScrollView.LayoutParams.MATCH_PARENT);
-                            itemImageView.setLayoutParams(params);
-                            Application.application.getImageLoader().displayImage(details.get(j).getFile_path(), itemImageView, Application.application.getDefaultOptions());
-                            layoutAdvert.addView(itemImageView);
-                            itemImageView.setTag(details.get(j));
-                            itemImageView.setOnClickListener(advertDetaiClickListener);
-                        }
-                        break;
-                    case R.layout.layout_home_setting_advert:
-                        helper.setText(R.id.tv_title3, item.getTitle())
-                                .setAdapter(R.id.lv_advert_item_item, new QuickAdapter<AdvertBean.DetailsBean>(context, R.layout.listview_item_home_advert_item_item, item.getDetails()) {
-                                    @Override
-                                    protected void convert(BaseAdapterHelper helper, AdvertBean.DetailsBean item) {
-                                        helper.setImageResource(R.id.iv_advert_item_item, 0)
-                                                .setImageUrl(R.id.iv_advert_item_item, item.getFile_path())
-                                                .setTag(R.id.iv_advert_item_item, item)
-                                                .setOnClickListener(R.id.iv_advert_item_item, advertDetaiClickListener)
-                                                .setVisible(R.id.line_divider, helper.getPosition() < (data.size() - 1));
-                                    }
-                                });
-                        break;
-                }
-            }
-        });
-
         refreshLayout.autoRefresh(true);
-//        initData();
-
         barColorWithScroll();
 
         List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
@@ -317,10 +235,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     public void onSuccess(String position, List<AdvertBean> advertList) {
         refreshLayout.refreshComplete();
         if (Constants.INDEX_THREEE_ADVERT.equals(position)) {
-            this.advertList.clear();
-            this.advertList.addAll(advertList);
-            advertAdapter.notifyDataSetChanged();
-            refreshLayout.scrollTo(0, 0);
+            bindAdverts(advertList);
         } else if (Constants.INDEX_BANNER.equals(position)) {
             banners.clear();
             banners.addAll(advertList);
@@ -348,6 +263,68 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             } else {
                 layoutTwoGroup.setVisibility(View.GONE);
             }
+        }
+    }
+
+    private void bindAdverts(List<AdvertBean> adverts){
+        layoutAdverts.removeAllViews();
+        for (int i = 0; adverts != null && i < adverts.size(); i++){
+            AdvertBean advertBean = adverts.get(i);
+            View child = null;
+            if ("1".equals(advertBean.getType())) {
+                child = LayoutInflater.from(getContext()).inflate(R.layout.layout_home_setting_one, layoutAdverts, false);
+                TextView title = (TextView) child.findViewById(R.id.tv_title1);
+                TextView tvIntro = (TextView) child.findViewById(R.id.tv_intro1);
+                ListView lvAdvert = (ListView) child.findViewById(R.id.lv_advert_one_item);
+                title.setText(advertBean.getTitle());
+                tvIntro.setText(advertBean.getIntro());
+                lvAdvert.setAdapter(new QuickAdapter<AdvertBean.DetailsBean>(getContext(), R.layout.listview_item_home_advert_one_item, advertBean.getDetails()) {
+                            @Override
+                            protected void convert(BaseAdapterHelper helper, AdvertBean.DetailsBean item) {
+                                helper.setImageResource(R.id.iv_advert_one_item, 0)
+                                        .setImageUrl(R.id.iv_advert_one_item, item.getFile_path())
+                                        .setTag(R.id.iv_advert_one_item, item)
+                                        .setOnClickListener(R.id.iv_advert_one_item, advertDetaiClickListener)
+                                        .setVisible(R.id.line_divider, helper.getPosition() < (data.size() - 1));
+                            }
+                        });
+            } else if ("2".equals(advertBean.getType()) || "3".equals(advertBean.getType())) {
+                child = LayoutInflater.from(getContext()).inflate(R.layout.layout_home_setting_more, layoutAdverts, false);
+                TextView title = (TextView) child.findViewById(R.id.tv_title2);
+                TextView tvIntro = (TextView) child.findViewById(R.id.tv_intro2);
+                title.setText(advertBean.getTitle());
+                tvIntro.setText(advertBean.getIntro());
+                LinearLayout layoutAdvert = (LinearLayout) child.findViewById(R.id.layout_advert2);
+                List<AdvertBean.DetailsBean> details = advertBean.getDetails();
+                int dp10 = (int) getResources().getDimension(R.dimen.dp_10);
+                int width = (int) ((DisplayUtils.screenWidth(getContext()) - dp10 * 4) / 3.4);
+                for (int j = 0; details != null && j < details.size(); j++) {
+                    ImageView itemImageView = new ImageView(getContext());
+                    itemImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(width, HorizontalScrollView.LayoutParams.MATCH_PARENT);
+                    itemImageView.setLayoutParams(params);
+                    Application.application.getImageLoader().displayImage(details.get(j).getFile_path(), itemImageView, Application.application.getDefaultOptions());
+                    layoutAdvert.addView(itemImageView);
+                    itemImageView.setTag(details.get(j));
+                    itemImageView.setOnClickListener(advertDetaiClickListener);
+                }
+            } else {
+                child = LayoutInflater.from(getContext()).inflate(R.layout.layout_home_setting_advert, layoutAdverts, false);
+                TextView title = (TextView) child.findViewById(R.id.tv_title3);
+                title.setText(advertBean.getTitle());
+                ListView lvAdvert = (ListView) child.findViewById(R.id.lv_advert_item_item);
+                lvAdvert.setAdapter(new QuickAdapter<AdvertBean.DetailsBean>(getContext(), R.layout.listview_item_home_advert_item_item, advertBean.getDetails()) {
+                            @Override
+                            protected void convert(BaseAdapterHelper helper, AdvertBean.DetailsBean item) {
+                                helper.setImageResource(R.id.iv_advert_item_item, 0)
+                                        .setImageUrl(R.id.iv_advert_item_item, item.getFile_path())
+                                        .setTag(R.id.iv_advert_item_item, item)
+                                        .setOnClickListener(R.id.iv_advert_item_item, advertDetaiClickListener)
+                                        .setVisible(R.id.line_divider, helper.getPosition() < (data.size() - 1));
+                            }
+                        });
+            }
+            layoutAdverts.addView(child);
         }
     }
 

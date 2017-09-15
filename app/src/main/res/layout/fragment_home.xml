@@ -180,6 +180,11 @@
                     android:divider="@android:color/transparent"
                     android:cacheColorHint="@android:color/transparent"
                     android:scrollbars="none"/>
+                <LinearLayout
+                    android:id="@+id/layout_adverts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"/>
 
                 <include layout="@layout/layout_bottom_concern" />
 
