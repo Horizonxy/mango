@@ -13,8 +13,4 @@ public class PraiseModel {
     public Subscription praise(long entityId, int entityTypeId, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.praise(entityId, entityTypeId), onSubscribe).subscribe(subscriber);
     }
-
-    public Subscription wantCount(long entityId, int entityTypeId, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
-        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.wantCount(entityId, entityTypeId), onSubscribe).subscribe(subscriber);
-    }
 }

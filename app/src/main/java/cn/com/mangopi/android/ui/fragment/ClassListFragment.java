@@ -27,7 +27,6 @@ import cn.com.mangopi.android.presenter.TeacherPresenter;
 import cn.com.mangopi.android.ui.adapter.RecommendCourseAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.TeacherListener;
-import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
@@ -64,6 +63,8 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
     void findView(View root) {
         listView = (PullToRefreshListView) root.findViewById(R.id.listview);
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), this);
+        emptyHelper.setImageRes(R.drawable.page_icon_06);
+        emptyHelper.setMessage(R.string.page_no_data);
     }
 
     @Override

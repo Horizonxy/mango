@@ -127,8 +127,9 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     private void fillData(OrderDetailBean orderDetail){
         this.orderDetail = orderDetail;
 
-        tvOrderNo.setText("单号："+orderDetail.getFiveLenOrderNo());
-        tvOrderTime.setText(DateUtils.dateToString(orderDetail.getOrder_time(), DateUtils.TIME_PATTERN_YMDHM));
+        tvOrderNo.setText("单号："+orderDetail.getOrder_no());
+//        tvOrderTime.setText(DateUtils.dateToString(orderDetail.getOrder_time(), DateUtils.TIME_PATTERN_YMDHM));
+        tvOrderTime.setVisibility(View.GONE);
         tvStateLabel.setText(orderDetail.getState_label());
         tvOrderName.setText(orderDetail.getOrder_name());
         tvOrderCount.setText("x "+orderDetail.getOrder_count());

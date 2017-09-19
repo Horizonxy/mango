@@ -52,6 +52,7 @@ public class MyOrderListFragmentModule {
                 if(relation == 1) {
                     helper.setText(R.id.tv_member_name, item.getTutor_name());
                     helper.setVisible(R.id.btn_act, false);
+                    helper.setVisible(R.id.btn_un_act, false);
                     if(item.getState() != null && item.getState().intValue() == 2) {
                         helper.setVisible(R.id.layout_action, true);
                         helper.setVisible(R.id.v_line, true);
@@ -61,9 +62,22 @@ public class MyOrderListFragmentModule {
                     }
                 } else if(relation == 2){
                     helper.setText(R.id.tv_member_name, item.getMember_name());
-                    helper.setVisible(R.id.btn_act, true);
                     helper.setVisible(R.id.btn_pay, false);
                     helper.setVisible(R.id.btn_cancle, false);
+                    if(item.getState() != null && item.getState().intValue() == 4) {
+                        helper.setVisible(R.id.layout_action, true);
+                        helper.setVisible(R.id.v_line, true);
+                        helper.setVisible(R.id.btn_act, true);
+                        helper.setVisible(R.id.btn_un_act, false);
+                    } else if(item.getState() != null && item.getState().intValue() == 5) {
+                        helper.setVisible(R.id.layout_action, true);
+                        helper.setVisible(R.id.v_line, true);
+                        helper.setVisible(R.id.btn_act, false);
+                        helper.setVisible(R.id.btn_un_act, true);
+                    } else {
+                        helper.setVisible(R.id.layout_action, false);
+                        helper.setVisible(R.id.v_line, false);
+                    }
                 }
                 if(item.getPay_price() != null) {
                     helper.setText(R.id.tv_sale_price, fragment.getString(R.string.rmb) + item.getPay_price().toString());
@@ -72,6 +86,8 @@ public class MyOrderListFragmentModule {
                 ItemClickListener clickListener = new ItemClickListener(item);
                 helper.setOnClickListener(R.id.btn_pay, clickListener);
                 helper.setOnClickListener(R.id.btn_cancle, clickListener);
+                helper.setOnClickListener(R.id.btn_act, clickListener);
+                helper.setOnClickListener(R.id.btn_un_act, clickListener);
 
                 helper.setVisible(R.id.v_divider_line, helper.getPosition() < (datas.size() - 1));
             }
@@ -102,6 +118,10 @@ public class MyOrderListFragmentModule {
                     if(onOrderStateListener != null){
                         onOrderStateListener.onCancel(order);
                     }
+                    break;
+                case R.id.btn_un_act:
+                    break;
+                case R.id.btn_act:
                     break;
             }
         }

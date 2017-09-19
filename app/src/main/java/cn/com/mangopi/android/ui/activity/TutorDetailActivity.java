@@ -21,14 +21,16 @@ import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
 import cn.com.mangopi.android.model.data.TutorModel;
 import cn.com.mangopi.android.presenter.TutorDetailPresenter;
+import cn.com.mangopi.android.presenter.WantCountPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.popupwindow.TutorCourseListPopupWindow;
 import cn.com.mangopi.android.ui.viewlistener.TutorDetailListener;
+import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 
-public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDetailListener, AdapterView.OnItemClickListener {
+public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDetailListener, AdapterView.OnItemClickListener, WantCountListener{
 
     ImageView ivLogo;
     TextView tvCity;
@@ -45,6 +47,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
     List<CourseBean> courseList = new ArrayList<>();
     QuickAdapter<CourseBean> adapter;
     TextView tvIntro;
+    WantCountPresenter wantCountPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         } else {
             tvWantCount.setVisibility(View.GONE);
         }
+
         if(tutor.getWanted_count() > 0){
             tvWantedCount.setVisibility(View.VISIBLE);
             tvWantedCount.setText(String.format(getString(R.string.wanted_count), tutor.getWanted_count()));
@@ -104,6 +108,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         }
         if(tutor.is_favor()){
             ivWant.setImageResource(R.drawable.faxian_xiangting_0);
+            ivWant.setClickable(false);
         } else {
             ivWant.setImageResource(R.drawable.faxian_xiangting);
         }
@@ -113,6 +118,14 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         courseList.clear();
         courseList.addAll(tutor.getCourses());
         adapter.notifyDataSetChanged();
+    }
+
+    @OnClick(R.id.iv_want)
+    void wantCountClick(View v){
+        if(wantCountPresenter == null){
+            wantCountPresenter = new WantCountPresenter(this);
+        }
+        wantCountPresenter.addWantCount();
     }
 
     @OnClick(R.id.btn_listen)
@@ -145,10 +158,13 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if(presenter != null) {
             presenter.onDestroy();
         }
+        if(wantCountPresenter != null){
+            wantCountPresenter.onDestroy();
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -157,5 +173,20 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         if(courseBean != null) {
             ActivityBuilder.startCourseDetailActivity(this, courseBean.getId());
         }
+    }
+
+    @Override
+    public void onWantCountSuccess() {
+        ivWant.setImageResource(R.drawable.faxian_xiangting_0);
+    }
+
+    @Override
+    public long wantEntityId() {
+        return id;
+    }
+
+    @Override
+    public int wantEntityType() {
+        return Constants.EntityType.MEMBER.getTypeId();
     }
 }

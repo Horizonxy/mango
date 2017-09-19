@@ -52,6 +52,7 @@
     </RelativeLayout>
 
     <HorizontalScrollView
+        android:id="@+id/hsv_advert"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
         android:layout_marginTop="@dimen/dp_10"

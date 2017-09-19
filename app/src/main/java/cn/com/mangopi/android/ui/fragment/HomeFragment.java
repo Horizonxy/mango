@@ -44,9 +44,9 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.presenter.HomePresenter;
 import cn.com.mangopi.android.ui.adapter.ViewPagerAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
-import cn.com.mangopi.android.ui.adapter.quickadapter.MultiItemTypeSupport;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.HomeFragmentListener;
+import android.widget.HorizontalScrollView;
 import cn.com.mangopi.android.ui.widget.ListView;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.ObservableScrollView;
@@ -62,7 +62,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     MangoPtrFrameLayout refreshLayout;
     ConvenientBanner homeBanner;
-    List<AdvertBean> banners;
+    List<AdvertBean.DetailsBean> banners;
     VerticalTextview tvScroll;
     ViewPagerFixed homePager;
     LinearLayout homeIndicator;
@@ -151,7 +151,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 .setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        AdvertBean.DetailsBean advertDetail = banners.get(position).getDetails().get(0);
+                        AdvertBean.DetailsBean advertDetail = banners.get(position);
                         if (advertDetail != null) {
                             MangoUtils.jumpAdvert(HomeFragment.this.getActivity(), advertDetail);
                         }
@@ -238,7 +238,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             bindAdverts(advertList);
         } else if (Constants.INDEX_BANNER.equals(position)) {
             banners.clear();
-            banners.addAll(advertList);
+            if(advertList != null && advertList.size() > 0) {
+                banners.addAll(advertList.get(0).getDetails());
+            }
             homeBanner.notifyDataSetChanged();
         } else if (Constants.INDEX_TWO_ADVERT.equals(position)) {
             if (advertList.size() > 0) {
@@ -285,7 +287,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                                         .setImageUrl(R.id.iv_advert_one_item, item.getFile_path())
                                         .setTag(R.id.iv_advert_one_item, item)
                                         .setOnClickListener(R.id.iv_advert_one_item, advertDetaiClickListener)
-                                        .setVisible(R.id.line_divider, helper.getPosition() < (data.size() - 1));
+                                        .setVisible(R.id.line_divider, false/*helper.getPosition() < (data.size() - 1)*/);
                             }
                         });
             } else if ("2".equals(advertBean.getType()) || "3".equals(advertBean.getType())) {
@@ -296,13 +298,24 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 tvIntro.setText(advertBean.getIntro());
                 LinearLayout layoutAdvert = (LinearLayout) child.findViewById(R.id.layout_advert2);
                 List<AdvertBean.DetailsBean> details = advertBean.getDetails();
-                int dp10 = (int) getResources().getDimension(R.dimen.dp_10);
-                int width = (int) ((DisplayUtils.screenWidth(getContext()) - dp10 * 4) / 3.4);
+                int width = 0;
+                int height = 0;
+                if("2".equals(advertBean.getType())){
+                    width = DisplayUtils.dip2px(getContext(), 100);
+                    height = (int) (width / 200F * 140);
+                } else if("3".equals(advertBean.getType())) {
+                    width = DisplayUtils.dip2px(getContext(), 90);
+                    height = (int) (width / 180F * 296);
+                }
+                HorizontalScrollView hsvAdvert = (HorizontalScrollView) child.findViewById(R.id.hsv_advert);
+                LinearLayout.LayoutParams hsvParams = (LinearLayout.LayoutParams) hsvAdvert.getLayoutParams();
+                hsvParams.height = height;
+                hsvAdvert.setLayoutParams(hsvParams);
                 for (int j = 0; details != null && j < details.size(); j++) {
                     ImageView itemImageView = new ImageView(getContext());
                     itemImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(width, HorizontalScrollView.LayoutParams.MATCH_PARENT);
-                    itemImageView.setLayoutParams(params);
+                    HorizontalScrollView.LayoutParams imageParams = new HorizontalScrollView.LayoutParams(width, HorizontalScrollView.LayoutParams.MATCH_PARENT);
+                    itemImageView.setLayoutParams(imageParams);
                     Application.application.getImageLoader().displayImage(details.get(j).getFile_path(), itemImageView, Application.application.getDefaultOptions());
                     layoutAdvert.addView(itemImageView);
                     itemImageView.setTag(details.get(j));
@@ -454,7 +467,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         }
     }
 
-    class BannerHolderView implements Holder<AdvertBean> {
+    class BannerHolderView implements Holder<AdvertBean.DetailsBean> {
 
         private ImageView imageView;
 
@@ -466,11 +479,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         }
 
         @Override
-        public void UpdateUI(Context context, int position, AdvertBean data) {
-            List<AdvertBean.DetailsBean> details = data.getDetails();
-            if (details != null && details.size() > 0) {
-                Application.application.getImageLoader().displayImage(details.get(0).getFile_path(), imageView, Application.application.getDefaultOptions());
-            }
+        public void UpdateUI(Context context, int position, AdvertBean.DetailsBean data) {
+            Application.application.getImageLoader().displayImage(data.getFile_path(), imageView, Application.application.getDefaultOptions());
         }
     }
 

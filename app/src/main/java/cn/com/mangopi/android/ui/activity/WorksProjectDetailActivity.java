@@ -19,14 +19,16 @@ import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
+import cn.com.mangopi.android.presenter.WantCountPresenter;
 import cn.com.mangopi.android.presenter.WorksProjectPresenter;
 import cn.com.mangopi.android.ui.adapter.ProjectDetailProgressAdapter;
+import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
 import cn.com.mangopi.android.ui.viewlistener.WorksProjectDetailListener;
 import cn.com.mangopi.android.ui.widget.HorizontalListView;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
 
-public class WorksProjectDetailActivity extends BaseTitleBarActivity implements WorksProjectDetailListener {
+public class WorksProjectDetailActivity extends BaseTitleBarActivity implements WorksProjectDetailListener, WantCountListener {
 
     long id;
     WorksProjectPresenter projectPresenter;
@@ -64,6 +66,9 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
     RelativeLayout layoutInstruHead;
     @Bind(R.id.line_instru)
     View lineInstru;
+    @Bind(R.id.iv_want)
+    ImageView ivWant;
+    WantCountPresenter wantCountPresenter;
 
     ProjectDetailProgressAdapter progressAdapter;
     List<ProjectDetailProgressAdapter.ProgressBean> progressDatas = new ArrayList<>();
@@ -121,6 +126,13 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
             lvProgress.setAdapter(progressAdapter = new ProjectDetailProgressAdapter(this, R.layout.listview_item_project_detail_progress, progressDatas));
         } else{
             progressAdapter.notifyDataSetChanged();
+        }
+        if(projectDetail.is_favor()){
+            ivWant.setImageResource(R.drawable.faxian_xiangting_0);
+            ivWant.setClickable(false);
+        } else {
+            ivWant.setImageResource(R.drawable.faxian_xiangting);
+            ivWant.setClickable(true);
         }
     }
 
@@ -200,6 +212,33 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         if(projectPresenter != null){
             projectPresenter.onDestroy();
         }
+        if(wantCountPresenter != null){
+            wantCountPresenter.onDestroy();
+        }
         super.onDestroy();
+    }
+
+    @OnClick(R.id.iv_want)
+    void wantCountClick(View v){
+        if(wantCountPresenter == null){
+            wantCountPresenter = new WantCountPresenter(this);
+        }
+        wantCountPresenter.addWantCount();
+    }
+
+    @Override
+    public void onWantCountSuccess() {
+        ivWant.setImageResource(R.drawable.faxian_xiangting_0);
+        ivWant.setClickable(false);
+    }
+
+    @Override
+    public long wantEntityId() {
+        return id;
+    }
+
+    @Override
+    public int wantEntityType() {
+        return Constants.EntityType.WORKS.getTypeId();
     }
 }

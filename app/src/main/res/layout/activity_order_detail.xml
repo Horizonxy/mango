@@ -292,13 +292,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_15"
-                android:gravity="right"
-                android:paddingBottom="@dimen/dp_15">
+                android:gravity="right">
 
                 <LinearLayout
                     android:id="@+id/layout_reward"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_15"
                     android:visibility="gone"
                     android:layout_gravity="center_vertical">
 
@@ -374,6 +374,7 @@
                     android:background="@drawable/selector_btn_bg_important_corners"
                     android:minHeight="0dp"
                     android:minWidth="0dp"
+                    android:layout_marginBottom="@dimen/dp_15"
                     android:paddingBottom="@dimen/dp_8"
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingRight="@dimen/dp_10"
@@ -392,6 +393,7 @@
                     android:background="@drawable/selector_btn_bg_cancel_corners"
                     android:minHeight="0dp"
                     android:minWidth="0dp"
+                    android:layout_marginBottom="@dimen/dp_15"
                     android:paddingBottom="@dimen/dp_8"
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingRight="@dimen/dp_10"
@@ -410,6 +412,7 @@
                     android:background="@drawable/selector_btn_bg_important_corners"
                     android:minHeight="0dp"
                     android:minWidth="0dp"
+                    android:layout_marginBottom="@dimen/dp_15"
                     android:paddingBottom="@dimen/dp_8"
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingRight="@dimen/dp_10"
@@ -428,7 +431,6 @@
             android:layout_marginTop="@dimen/dp_15"
             android:gravity="right"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/dp_15"
             android:visibility="gone">
 
             <Button
@@ -440,6 +442,7 @@
                 android:background="@drawable/selector_btn_bg_cancel_corners"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
+                android:layout_marginBottom="@dimen/dp_15"
                 android:paddingBottom="@dimen/dp_8"
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingRight="@dimen/dp_10"
@@ -458,6 +461,7 @@
                 android:background="@drawable/selector_btn_bg_important_corners"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
+                android:layout_marginBottom="@dimen/dp_15"
                 android:paddingBottom="@dimen/dp_8"
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingRight="@dimen/dp_10"
@@ -476,6 +480,7 @@
                 android:background="@drawable/selector_btn_bg_lesser_corners"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
+                android:layout_marginBottom="@dimen/dp_15"
                 android:paddingBottom="@dimen/dp_8"
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingRight="@dimen/dp_10"
@@ -494,6 +499,7 @@
                 android:background="@drawable/selector_btn_bg_important_corners"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
+                android:layout_marginBottom="@dimen/dp_15"
                 android:paddingBottom="@dimen/dp_8"
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingRight="@dimen/dp_10"

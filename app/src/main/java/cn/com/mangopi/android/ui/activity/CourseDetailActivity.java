@@ -15,8 +15,10 @@ import cn.com.mangopi.android.model.data.CourseModel;
 import cn.com.mangopi.android.model.data.FavModel;
 import cn.com.mangopi.android.presenter.CourseDetailPresenter;
 import cn.com.mangopi.android.presenter.FavPresenter;
+import cn.com.mangopi.android.presenter.WantCountPresenter;
 import cn.com.mangopi.android.ui.viewlistener.CourseDetailListener;
 import cn.com.mangopi.android.ui.viewlistener.FavListener;
+import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
 import cn.com.mangopi.android.ui.widget.TitleBar;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
@@ -24,7 +26,7 @@ import cn.com.mangopi.android.util.AppUtils;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class CourseDetailActivity extends BaseTitleBarActivity implements CourseDetailListener, FavListener, TitleBar.OnTitleBarClickListener {
+public class CourseDetailActivity extends BaseTitleBarActivity implements CourseDetailListener, FavListener, TitleBar.OnTitleBarClickListener, WantCountListener {
 
     long id;
     @Bind(R.id.iv_logo)
@@ -52,6 +54,7 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     FavPresenter favPresenter;
     @Bind(R.id.tv_type_explains)
     TextView tvTypeExplains;
+    WantCountPresenter wantCountPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +114,13 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
         }
         if(courseDetail.is_favor()){
             titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang);
+            ivWant.setImageResource(R.drawable.faxian_xiangting_0);
+            ivWant.setClickable(false);
         } else {
             titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
+            ivWant.setImageResource(R.drawable.faxian_xiangting);
+            ivWant.setClickable(true);
         }
-        ivWant.setImageResource(R.drawable.faxian_xiangting);
 
         tvContent.setText(courseDetail.getCourse_content());
         tvTypeMethod.setText(courseDetail.getType_method()+"，"
@@ -130,18 +136,29 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if(presenter != null) {
             presenter.onDestroy();
         }
         if(favPresenter != null){
             favPresenter.onDestroy();
         }
+        if(wantCountPresenter != null){
+            wantCountPresenter.onDestroy();
+        }
+        super.onDestroy();
+    }
+
+    @OnClick(R.id.iv_want)
+    void wantCountClick(View v){
+        if(wantCountPresenter == null){
+            wantCountPresenter = new WantCountPresenter(this);
+        }
+        wantCountPresenter.addWantCount();
     }
 
     @Override
     public long getEntityId() {
-        return courseDetail.getId();
+        return id;
     }
 
     @Override
@@ -154,9 +171,13 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
         if(success){
             courseDetail.setIs_favor(true);
             titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang);
+            ivWant.setImageResource(R.drawable.faxian_xiangting_0);
+            ivWant.setClickable(false);
          } else {
             courseDetail.setIs_favor(false);
             titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
+            ivWant.setImageResource(R.drawable.faxian_xiangting);
+            ivWant.setClickable(true);
         }
     }
 
@@ -177,5 +198,23 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onWantCountSuccess() {
+        courseDetail.setIs_favor(true);
+        titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang);
+        ivWant.setImageResource(R.drawable.faxian_xiangting_0);
+        ivWant.setClickable(false);
+    }
+
+    @Override
+    public long wantEntityId() {
+        return id;
+    }
+
+    @Override
+    public int wantEntityType() {
+        return Constants.EntityType.COURSE.getTypeId();
     }
 }

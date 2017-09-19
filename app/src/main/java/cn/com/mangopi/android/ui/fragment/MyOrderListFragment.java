@@ -6,12 +6,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.di.component.DaggerMyOrderListFragmentComponent;
@@ -38,6 +40,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     boolean hasNext = true;
     int relation;
     EmptyHelper emptyHelper;
+    TextView tvSeePlan;
 
     public static MyOrderListFragment newInstance(int relation) {
         MyOrderListFragment fragment = new MyOrderListFragment();
@@ -61,6 +64,13 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), this);
         emptyHelper.setImageRes(R.drawable.page_icon_06);
         emptyHelper.setMessage(R.string.page_no_data);
+        tvSeePlan = (TextView) root.findViewById(R.id.tv_see_plan);
+        tvSeePlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityBuilder.startOrderScheduleCalendarActivity(getActivity());
+            }
+        });
     }
 
     @Override
@@ -82,11 +92,12 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
             }
         });
         listView.setRefreshing(true);
+
     }
 
     @Override
     int getLayoutId() {
-        return R.layout.layout_pull_listview;
+        return R.layout.fragment_order_list;
     }
 
     private void loadData() {
@@ -137,8 +148,10 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);
+            tvSeePlan.setVisibility(View.GONE);
         } else {
             emptyHelper.hideEmptyView(listView);
+            tvSeePlan.setVisibility(View.VISIBLE);
         }
         adapter.notifyDataSetChanged();
     }
