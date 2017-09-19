@@ -1,6 +1,10 @@
 package cn.com.mangopi.android.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,7 +15,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.view.RxView;
+
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -28,6 +35,11 @@ import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
+import cn.com.mangopi.android.util.FileUtils;
+import cn.com.mangopi.android.util.MangoUtils;
+import cn.com.mangopi.android.util.SmallPicInfo;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDetailListener, OrderListListener {
 
@@ -127,9 +139,8 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     private void fillData(OrderDetailBean orderDetail){
         this.orderDetail = orderDetail;
 
-        tvOrderNo.setText("单号："+orderDetail.getOrder_no());
-//        tvOrderTime.setText(DateUtils.dateToString(orderDetail.getOrder_time(), DateUtils.TIME_PATTERN_YMDHM));
-        tvOrderTime.setVisibility(View.GONE);
+        tvOrderNo.setText("单号："+orderDetail.getFiveLenOrderNo());
+        tvOrderTime.setText(DateUtils.dateToString(orderDetail.getOrder_time(), DateUtils.TIME_PATTERN_YMDHM));
         tvStateLabel.setText(orderDetail.getState_label());
         tvOrderName.setText(orderDetail.getOrder_name());
         tvOrderCount.setText("x "+orderDetail.getOrder_count());
@@ -210,7 +221,40 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
                 String rsurl = orderDetail.getMaterial_rsurls().get(i);
                 ImageView item = new ImageView(this);
                 item.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                Application.application.getImageLoader().displayImage(rsurl, item, Application.application.getDefaultOptions());
+                String suffix = FileUtils.getMIMEType(rsurl);
+                if(FileUtils.FILE_TYPE_IMAGE.equals(suffix)) {
+                    Application.application.getImageLoader().displayImage(rsurl, item, Application.application.getDefaultOptions());
+                    RxView.clicks(item)
+                            .throttleFirst(1, TimeUnit.SECONDS)
+                            .map(new Func1<Void, SmallPicInfo>() {
+                                @Override
+                                public SmallPicInfo call(Void aVoid) {
+                                    return MangoUtils.getSmallPicInfo(item, rsurl);
+                                }
+                            })
+                            .filter(new Func1<SmallPicInfo, Boolean>() {
+                                @Override
+                                public Boolean call(SmallPicInfo smallPicInfo) {
+                                    return smallPicInfo != null;
+                                }
+                            })
+                            .subscribe(new Action1<SmallPicInfo>() {
+                                @Override
+                                public void call(SmallPicInfo smallPicInfo) {
+                                    PictureDetailActivity.bmp = ((BitmapDrawable)item.getDrawable()).getBitmap();
+                                    ActivityBuilder.startPictureDetailActivity(OrderDetailActivity.this, smallPicInfo);
+                                }
+                            });
+                } else {
+                    item.setImageResource(AppUtils.getResIdBySuffix(rsurl));
+                    item.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            String url = "https://view.officeapps.live.com/op/view.aspx?src=" + AppUtils.replaceHttps(rsurl);
+                            ActivityBuilder.startSystemBrowser(OrderDetailActivity.this, Uri.parse(rsurl));
+                        }
+                    });
+                }
                 GridLayout.LayoutParams gl = new GridLayout.LayoutParams(rsItemLp);
                 if(i >= 5){
                     gl.topMargin = dp5;
@@ -223,6 +267,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
                 } else if(i % 5 == 3){
                     gl.rightMargin = dp5;
                 }
+
                 gridMaterial.addView(item, i, gl);
             }
         }

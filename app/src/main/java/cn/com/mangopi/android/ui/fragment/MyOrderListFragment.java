@@ -151,7 +151,9 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
             tvSeePlan.setVisibility(View.GONE);
         } else {
             emptyHelper.hideEmptyView(listView);
-            tvSeePlan.setVisibility(View.VISIBLE);
+            if(relation == 2) {
+                tvSeePlan.setVisibility(View.VISIBLE);
+            }
         }
         adapter.notifyDataSetChanged();
     }

@@ -283,4 +283,32 @@ public class AppUtils {
         return isInBackground;
     }
 
+    public static int getResIdBySuffix(String url){
+        int resId = R.drawable.image_small_failure;
+        if(TextUtils.isEmpty(url)){
+            return resId;
+        }
+
+        String suffix = url.substring(url.lastIndexOf(".") + 1);
+        if("doc".equals(suffix) || "docx".equals(suffix)){
+            return R.drawable.icon_word;
+        } else if("xls".equals(suffix) || "xlsx".equals(suffix)){
+            return R.drawable.icon_excel;
+        } else if("ppt".equals(suffix) || "pptx".equals(suffix)){
+            return R.drawable.icon_ppt;
+        } else if("pdf".equals(suffix)){
+            return R.drawable.icon_pdf;
+        }
+        return resId;
+    }
+
+    public static String replaceHttps(String url){
+        if(TextUtils.isEmpty(url)){
+            return url;
+        }
+        if(url.startsWith("https")){
+            return "http" + url.substring(5);
+        }
+        return url;
+    }
 }

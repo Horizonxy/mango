@@ -2,6 +2,7 @@ package cn.com.mangopi.android.util;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
@@ -277,6 +278,14 @@ public class ActivityBuilder {
     public static void startTransDetailActivity(Activity activity, TransListBean trans){
         Intent intent = new Intent(activity, TransDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_DATA, trans);
+        activity.startActivity(intent);
+    }
+
+    public static void startSystemBrowser(Activity activity, Uri uri){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(uri);
         activity.startActivity(intent);
     }
 }
