@@ -31,6 +31,7 @@ public class BulletinDetailActivity extends BaseTitleBarActivity implements Bull
 
         id = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
         titleBar.setBarBackGroundColor(R.color.color_ffb900);
+        titleBar.setLeftTextSize(18);
 
         presenter = new BulletinPresenter(new BulletinModel(), this);
         presenter.getBulletin();

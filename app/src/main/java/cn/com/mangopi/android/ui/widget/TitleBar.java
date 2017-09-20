@@ -173,4 +173,8 @@ public class TitleBar extends FrameLayout implements View.OnClickListener {
     public void setTvLeftBack(boolean tvLeftBack) {
         this.tvLeftBack = tvLeftBack;
     }
+
+    public void setLeftTextSize(int size){
+        tvLeft.setTextSize(size);
+    }
 }

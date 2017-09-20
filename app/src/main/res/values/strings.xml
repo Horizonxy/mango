@@ -153,4 +153,12 @@
 
     <string name="member_trans_list">交易明细</string>
     <string name="member_trans_detail">交易详情</string>
+
+    <string name="works_collection">作品</string>
+    <string name="works_collection_photos">作品照片</string>
+    <string name="documen_plan">文档方案</string>
+    <string name="group_photos">团队照片</string>
+    <string name="works_collection_bottom_tip">您可以再PC端登录www.enjoymangopa.com，使用电脑上传Word、PDF、PPT等文件。</string>
+
+    <string name="works_team">团队</string>
 </resources>

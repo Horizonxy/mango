@@ -220,7 +220,12 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.GuideActivity"
+        <activity
+            android:name=".ui.activity.GuideActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.WorksCollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.WorksTeamDetailActivity"
             android:screenOrientation="portrait" />
 
         <receiver android:name=".receiver.NetReceiver">
@@ -235,13 +240,13 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- alipay sdk end -->
 
 
