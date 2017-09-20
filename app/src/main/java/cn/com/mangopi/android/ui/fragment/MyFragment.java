@@ -242,10 +242,10 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
             tvClassCount.setText(String.valueOf(member.getCourse_count()));
             tvProjectCount.setText(String.valueOf(member.getProject_count()));
 
-            if((indentityList.contains(Constants.UserIndentity.STUDENT) && indentityList.contains(Constants.UserIndentity.TUTOR) && indentityList.contains(Constants.UserIndentity.COMMUNITY))
-                    || (indentityList.contains(Constants.UserIndentity.TUTOR) && indentityList.contains(Constants.UserIndentity.STUDENT) && indentityList.contains(Constants.UserIndentity.COMPANY) && indentityList.contains(Constants.UserIndentity.COMMUNITY))
-                    || (indentityList.contains(Constants.UserIndentity.COMPANY) &&indentityList.contains(Constants.UserIndentity.TUTOR))
-                    || (indentityList.contains(Constants.UserIndentity.COMMUNITY) && indentityList.contains(Constants.UserIndentity.STUDENT) && indentityList.contains(Constants.UserIndentity.TUTOR))){
+            if (indentityList.contains(Constants.UserIndentity.STUDENT) ||
+                    indentityList.contains(Constants.UserIndentity.TUTOR) ||
+                    indentityList.contains(Constants.UserIndentity.COMMUNITY) ||
+                    indentityList.contains(Constants.UserIndentity.COMPANY)) {
                 tvUpdateRole.setText(getString(R.string.click_to_eye));
             } else {
                 tvUpdateRole.setText(getString(R.string.click_to_update));
