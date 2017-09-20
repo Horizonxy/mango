@@ -4,8 +4,10 @@ public class Constants {
 
 	public static final int PAGE_SIZE = 20;
 
-//	public static final String END_POIND = "https://www.mangopi.com.cn/";
-	public static final String END_POIND = "https://demo.lvshetong.cn/mangotree-portal/";
+	public static final String END_POIND = "https://www.mangopi.com.cn/";
+//	public static final String END_POIND = "https://demo.lvshetong.cn/mangotree-portal/";
+
+	public static final String COURSE_URL = "https://www.mangopi.com.cn/wx/course/%d.html";
 
 	public static final String BASE_DIR = "mango";
 	public static final String IMG_CACHE_DIR = BASE_DIR.concat("/image_cache");

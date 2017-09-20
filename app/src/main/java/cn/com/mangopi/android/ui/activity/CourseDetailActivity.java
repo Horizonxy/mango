@@ -7,6 +7,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
+import butterknife.Bind;
+import butterknife.OnClick;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
@@ -16,15 +21,13 @@ import cn.com.mangopi.android.model.data.FavModel;
 import cn.com.mangopi.android.presenter.CourseDetailPresenter;
 import cn.com.mangopi.android.presenter.FavPresenter;
 import cn.com.mangopi.android.presenter.WantCountPresenter;
+import cn.com.mangopi.android.ui.popupwindow.SharePopupWindow;
 import cn.com.mangopi.android.ui.viewlistener.CourseDetailListener;
 import cn.com.mangopi.android.ui.viewlistener.FavListener;
 import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
 import cn.com.mangopi.android.ui.widget.TitleBar;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
-
-import butterknife.Bind;
-import butterknife.OnClick;
 
 public class CourseDetailActivity extends BaseTitleBarActivity implements CourseDetailListener, FavListener, TitleBar.OnTitleBarClickListener, WantCountListener {
 
@@ -186,6 +189,12 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
         int id = view.getId();
         switch (id){
             case R.id.ib_right:
+                if(courseDetail == null){
+                    return;
+                }
+                SharePopupWindow sharePopupWindow = new SharePopupWindow(this, String.format(Constants.COURSE_URL, courseDetail.getId()), courseDetail.getCourse_title(),
+                        courseDetail.getCourse_content(), null, umShareListener);
+                sharePopupWindow.show();
                 break;
             case R.id.ib_second_right:
                 if(favPresenter == null){
@@ -199,6 +208,22 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
                 break;
         }
     }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable throwable) {
+            AppUtils.showToast(Application.application.getApplicationContext(), platform + " 分享失败");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+        }
+    };
 
     @Override
     public void onWantCountSuccess() {

@@ -42,7 +42,7 @@ import okhttp3.Response;
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
-    private static final String APP_SECRET = "98ad0ece5613c7edf35d56f53c39403b";
+    public static final String APP_SECRET = "98ad0ece5613c7edf35d56f53c39403b";
     private IWXAPI mWeixinAPI;
     public static final String WEIXIN_APP_ID = "wxea43a55c5ca9f34d";
 
@@ -73,10 +73,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             switch (resp.errCode) {
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 //case BaseResp.ErrCode.ERR_USER_CANCEL:
-                    AppUtils.showToast(this, "分享失败");
+//                    AppUtils.showToast(this, "分享失败");
                     break;
                 case BaseResp.ErrCode.ERR_OK:
-                    AppUtils.showToast(this, "微信分享成功");
+//                    AppUtils.showToast(this, "微信分享成功");
                     break;
             }
             finish();

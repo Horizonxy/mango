@@ -9,6 +9,7 @@ import com.mcxiaoke.bus.Bus;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.PlatformConfig;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.db.CommonDaoImpl;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.PreUtils;
+import cn.com.mangopi.android.wxapi.WXEntryActivity;
 import cn.jpush.android.api.JPushInterface;
 import dagger.Lazy;
 
@@ -50,10 +52,10 @@ public class Application extends MultiDexApplication {
         super.onCreate();
         if(!BuildConfig.DEBUG) {
             AppUtils.initCarsh(this);
+            Logger.init(getResources().getString(R.string.app_name));
         }
         DaggerAppComponent.builder().apiModule(new ApiModule()).appModule(new AppModule(this)).build().inject(this);
         application = this;
-        Logger.init(getResources().getString(R.string.app_name));
 
         StatService.setDebugOn(BuildConfig.DEBUG);
         String vendor = AppUtils.getChannel(this);
@@ -65,6 +67,12 @@ public class Application extends MultiDexApplication {
 
         JPushInterface.setDebugMode(BuildConfig.DEBUG);
         JPushInterface.init(this);
+    }
+
+    //各个平台的配置
+    {
+        PlatformConfig.setWeixin(WXEntryActivity.WEIXIN_APP_ID, WXEntryActivity.APP_SECRET);
+        PlatformConfig.setQQZone("1105462216", "bES9PBXDeWAj2bmq");
     }
 
     public DisplayImageOptions getDefaultOptions() {
