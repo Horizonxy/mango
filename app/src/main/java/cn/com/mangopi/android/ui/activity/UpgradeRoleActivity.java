@@ -57,7 +57,7 @@ public class UpgradeRoleActivity extends BaseTitleBarActivity implements UpdateR
         ((ImageView)vTeacher.findViewById(R.id.iv_role)).setImageResource(R.drawable.selector_img_role_tutor_tag);
         ((ImageView)vCompany.findViewById(R.id.iv_role)).setImageResource(R.drawable.selector_img_role_company_tag);
         ((ImageView) vCommunity.findViewById(R.id.iv_role)).setImageResource(R.drawable.selector_img_role_commutiny_tag);
-        ((TextView)vStudent.findViewById(R.id.tv_title)).setText("验证学生省份");
+        ((TextView)vStudent.findViewById(R.id.tv_title)).setText("验证学生身份");
         ((TextView)vTeacher.findViewById(R.id.tv_title)).setText("升级为导师");
         ((TextView)vCompany.findViewById(R.id.tv_title)).setText("注册为企业");
         ((TextView) vCommunity.findViewById(R.id.tv_title)).setText("注册为社团");
