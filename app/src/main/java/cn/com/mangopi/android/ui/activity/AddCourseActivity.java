@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import cn.com.mangopi.android.model.bean.CourseTypeBean;
 import cn.com.mangopi.android.model.data.CourseModel;
 import cn.com.mangopi.android.presenter.AddCoursePresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
-import cn.com.mangopi.android.ui.popupwindow.ListViewPopupWindow;
+import cn.com.mangopi.android.ui.dialog.ListViewDialog;
 import cn.com.mangopi.android.ui.viewlistener.AddCourseLisetener;
 import cn.com.mangopi.android.util.AppUtils;
 
@@ -90,20 +89,20 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
 
     private void showClassifyList(List<CourseClassifyBean> classifyList){
         if(classifyList.size() > 0) {
-            ListViewPopupWindow<CourseClassifyBean> classifyPopupWindow = new ListViewPopupWindow<CourseClassifyBean>(this, classifyList, (CourseClassifyBean) tvClassify.getTag(), new ListViewPopupWindow.OnListViewListener<CourseClassifyBean>() {
-                @Override
-                public void onItemClick(CourseClassifyBean data) {
-                    tvClassify.setText(data.getClassify_name());
-                    tvClassify.setTag(data);
-                }
-            }){
-
+            ListViewDialog<CourseClassifyBean> classifyDialog = new ListViewDialog<CourseClassifyBean>("选择课程分类", classifyList) {
                 @Override
                 public void fiddData(BaseAdapterHelper helper, CourseClassifyBean item) {
                     helper.setText(R.id.tv_text, item.getClassify_name());
                 }
             };
-            classifyPopupWindow.showAsDropDown(layoutClassify);
+            classifyDialog.setOnListViewListener(new ListViewDialog.OnListViewListener<CourseClassifyBean>() {
+                @Override
+                public void onItemClicked(CourseClassifyBean data) {
+                    tvClassify.setText(data.getClassify_name());
+                    tvClassify.setTag(data);
+                }
+            });
+            classifyDialog.show(this, (CourseClassifyBean) tvClassify.getTag());
         } else {
             onFailure("无课程分类");
         }
@@ -120,23 +119,23 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
 
     private void showTypeList(List<CourseTypeBean> typeList){
         if(typeList.size() > 0) {
-            ListViewPopupWindow<CourseTypeBean> typePopupWindow = new ListViewPopupWindow<CourseTypeBean>(this, typeList, (CourseTypeBean) tvType.getTag(), new ListViewPopupWindow.OnListViewListener<CourseTypeBean>() {
+            ListViewDialog<CourseTypeBean> typeDialog = new ListViewDialog<CourseTypeBean>("选择课程类型", typeList) {
                 @Override
-                public void onItemClick(CourseTypeBean data) {
+                public void fiddData(BaseAdapterHelper helper, CourseTypeBean item) {
+                    helper.setText(R.id.tv_text, item.getType() + "(" + item.getMethod() + ")");
+                }
+            };
+            typeDialog.setOnListViewListener(new ListViewDialog.OnListViewListener<CourseTypeBean>() {
+                @Override
+                public void onItemClicked(CourseTypeBean data) {
                     tvType.setText(data.getType() + "(" + data.getMethod() + ")");
                     tvType.setTag(data);
                     if(data.getSale_price() != null) {
                         tvPrice.setText(getResources().getString(R.string.rmb) + data.getSale_price().toString());
                     }
                 }
-            }){
-
-                @Override
-                public void fiddData(BaseAdapterHelper helper, CourseTypeBean item) {
-                    helper.setText(R.id.tv_text, item.getType() + "(" + item.getMethod() + ")");
-                }
-            };
-            typePopupWindow.showAsDropDown(layoutType);
+            });
+            typeDialog.show(this, (CourseTypeBean) tvType.getTag());
         } else {
             onFailure("无课程类型");
         }
@@ -170,39 +169,40 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
     @OnClick(R.id.tv_each_time)
     void onEachTimeClick(View v){
         String data = (String) tvEachTime.getTag();
-        ListViewPopupWindow<String> typePopupWindow = new ListViewPopupWindow<String>(this, eachTimeList, data == null ? eachTimeList.get(0) : data, new ListViewPopupWindow.OnListViewListener<String>() {
-            @Override
-            public void onItemClick(String data) {
-                tvEachTime.setText(data);
-                tvEachTime.setTag(data);
-            }
-        }){
-
+        ListViewDialog<String> eachDialog = new ListViewDialog<String>("服务次数", eachTimeList) {
             @Override
             public void fiddData(BaseAdapterHelper helper, String item) {
                 helper.setText(R.id.tv_text, item);
             }
+
         };
-        typePopupWindow.showAsDropDown(tvEachTime);
+        eachDialog.setOnListViewListener(new ListViewDialog.OnListViewListener<String>() {
+            @Override
+            public void onItemClicked(String data) {
+                tvEachTime.setText(data);
+                tvEachTime.setTag(data);
+            }
+        });
+        eachDialog.show(this, data == null ? eachTimeList.get(0) : data);
     }
 
     @OnClick(R.id.tv_service_time)
     void onServiceTimeClick(View v){
         String data = (String) tvServiceTime.getTag();
-        ListViewPopupWindow<String> typePopupWindow = new ListViewPopupWindow<String>(this, serviceTimeList, data == null ? serviceTimeList.get(0) : data, new ListViewPopupWindow.OnListViewListener<String>() {
-            @Override
-            public void onItemClick(String data) {
-                tvServiceTime.setText(data);
-                tvServiceTime.setTag(data);
-            }
-        }){
-
+        ListViewDialog<String> serviceDialog = new ListViewDialog<String>("服务时长", serviceTimeList) {
             @Override
             public void fiddData(BaseAdapterHelper helper, String item) {
                 helper.setText(R.id.tv_text, item);
             }
         };
-        typePopupWindow.showAsDropDown(tvServiceTime);
+        serviceDialog.setOnListViewListener(new ListViewDialog.OnListViewListener<String>() {
+            @Override
+            public void onItemClicked(String data) {
+                tvServiceTime.setText(data);
+                tvServiceTime.setTag(data);
+            }
+        });
+        serviceDialog.show(this, data == null ? serviceTimeList.get(0) : data);
     }
 
     @Override

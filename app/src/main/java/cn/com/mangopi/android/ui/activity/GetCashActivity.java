@@ -16,14 +16,13 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
-import cn.com.mangopi.android.model.bean.CourseTypeBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.data.MemberModel;
 import cn.com.mangopi.android.presenter.MemberWalletPresenter;
 import cn.com.mangopi.android.presenter.WalletDrawPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
-import cn.com.mangopi.android.ui.popupwindow.ListViewPopupWindow;
+import cn.com.mangopi.android.ui.dialog.ListViewDialog;
 import cn.com.mangopi.android.ui.viewlistener.MemeberWalletListener;
 import cn.com.mangopi.android.ui.viewlistener.WalletDrawListener;
 import cn.com.mangopi.android.ui.widget.PointLengthFilter;
@@ -93,20 +92,20 @@ public class GetCashActivity extends BaseTitleBarActivity implements MemeberWall
 
     private void showCardList(List<MemberCardBean> cardList) {
         if(cardList.size() > 0) {
-            ListViewPopupWindow<MemberCardBean> cardListPopupWindow = new ListViewPopupWindow<MemberCardBean>(this, cardList, (MemberCardBean) tvCardNo.getTag(), new ListViewPopupWindow.OnListViewListener<MemberCardBean>() {
-                @Override
-                public void onItemClick(MemberCardBean data) {
-                    tvCardNo.setText(data.getBank_name());
-                    tvCardNo.setTag(data);
-                }
-            }){
-
+            ListViewDialog<MemberCardBean> cardListDialog = new ListViewDialog<MemberCardBean>("选择银行卡", cardList) {
                 @Override
                 public void fiddData(BaseAdapterHelper helper, MemberCardBean item) {
                     helper.setText(R.id.tv_text, item.getBank_name());
                 }
             };
-            cardListPopupWindow.showAsDropDown(lineNo);
+            cardListDialog.setOnListViewListener(new ListViewDialog.OnListViewListener<MemberCardBean>() {
+                @Override
+                public void onItemClicked(MemberCardBean data) {
+                    tvCardNo.setText(data.getBank_name());
+                    tvCardNo.setTag(data);
+                }
+            });
+            cardListDialog.show(this, (MemberCardBean) tvCardNo.getTag());
         } else {
             onFailure("请先绑定银行卡");
         }

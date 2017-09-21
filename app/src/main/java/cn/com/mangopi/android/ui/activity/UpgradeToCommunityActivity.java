@@ -30,7 +30,6 @@ import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
 import cn.com.mangopi.android.model.bean.CommunityTypeBean;
-import cn.com.mangopi.android.model.bean.CourseTypeBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.UploadBean;
 import cn.com.mangopi.android.model.data.CommunityModel;
@@ -40,7 +39,7 @@ import cn.com.mangopi.android.presenter.CommunityPresenter;
 import cn.com.mangopi.android.presenter.UpdateRolePresenter;
 import cn.com.mangopi.android.presenter.UploadPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
-import cn.com.mangopi.android.ui.popupwindow.ListViewPopupWindow;
+import cn.com.mangopi.android.ui.dialog.ListViewDialog;
 import cn.com.mangopi.android.ui.viewlistener.CommunityListener;
 import cn.com.mangopi.android.ui.viewlistener.UpdateRoleListener;
 import cn.com.mangopi.android.ui.viewlistener.UploadViewListener;
@@ -323,20 +322,20 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
 
     private void showTypeList(List<CommunityTypeBean> typeList){
         if(typeList.size() > 0) {
-            ListViewPopupWindow<CommunityTypeBean> typePopupWindow = new ListViewPopupWindow<CommunityTypeBean>(this, typeList, (CommunityTypeBean) tvCommunityType.getTag(), new ListViewPopupWindow.OnListViewListener<CommunityTypeBean>() {
-                @Override
-                public void onItemClick(CommunityTypeBean data) {
-                    tvCommunityType.setText(data.getType_name());
-                    tvCommunityType.setTag(data);
-                }
-            }){
-
+            ListViewDialog<CommunityTypeBean> typeListDialog = new ListViewDialog<CommunityTypeBean>("选择社团类型", typeList) {
                 @Override
                 public void fiddData(BaseAdapterHelper helper, CommunityTypeBean item) {
                     helper.setText(R.id.tv_text, item.getType_name());
                 }
             };
-            typePopupWindow.showAsDropDown(lineType);
+            typeListDialog.setOnListViewListener(new ListViewDialog.OnListViewListener<CommunityTypeBean>() {
+                @Override
+                public void onItemClicked(CommunityTypeBean data) {
+                    tvCommunityType.setText(data.getType_name());
+                    tvCommunityType.setTag(data);
+                }
+            });
+            typeListDialog.show(this, (CommunityTypeBean) tvCommunityType.getTag());
         } else {
             onFailure("无社团类型");
         }
@@ -351,29 +350,29 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
 
     @OnClick(R.id.tv_community_classify)
     void onClassifyClick(View v){
-        if(typeList.size() == 0){
+        if(classifyList.size() == 0){
             communityPresenter.getClassifyList();
         } else {
-            showTypeList(typeList);
+            showClassifyList(classifyList);
         }
     }
 
-    private void showClassifyList(List<CommunityClassifyBean> typeList){
-        if(typeList.size() > 0) {
-            ListViewPopupWindow<CommunityClassifyBean> typePopupWindow = new ListViewPopupWindow<CommunityClassifyBean>(this, typeList, (CommunityClassifyBean) tvCommunityType.getTag(), new ListViewPopupWindow.OnListViewListener<CommunityClassifyBean>() {
-                @Override
-                public void onItemClick(CommunityClassifyBean data) {
-                    tvCommunityClassify.setText(data.getClassic_name());
-                    tvCommunityClassify.setTag(data);
-                }
-            }){
-
+    private void showClassifyList(List<CommunityClassifyBean> classifyList){
+        if(classifyList.size() > 0) {
+            ListViewDialog<CommunityClassifyBean> classifyDialog = new ListViewDialog<CommunityClassifyBean>("选择社团分类", classifyList) {
                 @Override
                 public void fiddData(BaseAdapterHelper helper, CommunityClassifyBean item) {
                     helper.setText(R.id.tv_text, item.getClassic_name());
                 }
             };
-            typePopupWindow.showAsDropDown(lineClassify);
+            classifyDialog.setOnListViewListener(new ListViewDialog.OnListViewListener<CommunityClassifyBean>() {
+                @Override
+                public void onItemClicked(CommunityClassifyBean data) {
+                    tvCommunityClassify.setText(data.getClassic_name());
+                    tvCommunityClassify.setTag(data);
+                }
+            });
+            classifyDialog.show(this, (CommunityClassifyBean) tvCommunityClassify.getTag());
         } else {
             onFailure("无社团分类");
         }
