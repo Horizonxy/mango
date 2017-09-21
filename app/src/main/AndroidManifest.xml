@@ -234,7 +234,7 @@
             </intent-filter>
         </receiver>
 
-        <meta-data android:value="59c277d3aed1790ea8000024" android:name="UMENG_APPKEY" />
+        <meta-data android:value="59c33221c62dca4b3800002c" android:name="UMENG_APPKEY" />
         <!-- qq -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"

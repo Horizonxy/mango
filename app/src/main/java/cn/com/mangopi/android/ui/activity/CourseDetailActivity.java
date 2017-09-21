@@ -25,6 +25,7 @@ import cn.com.mangopi.android.ui.popupwindow.SharePopupWindow;
 import cn.com.mangopi.android.ui.viewlistener.CourseDetailListener;
 import cn.com.mangopi.android.ui.viewlistener.FavListener;
 import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
+import cn.com.mangopi.android.ui.widget.MangoUMShareListener;
 import cn.com.mangopi.android.ui.widget.TitleBar;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
@@ -193,7 +194,7 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
                     return;
                 }
                 SharePopupWindow sharePopupWindow = new SharePopupWindow(this, String.format(Constants.COURSE_URL, courseDetail.getId()), courseDetail.getCourse_title(),
-                        courseDetail.getCourse_content(), null, umShareListener);
+                        courseDetail.getCourse_title(), null, new MangoUMShareListener());
                 sharePopupWindow.show();
                 break;
             case R.id.ib_second_right:
@@ -208,22 +209,6 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
                 break;
         }
     }
-
-    private UMShareListener umShareListener = new UMShareListener() {
-
-        @Override
-        public void onResult(SHARE_MEDIA platform) {
-        }
-
-        @Override
-        public void onError(SHARE_MEDIA platform, Throwable throwable) {
-            AppUtils.showToast(Application.application.getApplicationContext(), platform + " 分享失败");
-        }
-
-        @Override
-        public void onCancel(SHARE_MEDIA platform) {
-        }
-    };
 
     @Override
     public void onWantCountSuccess() {

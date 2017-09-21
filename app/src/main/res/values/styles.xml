@@ -115,7 +115,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="CourseListWindow">
+    <style name="PopupWindowBottomInOut">
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
     </style>

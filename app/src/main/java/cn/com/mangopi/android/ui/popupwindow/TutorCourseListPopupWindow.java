@@ -43,7 +43,7 @@ public class TutorCourseListPopupWindow extends BasePopupWindow {
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setOutsideTouchable(true);  //默认设置outside点击无响应
         setFocusable(true);
-        setAnimationStyle(R.style.CourseListWindow);
+        setAnimationStyle(R.style.PopupWindowBottomInOut);
 
 //        for (int i = 0; i < courseList.size(); i++){
 //            View item = LayoutInflater.from(context).inflate(R.layout.listview_item_course_in_popup, layoutCourse, false);

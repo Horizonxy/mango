@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -45,13 +46,22 @@ public class SharePopupWindow extends PopupWindow {
 
         buildList();
 
-        GridView gridView = (GridView) aty.getLayoutInflater().inflate(R.layout.layout_popupwindow_share, null);
+        LinearLayout root = (LinearLayout) aty.getLayoutInflater().inflate(R.layout.layout_popupwindow_share, null);
+        GridView gridView = (GridView) root.findViewById(R.id.gv_platform);
         gridView.setAdapter(new ShareAdapter());
         gridView.setOnItemClickListener(new ShareItemClickListener());
+        TextView tvCancel = (TextView) root.findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
-        setContentView(gridView);
+        setContentView(root);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        setAnimationStyle(R.style.PopupWindowBottomInOut);
         setOutsideTouchable(true);
         setFocusable(true);
         ColorDrawable dw = new ColorDrawable(aty.getResources().getColor(R.color.white));
@@ -64,22 +74,22 @@ public class SharePopupWindow extends PopupWindow {
         ShareVo wxMoments = new ShareVo();
         wxMoments.shareMedia = SHARE_MEDIA.WEIXIN_CIRCLE;
         wxMoments.platform = "朋友圈";
-        wxMoments.iconId = R.drawable.icon_wechat;
+        wxMoments.iconId = R.drawable.icon_share_wx_moments;
         list.add(wxMoments);
         ShareVo wechat = new ShareVo();
         wechat.shareMedia = SHARE_MEDIA.WEIXIN;
         wechat.platform = "微信好友";
-        wechat.iconId = R.drawable.icon_wechat;
+        wechat.iconId = R.drawable.icon_share_wx_frient;
         list.add(wechat);
         ShareVo qq = new ShareVo();
         qq.shareMedia = SHARE_MEDIA.QQ;
         qq.platform = "QQ";
-        qq.iconId = R.drawable.icon_wechat;
+        qq.iconId = R.drawable.icon_share_qq;
         list.add(qq);
         ShareVo qzone = new ShareVo();
         qzone.shareMedia = SHARE_MEDIA.QZONE;
         qzone.platform = "QQ空间";
-        qzone.iconId = R.drawable.icon_wechat;
+        qzone.iconId = R.drawable.icon_share_qzone;
         list.add(qzone);
     }
 
