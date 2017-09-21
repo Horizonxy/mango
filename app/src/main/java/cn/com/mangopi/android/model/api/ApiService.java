@@ -400,7 +400,7 @@ public interface ApiService {
     );
 
     //5.4.2	 工作包报名接口
-    @GET("outer/router?project_join")
+    @POST("outer/router?project_join")
     Observable<RestResult<ProjectJoinBean>> projectJoin(
             @Query("lst_sessid") String sessid,
             @QueryMap Map<String, Object> map

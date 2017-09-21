@@ -3,6 +3,7 @@ package cn.com.mangopi.android.ui.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,22 +85,35 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
                 layoutNewTeam.setVisibility(View.GONE);
                 lvTeam.setVisibility(View.GONE);
                 type = 1;
+                btnJoin.setVisibility(View.VISIBLE);
                 break;
             case R.id.rb_new_team:
                 layoutNewTeam.setVisibility(View.VISIBLE);
                 lvTeam.setVisibility(View.GONE);
                 type = 3;
+                btnJoin.setVisibility(View.VISIBLE);
                 break;
             case R.id.rb_team:
                 layoutNewTeam.setVisibility(View.GONE);
                 lvTeam.setVisibility(View.VISIBLE);
                 type = 2;
+                btnJoin.setVisibility(View.GONE);
                 break;
         }
     }
 
     @OnClick(R.id.btn_join)
     void joinClick(View v){
+        if(type == 3){
+            if(TextUtils.isEmpty(etTeamName.getText())){
+                AppUtils.showToast(this, "请输入团队名称");
+                return;
+            }
+            if(TextUtils.isEmpty(etTeamCipher.getText())){
+                AppUtils.showToast(this, "请输入团队集结暗号");
+                return;
+            }
+        }
         joinPresenter.projectJoin();
     }
 
