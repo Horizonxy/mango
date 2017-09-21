@@ -23,7 +23,9 @@ import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
+import cn.com.mangopi.android.model.bean.ProjectJoinBean;
 import cn.com.mangopi.android.model.bean.ProjectListBean;
+import cn.com.mangopi.android.model.bean.ProjectTeamBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.SearchBean;
@@ -395,5 +397,18 @@ public interface ApiService {
     @GET("outer/router?schedule_calendar")
     Observable<RestResult<String>> scheduleCalendar(
             @Query("lst_sessid") String sessid
+    );
+
+    //5.4.2	 工作包报名接口
+    @GET("outer/router?project_join")
+    Observable<RestResult<ProjectJoinBean>> projectJoin(
+            @Query("lst_sessid") String sessid,
+            @QueryMap Map<String, Object> map
+    );
+
+    //5.4.3	 工作包参加团队列表接口
+    @GET("outer/router?project_teams")
+    Observable<RestResult<List<ProjectTeamBean>>> projectTeamList(
+            @Query("id") long id
     );
 }

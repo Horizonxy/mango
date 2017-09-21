@@ -25,7 +25,9 @@ import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
+import cn.com.mangopi.android.model.bean.ProjectJoinBean;
 import cn.com.mangopi.android.model.bean.ProjectListBean;
+import cn.com.mangopi.android.model.bean.ProjectTeamBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.SearchBean;
@@ -254,5 +256,13 @@ public class ApiManager {
 
     public static  Observable<RestResult<String>> scheduleCalendar(){
         return Application.application.getApiService().scheduleCalendar(Application.application.getSessId());
+    }
+
+    public static  Observable<RestResult<ProjectJoinBean>> projectJoin(Map<String, Object> map){
+        return Application.application.getApiService().projectJoin(Application.application.getSessId(), map);
+    }
+
+    public static Observable<RestResult<List<ProjectTeamBean>>> projectTeamList(long id){
+        return Application.application.getApiService().projectTeamList(id);
     }
 }

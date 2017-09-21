@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,17 +20,22 @@ import butterknife.OnClick;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.presenter.WantCountPresenter;
 import cn.com.mangopi.android.presenter.WorksProjectPresenter;
 import cn.com.mangopi.android.ui.adapter.ProjectDetailProgressAdapter;
+import cn.com.mangopi.android.ui.adapter.RecommendCourseAdapter;
 import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
 import cn.com.mangopi.android.ui.viewlistener.WorksProjectDetailListener;
 import cn.com.mangopi.android.ui.widget.HorizontalListView;
+import cn.com.mangopi.android.ui.widget.ListView;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
+import cn.com.mangopi.android.util.MangoUtils;
 
-public class WorksProjectDetailActivity extends BaseTitleBarActivity implements WorksProjectDetailListener, WantCountListener {
+public class WorksProjectDetailActivity extends BaseTitleBarActivity implements WorksProjectDetailListener, WantCountListener, AdapterView.OnItemClickListener {
 
     long id;
     WorksProjectPresenter projectPresenter;
@@ -69,9 +76,20 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
     @Bind(R.id.iv_want)
     ImageView ivWant;
     WantCountPresenter wantCountPresenter;
+    @Bind(R.id.layout_courses)
+    LinearLayout layoutCourses;
+    @Bind(R.id.lv_courses)
+    ListView lvCourses;
+    @Bind(R.id.line_courses)
+    View lineCourses;
+    @Bind(R.id.line_courses_bottom)
+    View lineCoursesBottom;
+    @Bind(R.id.btn_project_join)
+    Button btnProjectJoin;
 
     ProjectDetailProgressAdapter progressAdapter;
     List<ProjectDetailProgressAdapter.ProgressBean> progressDatas = new ArrayList<>();
+    ProjectDetailBean projectDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +107,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
     }
 
     private void bindData(ProjectDetailBean projectDetail){
+        this.projectDetail = projectDetail;
         Application.application.getImageLoader().displayImage(projectDetail.getLogo_rsurl(), ivLogo, Application.application.getDefaultOptions());
         tvProjectName.setText(projectDetail.getProject_name());
         tvProgress.setText("进度：" + String.valueOf(projectDetail.getProgress()) + "%");
@@ -134,6 +153,37 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
             ivWant.setImageResource(R.drawable.faxian_xiangting);
             ivWant.setClickable(true);
         }
+
+        List<CourseBean> courses = projectDetail.getCourses();
+        if(courses == null || courses.size() == 0){
+            layoutCourses.setVisibility(View.GONE);
+            lvCourses.setVisibility(View.GONE);
+            lineCourses.setVisibility(View.GONE);
+            lineCoursesBottom.setVisibility(View.GONE);
+        } else {
+            layoutCourses.setVisibility(View.VISIBLE);
+            lvCourses.setVisibility(View.VISIBLE);
+            lineCourses.setVisibility(View.VISIBLE);
+            lineCoursesBottom.setVisibility(View.VISIBLE);
+            lvCourses.setAdapter(new RecommendCourseAdapter(this, R.layout.listview_item_recommend_teacher_class, courses));
+            lvCourses.setOnItemClickListener(this);
+        }
+
+        Date applyAbort = projectDetail.getApply_abort_time();
+        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
+        if(applyAbort != null /*&& applyAbort.after(new Date())*/ && indentityList.contains(Constants.UserIndentity.STUDENT)){
+            btnProjectJoin.setVisibility(View.VISIBLE);
+        } else {
+            btnProjectJoin.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @OnClick(R.id.btn_project_join)
+    void projectJoin(View v){
+        if(projectDetail == null){
+            return;
+        }
+        ActivityBuilder.startProjectJoinActivity(this, projectDetail.getId(), projectDetail.getProject_name());
     }
 
     private void initProgressDatas(ProjectDetailBean projectDetail){
@@ -240,5 +290,11 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
     @Override
     public int wantEntityType() {
         return Constants.EntityType.WORKS.getTypeId();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        CourseBean item = (CourseBean) parent.getAdapter().getItem(position);
+        ActivityBuilder.startCourseDetailActivity(this, item.getId());
     }
 }

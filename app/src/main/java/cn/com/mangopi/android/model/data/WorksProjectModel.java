@@ -1,9 +1,13 @@
 package cn.com.mangopi.android.model.data;
 
 import java.util.List;
+import java.util.Map;
+
 import cn.com.mangopi.android.model.api.ApiManager;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
+import cn.com.mangopi.android.model.bean.ProjectJoinBean;
 import cn.com.mangopi.android.model.bean.ProjectListBean;
+import cn.com.mangopi.android.model.bean.ProjectTeamBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.util.RxJavaUtils;
 import rx.Subscriber;
@@ -19,5 +23,13 @@ public class WorksProjectModel {
 
     public Subscription getProject(long id, Action0 onSubscribe, Subscriber<RestResult<ProjectDetailBean>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getProject(id), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription projectJoin(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<ProjectJoinBean>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.projectJoin(map), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription projectTeamList(long id, Action0 onSubscribe, Subscriber<RestResult<List<ProjectTeamBean>>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.projectTeamList(id), onSubscribe).subscribe(subscriber);
     }
 }

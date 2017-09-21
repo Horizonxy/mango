@@ -39,6 +39,7 @@ import cn.com.mangopi.android.ui.activity.PayResultActivity;
 import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
 import cn.com.mangopi.android.ui.activity.PlaceOrderActivity;
 import cn.com.mangopi.android.ui.activity.ProfileInfoActivity;
+import cn.com.mangopi.android.ui.activity.ProjectJoinActivity;
 import cn.com.mangopi.android.ui.activity.PublishDynamicsActivity;
 import cn.com.mangopi.android.ui.activity.SearchActivity;
 import cn.com.mangopi.android.ui.activity.SelectPayActivity;
@@ -291,5 +292,12 @@ public class ActivityBuilder {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void startProjectJoinActivity(Activity activity, long id, String name){
+        Intent intent = new Intent(activity, ProjectJoinActivity.class);
+        intent.putExtra(Constants.BUNDLE_ID, id);
+        intent.putExtra(Constants.BUNDLE_TITLE, name);
+        activity.startActivity(intent);
     }
 }

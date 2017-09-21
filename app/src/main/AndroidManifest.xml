@@ -223,10 +223,15 @@
         <activity
             android:name=".ui.activity.GuideActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.WorksCollectionActivity"
+        <activity
+            android:name=".ui.activity.WorksCollectionActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.WorksTeamDetailActivity"
+        <activity
+            android:name=".ui.activity.WorksTeamDetailActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.ProjectJoinActivity"
+            android:screenOrientation="portrait" />
+
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>
@@ -234,12 +239,14 @@
             </intent-filter>
         </receiver>
 
-        <meta-data android:value="59c33221c62dca4b3800002c" android:name="UMENG_APPKEY" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59c33221c62dca4b3800002c" />
         <!-- qq -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -251,9 +258,9 @@
         </activity>
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- alipay sdk begin -->
         <activity

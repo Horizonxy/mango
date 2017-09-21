@@ -34,6 +34,7 @@ public class ProjectDetailBean implements Serializable {
     private Date member_join_time;
     private boolean is_favor;
     private List<ProjectActorBean> actors;
+    private List<CourseBean> courses;
 
     public long getId() {
         return id;
@@ -314,5 +315,13 @@ public class ProjectDetailBean implements Serializable {
         public void setCompany_comments(String company_comments) {
             this.company_comments = company_comments;
         }
+    }
+
+    public List<CourseBean> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<CourseBean> courses) {
+        this.courses = courses;
     }
 }
