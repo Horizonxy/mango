@@ -7,9 +7,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.mangopi.android.Application;
@@ -194,7 +191,7 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
                     return;
                 }
                 SharePopupWindow sharePopupWindow = new SharePopupWindow(this, String.format(Constants.COURSE_URL, courseDetail.getId()), courseDetail.getCourse_title(),
-                        courseDetail.getCourse_title(), null, new MangoUMShareListener());
+                        courseDetail.getCourse_content(), null, new MangoUMShareListener());
                 sharePopupWindow.show();
                 break;
             case R.id.ib_second_right:

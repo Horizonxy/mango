@@ -233,6 +233,7 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
     public void onAddCourseSuccess(Object object) {
         if(object != null) {
             AppUtils.showToast(this, "保存课程成功，下拉刷新查看");
+            finish();
         }
     }
 

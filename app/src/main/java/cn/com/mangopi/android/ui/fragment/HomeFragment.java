@@ -3,6 +3,7 @@ package cn.com.mangopi.android.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -42,11 +43,11 @@ import cn.com.mangopi.android.model.bean.BulletinBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.presenter.HomePresenter;
+import cn.com.mangopi.android.ui.activity.CaptureActivity;
 import cn.com.mangopi.android.ui.adapter.ViewPagerAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.HomeFragmentListener;
-import android.widget.HorizontalScrollView;
 import cn.com.mangopi.android.ui.widget.ListView;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.ObservableScrollView;
@@ -448,7 +449,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ib_scan:
-
+                getActivity().startActivityForResult(new Intent(getActivity(), CaptureActivity.class), Constants.REQ_SCAN);
                 break;
             case R.id.iv_message:
                 ActivityBuilder.startMessageListActivity(getActivity());

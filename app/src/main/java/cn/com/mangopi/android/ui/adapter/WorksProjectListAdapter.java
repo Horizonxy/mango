@@ -57,7 +57,7 @@ public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
             switch (v.getId()){
                 case R.id.layout_share:
                     SharePopupWindow sharePopupWindow = new SharePopupWindow((Activity) context, String.format(Constants.WORK_PROJECT_URL, project.getId()), project.getProject_name(),
-                            project.getProject_name(), null, new MangoUMShareListener());
+                            project.getIntroduction(), null, new MangoUMShareListener());
                     sharePopupWindow.show();
                     break;
             }

@@ -4,8 +4,8 @@ public class Constants {
 
 	public static final int PAGE_SIZE = 20;
 
-	public static final String END_POIND = "https://www.mangopi.com.cn/";
-//	public static final String END_POIND = "https://demo.lvshetong.cn/mangotree-portal/";
+//	public static final String END_POIND = "https://www.mangopi.com.cn/";
+	public static final String END_POIND = "https://demo.lvshetong.cn/mangotree-portal/";
 
 	public static final String COURSE_URL = "https://www.mangopi.com.cn/wx/course/%d.html";
 	public static final String WORK_PROJECT_URL = "https://www.mangopi.com.cn/wx/project/info/%d.html";
@@ -60,7 +60,9 @@ public class Constants {
 	public static final String BUNDLE_POSITION = "bundle_position";
 	public static final String BUNDLE_INPUT_TYPE = "bundle_input_type";
 	public static final String BUNDLE_DATA = "bundle_data";
-
+	public final static int REQ_SCAN = 0x1000;
+	/** 二维码扫描结果. */
+	public final static String BUNDLE_SCAN_RESULT = "bundle_scan_result";
 	public static final String FORM_DATA = "multipart/form-data";
 
 	public static enum UserIndentity {

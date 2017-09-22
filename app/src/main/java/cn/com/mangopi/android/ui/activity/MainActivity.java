@@ -1,6 +1,7 @@
 package cn.com.mangopi.android.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.data.MessageModel;
@@ -37,6 +39,7 @@ import cn.com.mangopi.android.ui.fragment.HomeFragment;
 import cn.com.mangopi.android.ui.fragment.MyFragment;
 import cn.com.mangopi.android.ui.fragment.TecaherFragment;
 import cn.com.mangopi.android.ui.viewlistener.MessageListener;
+import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.jpush.android.api.JPushInterface;
@@ -192,5 +195,21 @@ public class MainActivity extends BaseActivity implements MessageListener {
             messagePresenter.onDestroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case Constants.REQ_SCAN:
+                if (resultCode == RESULT_OK && data != null) {
+                    String result = data.getStringExtra(Constants.BUNDLE_SCAN_RESULT);
+                    AppUtils.showToast(this, "扫描结果：" + result);
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 }
