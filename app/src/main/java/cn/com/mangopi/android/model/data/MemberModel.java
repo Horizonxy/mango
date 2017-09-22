@@ -10,7 +10,6 @@ import cn.com.mangopi.android.model.bean.CompanyDetailBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
-import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.TransListBean;
@@ -128,5 +127,9 @@ public class MemberModel {
 
     public Subscription walletTransList(int pageNo, Action1 onError,  Subscriber<RestResult<List<TransListBean>>> subscriber){
         return RxJavaUtils.schedulersIoMainError(ApiManager.walletTransList(pageNo), onError).subscribe(subscriber);
+    }
+
+    public Subscription delCard(long id, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.delCard(id), onSubscribe).subscribe(subscriber);
     }
 }

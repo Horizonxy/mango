@@ -29,6 +29,7 @@ import cn.com.mangopi.android.ui.activity.InteractAreaActivity;
 import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
 import cn.com.mangopi.android.ui.activity.MemberCardListActivity;
+import cn.com.mangopi.android.ui.activity.MemberCardStateActivity;
 import cn.com.mangopi.android.ui.activity.MemberTrendActivity;
 import cn.com.mangopi.android.ui.activity.MemberWorksActivity;
 import cn.com.mangopi.android.ui.activity.MessageListActivity;
@@ -298,6 +299,13 @@ public class ActivityBuilder {
         Intent intent = new Intent(activity, ProjectJoinActivity.class);
         intent.putExtra(Constants.BUNDLE_ID, id);
         intent.putExtra(Constants.BUNDLE_TITLE, name);
+        activity.startActivity(intent);
+    }
+
+    public static void startMemberCardStateActivity(Activity activity, int state, String stateLabel){
+        Intent intent = new Intent(activity, MemberCardStateActivity.class);
+        intent.putExtra(Constants.BUNDLE_TYPE, state);
+        intent.putExtra(Constants.BUNDLE_CONTENT, stateLabel);
         activity.startActivity(intent);
     }
 }

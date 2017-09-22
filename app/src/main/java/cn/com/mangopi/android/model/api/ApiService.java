@@ -411,4 +411,11 @@ public interface ApiService {
     Observable<RestResult<List<ProjectTeamBean>>> projectTeamList(
             @Query("id") long id
     );
+
+    //5.1.20解除绑定银行卡接口
+    @POST("outer/router?del_card")
+    Observable<RestResult<Object>> delCard(
+            @Query("lst_sessid") String sessid,
+            @Query("id") long id
+    );
 }

@@ -78,4 +78,29 @@ public class MemberWalletPresenter extends BasePresenter {
         });
         addSubscription(subscription);
     }
+
+    public void delCard(MemberCardBean card){
+        Context context = listener.currentContext();
+        Subscription subscription = memberModel.delCard(card.getId(), new CreateLoading(context), new BaseLoadingSubscriber<RestResult<Object>>(){
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if(e !=null){
+                    listener.onFailure(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(RestResult<Object> restResult) {
+                if(restResult != null){
+                    if(restResult.isSuccess()){
+                        listener.onDelSuccess(card);
+                    } else {
+                        listener.onFailure(restResult.getRet_msg());
+                    }
+                }
+            }
+        });
+        addSubscription(subscription);
+    }
 }

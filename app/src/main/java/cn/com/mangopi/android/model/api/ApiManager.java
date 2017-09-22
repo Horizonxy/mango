@@ -265,4 +265,8 @@ public class ApiManager {
     public static Observable<RestResult<List<ProjectTeamBean>>> projectTeamList(long id){
         return Application.application.getApiService().projectTeamList(id);
     }
+
+    public static Observable<RestResult<Object>> delCard(long id){
+        return Application.application.getApiService().delCard(Application.application.getSessId(), id);
+    }
 }

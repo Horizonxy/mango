@@ -171,7 +171,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
 
         Date applyAbort = projectDetail.getApply_abort_time();
         List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
-        if(applyAbort != null /*&& applyAbort.after(new Date())*/ && indentityList.contains(Constants.UserIndentity.STUDENT)){
+        if(applyAbort != null && applyAbort.after(new Date()) && indentityList.contains(Constants.UserIndentity.STUDENT)){
             btnProjectJoin.setVisibility(View.VISIBLE);
         } else {
             btnProjectJoin.setVisibility(View.INVISIBLE);

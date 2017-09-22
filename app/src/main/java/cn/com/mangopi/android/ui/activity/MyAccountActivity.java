@@ -125,6 +125,10 @@ public class MyAccountActivity extends BaseTitleBarActivity implements MemeberWa
     }
 
     @Override
+    public void onDelSuccess(MemberCardBean card) {
+    }
+
+    @Override
     protected void onDestroy() {
         if(presenter != null){
             presenter.onDestroy();

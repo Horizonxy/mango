@@ -54,7 +54,7 @@ public class AddBlankCardActivity extends BaseTitleBarActivity implements AddBla
 
     @Override
     public void onSuccess() {
-        ActivityBuilder.startCardListActivity(this, null);
+        ActivityBuilder.startMemberCardStateActivity(this, -25, "待审核");
         finish();
     }
 

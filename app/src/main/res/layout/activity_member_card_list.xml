@@ -21,8 +21,6 @@
         android:id="@+id/lv_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@color/color_efeff4"
-        android:dividerHeight="@dimen/dp_10"/>
+        android:cacheColorHint="@android:color/transparent"/>
 
 </RelativeLayout>

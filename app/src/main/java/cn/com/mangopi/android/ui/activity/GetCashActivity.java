@@ -140,6 +140,10 @@ public class GetCashActivity extends BaseTitleBarActivity implements MemeberWall
     }
 
     @Override
+    public void onDelSuccess(MemberCardBean card) {
+    }
+
+    @Override
     public void onDrawSuccess() {
         AppUtils.showToast(this, "提现申请已提交，请等候系统确认");
         finish();

@@ -229,9 +229,11 @@
         <activity
             android:name=".ui.activity.WorksTeamDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.ProjectJoinActivity"
+        <activity
+            android:name=".ui.activity.ProjectJoinActivity"
             android:screenOrientation="portrait" />
-
+        <activity android:name=".ui.activity.MemberCardStateActivity"
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/selector_bg_layout_item"
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
         android:padding="@dimen/dp_15">
 
         <cn.com.mangopi.android.ui.widget.RoundImageView
@@ -46,12 +46,13 @@
                 android:textColor="@color/color_666666"
                 android:textSize="@dimen/sp_14" />
 
-
         </LinearLayout>
 
     </LinearLayout>
 
     <View
         android:id="@+id/v_line"
-        style="@style/horizontal_line" />
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/color_efeff4"/>
 </LinearLayout>
