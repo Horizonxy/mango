@@ -150,9 +150,11 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
         }
         DialogUtil.createAlertDialog(this, showContent.toString(), "确定");
 //        ActivityBuilder.startContentDetailActivity(this, messageBean.getTitle(), messageBean.getResult()+"<br/>"+messageBean.getRemark());
-        messagePresenter.readMessage(messageBean.getId());
-        messageBean.setState(1);
-        messageBean.setState_label("已阅");
-        view.findViewById(R.id.tv_num).setVisibility(View.GONE);
+        if(messageBean.getState() == null || messageBean.getState().intValue() != 1) {
+            messagePresenter.readMessage(messageBean.getId());
+            messageBean.setState(1);
+            messageBean.setState_label("已阅");
+            view.findViewById(R.id.tv_num).setVisibility(View.GONE);
+        }
     }
 }
