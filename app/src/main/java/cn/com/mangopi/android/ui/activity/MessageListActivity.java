@@ -138,7 +138,17 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MessageBean messageBean = (MessageBean) parent.getAdapter().getItem(position);
-        DialogUtil.createAlertDialog(this, messageBean.getTitle()+"\n\n"+messageBean.getResult()+"\n\n"+messageBean.getRemark(), "确定");
+        StringBuilder showContent = new StringBuilder();
+        if(!TextUtils.isEmpty(messageBean.getTitle())){
+            showContent.append(messageBean.getTitle());
+        }
+        if(!TextUtils.isEmpty(messageBean.getResult())){
+            showContent.append("\n\n").append(messageBean.getResult());
+        }
+        if(!TextUtils.isEmpty(messageBean.getRemark())){
+            showContent.append("\n\n").append(messageBean.getRemark());
+        }
+        DialogUtil.createAlertDialog(this, showContent.toString(), "确定");
 //        ActivityBuilder.startContentDetailActivity(this, messageBean.getTitle(), messageBean.getResult()+"<br/>"+messageBean.getRemark());
         messagePresenter.readMessage(messageBean.getId());
         messageBean.setState(1);

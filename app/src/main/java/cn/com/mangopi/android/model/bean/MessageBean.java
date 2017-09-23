@@ -1,5 +1,7 @@
 package cn.com.mangopi.android.model.bean;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 
 public class MessageBean implements Serializable {
@@ -14,6 +16,41 @@ public class MessageBean implements Serializable {
     private Integer state;
     private String state_label;
     private String url;
+
+    private String showContent;
+    public String getShowContent(){
+        if(!TextUtils.isEmpty(showContent)){
+            return  showContent;
+        }
+        StringBuilder content = new StringBuilder();
+        if(!TextUtils.isEmpty(title)){
+            content.append(title);
+        }
+        if(!TextUtils.isEmpty(result)){
+            if(!TextUtils.isEmpty(title)){
+                content.append("：").append(result);
+            } else {
+                content.append(result);
+            }
+        }
+        if(!TextUtils.isEmpty(remark)){
+            if(!TextUtils.isEmpty(title)){
+                if(!TextUtils.isEmpty(result)){
+                    content.append("，").append(remark);
+                } else {
+                    content.append("：").append(remark);
+                }
+            } else {
+                if(!TextUtils.isEmpty(result)){
+                    content.append("，").append(remark);
+                } else {
+                    content.append(remark);
+                }
+            }
+        }
+        showContent = content.toString();
+        return showContent;
+    }
 
     public long getId() {
         return id;
