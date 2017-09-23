@@ -114,7 +114,7 @@
             android:name=".ui.activity.PublishDynamicsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.InteractAreaActivity"
+            android:name=".ui.activity.TrendCommentsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.TutorClassCategoryActivity"

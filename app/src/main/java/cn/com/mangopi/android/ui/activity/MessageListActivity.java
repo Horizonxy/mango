@@ -141,5 +141,8 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
         DialogUtil.createAlertDialog(this, messageBean.getTitle()+"\n\n"+messageBean.getResult()+"\n\n"+messageBean.getRemark(), "确定");
 //        ActivityBuilder.startContentDetailActivity(this, messageBean.getTitle(), messageBean.getResult()+"<br/>"+messageBean.getRemark());
         messagePresenter.readMessage(messageBean.getId());
+        messageBean.setState(1);
+        messageBean.setState_label("已阅");
+        view.findViewById(R.id.tv_num).setVisibility(View.GONE);
     }
 }

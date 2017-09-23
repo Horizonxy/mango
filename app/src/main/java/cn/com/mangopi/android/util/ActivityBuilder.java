@@ -17,6 +17,7 @@ import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.TransListBean;
+import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.ui.activity.AddBlankCardActivity;
 import cn.com.mangopi.android.ui.activity.BulletinDetailActivity;
 import cn.com.mangopi.android.ui.activity.CalssListActivity;
@@ -25,7 +26,7 @@ import cn.com.mangopi.android.ui.activity.CourseDetailActivity;
 import cn.com.mangopi.android.ui.activity.FavListActivity;
 import cn.com.mangopi.android.ui.activity.GetCashActivity;
 import cn.com.mangopi.android.ui.activity.InputMessageActivity;
-import cn.com.mangopi.android.ui.activity.InteractAreaActivity;
+import cn.com.mangopi.android.ui.activity.TrendCommentsActivity;
 import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
 import cn.com.mangopi.android.ui.activity.MemberCardListActivity;
@@ -79,8 +80,11 @@ public class ActivityBuilder {
         activity.startActivity(new Intent(activity, PublishDynamicsActivity.class));
     }
 
-    public static void startInteractAreaActivity(Activity activity){
-        activity.startActivity(new Intent(activity, InteractAreaActivity.class));
+    public static void startTrendCommentsActivity(Activity activity, TrendBean trend, long id){
+        Intent intent = new Intent(activity, TrendCommentsActivity.class);
+        intent.putExtra(Constants.BUNDLE_ID, id);
+        intent.putExtra(Constants.BUNDLE_DATA, trend);
+        activity.startActivity(intent);
     }
 
     public static void startTutorClassCategoryActivity(Activity activity, List<CourseClassifyBean> classifyList){

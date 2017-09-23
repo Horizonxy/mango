@@ -2,12 +2,10 @@ package cn.com.mangopi.android.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
@@ -16,15 +14,12 @@ import android.widget.LinearLayout;
 import com.jakewharton.rxbinding.view.RxView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.orhanobut.logger.Logger;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import cn.com.mangopi.android.Application;
-import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
@@ -101,7 +96,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                     }
                 });
 
-                showBigPicture(helper.getView(R.id.iv_picture), pictures.get(0));
+                MangoUtils.showBigPicture(helper.getView(R.id.iv_picture), pictures.get(0));
             } else {
                 helper.setVisible(R.id.iv_picture, false);
                 GridView gvPicture =  helper.getView(R.id.gv_picture);
@@ -124,7 +119,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                         params.width = params.height = width;
                         ivPicture.setLayoutParams(params);
                         Application.application.getImageLoader().displayImage(item, ivPicture, options);
-                        showBigPictures(gvPicture, pictures, ivPicture, helper.getPosition());
+                        MangoUtils.showBigPictures(gvPicture, pictures, ivPicture, helper.getPosition());
                     }
                 });
             }
@@ -136,56 +131,6 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         helper.getView(R.id.iv_right).setOnClickListener(clickListener);
 
         helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
-    }
-
-    private void showBigPictures(GridView gridView, List<String> urls, ImageView imageView, int position){
-        RxView.clicks(imageView)
-                .throttleFirst(1, TimeUnit.SECONDS)
-                .map(new Func1<Void, List<SmallPicInfo>>() {
-                    @Override
-                    public List<SmallPicInfo> call(Void aVoid) {
-                        List<SmallPicInfo> smallPicInfos = new ArrayList<SmallPicInfo>();
-                        for (int i = 0; i < gridView.getChildCount(); i++){
-                            smallPicInfos.add(MangoUtils.getSmallPicInfo((ImageView) gridView.getChildAt(i), urls.get(i)));
-                        }
-                        return smallPicInfos;
-                    }
-                }).filter(new Func1<List<SmallPicInfo>, Boolean>() {
-            @Override
-            public Boolean call(List<SmallPicInfo> smallPicInfos) {
-                return smallPicInfos != null && smallPicInfos.size() > 0;
-            }
-        }).subscribe(new Action1<List<SmallPicInfo>>() {
-            @Override
-            public void call(List<SmallPicInfo> smallPicInfos) {
-                PictureDetailActivity.bmp = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-                ActivityBuilder.startPictureDetailActivity((Activity) context, smallPicInfos, position);
-            }
-        });
-    }
-
-    private void showBigPicture(ImageView imageView, String url){
-        RxView.clicks(imageView)
-                .throttleFirst(1, TimeUnit.SECONDS)
-                .map(new Func1<Void, SmallPicInfo>() {
-                    @Override
-                    public SmallPicInfo call(Void aVoid) {
-                        return MangoUtils.getSmallPicInfo(imageView, url);
-                    }
-                })
-                .filter(new Func1<SmallPicInfo, Boolean>() {
-                    @Override
-                    public Boolean call(SmallPicInfo smallPicInfo) {
-                        return smallPicInfo != null;
-                    }
-                })
-                .subscribe(new Action1<SmallPicInfo>() {
-                    @Override
-                    public void call(SmallPicInfo smallPicInfo) {
-                        PictureDetailActivity.bmp = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-                        ActivityBuilder.startPictureDetailActivity((Activity) context, smallPicInfo);
-                    }
-                });
     }
 
     class ItemOnClickListener implements View.OnClickListener {
@@ -200,7 +145,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.layout_comment:
-                    ActivityBuilder.startInteractAreaActivity((Activity) context);
+                    ActivityBuilder.startTrendCommentsActivity((Activity) context, trend, trend.getId());
                     break;
                 case R.id.layout_like:
                     listener.praise(trend);

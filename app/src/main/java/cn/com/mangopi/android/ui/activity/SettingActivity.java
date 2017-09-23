@@ -11,7 +11,9 @@ import java.io.File;
 
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.ui.popupwindow.SharePopupWindow;
 import cn.com.mangopi.android.ui.widget.LoadingDialog;
+import cn.com.mangopi.android.ui.widget.MangoUMShareListener;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DataCleanManager;
@@ -170,5 +172,12 @@ public class SettingActivity extends BaseTitleBarActivity {
                 AppUtils.showToast(SettingActivity.this, pwd);
             }
         }).show();
+    }
+
+    @OnClick(R.id.layout_share_to_friend)
+    void shareToFriend(View v){
+        SharePopupWindow sharePopupWindow = new SharePopupWindow(this, "", "",
+                "", null, new MangoUMShareListener());
+        sharePopupWindow.show();
     }
 }

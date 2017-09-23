@@ -30,12 +30,14 @@ import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
 import cn.com.mangopi.android.ui.viewlistener.WorksProjectDetailListener;
 import cn.com.mangopi.android.ui.widget.HorizontalListView;
 import cn.com.mangopi.android.ui.widget.ListView;
+import cn.com.mangopi.android.ui.widget.TitleBar;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 
-public class WorksProjectDetailActivity extends BaseTitleBarActivity implements WorksProjectDetailListener, WantCountListener, AdapterView.OnItemClickListener {
+public class WorksProjectDetailActivity extends BaseTitleBarActivity implements WorksProjectDetailListener, WantCountListener,
+        AdapterView.OnItemClickListener, TitleBar.OnTitleBarClickListener {
 
     long id;
     WorksProjectPresenter projectPresenter;
@@ -90,6 +92,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
     ProjectDetailProgressAdapter progressAdapter;
     List<ProjectDetailProgressAdapter.ProgressBean> progressDatas = new ArrayList<>();
     ProjectDetailBean projectDetail;
+    List<Constants.UserIndentity> indentityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,9 +104,15 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         }
         setContentView(R.layout.activity_works_project_detail);
 
+        indentityList = MangoUtils.getIndentityList();
         titleBar.setTitle(R.string.works_project_detail);
+        if(indentityList.contains(Constants.UserIndentity.STUDENT)) {
+            titleBar.setRightText("我的工作包");
+            titleBar.setOnTitleBarClickListener(this);
+        }
         projectPresenter = new WorksProjectPresenter(this);
         projectPresenter.getProject();
+
     }
 
     private void bindData(ProjectDetailBean projectDetail){
@@ -170,7 +179,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         }
 
         Date applyAbort = projectDetail.getApply_abort_time();
-        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
+
         if(applyAbort != null && applyAbort.after(new Date()) && indentityList.contains(Constants.UserIndentity.STUDENT)){
             btnProjectJoin.setVisibility(View.VISIBLE);
         } else {
@@ -296,5 +305,14 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CourseBean item = (CourseBean) parent.getAdapter().getItem(position);
         ActivityBuilder.startCourseDetailActivity(this, item.getId());
+    }
+
+    @Override
+    public void onTitleButtonClick(View view) {
+        switch (view.getId()){
+            case R.id.tv_right:
+                ActivityBuilder.startMemberWorksActivity(this, Constants.UserIndentity.STUDENT);
+                break;
+        }
     }
 }

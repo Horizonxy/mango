@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.ImageView;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.orhanobut.logger.Logger;
 
 import java.io.FileInputStream;
@@ -24,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,6 +34,10 @@ import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
+import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
+import cn.com.mangopi.android.ui.widget.GridView;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * @author 蒋先明
@@ -326,5 +333,55 @@ public class MangoUtils {
         imageView.getLocationOnScreen(screenLocation);
         SmallPicInfo info = new SmallPicInfo(url, screenLocation[0], screenLocation[1], imageView.getWidth(), imageView.getHeight(), 0);
         return info;
+    }
+
+    public static void showBigPicture(ImageView imageView, String url){
+        RxView.clicks(imageView)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .map(new Func1<Void, SmallPicInfo>() {
+                    @Override
+                    public SmallPicInfo call(Void aVoid) {
+                        return MangoUtils.getSmallPicInfo(imageView, url);
+                    }
+                })
+                .filter(new Func1<SmallPicInfo, Boolean>() {
+                    @Override
+                    public Boolean call(SmallPicInfo smallPicInfo) {
+                        return smallPicInfo != null;
+                    }
+                })
+                .subscribe(new Action1<SmallPicInfo>() {
+                    @Override
+                    public void call(SmallPicInfo smallPicInfo) {
+                        PictureDetailActivity.bmp = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                        ActivityBuilder.startPictureDetailActivity((Activity) imageView.getContext(), smallPicInfo);
+                    }
+                });
+    }
+
+    public static void showBigPictures(GridView gridView, List<String> urls, ImageView imageView, int position){
+        RxView.clicks(imageView)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .map(new Func1<Void, List<SmallPicInfo>>() {
+                    @Override
+                    public List<SmallPicInfo> call(Void aVoid) {
+                        List<SmallPicInfo> smallPicInfos = new ArrayList<SmallPicInfo>();
+                        for (int i = 0; i < gridView.getChildCount(); i++){
+                            smallPicInfos.add(MangoUtils.getSmallPicInfo((ImageView) gridView.getChildAt(i), urls.get(i)));
+                        }
+                        return smallPicInfos;
+                    }
+                }).filter(new Func1<List<SmallPicInfo>, Boolean>() {
+            @Override
+            public Boolean call(List<SmallPicInfo> smallPicInfos) {
+                return smallPicInfos != null && smallPicInfos.size() > 0;
+            }
+        }).subscribe(new Action1<List<SmallPicInfo>>() {
+            @Override
+            public void call(List<SmallPicInfo> smallPicInfos) {
+                PictureDetailActivity.bmp = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                ActivityBuilder.startPictureDetailActivity((Activity) gridView.getContext(), smallPicInfos, position);
+            }
+        });
     }
 }

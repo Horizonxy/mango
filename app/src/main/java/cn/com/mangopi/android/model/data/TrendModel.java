@@ -3,6 +3,7 @@ package cn.com.mangopi.android.model.data;
 import cn.com.mangopi.android.model.api.ApiManager;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.TrendBean;
+import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.util.RxJavaUtils;
 
 import java.util.List;
@@ -21,5 +22,9 @@ public class TrendModel {
 
     public Subscription addTrend(String content, List<String> pics, Action0 onSubscriber, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.addTrend(content, pics), onSubscriber).subscribe(subscriber);
+    }
+
+    public Subscription getTrend(long id, Action0 onSubscriber, Subscriber<RestResult<TrendDetailBean>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getTrend(id), onSubscriber).subscribe(subscriber);
     }
 }
