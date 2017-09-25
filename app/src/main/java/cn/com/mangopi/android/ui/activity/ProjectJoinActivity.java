@@ -29,6 +29,7 @@ import cn.com.mangopi.android.ui.viewlistener.ProjectJoinListener;
 import cn.com.mangopi.android.ui.widget.ListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.DialogUtil;
 
 public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGroup.OnCheckedChangeListener, ProjectJoinListener, ProjectJoinTeamAdapter.ProjectJoinWithTeamListener {
 
@@ -63,6 +64,7 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
     List<ProjectTeamBean> projectTeamList = new ArrayList<>();
     ProjectJoinTeamAdapter teamAdapter;
     long joinTeamId;
+    String joinTeamCipher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +154,7 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
             map.put("role", etMemberRole.getText().toString());
         } else if(type == 2){
             map.put("team_id", joinTeamId);
+            map.put("cipher", joinTeamCipher);
         }
         return map;
     }
@@ -183,7 +186,13 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
 
     @Override
     public void onJoinWithTeam(ProjectTeamBean team) {
-        joinTeamId = team.getId();
-        joinPresenter.projectJoin();
+        DialogUtil.createInputDialog(this, "集结号", "确定", "取消", "请输入团队集结号", new DialogUtil.OnInputDialogListener() {
+            @Override
+            public void onInput(String text) {
+                joinTeamId = team.getId();
+                joinTeamCipher = text;
+                joinPresenter.projectJoin();
+            }
+        });
     }
 }

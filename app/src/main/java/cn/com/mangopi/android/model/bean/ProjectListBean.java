@@ -28,6 +28,9 @@ public class ProjectListBean implements Serializable {
     private int progress;
     private long actor_id;
     private String actor_name;
+    /**
+     * actor_member_type为team的时候actor_member_id就是团队ID
+     */
     private long actor_member_id;
     private String actor_member_type;
     private Date member_join_time;

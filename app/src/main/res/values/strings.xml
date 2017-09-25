@@ -166,5 +166,7 @@
     <string name="actor_info">发起人：%1$s（%2$s）</string>
     <string name="save">保存</string>
     <string name="works">作品</string>
+    <string name="member_name_role">%1$s（%2$s）</string>
+    <string name="member_count">%d人</string>
 
 </resources>

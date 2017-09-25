@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cn.com.mangopi.android.model.bean.ActorTeamBean;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
 import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
@@ -22,6 +23,7 @@ import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
+import cn.com.mangopi.android.model.bean.ProjectActorBean;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.model.bean.ProjectJoinBean;
 import cn.com.mangopi.android.model.bean.ProjectListBean;
@@ -416,6 +418,18 @@ public interface ApiService {
     @POST("outer/router?del_card")
     Observable<RestResult<Object>> delCard(
             @Query("lst_sessid") String sessid,
+            @Query("id") long id
+    );
+
+    //5.4.3	 工作包参加团队列表接口
+    @GET("outer/router?actor_team_get")
+    Observable<RestResult<ActorTeamBean>> getActorTeam(
+            @Query("id") long id
+    );
+
+    //5.4.5	 工作包参与者详情接口
+    @GET("outer/router?project_actor_get")
+    Observable<RestResult<ProjectActorBean>> getProjectActor(
             @Query("id") long id
     );
 }

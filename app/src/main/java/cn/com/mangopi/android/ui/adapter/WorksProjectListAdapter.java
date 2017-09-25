@@ -67,10 +67,10 @@ public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
                     sharePopupWindow.show();
                     break;
                 case R.id.btn_works:
-                    ActivityBuilder.startProjectWorkDetailActivity((Activity) context);
+                    ActivityBuilder.startProjectWorkDetailActivity((Activity) context, project.getId());
                     break;
                 case R.id.btn_teams:
-                    ActivityBuilder.startProjectTeamDetailActivity((Activity) context);
+                    ActivityBuilder.startProjectTeamDetailActivity((Activity) context, project.getActor_member_id());
                     break;
                 case R.id.btn_detail:
                     ActivityBuilder.startWorksProjectDetailActivity((Activity) context, project.getId());

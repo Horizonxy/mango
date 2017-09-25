@@ -322,13 +322,15 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
-    public static void startProjectTeamDetailActivity(Activity activity){
+    public static void startProjectTeamDetailActivity(Activity activity, long teamId){
         Intent intent = new Intent(activity, ProjectTeamDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_ID, teamId);
         activity.startActivity(intent);
     }
 
-    public static void startProjectWorkDetailActivity(Activity activity){
+    public static void startProjectWorkDetailActivity(Activity activity, long projectId){
         Intent intent = new Intent(activity, ProjectWorkDetailActivity.class);
+        intent.putExtra(Constants.BUNDLE_ID, projectId);
         activity.startActivity(intent);
     }
 }

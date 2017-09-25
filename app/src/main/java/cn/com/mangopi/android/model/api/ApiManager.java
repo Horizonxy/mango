@@ -7,6 +7,7 @@ import java.util.Map;
 
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
+import cn.com.mangopi.android.model.bean.ActorTeamBean;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
 import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
@@ -24,6 +25,7 @@ import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
+import cn.com.mangopi.android.model.bean.ProjectActorBean;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.model.bean.ProjectJoinBean;
 import cn.com.mangopi.android.model.bean.ProjectListBean;
@@ -268,5 +270,13 @@ public class ApiManager {
 
     public static Observable<RestResult<Object>> delCard(long id){
         return Application.application.getApiService().delCard(Application.application.getSessId(), id);
+    }
+
+    public static Observable<RestResult<ActorTeamBean>> getActorTeam(long id){
+        return Application.application.getApiService().getActorTeam(id);
+    }
+
+    public static Observable<RestResult<ProjectActorBean>> getProjectActor(long id){
+        return Application.application.getApiService().getProjectActor(id);
     }
 }
