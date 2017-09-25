@@ -13,6 +13,7 @@ import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.popupwindow.SharePopupWindow;
 import cn.com.mangopi.android.ui.widget.MangoUMShareListener;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.DateUtils;
 
 public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
@@ -37,11 +38,16 @@ public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
 
         WorksProjectItemClickListener clickListener = new WorksProjectItemClickListener(item);
 
-        helper.setText(R.id.tv_start_join, item.toString())
+        helper.setText(R.id.tv_start_join, startJoin.toString())
                 .setText(R.id.tv_focus_count, "关注  "+String.valueOf(item.getFocus_count()))
                 .setText(R.id.tv_applied_count, "报名  "+String.valueOf(item.getApplied_count()))
                 .setText(R.id.tv_state_label, item.getState_label())
-                .setOnClickListener(R.id.layout_share, clickListener);
+                .setVisible(R.id.btn_teams, "team".equals(item.getActor_member_type()))
+                .setOnClickListener(R.id.layout_share, clickListener)
+                .setProgress(R.id.progress, item.getProgress())
+                .setOnClickListener(R.id.btn_works, clickListener)
+                .setOnClickListener(R.id.btn_teams, clickListener)
+                .setOnClickListener(R.id.btn_detail, clickListener);
     }
 
     class WorksProjectItemClickListener implements View.OnClickListener {
@@ -59,6 +65,15 @@ public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
                     SharePopupWindow sharePopupWindow = new SharePopupWindow((Activity) context, String.format(Constants.WORK_PROJECT_URL, project.getId()), project.getProject_name(),
                             project.getIntroduction(), null, new MangoUMShareListener());
                     sharePopupWindow.show();
+                    break;
+                case R.id.btn_works:
+                    ActivityBuilder.startProjectWorkDetailActivity((Activity) context);
+                    break;
+                case R.id.btn_teams:
+                    ActivityBuilder.startProjectTeamDetailActivity((Activity) context);
+                    break;
+                case R.id.btn_detail:
+                    ActivityBuilder.startWorksProjectDetailActivity((Activity) context, project.getId());
                     break;
             }
         }

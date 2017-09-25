@@ -387,7 +387,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     CourseClassifyBean classify = (CourseClassifyBean) parent.getAdapter().getItem(position);
-                    ActivityBuilder.startCalssListActivity(getActivity(), classify);
+                    ActivityBuilder.startCourseListActivity(getActivity(), classify);
                 }
             });
             gridViews.add(gridView);

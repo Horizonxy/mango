@@ -26,14 +26,17 @@ import cn.com.mangopi.android.presenter.WantCountPresenter;
 import cn.com.mangopi.android.presenter.WorksProjectPresenter;
 import cn.com.mangopi.android.ui.adapter.ProjectDetailProgressAdapter;
 import cn.com.mangopi.android.ui.adapter.RecommendCourseAdapter;
+import cn.com.mangopi.android.ui.popupwindow.SharePopupWindow;
 import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
 import cn.com.mangopi.android.ui.viewlistener.WorksProjectDetailListener;
 import cn.com.mangopi.android.ui.widget.HorizontalListView;
 import cn.com.mangopi.android.ui.widget.ListView;
+import cn.com.mangopi.android.ui.widget.MangoUMShareListener;
 import cn.com.mangopi.android.ui.widget.TitleBar;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
+import cn.com.mangopi.android.util.DialogUtil;
 import cn.com.mangopi.android.util.MangoUtils;
 
 public class WorksProjectDetailActivity extends BaseTitleBarActivity implements WorksProjectDetailListener, WantCountListener,
@@ -180,7 +183,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
 
         Date applyAbort = projectDetail.getApply_abort_time();
 
-        if(applyAbort != null && applyAbort.after(new Date()) && indentityList.contains(Constants.UserIndentity.STUDENT)){
+        if(applyAbort != null && applyAbort.after(new Date())){
             btnProjectJoin.setVisibility(View.VISIBLE);
         } else {
             btnProjectJoin.setVisibility(View.INVISIBLE);
@@ -192,7 +195,16 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         if(projectDetail == null){
             return;
         }
-        ActivityBuilder.startProjectJoinActivity(this, projectDetail.getId(), projectDetail.getProject_name());
+        if(indentityList.contains(Constants.UserIndentity.STUDENT)) {
+            ActivityBuilder.startProjectJoinActivity(this, projectDetail.getId(), projectDetail.getProject_name());
+        } else {
+            DialogUtil.createChoosseDialog(this, "提示", "只有升级成为学生才能参与该工作包", "去认证", "暂不认证", new DialogUtil.OnChooseDialogListener() {
+                @Override
+                public void onChoose() {
+                    ActivityBuilder.startUpgradeRoleActivityy(WorksProjectDetailActivity.this);
+                }
+            });
+        }
     }
 
     private void initProgressDatas(ProjectDetailBean projectDetail){
@@ -283,6 +295,16 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
             wantCountPresenter = new WantCountPresenter(this);
         }
         wantCountPresenter.addWantCount();
+    }
+
+    @OnClick(R.id.iv_share)
+    void shareClick(View v){
+        if(projectDetail == null){
+            return;
+        }
+        SharePopupWindow sharePopupWindow = new SharePopupWindow(this, String.format(Constants.WORK_PROJECT_URL, projectDetail.getId()), projectDetail.getProject_name(),
+                projectDetail.getIntroduction(), null, new MangoUMShareListener());
+        sharePopupWindow.show();
     }
 
     @Override

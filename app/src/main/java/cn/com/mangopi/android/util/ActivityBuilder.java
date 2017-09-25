@@ -23,9 +23,12 @@ import cn.com.mangopi.android.ui.activity.BulletinDetailActivity;
 import cn.com.mangopi.android.ui.activity.CalssListActivity;
 import cn.com.mangopi.android.ui.activity.ContentDetailActivity;
 import cn.com.mangopi.android.ui.activity.CourseDetailActivity;
+import cn.com.mangopi.android.ui.activity.CourseListActivity;
 import cn.com.mangopi.android.ui.activity.FavListActivity;
 import cn.com.mangopi.android.ui.activity.GetCashActivity;
 import cn.com.mangopi.android.ui.activity.InputMessageActivity;
+import cn.com.mangopi.android.ui.activity.ProjectTeamDetailActivity;
+import cn.com.mangopi.android.ui.activity.ProjectWorkDetailActivity;
 import cn.com.mangopi.android.ui.activity.TrendCommentsActivity;
 import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
@@ -105,6 +108,12 @@ public class ActivityBuilder {
         Intent intent = new Intent(activity, CalssListActivity.class);
         intent.putExtra(Constants.BUNDLE_CLASSIFY, classify);
         intent.putExtra(Constants.BUNDLE_POSITION, postion);
+        activity.startActivity(intent);
+    }
+
+    public static void startCourseListActivity(Activity activity, CourseClassifyBean classify){
+        Intent intent = new Intent(activity, CourseListActivity.class);
+        intent.putExtra(Constants.BUNDLE_CLASSIFY, classify);
         activity.startActivity(intent);
     }
 
@@ -310,6 +319,16 @@ public class ActivityBuilder {
         Intent intent = new Intent(activity, MemberCardStateActivity.class);
         intent.putExtra(Constants.BUNDLE_TYPE, state);
         intent.putExtra(Constants.BUNDLE_CONTENT, stateLabel);
+        activity.startActivity(intent);
+    }
+
+    public static void startProjectTeamDetailActivity(Activity activity){
+        Intent intent = new Intent(activity, ProjectTeamDetailActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void startProjectWorkDetailActivity(Activity activity){
+        Intent intent = new Intent(activity, ProjectWorkDetailActivity.class);
         activity.startActivity(intent);
     }
 }

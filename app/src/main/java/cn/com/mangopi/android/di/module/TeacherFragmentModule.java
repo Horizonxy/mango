@@ -47,11 +47,11 @@ public class TeacherFragmentModule {
             @Override
             protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
 
-                if(helper.getPosition() == (gridDatas.size() - 1)){
-                    helper.setImageResource(R.id.iv_logo, R.drawable.daoshi_08);
-                } else {
+//                if(helper.getPosition() == (gridDatas.size() - 1)){
+//                    helper.setImageResource(R.id.iv_logo, R.drawable.daoshi_08);
+//                } else {
                     helper.setImageUrl(R.id.iv_logo, item.getLogo_rsurl());
-                }
+//                }
                 helper.setText(R.id.tv_name, item.getClassify_name());
 
             }

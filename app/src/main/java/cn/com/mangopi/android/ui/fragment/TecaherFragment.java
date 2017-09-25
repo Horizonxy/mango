@@ -190,14 +190,14 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Object item = parent.getAdapter().getItem(position);
         if(item instanceof CourseClassifyBean){
-            if(position == (gridDatas.size() - 1)){
-                ArrayList<CourseClassifyBean> classifyList = new ArrayList<>();
-                classifyList.addAll(gridDatas.subList(0, gridDatas.size() - 1));
-                ActivityBuilder.startTutorClassCategoryActivity(getActivity(), classifyList);
-            } else {
+//            if(position == (gridDatas.size() - 1)){
+//                ArrayList<CourseClassifyBean> classifyList = new ArrayList<>();
+//                classifyList.addAll(gridDatas.subList(0, gridDatas.size() - 1));
+//                ActivityBuilder.startTutorClassCategoryActivity(getActivity(), classifyList);
+//            } else {
                 CourseClassifyBean classify = (CourseClassifyBean) item;
-                ActivityBuilder.startCalssListActivity(getActivity(), classify);
-            }
+                ActivityBuilder.startCourseListActivity(getActivity(), classify);
+//            }
         } else if(item instanceof CourseBean){
             CourseBean course = (CourseBean) item;
             ActivityBuilder.startCourseDetailActivity(getActivity(), course.getId());
@@ -257,14 +257,14 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     public void onClassifySuccess(List<CourseClassifyBean> classifyList) {
         gridDatas.clear();
-        if(classifyList != null && classifyList.size() > 7){
-            gridDatas.addAll(classifyList.subList(0, 7));
-        } else {
+//        if(classifyList != null && classifyList.size() > 7){
+//            gridDatas.addAll(classifyList.subList(0, 7));
+//        } else {
             gridDatas.addAll(classifyList);
-        }
-        CourseClassifyBean classifyAll = new CourseClassifyBean();
-        classifyAll.setClassify_name("全部");
-        gridDatas.add(classifyAll);
+//        }
+//        CourseClassifyBean classifyAll = new CourseClassifyBean();
+//        classifyAll.setClassify_name("全部");
+//        gridDatas.add(classifyAll);
         gridAdapter.notifyDataSetChanged();
     }
 

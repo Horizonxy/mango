@@ -36,7 +36,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_ok"
+            android:id="@+id/tv_cancel"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/dp_44"
@@ -47,7 +47,7 @@
         <View style="@style/vertical_line" />
 
         <TextView
-            android:id="@+id/tv_cancel"
+            android:id="@+id/tv_ok"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/dp_44"

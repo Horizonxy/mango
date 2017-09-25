@@ -24,11 +24,13 @@ import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.ProjectJoinBean;
 import cn.com.mangopi.android.model.bean.ProjectTeamBean;
 import cn.com.mangopi.android.presenter.ProjectJoinPresenter;
+import cn.com.mangopi.android.ui.adapter.ProjectJoinTeamAdapter;
 import cn.com.mangopi.android.ui.viewlistener.ProjectJoinListener;
 import cn.com.mangopi.android.ui.widget.ListView;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 
-public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGroup.OnCheckedChangeListener, ProjectJoinListener {
+public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGroup.OnCheckedChangeListener, ProjectJoinListener, ProjectJoinTeamAdapter.ProjectJoinWithTeamListener {
 
     long projectId;
     String projectName;
@@ -59,6 +61,8 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
     EditText etMemberRole;
     ProjectJoinPresenter joinPresenter;
     List<ProjectTeamBean> projectTeamList = new ArrayList<>();
+    ProjectJoinTeamAdapter teamAdapter;
+    long joinTeamId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,8 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
         tvProjectNamel.setText(projectName);
         rgJoinType.setOnCheckedChangeListener(this);
         rbMember.setChecked(true);
+        lvTeam.setAdapter(teamAdapter = new ProjectJoinTeamAdapter(this, R.layout.listview_item_project_join_team, projectTeamList));
+        teamAdapter.setJoinWithTeamListener(this);
     }
 
     @Override
@@ -98,6 +104,9 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
                 lvTeam.setVisibility(View.VISIBLE);
                 type = 2;
                 btnJoin.setVisibility(View.GONE);
+                if(projectTeamList.size() == 0) {
+                    joinPresenter.projectTeamList();
+                }
                 break;
         }
     }
@@ -111,6 +120,10 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
             }
             if(TextUtils.isEmpty(etTeamCipher.getText())){
                 AppUtils.showToast(this, "请输入团队集结暗号");
+                return;
+            }
+            if(etTeamCipher.getText().length() != 4){
+                AppUtils.showToast(this, "集结暗号应为4位数字");
                 return;
             }
         }
@@ -131,20 +144,21 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
     public Map<String, Object> getMap() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("type", type);
+        map.put("id", projectId);
         if(type == 3){
             map.put("team_name", etTeamName.getText().toString());
             map.put("cipher", etTeamCipher.getText().toString());
             map.put("bulletin", etTeamBulletin.getText().toString());
             map.put("role", etMemberRole.getText().toString());
         } else if(type == 2){
-            map.put("team_id", "");
+            map.put("team_id", joinTeamId);
         }
         return map;
     }
 
     @Override
     public void onJoinSuccess(ProjectJoinBean projectJoin) {
-
+        ActivityBuilder.startMemberWorksActivity(this, Constants.UserIndentity.STUDENT);
     }
 
     @Override
@@ -156,6 +170,7 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
     public void onTeamList(List<ProjectTeamBean> projectTeamList) {
         this.projectTeamList.clear();
         this.projectTeamList.addAll(projectTeamList);
+        teamAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -164,5 +179,11 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
             joinPresenter.onDestroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onJoinWithTeam(ProjectTeamBean team) {
+        joinTeamId = team.getId();
+        joinPresenter.projectJoin();
     }
 }

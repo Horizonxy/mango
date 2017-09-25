@@ -72,7 +72,7 @@ public class TutorClassCategoryActivity extends BaseActivity {
                 ((GridView) helper.getView(R.id.gv_item_category)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ActivityBuilder.startCalssListActivity(TutorClassCategoryActivity.this, item, position);
+                        ActivityBuilder.startCourseListActivity(TutorClassCategoryActivity.this, item);
                     }
                 });
             }

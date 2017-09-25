@@ -162,4 +162,9 @@
     <string name="works_collection_bottom_tip">您可以再PC端登录www.enjoymangopa.com，使用电脑上传Word、PDF、PPT等文件。</string>
 
     <string name="works_team">团队</string>
+    <string name="have_member_count">已有%d人</string>
+    <string name="actor_info">发起人：%1$s（%2$s）</string>
+    <string name="save">保存</string>
+    <string name="works">作品</string>
+
 </resources>
