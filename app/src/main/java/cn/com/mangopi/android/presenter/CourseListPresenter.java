@@ -63,8 +63,38 @@ public class CourseListPresenter extends BasePresenter {
 
                     @Override
                     public void onNext(RestResult<Object> restResult) {
-                        if(restResult != null && restResult.isSuccess()){
-                            courseListListener.onDelSuccess(course);
+                        if(restResult != null) {
+                            if (restResult.isSuccess()) {
+                                courseListListener.onDelSuccess(course);
+                            } else {
+                                courseListListener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
+
+    public void offCourse(CourseBean course){
+        Context context = courseListListener.currentContext();
+        Subscription subscription = courseModel.offCourse(course.getId(),
+                new CreateLoading(context), new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            courseListListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()) {
+                                courseListListener.onOffSuccess(course);
+                            } else {
+                                courseListListener.onFailure(restResult.getRet_msg());
+                            }
                         }
                     }
                 });

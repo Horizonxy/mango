@@ -1,8 +1,6 @@
 package cn.com.mangopi.android.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -183,20 +181,19 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
             tvSalePrice.setText("");
         }
 
+        btnCancel1.setVisibility(View.GONE);
         if(orderDetail.getState() != null){
-            if(orderDetail.getState().intValue() == 2){
-                btnCancel1.setVisibility(View.VISIBLE);
-            } else if (orderDetail.getState().intValue() == 5){
+            if (orderDetail.getState().intValue() == 5){
                 btnUnAct.setVisibility(View.VISIBLE);
+                btnAct.setVisibility(View.GONE);
             } else if (orderDetail.getState().intValue() == 4){
                 btnAct.setVisibility(View.VISIBLE);
+                btnUnAct.setVisibility(View.GONE);
             } else {
-                btnCancel1.setVisibility(View.GONE);
                 btnUnAct.setVisibility(View.GONE);
                 btnAct.setVisibility(View.GONE);
             }
         } else {
-            btnCancel1.setVisibility(View.GONE);
             btnUnAct.setVisibility(View.GONE);
             btnAct.setVisibility(View.GONE);
         }

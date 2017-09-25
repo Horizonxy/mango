@@ -2,7 +2,6 @@ package cn.com.mangopi.android.di.module;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -40,7 +39,12 @@ public class TrendCommentsActivityModule {
                 .setOnClickListener(R.id.iv_comment, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        InputPopupWindow inputPopupWindow = new InputPopupWindow(activity);
+                        InputPopupWindow inputPopupWindow = new InputPopupWindow(activity, new InputPopupWindow.OnInputListener() {
+                            @Override
+                            public void onInput(String text) {
+
+                            }
+                        });
                         inputPopupWindow.showWindow();
                     }
                 });

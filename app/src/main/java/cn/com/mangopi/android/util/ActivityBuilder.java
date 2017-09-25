@@ -51,6 +51,7 @@ import cn.com.mangopi.android.ui.activity.SelectPayActivity;
 import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
 import cn.com.mangopi.android.ui.activity.SuccessActivity;
 import cn.com.mangopi.android.ui.activity.TransDetailActivity;
+import cn.com.mangopi.android.ui.activity.TrendForwardActivity;
 import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
 import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
 import cn.com.mangopi.android.ui.activity.UpgradeRoleActivity;
@@ -331,6 +332,12 @@ public class ActivityBuilder {
     public static void startProjectWorkDetailActivity(Activity activity, long projectId){
         Intent intent = new Intent(activity, ProjectWorkDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_ID, projectId);
+        activity.startActivity(intent);
+    }
+
+    public static void startTrendForwardActivity(Activity activity, TrendBean trendBean){
+        Intent intent = new Intent(activity, TrendForwardActivity.class);
+        intent.putExtra(Constants.BUNDLE_DATA, trendBean);
         activity.startActivity(intent);
     }
 }

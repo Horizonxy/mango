@@ -36,6 +36,7 @@ import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
 import cn.com.mangopi.android.model.bean.UploadBean;
+import cn.com.mangopi.android.model.bean.ReplyTrendBean;
 import okhttp3.RequestBody;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -431,5 +432,19 @@ public interface ApiService {
     @GET("outer/router?project_actor_get")
     Observable<RestResult<ProjectActorBean>> getProjectActor(
             @Query("id") long id
+    );
+
+    //下架授课接口
+    @POST("outer/router?course_Off")
+    Observable<RestResult<Object>> offCourse(
+            @Query("lst_sessid") String sessid,
+            @Query("id") long id
+    );
+
+    //5.5.4回复动态接口
+    @POST("outer/router?trend_reply")
+    Observable<RestResult<ReplyTrendBean>> replyTrend(
+            @Query("lst_sessid") String sessid,
+            @QueryMap Map<String, Object> map
     );
 }

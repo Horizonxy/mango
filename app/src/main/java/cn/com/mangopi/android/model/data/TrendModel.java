@@ -1,14 +1,14 @@
 package cn.com.mangopi.android.model.data;
 
+import java.util.List;
+import java.util.Map;
+
 import cn.com.mangopi.android.model.api.ApiManager;
+import cn.com.mangopi.android.model.bean.ReplyTrendBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.util.RxJavaUtils;
-
-import java.util.List;
-import java.util.Map;
-
 import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
@@ -26,5 +26,9 @@ public class TrendModel {
 
     public Subscription getTrend(long id, Action0 onSubscriber, Subscriber<RestResult<TrendDetailBean>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getTrend(id), onSubscriber).subscribe(subscriber);
+    }
+
+    public Subscription replyTrend(Map<String, Object> map, Action0 onSubscriber, Subscriber<RestResult<ReplyTrendBean>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.replyTrend(map), onSubscriber).subscribe(subscriber);
     }
 }

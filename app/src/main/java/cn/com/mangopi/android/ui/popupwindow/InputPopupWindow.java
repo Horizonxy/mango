@@ -3,6 +3,7 @@ package cn.com.mangopi.android.ui.popupwindow;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+
 import cn.com.mangopi.android.R;
-import cn.com.mangopi.android.ui.widget.SoftKeyBoardListener;
 import cn.com.mangopi.android.util.MangoUtils;
 
 public class InputPopupWindow extends PopupWindow {
@@ -22,7 +23,7 @@ public class InputPopupWindow extends PopupWindow {
     Button btnSend;
     int softKeyBoardHeight;
 
-    public InputPopupWindow(Activity activity){
+    public InputPopupWindow(Activity activity, OnInputListener onInputListener){
         super(activity);
         this.activity = activity;
         softKeyBoardHeight = MangoUtils.getDpi(activity);
@@ -30,6 +31,15 @@ public class InputPopupWindow extends PopupWindow {
         etContent = (EditText) root.findViewById(R.id.et_content);
         btnSend = (Button) root.findViewById(R.id.btn_send);
 
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onInputListener != null && !TextUtils.isEmpty(etContent.getText())){
+                    onInputListener.onInput(etContent.getText().toString());
+                    dismiss();
+                }
+            }
+        });
 //        SoftKeyBoardListener.setListener(activity, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
 //            @Override
 //            public void keyBoardShow(int height) {
@@ -74,5 +84,9 @@ public class InputPopupWindow extends PopupWindow {
         if (!imm.isActive(etContent)){
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    public interface OnInputListener{
+        void onInput(String text);
     }
 }

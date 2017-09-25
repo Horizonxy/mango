@@ -7,29 +7,33 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.inject.Inject;
+
 import butterknife.Bind;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.di.component.DaggerTrendCommentsActivityComponent;
 import cn.com.mangopi.android.di.module.TrendCommentsActivityModule;
+import cn.com.mangopi.android.model.bean.ReplyTrendBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.presenter.TrendCommentsPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
+import cn.com.mangopi.android.ui.popupwindow.InputPopupWindow;
 import cn.com.mangopi.android.ui.viewlistener.TrendCommentsListener;
 import cn.com.mangopi.android.ui.widget.GridView;
 import cn.com.mangopi.android.ui.widget.RoundImageView;
@@ -40,7 +44,7 @@ import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 
-public class TrendCommentsActivity extends BaseTitleBarActivity implements TrendCommentsListener {
+public class TrendCommentsActivity extends BaseTitleBarActivity implements TrendCommentsListener, View.OnClickListener {
 
     @Bind(R.id.listview)
     PullToRefreshListView listView;
@@ -63,6 +67,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     TextView tvPraiseCount;
     DisplayImageOptions options;
     int width;
+    String replyTrendContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +104,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
         tvFawordCount = (TextView) header.findViewById(R.id.tv_faword_count);
         tvCommentCount = (TextView) header.findViewById(R.id.tv_comment_count);
         tvPraiseCount = (TextView) header.findViewById(R.id.tv_praise_count);
+        header.findViewById(R.id.layout_comment).setOnClickListener(this);
         tvPublisherName.setText(trendBean.getPublisher_name());
         tvPublisherTime.setText(DateUtils.getShowTime(trendBean.getPublish_time()));
         Application.application.getImageLoader().displayImage(trendBean.getAvatar_rsurl(), ivPublisherAvatar);
@@ -169,6 +175,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     @Override
     public void onFailure(String message) {
         AppUtils.showToast(this, message);
+        replyTrendContent = "";
     }
 
     @Override
@@ -189,5 +196,41 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     @Override
     public long getId() {
         return id;
+    }
+
+    @Override
+    public Map<String, Object> replyTrendMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("trend_id", id);
+        map.put("content", replyTrendContent);
+        return map;
+    }
+
+    @Override
+    public void onReplyTrendSuccess(ReplyTrendBean replyTrendBean) {
+        TrendDetailBean.Comment comment = new TrendDetailBean.Comment();
+        comment.setComment_time(replyTrendBean.getCreateTime());
+        comment.setContent(replyTrendBean.getContent());
+        comment.setMember_name(replyTrendBean.getMemberName());
+        datas.add(comment);
+        adapter.notifyDataSetChanged();
+        tvCommentCount.setText(String.valueOf(Integer.parseInt(tvCommentCount.getText().toString()) + 1));
+        replyTrendContent = "";
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.layout_comment:
+                InputPopupWindow inputPopupWindow = new InputPopupWindow(this, new InputPopupWindow.OnInputListener() {
+                    @Override
+                    public void onInput(String text) {
+                        replyTrendContent = text;
+                        trendCommentsPresenter.replyTrend();
+                    }
+                });
+                inputPopupWindow.showWindow();
+                break;
+        }
     }
 }

@@ -7,7 +7,10 @@
     <cn.com.mangopi.android.ui.widget.RoundImageView
         android:id="@+id/iv_avatar"
         android:layout_width="@dimen/dp_60"
-        android:layout_height="@dimen/dp_60" />
+        android:layout_height="@dimen/dp_60"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/tv_self"

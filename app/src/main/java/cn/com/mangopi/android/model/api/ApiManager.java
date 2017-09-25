@@ -38,6 +38,7 @@ import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
 import cn.com.mangopi.android.model.bean.UploadBean;
+import cn.com.mangopi.android.model.bean.ReplyTrendBean;
 import okhttp3.RequestBody;
 import rx.Observable;
 
@@ -278,5 +279,13 @@ public class ApiManager {
 
     public static Observable<RestResult<ProjectActorBean>> getProjectActor(long id){
         return Application.application.getApiService().getProjectActor(id);
+    }
+
+    public static Observable<RestResult<Object>> offCourse(long id){
+        return Application.application.getApiService().offCourse(Application.application.getSessId(), id);
+    }
+
+    public static Observable<RestResult<ReplyTrendBean>> replyTrend(Map<String, Object> map){
+        return Application.application.getApiService().replyTrend(Application.application.getSessId(), map);
     }
 }

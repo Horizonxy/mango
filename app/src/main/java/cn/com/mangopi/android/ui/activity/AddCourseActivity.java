@@ -232,7 +232,7 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
     @Override
     public void onAddCourseSuccess(Object object) {
         if(object != null) {
-            AppUtils.showToast(this, "保存课程成功，下拉刷新查看");
+            AppUtils.showToast(this, "保存课程成功，请耐心等待管理人员的审核");
             finish();
         }
     }

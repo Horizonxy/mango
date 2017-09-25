@@ -4,25 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.jakewharton.rxbinding.view.RxView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.TrendBean;
-import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.FoundListener;
@@ -31,9 +26,6 @@ import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
-import cn.com.mangopi.android.util.SmallPicInfo;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 public class TrendListAdapter extends QuickAdapter<TrendBean> {
 
@@ -129,6 +121,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         helper.getView(R.id.layout_comment).setOnClickListener(clickListener);
         helper.getView(R.id.layout_like).setOnClickListener(clickListener);
         helper.getView(R.id.iv_right).setOnClickListener(clickListener);
+        helper.setOnClickListener(R.id.layout_share, clickListener);
 
         helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
     }
@@ -144,6 +137,9 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         @Override
         public void onClick(View v) {
             switch (v.getId()){
+                case R.id.layout_share:
+                    ActivityBuilder.startTrendForwardActivity((Activity) context, trend);
+                    break;
                 case R.id.layout_comment:
                     ActivityBuilder.startTrendCommentsActivity((Activity) context, trend, trend.getId());
                     break;

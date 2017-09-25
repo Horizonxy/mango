@@ -115,8 +115,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.TrendCommentsActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.activity.TutorClassCategoryActivity"
             android:screenOrientation="portrait" />
@@ -239,12 +239,18 @@
         <activity
             android:name=".ui.activity.CaptureActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.CourseListActivity"
+        <activity
+            android:name=".ui.activity.CourseListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.ProjectTeamDetailActivity"
+        <activity
+            android:name=".ui.activity.ProjectTeamDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.ProjectWorkDetailActivity"
+        <activity
+            android:name=".ui.activity.ProjectWorkDetailActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.TrendForwardActivity"
+            android:screenOrientation="portrait" />
+
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>

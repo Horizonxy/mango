@@ -431,7 +431,9 @@ public class DateUtils{
 			calendar2.setTime(composeDate);
 			if (calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)) {
 				int secDiff = (int) ((dateNow.getTime() - composeDate.getTime()) / 1000);
-				if (secDiff < 3600) {
+				if(secDiff < 60) {
+					time = "刚刚";
+				} else if (secDiff < 3600) {
 					int min = secDiff / 60;
 					time = min + "分钟前";
 				} else if (secDiff >= 3600 && secDiff < 24 * 3600) {
