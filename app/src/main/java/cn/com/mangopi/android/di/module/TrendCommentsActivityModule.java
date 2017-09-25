@@ -11,6 +11,7 @@ import cn.com.mangopi.android.di.ActivityScope;
 import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
+import cn.com.mangopi.android.ui.popupwindow.InputPopupWindow;
 import cn.com.mangopi.android.util.DateUtils;
 import dagger.Module;
 import dagger.Provides;
@@ -35,7 +36,14 @@ public class TrendCommentsActivityModule {
             protected void convert(BaseAdapterHelper helper, TrendDetailBean.Comment item) {
                 helper.setText(R.id.tv_name, item.getMember_name())
                         .setText(R.id.tv_time, DateUtils.getShowTime(item.getComment_time()))
-                        .setText(R.id.tv_content, item.getContent());
+                        .setText(R.id.tv_content, item.getContent())
+                .setOnClickListener(R.id.iv_comment, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        InputPopupWindow inputPopupWindow = new InputPopupWindow(activity);
+                        inputPopupWindow.showWindow();
+                    }
+                });
             }
         };
     }

@@ -39,6 +39,7 @@ import cn.com.mangopi.android.ui.fragment.HomeFragment;
 import cn.com.mangopi.android.ui.fragment.MyFragment;
 import cn.com.mangopi.android.ui.fragment.TecaherFragment;
 import cn.com.mangopi.android.ui.viewlistener.MessageListener;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
@@ -204,7 +205,9 @@ public class MainActivity extends BaseActivity implements MessageListener {
             case Constants.REQ_SCAN:
                 if (resultCode == RESULT_OK && data != null) {
                     String result = data.getStringExtra(Constants.BUNDLE_SCAN_RESULT);
-                    AppUtils.showToast(this, "扫描结果：" + result);
+                    if(result != null && result.startsWith("http")){
+                        ActivityBuilder.startWebViewActivity(this, result);
+                    }
                 }
                 break;
 

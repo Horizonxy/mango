@@ -182,8 +182,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         }
 
         Date applyAbort = projectDetail.getApply_abort_time();
-
-        if(applyAbort != null && applyAbort.after(new Date())){
+        if(applyAbort != null && applyAbort.after(new Date()) && !indentityList.contains(Constants.UserIndentity.COMPANY)){
             btnProjectJoin.setVisibility(View.VISIBLE);
         } else {
             btnProjectJoin.setVisibility(View.INVISIBLE);

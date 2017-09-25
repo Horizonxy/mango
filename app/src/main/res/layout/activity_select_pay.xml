@@ -58,6 +58,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/line_union"
                 style="@style/horizontal_line"
                 android:layout_marginBottom="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_5" />
@@ -93,6 +94,7 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/line_alipay"
                 style="@style/horizontal_line"
                 android:layout_marginBottom="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_5" />

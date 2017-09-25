@@ -19,7 +19,7 @@ public class ProjectActorBean implements Serializable {
     private String awards;
     private String tutor_comments;
     private String company_comments;
-    private List<String> works_phote_rsurls;
+    private List<String> works_photo_rsurls;
     private List<String> scheme_doc_rsurls;
     private List<String> team_photo_rsurls;
     private Integer state;
@@ -146,12 +146,12 @@ public class ProjectActorBean implements Serializable {
         this.company_comments = company_comments;
     }
 
-    public List<String> getWorks_phote_rsurls() {
-        return works_phote_rsurls;
+    public List<String> getWorks_photo_rsurls() {
+        return works_photo_rsurls;
     }
 
-    public void setWorks_phote_rsurls(List<String> works_phote_rsurls) {
-        this.works_phote_rsurls = works_phote_rsurls;
+    public void setWorks_photo_rsurls(List<String> works_photo_rsurls) {
+        this.works_photo_rsurls = works_photo_rsurls;
     }
 
     public List<String> getScheme_doc_rsurls() {

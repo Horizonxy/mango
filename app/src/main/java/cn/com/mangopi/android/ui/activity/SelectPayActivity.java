@@ -22,11 +22,15 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
 
     OrderBean order;
     @Bind(R.id.layout_unionpay)
-    LinearLayout layoutUnionppay;
+    LinearLayout layoutUnionPay;
+    @Bind(R.id.line_union)
+    View lineUnion;
     @Bind(R.id.layout_alipay)
     LinearLayout layoutAlipay;
+    @Bind(R.id.line_alipay)
+    View lineAlipay;
     @Bind(R.id.layout_wechatpay)
-    LinearLayout layoutWechatpay;
+    LinearLayout layoutWechatPay;
     String channel;
     OrderPayPresenter payPresenter;
     @Bind(R.id.iv_union_right)
@@ -47,7 +51,7 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
         }
         initView();
         payPresenter = new OrderPayPresenter(new OrderModel(), this);
-        layoutWechatpay.performClick();
+        layoutWechatPay.performClick();
     }
 
     @OnClick(R.id.layout_unionpay)
@@ -86,6 +90,10 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
     private void initView() {
         titleBar.setTitle(R.string.pay_for_order);
 
+        lineUnion.setVisibility(View.GONE);
+        layoutUnionPay.setVisibility(View.GONE);
+        lineAlipay.setVisibility(View.GONE);
+        layoutAlipay.setVisibility(View.GONE);
     }
 
     @Override

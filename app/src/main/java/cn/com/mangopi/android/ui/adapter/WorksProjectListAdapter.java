@@ -15,14 +15,17 @@ import cn.com.mangopi.android.ui.popupwindow.SharePopupWindow;
 import cn.com.mangopi.android.ui.widget.MangoUMShareListener;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.DateUtils;
+import cn.com.mangopi.android.util.MangoUtils;
 
 public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
 
     int relation;
+    List<Constants.UserIndentity> indentityList;
 
     public WorksProjectListAdapter(Context context, int layoutResId, List<ProjectListBean> data, int relation) {
         super(context, layoutResId, data);
         this.relation = relation;
+        indentityList = MangoUtils.getIndentityList();
     }
 
     @Override
@@ -42,7 +45,8 @@ public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
                 .setText(R.id.tv_focus_count, "关注  "+String.valueOf(item.getFocus_count()))
                 .setText(R.id.tv_applied_count, "报名  "+String.valueOf(item.getApplied_count()))
                 .setText(R.id.tv_state_label, item.getState_label())
-                .setVisible(R.id.btn_teams, "team".equals(item.getActor_member_type()))
+                .setVisible(R.id.btn_teams, "team".equals(item.getActor_member_type()) && indentityList.contains(Constants.UserIndentity.STUDENT))
+                .setVisible(R.id.btn_works, indentityList.contains(Constants.UserIndentity.STUDENT))
                 .setOnClickListener(R.id.layout_share, clickListener)
                 .setProgress(R.id.progress, item.getProgress())
                 .setOnClickListener(R.id.btn_works, clickListener)

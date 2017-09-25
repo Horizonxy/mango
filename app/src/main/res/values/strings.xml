@@ -159,7 +159,7 @@
     <string name="works_collection_photos">作品照片</string>
     <string name="documen_plan">文档方案</string>
     <string name="group_photos">团队照片</string>
-    <string name="works_collection_bottom_tip">您可以再PC端登录www.enjoymangopa.com，使用电脑上传Word、PDF、PPT等文件。</string>
+    <string name="works_collection_bottom_tip">您可以在PC端登录www.enjoymangopa.com，使用电脑上传Word、PDF、PPT等文件。</string>
 
     <string name="works_team">团队</string>
     <string name="have_member_count">已有%d人</string>

@@ -195,10 +195,10 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
             vClasses.setVisibility(View.VISIBLE);
             vAccount.setVisibility(View.VISIBLE);
         }
-        /*if(indentityList.contains(Constants.UserIndentity.COMPANY)){
+        if(indentityList.contains(Constants.UserIndentity.COMPANY)){
             vWorks.setVisibility(View.VISIBLE);
             vWorks.setTag(Constants.UserIndentity.COMPANY);
-        } else */if(indentityList.contains(Constants.UserIndentity.STUDENT)){
+        } else if(indentityList.contains(Constants.UserIndentity.STUDENT)){
             vWorks.setVisibility(View.VISIBLE);
             vWorks.setTag(Constants.UserIndentity.STUDENT);
         } else {
