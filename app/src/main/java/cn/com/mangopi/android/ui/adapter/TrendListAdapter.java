@@ -9,6 +9,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
@@ -23,9 +24,7 @@ import java.util.List;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
-import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
-import cn.com.mangopi.android.ui.activity.WorksProjectDetailActivity;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.FoundListener;
@@ -68,7 +67,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         helper.setImageUrl(R.id.iv_publisher_avatar, item.getAvatar_rsurl());
         String content = item.getContent();
         TextView tvContent = helper.getView(R.id.tv_content);
-        setContent(tvContent, content);
+        setContent(tvContent, content, item.getId(), item.getFawordTrend());
         if(TextUtils.isEmpty(item.getCity())){
             helper.setVisible(R.id.tv_city, false);
         } else {
@@ -91,7 +90,43 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
 
         helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
 
-        helper.setVisible(R.id.layout_forward, false);
+        TrendBean forwardTrend = item.getFawordTrend();
+        if(forwardTrend == null) {
+            helper.setVisible(R.id.layout_forward, false);
+        } else {
+            helper.setVisible(R.id.layout_forward, true);
+            helper.setOnClickListener(R.id.layout_forward, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityBuilder.startTrendCommentsActivity((Activity) context, forwardTrend.getId(), forwardTrend.getFawordTrend());
+                }
+            });
+            TextView tvForwardContent = helper.getView(R.id.tv_forward_content);
+            String forwardContent = forwardTrend.getPublisher_name()+"："+forwardTrend.getContent();
+            if(forwardContent != null && forwardContent.length() > 200){
+                String newContent = forwardContent + "..."+"  点开全文";
+                tvForwardContent.setHighlightColor(context.getResources().getColor(android.R.color.transparent));
+                SpannableString spannableString = new SpannableString(newContent);
+                spannableString.setSpan(new Clickable(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityBuilder.startTrendCommentsActivity((Activity) context, forwardTrend.getId(), forwardTrend);
+                    }
+                }), newContent.length() - 4, newContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new NoUnderlineSpan(),  newContent.length() - 4, newContent.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                spannableString.setSpan(new TextAppearanceSpan(context, R.style.textview_sp16_333333), 0, forwardTrend.getPublisher_name().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new TextAppearanceSpan(context, R.style.textview_sp14_666666), forwardTrend.getPublisher_name().length() + 1, newContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tvForwardContent.setText(spannableString, TextView.BufferType.SPANNABLE);
+                tvForwardContent.setMovementMethod(LinkMovementMethod.getInstance());
+            } else {
+                SpannableString spannableString = new SpannableString(forwardContent);
+                spannableString.setSpan(new TextAppearanceSpan(context, R.style.textview_sp16_333333), 0, forwardTrend.getPublisher_name().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new TextAppearanceSpan(context, R.style.textview_sp14_666666), forwardTrend.getPublisher_name().length() + 1, forwardContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tvForwardContent.setText(spannableString, TextView.BufferType.SPANNABLE);
+            }
+
+            setPictures(helper.getView(R.id.iv_forward_picture), helper.getView(R.id.gv_forward_picture), forwardTrend.getPic_rsurls());
+        }
     }
 
     private void setPictures(ImageView ivPicture, GridView gvPicture, List<String> pictures){
@@ -146,10 +181,29 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         }
     }
 
-    private void setContent(TextView tvContent, String content){
+    private void setContent(TextView tvContent, String content, long id, TrendBean forwardTrend){
         if(content != null && content.length() > 200){
             String newContent = content + "..."+"  点开全文";
             tvContent.setHighlightColor(context.getResources().getColor(android.R.color.transparent));
+            SpannableString spannableString = new SpannableString(newContent);
+            spannableString.setSpan(new Clickable(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityBuilder.startTrendCommentsActivity((Activity) context, id, forwardTrend);
+                }
+            }), newContent.length() - 4, newContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new NoUnderlineSpan(),  newContent.length() - 4, newContent.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+            tvContent.setText(spannableString);
+            tvContent.setMovementMethod(LinkMovementMethod.getInstance());
+        } else {
+            tvContent.setText(content);
+        }
+    }
+
+    private void setForwardContent(TextView tvForwardContent, String forwardContent){
+        if(forwardContent != null && forwardContent.length() > 200){
+            String newContent = forwardContent + "..."+"  点开全文";
+            tvForwardContent.setHighlightColor(context.getResources().getColor(android.R.color.transparent));
             SpannableString spannableString = new SpannableString(newContent);
             spannableString.setSpan(new Clickable(new View.OnClickListener() {
                 @Override
@@ -158,10 +212,10 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                 }
             }), newContent.length() - 4, newContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new NoUnderlineSpan(),  newContent.length() - 4, newContent.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-            tvContent.setText(spannableString);
-            tvContent.setMovementMethod(LinkMovementMethod.getInstance());
+            tvForwardContent.setText(spannableString, TextView.BufferType.SPANNABLE);
+            tvForwardContent.setMovementMethod(LinkMovementMethod.getInstance());
         } else {
-            tvContent.setText(content);
+            tvForwardContent.setText(forwardContent, TextView.BufferType.SPANNABLE);
         }
     }
 

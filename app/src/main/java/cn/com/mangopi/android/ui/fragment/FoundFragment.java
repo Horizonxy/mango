@@ -1,6 +1,5 @@
 package cn.com.mangopi.android.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +26,6 @@ import cn.com.mangopi.android.di.component.DaggerFoundFragmentComponent;
 import cn.com.mangopi.android.di.module.FoundFragmentModule;
 import cn.com.mangopi.android.model.bean.ReplyTrendBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
-import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.presenter.FavPresenter;
 import cn.com.mangopi.android.presenter.FoundPresenter;
 import cn.com.mangopi.android.presenter.TrendCommentsPresenter;
@@ -148,7 +146,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TrendBean item = (TrendBean) parent.getAdapter().getItem(position);
-        ActivityBuilder.startTrendCommentsActivity(getActivity(), item.getId());
+        ActivityBuilder.startTrendCommentsActivity(getActivity(), item.getId(), item.getFawordTrend());
     }
 
     @Override
@@ -260,7 +258,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     public void onReplyTrendSuccess(ReplyTrendBean replyTrendBean) {
         commentTrend.setComment_count(commentTrend.getComment_count() + 1);
         adapter.notifyDataSetChanged();
-        ActivityBuilder.startTrendCommentsActivity(getActivity(), commentTrend.getId());
+        ActivityBuilder.startTrendCommentsActivity(getActivity(), commentTrend.getId(), commentTrend.getFawordTrend());
         commentTrendContent = "";
         commentTrend = null;
     }

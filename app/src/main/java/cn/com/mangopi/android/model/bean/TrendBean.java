@@ -22,6 +22,15 @@ public class TrendBean implements Serializable {
     private int praise_count;
     private int faword_count;
     private boolean is_favor;
+    private TrendBean fawordTrend;
+
+    public TrendBean getFawordTrend() {
+        return fawordTrend;
+    }
+
+    public void setFawordTrend(TrendBean fawordTrend) {
+        this.fawordTrend = fawordTrend;
+    }
 
     public long getId() {
         return id;

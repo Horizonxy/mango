@@ -1,12 +1,15 @@
 package cn.com.mangopi.android.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.AbsListView;
@@ -38,9 +41,10 @@ import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.presenter.TrendCommentsPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
-import cn.com.mangopi.android.ui.popupwindow.InputPopupWindow;
 import cn.com.mangopi.android.ui.viewlistener.TrendCommentsListener;
+import cn.com.mangopi.android.ui.widget.Clickable;
 import cn.com.mangopi.android.ui.widget.GridView;
+import cn.com.mangopi.android.ui.widget.NoUnderlineSpan;
 import cn.com.mangopi.android.ui.widget.RoundImageView;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
@@ -50,6 +54,8 @@ import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
+
+import static com.umeng.socialize.utils.DeviceConfig.context;
 
 public class TrendCommentsActivity extends BaseTitleBarActivity implements TrendCommentsListener, TrendCommentsActivityModule.OnReplyListener {
 
@@ -81,6 +87,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     TextView tvForwardContent;
     ImageView ivForwardPicture;
     GridView gvForwardPicture;
+    TrendBean forwardTrend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +96,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
         DaggerTrendCommentsActivityComponent.builder().trendCommentsActivityModule(commentsModule = new TrendCommentsActivityModule(this, datas, this)).build().inject(this);
         Bus.getDefault().register(this);
         id = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
+        forwardTrend = (TrendBean) getIntent().getSerializableExtra(Constants.BUNDLE_DATA);
         initView();
         trendCommentsPresenter = new TrendCommentsPresenter(this);
         trendCommentsPresenter.getTrend();
@@ -138,6 +146,10 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
 
     @Override
     public void onTrendSuccess(TrendDetailBean trendDetail) {
+        if(forwardTrend != null && trendDetail.getFawordTrend() == null){
+            trendDetail.setFawordTrend(forwardTrend);
+        }
+
         titleBar.setTitle(trendDetail.getPublisher_name());
         commentsModule.setTrendDetail(trendDetail);
         this.trendDetail = trendDetail;
@@ -219,12 +231,43 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     }
 
     private void bindForward(TrendDetailBean trendDetail){
-        layoutForward.setVisibility(View.GONE);
+        TrendBean forwardTrend = trendDetail.getFawordTrend();
 
-        SpannableString styledText = new SpannableString("小宝：你好");
-        styledText.setSpan(new TextAppearanceSpan(this, R.style.textview_sp16_333333), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styledText.setSpan(new TextAppearanceSpan(this, R.style.textview_sp14_666666), 3, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tvForwardContent.setText(styledText, TextView.BufferType.SPANNABLE);
+        if(forwardTrend == null) {
+            layoutForward.setVisibility(View.GONE);
+        } else {
+            layoutForward.setVisibility(View.VISIBLE);
+            layoutForward.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityBuilder.startTrendCommentsActivity(TrendCommentsActivity.this, forwardTrend.getId(), forwardTrend.getFawordTrend());
+                }
+            });
+            String forwardContent = forwardTrend.getPublisher_name()+"："+forwardTrend.getContent();
+            if(forwardContent != null && forwardContent.length() > 200){
+                String newContent = forwardContent + "..."+"  点开全文";
+                tvForwardContent.setHighlightColor(context.getResources().getColor(android.R.color.transparent));
+                SpannableString spannableString = new SpannableString(newContent);
+                spannableString.setSpan(new Clickable(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityBuilder.startTrendCommentsActivity((Activity) context, forwardTrend.getId(), forwardTrend);
+                    }
+                }), newContent.length() - 4, newContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new NoUnderlineSpan(),  newContent.length() - 4, newContent.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                spannableString.setSpan(new TextAppearanceSpan(this, R.style.textview_sp16_333333), 0, forwardTrend.getPublisher_name().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new TextAppearanceSpan(this, R.style.textview_sp14_666666), forwardTrend.getPublisher_name().length() + 1, newContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tvForwardContent.setText(spannableString, TextView.BufferType.SPANNABLE);
+                tvForwardContent.setMovementMethod(LinkMovementMethod.getInstance());
+            } else {
+                SpannableString spannableString = new SpannableString(forwardContent);
+                spannableString.setSpan(new TextAppearanceSpan(this, R.style.textview_sp16_333333), 0, forwardTrend.getPublisher_name().length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new TextAppearanceSpan(this, R.style.textview_sp14_666666), forwardTrend.getPublisher_name().length() + 1, forwardContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tvForwardContent.setText(spannableString, TextView.BufferType.SPANNABLE);
+            }
+
+            setPictures(ivPicture, gvForwardPicture, forwardTrend.getPic_rsurls());
+        }
     }
 
     @Override
