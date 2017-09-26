@@ -106,4 +106,9 @@ public class BusEvent {
     public static class RefreshMemberEvent {
 
     }
+
+    @com.mcxiaoke.bus.annotation.BusEvent
+    public static class RefreshTrendListEvent {
+
+    }
 }

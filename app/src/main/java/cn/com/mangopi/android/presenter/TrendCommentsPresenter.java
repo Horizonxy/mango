@@ -6,20 +6,23 @@ import cn.com.mangopi.android.model.bean.ReplyTrendBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.model.data.TrendModel;
+import cn.com.mangopi.android.ui.viewlistener.BaseViewListener;
+import cn.com.mangopi.android.ui.viewlistener.FoundListener;
 import cn.com.mangopi.android.ui.viewlistener.TrendCommentsListener;
 import rx.Subscription;
 
 public class TrendCommentsPresenter extends BasePresenter {
 
     TrendModel trendModel;
-    TrendCommentsListener trendCommentsListener;
+    BaseViewListener baseListener;
 
-    public TrendCommentsPresenter(TrendCommentsListener trendCommentsListener) {
-        this.trendCommentsListener = trendCommentsListener;
+    public TrendCommentsPresenter(BaseViewListener baseListener) {
+        this.baseListener = baseListener;
         this.trendModel = new TrendModel();
     }
 
     public void getTrend(){
+        TrendCommentsListener trendCommentsListener = (TrendCommentsListener) baseListener;
         Context context = trendCommentsListener.currentContext();
         Subscription subscription = trendModel.getTrend(trendCommentsListener.getId(), new CreateLoading(context),
                 new BaseLoadingSubscriber<RestResult<TrendDetailBean>>(){
@@ -46,14 +49,15 @@ public class TrendCommentsPresenter extends BasePresenter {
     }
 
     public void replyTrend(){
-        Context context = trendCommentsListener.currentContext();
-        Subscription subscription = trendModel.replyTrend(trendCommentsListener.replyTrendMap(), new CreateLoading(context),
+        FoundListener foundListener = (FoundListener) baseListener;
+        Context context = foundListener.currentContext();
+        Subscription subscription = trendModel.replyTrend(foundListener.replyTrendMap(), new CreateLoading(context),
                 new BaseLoadingSubscriber<RestResult<ReplyTrendBean>>(){
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
                         if(e != null){
-                            trendCommentsListener.onFailure(e.getMessage());
+                            foundListener.onFailure(e.getMessage());
                         }
                     }
 
@@ -61,9 +65,9 @@ public class TrendCommentsPresenter extends BasePresenter {
                     public void onNext(RestResult<ReplyTrendBean> restResult) {
                         if(restResult != null){
                             if(restResult.isSuccess()){
-                                trendCommentsListener.onReplyTrendSuccess(restResult.getData());
+                                foundListener.onReplyTrendSuccess(restResult.getData());
                             } else {
-                                trendCommentsListener.onFailure(restResult.getRet_msg());
+                                foundListener.onFailure(restResult.getRet_msg());
                             }
                         }
                     }
@@ -72,6 +76,7 @@ public class TrendCommentsPresenter extends BasePresenter {
     }
 
     public void replyComment(){
+        TrendCommentsListener trendCommentsListener = (TrendCommentsListener) baseListener;
         Context context = trendCommentsListener.currentContext();
         Subscription subscription = trendModel.replyTrend(trendCommentsListener.replyCommentMap(), new CreateLoading(context),
                 new BaseLoadingSubscriber<RestResult<ReplyTrendBean>>(){

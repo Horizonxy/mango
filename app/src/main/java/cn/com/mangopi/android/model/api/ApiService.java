@@ -129,6 +129,14 @@ public interface ApiService {
             @Query("pics") List<String> pics
     );
 
+    //5.5.3转发动态接口
+    @POST("outer/router?trend_add")
+    Observable<RestResult<Object>> forwardTrend(
+            @Query("lst_sessid") String sessId,
+            @Query("content") String content,
+            @Query("fawordTrendId") long fawordTrendId
+    );
+
     //5.1.17会员钱包详情接口
     @GET("outer/router?member_wallet")
     Observable<RestResult<MemberWalletBean>> getWallet(

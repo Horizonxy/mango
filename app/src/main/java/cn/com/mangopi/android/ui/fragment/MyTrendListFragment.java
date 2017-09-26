@@ -14,6 +14,7 @@ import java.util.Map;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.ReplyTrendBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.model.data.FavModel;
 import cn.com.mangopi.android.model.data.PraiseModel;
@@ -196,5 +197,20 @@ public class MyTrendListFragment extends BaseFragment implements AdapterView.OnI
             map.put("is_my_reply", 1);
         }
         return map;
+    }
+
+    @Override
+    public void comment(TrendBean trend) {
+
+    }
+
+    @Override
+    public Map<String, Object> replyTrendMap() {
+        return null;
+    }
+
+    @Override
+    public void onReplyTrendSuccess(ReplyTrendBean replyTrendBean) {
+
     }
 }

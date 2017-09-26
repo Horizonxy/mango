@@ -93,6 +93,10 @@ public class ApiManager {
         return Application.application.getApiService().addTrend(Application.application.getSessId(), content, pics);
     }
 
+    public static  Observable<RestResult<Object>> forwardTrend(String content, long fawordTrendId){
+        return Application.application.getApiService().forwardTrend(Application.application.getSessId(), content, fawordTrendId);
+    }
+
     public static  Observable<RestResult<MemberWalletBean>> getWallet(){
         return Application.application.getApiService().getWallet(Application.application.getSessId());
     }

@@ -24,6 +24,10 @@ public class TrendModel {
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.addTrend(content, pics), onSubscriber).subscribe(subscriber);
     }
 
+    public Subscription forwardTrend(String content, long fawordTrendId, Action0 onSubscriber, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.forwardTrend(content, fawordTrendId), onSubscriber).subscribe(subscriber);
+    }
+
     public Subscription getTrend(long id, Action0 onSubscriber, Subscriber<RestResult<TrendDetailBean>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getTrend(id), onSubscriber).subscribe(subscriber);
     }

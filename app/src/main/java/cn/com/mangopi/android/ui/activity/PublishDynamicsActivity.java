@@ -12,6 +12,7 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.mcxiaoke.bus.Bus;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yancy.gallerypick.config.GalleryConfig;
 import com.yancy.gallerypick.config.GalleryPick;
@@ -30,6 +31,7 @@ import cn.com.mangopi.android.ui.viewlistener.AddTrendListener;
 import cn.com.mangopi.android.ui.widget.TitleBar;
 import cn.com.mangopi.android.ui.widget.UploadPictureView;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.FileUtils;
 import cn.com.mangopi.android.util.SelectorImageLoader;
@@ -208,6 +210,9 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
 
     @Override
     public void onSuccess() {
+//        BusEvent.RefreshTrendListEvent event = new BusEvent.RefreshTrendListEvent();
+//        Bus.getDefault().postSticky(event);
+        AppUtils.showToast(this, "动态已发布，请耐心等待管理人员的审核");
         finish();
     }
 

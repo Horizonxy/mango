@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -16,14 +21,20 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.util.List;
 
 import cn.com.mangopi.android.Application;
+import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
+import cn.com.mangopi.android.ui.activity.WorksProjectDetailActivity;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.FoundListener;
+import cn.com.mangopi.android.ui.widget.Clickable;
 import cn.com.mangopi.android.ui.widget.GridView;
+import cn.com.mangopi.android.ui.widget.NoUnderlineSpan;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.DateUtils;
+import cn.com.mangopi.android.util.DialogUtil;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 
@@ -33,6 +44,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
     Context context;
     FoundListener listener;
     DisplayImageOptions options;
+    List<Constants.UserIndentity> indentityList;
 
     public TrendListAdapter(Context context, int layoutResId, List<TrendBean> data, FoundListener listener) {
         super(context, layoutResId, data);
@@ -46,6 +58,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                 .cacheInMemory(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
+        indentityList = MangoUtils.getIndentityList();
     }
 
     @Override
@@ -53,7 +66,9 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         helper.setText(R.id.tv_publisher_name, item.getPublisher_name());
         helper.setText(R.id.tv_publish_time_labe, DateUtils.getShowTime(item.getPublish_time()));
         helper.setImageUrl(R.id.iv_publisher_avatar, item.getAvatar_rsurl());
-        helper.setText(R.id.tv_content, item.getContent());
+        String content = item.getContent();
+        TextView tvContent = helper.getView(R.id.tv_content);
+        setContent(tvContent, content);
         if(TextUtils.isEmpty(item.getCity())){
             helper.setVisible(R.id.tv_city, false);
         } else {
@@ -66,15 +81,29 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         helper.setImageResource(R.id.iv_right, item.is_favor() ? R.drawable.icon_shoucang : R.drawable.icon_shoucang_nor);
 
         List<String> pictures = item.getPic_rsurls();
+        setPictures(helper.getView(R.id.iv_picture), helper.getView(R.id.gv_picture), pictures);
+
+        ItemOnClickListener clickListener = new ItemOnClickListener(item);
+        helper.getView(R.id.layout_comment).setOnClickListener(clickListener);
+        helper.getView(R.id.layout_like).setOnClickListener(clickListener);
+        helper.getView(R.id.iv_right).setOnClickListener(clickListener);
+        helper.setOnClickListener(R.id.layout_share, clickListener);
+
+        helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
+
+        helper.setVisible(R.id.layout_forward, false);
+    }
+
+    private void setPictures(ImageView ivPicture, GridView gvPicture, List<String> pictures){
         if(pictures == null  || pictures.size() == 0){
-            helper.setVisible(R.id.iv_picture, false);
-            helper.setVisible(R.id.gv_picture, false);
+            ivPicture.setVisibility(View.GONE);
+            gvPicture.setVisibility(View.GONE);
         } else {
             if(pictures.size() == 1){
-                helper.setVisible(R.id.iv_picture, true);
-                helper.setVisible(R.id.gv_picture, false);
-                helper.setImageResource(R.id.iv_picture, 0);
-                Application.application.getImageLoader().displayImage(pictures.get(0), (ImageView)helper.getView(R.id.iv_picture), options, new SimpleImageLoadingListener() {
+                ivPicture.setVisibility(View.VISIBLE);
+                gvPicture.setVisibility(View.GONE);
+                ivPicture.setImageResource(0);
+                Application.application.getImageLoader().displayImage(pictures.get(0), ivPicture, options, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         int width = loadedImage.getWidth();
@@ -84,14 +113,13 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                         Matrix matrix = new Matrix();
                         matrix.setScale(scale, scale);
                         Bitmap bitmap = Bitmap.createBitmap(loadedImage, 0, 0, width, height, matrix, false);
-                        ((ImageView)helper.getView(R.id.iv_picture)).setImageBitmap(bitmap);
+                        ivPicture.setImageBitmap(bitmap);
                     }
                 });
 
-                MangoUtils.showBigPicture(helper.getView(R.id.iv_picture), pictures.get(0));
+                MangoUtils.showBigPicture(ivPicture, pictures.get(0));
             } else {
-                helper.setVisible(R.id.iv_picture, false);
-                GridView gvPicture =  helper.getView(R.id.gv_picture);
+                ivPicture.setVisibility(View.GONE);
                 gvPicture.setVisibility(View.VISIBLE);
                 LinearLayout.LayoutParams gvParams = (LinearLayout.LayoutParams) gvPicture.getLayoutParams();
                 if(pictures.size() == 4) {
@@ -102,7 +130,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                     gvParams.width = width * 3 + DisplayUtils.dip2px(context, 2) * 2;
                 }
                 gvPicture.setLayoutParams(gvParams);
-                helper.setAdapter(R.id.gv_picture, new QuickAdapter<String>(context, R.layout.gridview_item_picture, pictures) {
+                gvPicture.setAdapter(new QuickAdapter<String>(context, R.layout.gridview_item_picture, pictures) {
                     @Override
                     protected void convert(BaseAdapterHelper helper, String item) {
                         ImageView ivPicture = helper.getView(R.id.iv_item);
@@ -116,14 +144,25 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                 });
             }
         }
+    }
 
-        ItemOnClickListener clickListener = new ItemOnClickListener(item);
-        helper.getView(R.id.layout_comment).setOnClickListener(clickListener);
-        helper.getView(R.id.layout_like).setOnClickListener(clickListener);
-        helper.getView(R.id.iv_right).setOnClickListener(clickListener);
-        helper.setOnClickListener(R.id.layout_share, clickListener);
+    private void setContent(TextView tvContent, String content){
+        if(content != null && content.length() > 200){
+            String newContent = content + "..."+"  点开全文";
+            tvContent.setHighlightColor(context.getResources().getColor(android.R.color.transparent));
+            SpannableString spannableString = new SpannableString(newContent);
+            spannableString.setSpan(new Clickable(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
+                }
+            }), newContent.length() - 4, newContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new NoUnderlineSpan(),  newContent.length() - 4, newContent.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+            tvContent.setText(spannableString);
+            tvContent.setMovementMethod(LinkMovementMethod.getInstance());
+        } else {
+            tvContent.setText(content);
+        }
     }
 
     class ItemOnClickListener implements View.OnClickListener {
@@ -138,10 +177,19 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.layout_share:
-                    ActivityBuilder.startTrendForwardActivity((Activity) context, trend);
+                    if(indentityList.contains(Constants.UserIndentity.COMMUNITY) || indentityList.contains(Constants.UserIndentity.TUTOR)) {
+                        ActivityBuilder.startTrendForwardActivity((Activity) context, trend);
+                    } else {
+                        DialogUtil.createChoosseDialog(context, "提示", "只有升级成为导师或社团才能转发哦", "去认证", "暂不认证", new DialogUtil.OnChooseDialogListener() {
+                            @Override
+                            public void onChoose() {
+                                ActivityBuilder.startUpgradeRoleActivityy((Activity) context);
+                            }
+                        });
+                    }
                     break;
                 case R.id.layout_comment:
-                    ActivityBuilder.startTrendCommentsActivity((Activity) context, trend.getId());
+                    listener.comment(trend);
                     break;
                 case R.id.layout_like:
                     listener.praise(trend);

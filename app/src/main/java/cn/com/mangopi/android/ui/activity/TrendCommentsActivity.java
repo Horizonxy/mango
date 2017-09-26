@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
@@ -48,7 +51,7 @@ import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 
-public class TrendCommentsActivity extends BaseTitleBarActivity implements TrendCommentsListener, View.OnClickListener, TrendCommentsActivityModule.OnReplyListener {
+public class TrendCommentsActivity extends BaseTitleBarActivity implements TrendCommentsListener, TrendCommentsActivityModule.OnReplyListener {
 
     @Bind(R.id.listview)
     PullToRefreshListView listView;
@@ -70,10 +73,14 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     TextView tvPraiseCount;
     DisplayImageOptions options;
     int width;
-    String replyTrendContent;
     TrendCommentsActivityModule commentsModule;
     String replyCommentContent;
     TrendDetailBean.Comment replyComment;
+
+    LinearLayout layoutForward;
+    TextView tvForwardContent;
+    ImageView ivForwardPicture;
+    GridView gvForwardPicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +116,11 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
         tvFawordCount = (TextView) header.findViewById(R.id.tv_faword_count);
         tvCommentCount = (TextView) header.findViewById(R.id.tv_comment_count);
         tvPraiseCount = (TextView) header.findViewById(R.id.tv_praise_count);
-        header.findViewById(R.id.layout_comment).setOnClickListener(this);
+        //header.findViewById(R.id.layout_comment).setOnClickListener(this);
+        layoutForward = (LinearLayout) header.findViewById(R.id.layout_forward);
+        tvForwardContent = (TextView) header.findViewById(R.id.tv_forward_content);
+        ivForwardPicture = (ImageView) header.findViewById(R.id.iv_forward_picture);
+        gvForwardPicture = (GridView) header.findViewById(R.id.gv_forward_picture);
 
         listView.setAdapter(adapter);
         listView.setMode(PullToRefreshBase.Mode.DISABLED);
@@ -118,7 +129,6 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     @Override
     public void onFailure(String message) {
         AppUtils.showToast(this, message);
-        replyTrendContent = "";
     }
 
     @Override
@@ -152,6 +162,12 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
         tvCommentCount.setText(String.valueOf(trendDetail.getComment_count()));
         tvPraiseCount.setText(String.valueOf(trendDetail.getPraise_count()));
         List<String> pictures = trendDetail.getPic_rsurls();
+        setPictures(ivPicture, gvPicture, pictures);
+
+        bindForward(trendDetail);
+    }
+
+    private void setPictures(ImageView ivPicture, GridView gvPicture, List<String> pictures){
         if(pictures == null  || pictures.size() == 0){
             ivPicture.setVisibility(View.GONE);
             gvPicture.setVisibility(View.GONE);
@@ -202,17 +218,18 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
         }
     }
 
-    @Override
-    public long getId() {
-        return id;
+    private void bindForward(TrendDetailBean trendDetail){
+        layoutForward.setVisibility(View.GONE);
+
+        SpannableString styledText = new SpannableString("小宝：你好");
+        styledText.setSpan(new TextAppearanceSpan(this, R.style.textview_sp16_333333), 0, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        styledText.setSpan(new TextAppearanceSpan(this, R.style.textview_sp14_666666), 3, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvForwardContent.setText(styledText, TextView.BufferType.SPANNABLE);
     }
 
     @Override
-    public Map<String, Object> replyTrendMap() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("trend_id", id);
-        map.put("content", replyTrendContent);
-        return map;
+    public long getId() {
+        return id;
     }
 
     @Override
@@ -225,18 +242,6 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     }
 
     @Override
-    public void onReplyTrendSuccess(ReplyTrendBean replyTrendBean) {
-        TrendDetailBean.Comment comment = new TrendDetailBean.Comment();
-        comment.setComment_time(replyTrendBean.getCreateTime());
-        comment.setContent(replyTrendBean.getContent());
-        comment.setMember_name(replyTrendBean.getMemberName());
-        datas.add(comment);
-        adapter.notifyDataSetChanged();
-        tvCommentCount.setText(String.valueOf(Integer.parseInt(tvCommentCount.getText().toString()) + 1));
-        replyTrendContent = "";
-    }
-
-    @Override
     public void onReplyCommentSuccess(ReplyTrendBean replyTrendBean) {
         replyComment.setReply(replyTrendBean.getContent());
         adapter.notifyDataSetChanged();
@@ -244,30 +249,10 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
         replyComment = null;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.layout_comment:
-                ActivityBuilder.startInputMessageActivity(this, "评论动态", "确定", "comment_trend", 100, null);
-//                InputPopupWindow inputPopupWindow = new InputPopupWindow(this, new InputPopupWindow.OnInputListener() {
-//                    @Override
-//                    public void onInput(String text) {
-//                        replyTrendContent = text;
-//                        trendCommentsPresenter.replyTrend();
-//                    }
-//                });
-//                inputPopupWindow.showWindow();
-                break;
-        }
-    }
-
     @BusReceiver
     public void onInputEvent(BusEvent.InputEvent event) {
         String type = event.getType();
-        if ("comment_trend".equals(type)) {
-            replyTrendContent = event.getContent();
-            trendCommentsPresenter.replyTrend();
-        } else if("reply_comment".equals(type)){
+        if("reply_comment".equals(type)){
             replyCommentContent = event.getContent();
             trendCommentsPresenter.replyComment();
         }

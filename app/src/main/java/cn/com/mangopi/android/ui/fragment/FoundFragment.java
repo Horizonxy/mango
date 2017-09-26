@@ -1,5 +1,6 @@
 package cn.com.mangopi.android.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.mcxiaoke.bus.Bus;
+import com.mcxiaoke.bus.annotation.BusReceiver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,9 +25,12 @@ import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.di.component.DaggerFoundFragmentComponent;
 import cn.com.mangopi.android.di.module.FoundFragmentModule;
+import cn.com.mangopi.android.model.bean.ReplyTrendBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
+import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.presenter.FavPresenter;
 import cn.com.mangopi.android.presenter.FoundPresenter;
+import cn.com.mangopi.android.presenter.TrendCommentsPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.FavListener;
 import cn.com.mangopi.android.ui.viewlistener.FoundListener;
@@ -31,10 +38,14 @@ import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.EmptyHelper;
 import cn.com.mangopi.android.util.MangoUtils;
 
 public class FoundFragment extends BaseFragment implements AdapterView.OnItemClickListener,View.OnClickListener,FoundListener, FavListener {
+
+    public static final int MY_SEND = 1;
+    public static final int MY_REPLY = 2;
 
     ImageView ivSearch;
     TextView tvSearch;
@@ -53,15 +64,29 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     FavPresenter favPresenter;
     TrendBean favTrend;
     EmptyHelper emptyHelper;
+    TrendCommentsPresenter trendCommentsPresenter;
+    int type;
 
     public FoundFragment() {
+    }
+
+    public static FoundFragment newInstance(int type) {
+        FoundFragment fragment = new FoundFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", type);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if(getArguments() != null) {
+            type = getArguments().getInt("type");
+        }
+        Bus.getDefault().register(this);
         DaggerFoundFragmentComponent.builder().foundFragmentModule(new FoundFragmentModule(this, datas)).build().inject(this);
+        trendCommentsPresenter = new TrendCommentsPresenter(this);
     }
 
     @Override
@@ -77,6 +102,9 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), null);
         emptyHelper.setImageRes(R.drawable.page_icon_04);
         emptyHelper.setMessage(R.string.page_no_trend);
+        if(type == MY_SEND || type == MY_REPLY){
+            root.findViewById(R.id.layout_tab).setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -120,6 +148,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TrendBean item = (TrendBean) parent.getAdapter().getItem(position);
+        ActivityBuilder.startTrendCommentsActivity(getActivity(), item.getId());
     }
 
     @Override
@@ -183,6 +212,8 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     @Override
     public void onFailure() {
         listView.onRefreshComplete();
+        commentTrendContent = "";
+        commentTrend = null;
     }
 
     @Override
@@ -201,18 +232,64 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
         map.put("lst_sessid", Application.application.getSessId());
         map.put("page_no",getPageNo());
         map.put("page_size", Constants.PAGE_SIZE);
+        if(type == MY_SEND){
+            map.put("is_my_send", 1);
+        } else if(type == MY_REPLY){
+            map.put("is_my_reply", 1);
+        }
+        return map;
+    }
+
+    TrendBean commentTrend;
+    String commentTrendContent;
+    @Override
+    public void comment(TrendBean trend) {
+        commentTrend = trend;
+        ActivityBuilder.startInputMessageActivity(getActivity(), "评论动态", "确定", "comment_trend", 100, null);
+    }
+
+    @Override
+    public Map<String, Object> replyTrendMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("trend_id", commentTrend.getId());
+        map.put("content", commentTrendContent);
         return map;
     }
 
     @Override
+    public void onReplyTrendSuccess(ReplyTrendBean replyTrendBean) {
+        commentTrend.setComment_count(commentTrend.getComment_count() + 1);
+        adapter.notifyDataSetChanged();
+        ActivityBuilder.startTrendCommentsActivity(getActivity(), commentTrend.getId());
+        commentTrendContent = "";
+        commentTrend = null;
+    }
+
+    @BusReceiver
+    public void onInputEvent(BusEvent.InputEvent event) {
+        String type = event.getType();
+        if ("comment_trend".equals(type)) {
+            commentTrendContent = event.getContent();
+            trendCommentsPresenter.replyTrend();
+        }
+    }
+
+    @BusReceiver
+    public void onRefreshTrendListEvent(BusEvent.RefreshTrendListEvent event){
+        listView.getRefreshableView().smoothScrollToPosition(0);
+        listView.setRefreshing(true);
+    }
+
+    @Override
     public void onDestroy() {
-        super.onDestroy();
+        Bus.getDefault().unregister(this);
         if(presenter != null) {
             presenter.onDestroy();
         }
         if(favPresenter != null){
             favPresenter.onDestroy();
         }
+        super.onDestroy();
     }
 
     @Override

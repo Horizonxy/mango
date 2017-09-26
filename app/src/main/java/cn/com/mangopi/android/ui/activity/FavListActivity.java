@@ -20,6 +20,7 @@ import cn.com.mangopi.android.ui.adapter.FavListAdapter;
 import cn.com.mangopi.android.ui.viewlistener.FavListListener;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.EmptyHelper;
 
 public class FavListActivity extends BaseTitleBarActivity implements FavListListener, AdapterView.OnItemClickListener{
@@ -121,6 +122,13 @@ public class FavListActivity extends BaseTitleBarActivity implements FavListList
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        FavBean favBean = (FavBean) parent.getAdapter().getItem(position);
+        if(favBean.getEntity_type_id() == Constants.EntityType.COURSE.getTypeId()){
+            ActivityBuilder.startCourseDetailActivity(this, favBean.getEntity_id());
+        } else if(favBean.getEntity_type_id() == Constants.EntityType.TREND.getTypeId()){
+            ActivityBuilder.startTrendCommentsActivity(this, favBean.getEntity_id());
+        } else if(favBean.getEntity_type_id() == Constants.EntityType.WORKS.getTypeId()){
+            ActivityBuilder.startProjectWorkDetailActivity(this, favBean.getEntity_id());
+        }
     }
 }

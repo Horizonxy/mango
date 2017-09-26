@@ -219,4 +219,14 @@
         <attr name="radius" format="dimension"/>
     </declare-styleable>
 
+    <style name="textview_sp16_333333">
+        <item name="android:textColor">@color/color_333333</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+    </style>
+
+    <style name="textview_sp14_666666">
+        <item name="android:textColor">@color/color_666666</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
 </resources>

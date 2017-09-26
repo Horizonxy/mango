@@ -22,6 +22,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.ui.adapter.FragmentAdapter;
+import cn.com.mangopi.android.ui.fragment.FoundFragment;
 import cn.com.mangopi.android.ui.fragment.MyTrendListFragment;
 import cn.com.mangopi.android.ui.widget.ViewPagerFixed;
 
@@ -48,8 +49,8 @@ public class MemberTrendActivity extends BaseActivity {
     private void initView() {
         tabTitles = getResources().getStringArray(R.array.member_trend);
 
-        fragmentList.add(MyTrendListFragment.newInstance(MyTrendListFragment.MY_SEND));
-        fragmentList.add(MyTrendListFragment.newInstance(MyTrendListFragment.MY_REPLY));
+        fragmentList.add(FoundFragment.newInstance(FoundFragment.MY_SEND));
+        fragmentList.add(FoundFragment.newInstance(FoundFragment.MY_REPLY));
 
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), fragmentList));
 
