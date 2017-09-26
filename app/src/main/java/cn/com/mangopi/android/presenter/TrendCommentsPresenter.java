@@ -70,4 +70,30 @@ public class TrendCommentsPresenter extends BasePresenter {
                 });
         addSubscription(subscription);
     }
+
+    public void replyComment(){
+        Context context = trendCommentsListener.currentContext();
+        Subscription subscription = trendModel.replyTrend(trendCommentsListener.replyCommentMap(), new CreateLoading(context),
+                new BaseLoadingSubscriber<RestResult<ReplyTrendBean>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            trendCommentsListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<ReplyTrendBean> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                trendCommentsListener.onReplyCommentSuccess(restResult.getData());
+                            } else {
+                                trendCommentsListener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
 }

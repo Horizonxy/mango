@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.widget.RxTextView;
+
 import butterknife.Bind;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
@@ -12,6 +14,7 @@ import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.ui.widget.RoundImageView;
 import cn.com.mangopi.android.ui.widget.TitleBar;
+import rx.functions.Action1;
 
 public class TrendForwardActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener{
 
@@ -40,6 +43,12 @@ public class TrendForwardActivity extends BaseTitleBarActivity implements TitleB
         titleBar.setTitle(R.string.forward);
         titleBar.setRightText(R.string.publish);
         tvContentNum.setText(String.format(getString(R.string.input_num), String.valueOf(1000)));
+        RxTextView.textChanges(etContent).subscribe(new Action1<CharSequence>() {
+            @Override
+            public void call(CharSequence charSequence) {
+                tvContentNum.setText(String.format(getString(R.string.input_num), String.valueOf(1000 - charSequence.toString().length())));
+            }
+        });
 
         tvTrendName.setText(trendBean.getPublisher_name());
         tvTrendContent.setText(trendBean.getContent());

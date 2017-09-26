@@ -84,10 +84,9 @@ public class ActivityBuilder {
         activity.startActivity(new Intent(activity, PublishDynamicsActivity.class));
     }
 
-    public static void startTrendCommentsActivity(Activity activity, TrendBean trend, long id){
+    public static void startTrendCommentsActivity(Activity activity, long id){
         Intent intent = new Intent(activity, TrendCommentsActivity.class);
         intent.putExtra(Constants.BUNDLE_ID, id);
-        intent.putExtra(Constants.BUNDLE_DATA, trend);
         activity.startActivity(intent);
     }
 

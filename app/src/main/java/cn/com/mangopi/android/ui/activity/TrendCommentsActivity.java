@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mcxiaoke.bus.Bus;
+import com.mcxiaoke.bus.annotation.BusReceiver;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -39,12 +41,14 @@ import cn.com.mangopi.android.ui.widget.GridView;
 import cn.com.mangopi.android.ui.widget.RoundImageView;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 
-public class TrendCommentsActivity extends BaseTitleBarActivity implements TrendCommentsListener, View.OnClickListener {
+public class TrendCommentsActivity extends BaseTitleBarActivity implements TrendCommentsListener, View.OnClickListener, TrendCommentsActivityModule.OnReplyListener {
 
     @Bind(R.id.listview)
     PullToRefreshListView listView;
@@ -52,7 +56,6 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     @Inject
     QuickAdapter adapter;
     long id;
-    TrendBean trendBean;
     TrendDetailBean trendDetail;
     TrendCommentsPresenter trendCommentsPresenter;
     TextView tvPublisherName;
@@ -68,15 +71,17 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     DisplayImageOptions options;
     int width;
     String replyTrendContent;
+    TrendCommentsActivityModule commentsModule;
+    String replyCommentContent;
+    TrendDetailBean.Comment replyComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_pull_listview);
-        DaggerTrendCommentsActivityComponent.builder().trendCommentsActivityModule(new TrendCommentsActivityModule(this, datas)).build().inject(this);
-
+        DaggerTrendCommentsActivityComponent.builder().trendCommentsActivityModule(commentsModule = new TrendCommentsActivityModule(this, datas, this)).build().inject(this);
+        Bus.getDefault().register(this);
         id = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
-        trendBean = (TrendBean) getIntent().getSerializableExtra(Constants.BUNDLE_DATA);
         initView();
         trendCommentsPresenter = new TrendCommentsPresenter(this);
         trendCommentsPresenter.getTrend();
@@ -105,20 +110,48 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
         tvCommentCount = (TextView) header.findViewById(R.id.tv_comment_count);
         tvPraiseCount = (TextView) header.findViewById(R.id.tv_praise_count);
         header.findViewById(R.id.layout_comment).setOnClickListener(this);
-        tvPublisherName.setText(trendBean.getPublisher_name());
-        tvPublisherTime.setText(DateUtils.getShowTime(trendBean.getPublish_time()));
-        Application.application.getImageLoader().displayImage(trendBean.getAvatar_rsurl(), ivPublisherAvatar);
-        tvContent.setText(trendBean.getContent());
-        if(TextUtils.isEmpty(trendBean.getCity())){
+
+        listView.setAdapter(adapter);
+        listView.setMode(PullToRefreshBase.Mode.DISABLED);
+    }
+
+    @Override
+    public void onFailure(String message) {
+        AppUtils.showToast(this, message);
+        replyTrendContent = "";
+    }
+
+    @Override
+    public Context currentContext() {
+        return this;
+    }
+
+    @Override
+    public void onTrendSuccess(TrendDetailBean trendDetail) {
+        titleBar.setTitle(trendDetail.getPublisher_name());
+        commentsModule.setTrendDetail(trendDetail);
+        this.trendDetail = trendDetail;
+        bindData(trendDetail);
+        datas.clear();
+        datas.addAll(trendDetail.getComments());
+        adapter.notifyDataSetChanged();
+    }
+
+    private void bindData(TrendDetailBean trendDetail) {
+        tvPublisherName.setText(trendDetail.getPublisher_name());
+        tvPublisherTime.setText(DateUtils.getShowTime(trendDetail.getPublish_time()));
+        Application.application.getImageLoader().displayImage(trendDetail.getAvatar_rsurl(), ivPublisherAvatar);
+        tvContent.setText(trendDetail.getContent());
+        if(TextUtils.isEmpty(trendDetail.getCity())){
             tvCity.setVisibility(View.GONE);
         } else {
             tvCity.setVisibility(View.VISIBLE);
-            tvCity.setText(trendBean.getCity());
+            tvCity.setText(trendDetail.getCity());
         }
-        tvFawordCount.setText(String.valueOf(trendBean.getFaword_count()));
-        tvCommentCount.setText(String.valueOf(trendBean.getComment_count()));
-        tvPraiseCount.setText(String.valueOf(trendBean.getPraise_count()));
-        List<String> pictures = trendBean.getPic_rsurls();
+        tvFawordCount.setText(String.valueOf(trendDetail.getFaword_count()));
+        tvCommentCount.setText(String.valueOf(trendDetail.getComment_count()));
+        tvPraiseCount.setText(String.valueOf(trendDetail.getPraise_count()));
+        List<String> pictures = trendDetail.getPic_rsurls();
         if(pictures == null  || pictures.size() == 0){
             ivPicture.setVisibility(View.GONE);
             gvPicture.setVisibility(View.GONE);
@@ -167,30 +200,6 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
                 });
             }
         }
-
-        listView.setAdapter(adapter);
-        listView.setMode(PullToRefreshBase.Mode.DISABLED);
-    }
-
-    @Override
-    public void onFailure(String message) {
-        AppUtils.showToast(this, message);
-        replyTrendContent = "";
-    }
-
-    @Override
-    public Context currentContext() {
-        return this;
-    }
-
-    @Override
-    public void onTrendSuccess(TrendDetailBean trendDetail) {
-        titleBar.setTitle(trendDetail.getPublisher_name());
-
-        this.trendDetail = trendDetail;
-        datas.clear();
-        datas.addAll(trendDetail.getComments());
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -207,6 +216,15 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     }
 
     @Override
+    public Map<String, Object> replyCommentMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("trend_id", id);
+        map.put("comment_id", replyComment.getId());
+        map.put("content", replyCommentContent);
+        return map;
+    }
+
+    @Override
     public void onReplyTrendSuccess(ReplyTrendBean replyTrendBean) {
         TrendDetailBean.Comment comment = new TrendDetailBean.Comment();
         comment.setComment_time(replyTrendBean.getCreateTime());
@@ -219,18 +237,54 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     }
 
     @Override
+    public void onReplyCommentSuccess(ReplyTrendBean replyTrendBean) {
+        replyComment.setReply(replyTrendBean.getContent());
+        adapter.notifyDataSetChanged();
+        replyCommentContent = "";
+        replyComment = null;
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.layout_comment:
-                InputPopupWindow inputPopupWindow = new InputPopupWindow(this, new InputPopupWindow.OnInputListener() {
-                    @Override
-                    public void onInput(String text) {
-                        replyTrendContent = text;
-                        trendCommentsPresenter.replyTrend();
-                    }
-                });
-                inputPopupWindow.showWindow();
+                ActivityBuilder.startInputMessageActivity(this, "评论动态", "确定", "comment_trend", 100, null);
+//                InputPopupWindow inputPopupWindow = new InputPopupWindow(this, new InputPopupWindow.OnInputListener() {
+//                    @Override
+//                    public void onInput(String text) {
+//                        replyTrendContent = text;
+//                        trendCommentsPresenter.replyTrend();
+//                    }
+//                });
+//                inputPopupWindow.showWindow();
                 break;
         }
+    }
+
+    @BusReceiver
+    public void onInputEvent(BusEvent.InputEvent event) {
+        String type = event.getType();
+        if ("comment_trend".equals(type)) {
+            replyTrendContent = event.getContent();
+            trendCommentsPresenter.replyTrend();
+        } else if("reply_comment".equals(type)){
+            replyCommentContent = event.getContent();
+            trendCommentsPresenter.replyComment();
+        }
+    }
+
+    @Override
+    public void onReply(TrendDetailBean.Comment comment) {
+        replyComment = comment;
+        ActivityBuilder.startInputMessageActivity(this, "回复评论", "确定", "reply_comment", 100, "回复 "+comment.getMember_name()+"：");
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(trendCommentsPresenter != null){
+            trendCommentsPresenter.onDestroy();
+        }
+        Bus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

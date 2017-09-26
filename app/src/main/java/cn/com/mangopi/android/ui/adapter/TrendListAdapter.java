@@ -141,7 +141,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                     ActivityBuilder.startTrendForwardActivity((Activity) context, trend);
                     break;
                 case R.id.layout_comment:
-                    ActivityBuilder.startTrendCommentsActivity((Activity) context, trend, trend.getId());
+                    ActivityBuilder.startTrendCommentsActivity((Activity) context, trend.getId());
                     break;
                 case R.id.layout_like:
                     listener.praise(trend);

@@ -7,11 +7,18 @@ import java.util.List;
 public class TrendDetailBean implements Serializable {
 
     private long id;
+    private long publisher_id;
     private String publisher_mobile;
     private String publisher_name;
     private String content;
     private List<String> pic_rsurls;
+    private String avatar_rsurl;
     private Date publish_time;
+    private String publish_time_label;
+    private String city;
+    private int comment_count;
+    private int praise_count;
+    private int faword_count;
     private List<Comment> comments;
 
     public long getId() {
@@ -70,11 +77,94 @@ public class TrendDetailBean implements Serializable {
         this.comments = comments;
     }
 
+    public long getPublisher_id() {
+        return publisher_id;
+    }
+
+    public void setPublisher_id(long publisher_id) {
+        this.publisher_id = publisher_id;
+    }
+
+    public String getAvatar_rsurl() {
+        return avatar_rsurl;
+    }
+
+    public void setAvatar_rsurl(String avatar_rsurl) {
+        this.avatar_rsurl = avatar_rsurl;
+    }
+
+    public String getPublish_time_label() {
+        return publish_time_label;
+    }
+
+    public void setPublish_time_label(String publish_time_label) {
+        this.publish_time_label = publish_time_label;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getComment_count() {
+        return comment_count;
+    }
+
+    public void setComment_count(int comment_count) {
+        this.comment_count = comment_count;
+    }
+
+    public int getPraise_count() {
+        return praise_count;
+    }
+
+    public void setPraise_count(int praise_count) {
+        this.praise_count = praise_count;
+    }
+
+    public int getFaword_count() {
+        return faword_count;
+    }
+
+    public void setFaword_count(int faword_count) {
+        this.faword_count = faword_count;
+    }
+
     public static class Comment implements Serializable {
         private String member_name;
         private Date comment_time;
         private String content;
         private String reply;
+        private long id;
+        private String avatar_rsurl;
+        private String publish_time_label;
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getAvatar_rsurl() {
+            return avatar_rsurl;
+        }
+
+        public void setAvatar_rsurl(String avatar_rsurl) {
+            this.avatar_rsurl = avatar_rsurl;
+        }
+
+        public String getPublish_time_label() {
+            return publish_time_label;
+        }
+
+        public void setPublish_time_label(String publish_time_label) {
+            this.publish_time_label = publish_time_label;
+        }
 
         public String getMember_name() {
             return member_name;
