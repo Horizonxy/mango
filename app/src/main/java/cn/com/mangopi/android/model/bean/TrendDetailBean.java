@@ -20,14 +20,14 @@ public class TrendDetailBean implements Serializable {
     private int praise_count;
     private int faword_count;
     private List<Comment> comments;
-    private TrendBean fawordTrend;
+    private TrendBean forward_trend;
 
-    public TrendBean getFawordTrend() {
-        return fawordTrend;
+    public TrendBean getForward_trend() {
+        return forward_trend;
     }
 
-    public void setFawordTrend(TrendBean fawordTrend) {
-        this.fawordTrend = fawordTrend;
+    public void setForward_trend(TrendBean forward_trend) {
+        this.forward_trend = forward_trend;
     }
 
     public long getId() {

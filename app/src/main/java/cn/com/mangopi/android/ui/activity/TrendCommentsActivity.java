@@ -87,7 +87,6 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     TextView tvForwardContent;
     ImageView ivForwardPicture;
     GridView gvForwardPicture;
-    TrendBean forwardTrend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +95,6 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
         DaggerTrendCommentsActivityComponent.builder().trendCommentsActivityModule(commentsModule = new TrendCommentsActivityModule(this, datas, this)).build().inject(this);
         Bus.getDefault().register(this);
         id = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
-        forwardTrend = (TrendBean) getIntent().getSerializableExtra(Constants.BUNDLE_DATA);
         initView();
         trendCommentsPresenter = new TrendCommentsPresenter(this);
         trendCommentsPresenter.getTrend();
@@ -146,10 +144,6 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
 
     @Override
     public void onTrendSuccess(TrendDetailBean trendDetail) {
-        if(forwardTrend != null && trendDetail.getFawordTrend() == null){
-            trendDetail.setFawordTrend(forwardTrend);
-        }
-
         titleBar.setTitle(trendDetail.getPublisher_name());
         commentsModule.setTrendDetail(trendDetail);
         this.trendDetail = trendDetail;
@@ -231,7 +225,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     }
 
     private void bindForward(TrendDetailBean trendDetail){
-        TrendBean forwardTrend = trendDetail.getFawordTrend();
+        TrendBean forwardTrend = trendDetail.getForward_trend();
 
         if(forwardTrend == null) {
             layoutForward.setVisibility(View.GONE);
@@ -240,7 +234,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
             layoutForward.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityBuilder.startTrendCommentsActivity(TrendCommentsActivity.this, forwardTrend.getId(), forwardTrend.getFawordTrend());
+                    ActivityBuilder.startTrendCommentsActivity(TrendCommentsActivity.this, forwardTrend.getId());
                 }
             });
             String forwardContent = forwardTrend.getPublisher_name()+"："+forwardTrend.getContent();
@@ -251,7 +245,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
                 spannableString.setSpan(new Clickable(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ActivityBuilder.startTrendCommentsActivity((Activity) context, forwardTrend.getId(), forwardTrend);
+                        ActivityBuilder.startTrendCommentsActivity((Activity) context, forwardTrend.getId());
                     }
                 }), newContent.length() - 4, newContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spannableString.setSpan(new NoUnderlineSpan(),  newContent.length() - 4, newContent.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);

@@ -193,7 +193,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
             vAccount.setVisibility(View.GONE);
         } else {
             vClasses.setVisibility(View.VISIBLE);
-            vAccount.setVisibility(View.VISIBLE);
+            vAccount.setVisibility(View.GONE);
         }
         if(indentityList.contains(Constants.UserIndentity.COMPANY)){
             vWorks.setVisibility(View.VISIBLE);

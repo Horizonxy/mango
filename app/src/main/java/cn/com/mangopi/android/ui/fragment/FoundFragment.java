@@ -146,7 +146,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TrendBean item = (TrendBean) parent.getAdapter().getItem(position);
-        ActivityBuilder.startTrendCommentsActivity(getActivity(), item.getId(), item.getFawordTrend());
+        ActivityBuilder.startTrendCommentsActivity(getActivity(), item.getId());
     }
 
     @Override
@@ -258,7 +258,7 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     public void onReplyTrendSuccess(ReplyTrendBean replyTrendBean) {
         commentTrend.setComment_count(commentTrend.getComment_count() + 1);
         adapter.notifyDataSetChanged();
-        ActivityBuilder.startTrendCommentsActivity(getActivity(), commentTrend.getId(), commentTrend.getFawordTrend());
+        ActivityBuilder.startTrendCommentsActivity(getActivity(), commentTrend.getId());
         commentTrendContent = "";
         commentTrend = null;
     }

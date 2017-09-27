@@ -126,7 +126,7 @@ public class FavListActivity extends BaseTitleBarActivity implements FavListList
         if(favBean.getEntity_type_id() == Constants.EntityType.COURSE.getTypeId()){
             ActivityBuilder.startCourseDetailActivity(this, favBean.getEntity_id());
         } else if(favBean.getEntity_type_id() == Constants.EntityType.TREND.getTypeId()){
-            ActivityBuilder.startTrendCommentsActivity(this, favBean.getEntity_id(), null);
+            ActivityBuilder.startTrendCommentsActivity(this, favBean.getEntity_id());
         } else if(favBean.getEntity_type_id() == Constants.EntityType.WORKS.getTypeId()){
             ActivityBuilder.startProjectWorkDetailActivity(this, favBean.getEntity_id());
         }

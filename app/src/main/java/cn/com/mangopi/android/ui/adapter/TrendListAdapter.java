@@ -67,7 +67,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         helper.setImageUrl(R.id.iv_publisher_avatar, item.getAvatar_rsurl());
         String content = item.getContent();
         TextView tvContent = helper.getView(R.id.tv_content);
-        setContent(tvContent, content, item.getId(), item.getFawordTrend());
+        setContent(tvContent, content, item.getId(), item.getForward_trend());
         if(TextUtils.isEmpty(item.getCity())){
             helper.setVisible(R.id.tv_city, false);
         } else {
@@ -90,7 +90,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
 
         helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
 
-        TrendBean forwardTrend = item.getFawordTrend();
+        TrendBean forwardTrend = item.getForward_trend();
         if(forwardTrend == null) {
             helper.setVisible(R.id.layout_forward, false);
         } else {
@@ -98,7 +98,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
             helper.setOnClickListener(R.id.layout_forward, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityBuilder.startTrendCommentsActivity((Activity) context, forwardTrend.getId(), forwardTrend.getFawordTrend());
+                    ActivityBuilder.startTrendCommentsActivity((Activity) context, forwardTrend.getId());
                 }
             });
             TextView tvForwardContent = helper.getView(R.id.tv_forward_content);
@@ -110,7 +110,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                 spannableString.setSpan(new Clickable(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ActivityBuilder.startTrendCommentsActivity((Activity) context, forwardTrend.getId(), forwardTrend);
+                        ActivityBuilder.startTrendCommentsActivity((Activity) context, forwardTrend.getId());
                     }
                 }), newContent.length() - 4, newContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spannableString.setSpan(new NoUnderlineSpan(),  newContent.length() - 4, newContent.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -189,7 +189,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
             spannableString.setSpan(new Clickable(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityBuilder.startTrendCommentsActivity((Activity) context, id, forwardTrend);
+                    ActivityBuilder.startTrendCommentsActivity((Activity) context, id);
                 }
             }), newContent.length() - 4, newContent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new NoUnderlineSpan(),  newContent.length() - 4, newContent.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
