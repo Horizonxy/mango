@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
+import com.mcxiaoke.bus.Bus;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +32,7 @@ import cn.com.mangopi.android.ui.viewlistener.OrderDetailListener;
 import cn.com.mangopi.android.ui.viewlistener.OrderListListener;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.FileUtils;
@@ -88,12 +90,14 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     LinearLayout layoutContent;
     @Bind(R.id.tv_content)
     TextView tvContent;
+    @Bind(R.id.tv_reply)
+    TextView tvTutorReply;
     @Bind(R.id.line_content)
     View lineContent;
-    @Bind(R.id.tv_like_tip)
-    TextView tvLikeTip;
-    @Bind(R.id.line_like_tip)
-    View lineLikeTip;
+//    @Bind(R.id.tv_like_tip)
+//    TextView tvLikeTip;
+//    @Bind(R.id.line_like_tip)
+//    View lineLikeTip;
     int relation;
     @Bind(R.id.layout_make)
     LinearLayout laoutMake;
@@ -153,12 +157,20 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
             layoutAfterInfo.setVisibility(View.VISIBLE);
         }
         List<OrderDetailBean.Comment> commentList = orderDetail.getComments();
-        if(commentList == null || commentList.size() == 0){
+        if(commentList == null || commentList.size() == 0){//点评
             layoutContent.setVisibility(View.GONE);
             lineContent.setVisibility(View.GONE);
         } else {
             layoutContent.setVisibility(View.VISIBLE);
             lineContent.setVisibility(View.VISIBLE);
+            OrderDetailBean.Comment comment = commentList.get(0);
+            tvContent.setText(comment.getContent());
+            if(TextUtils.isEmpty(comment.getReply())){
+                tvTutorReply.setVisibility(View.GONE);
+            } else {
+                tvTutorReply.setVisibility(View.VISIBLE);
+                tvTutorReply.setText(String.format(getString(R.string.tutor_reply), comment.getReply()));
+            }
         }
 
         if(relation ==1){
@@ -181,23 +193,30 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
             tvSalePrice.setText("");
         }
 
-        btnCancel1.setVisibility(View.GONE);
         if(orderDetail.getState() != null){
-            if (orderDetail.getState().intValue() == 5){
+            if(orderDetail.getState().intValue() == 2){//订单待付款
+                btnUnAct.setVisibility(View.GONE);
+                btnAct.setVisibility(View.GONE);
+                btnCancel1.setVisibility(View.VISIBLE);
+            } else if (orderDetail.getState().intValue() == 5){//订单已付款，已安排
                 btnUnAct.setVisibility(View.VISIBLE);
                 btnAct.setVisibility(View.GONE);
-            } else if (orderDetail.getState().intValue() == 4){
+                btnCancel1.setVisibility(View.GONE);
+            } else if (orderDetail.getState().intValue() == 4){//订单已付款，待安排
                 btnAct.setVisibility(View.VISIBLE);
                 btnUnAct.setVisibility(View.GONE);
+                btnCancel1.setVisibility(View.GONE);
             } else {
                 btnUnAct.setVisibility(View.GONE);
                 btnAct.setVisibility(View.GONE);
+                btnCancel1.setVisibility(View.GONE);
             }
         } else {
+            btnCancel1.setVisibility(View.GONE);
             btnUnAct.setVisibility(View.GONE);
             btnAct.setVisibility(View.GONE);
         }
-        if(orderDetail.getComments() != null && orderDetail.getComments().size() > 0){
+        if(orderDetail.getComments() != null && orderDetail.getComments().size() > 0 && TextUtils.isEmpty(orderDetail.getComments().get(0).getReply())){//回复点评
             btnReply.setVisibility(View.VISIBLE);
         } else {
             btnReply.setVisibility(View.GONE);
@@ -291,30 +310,30 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         }
 
         if(orderDetail.getState() != null){
-            if(orderDetail.getState().intValue() == 2){
+            if(orderDetail.getState().intValue() == 2){//订单待付款
                 btnCancel.setVisibility(View.VISIBLE);
                 btnPay.setVisibility(View.VISIBLE);
 //                layoutReward.setVisibility(View.GONE);
-                tvLikeTip.setVisibility(View.GONE);
-                lineLikeTip.setVisibility(View.GONE);
+//                tvLikeTip.setVisibility(View.GONE);
+//                lineLikeTip.setVisibility(View.GONE);
                 btnComment.setVisibility(View.GONE);
             }  else if(orderDetail.getState().intValue() == 3 ||orderDetail.getState().intValue() == 4
-                    || orderDetail.getState().intValue() == 5 || orderDetail.getState().intValue() == 50){
+                    || orderDetail.getState().intValue() == 5 || orderDetail.getState().intValue() == 50){//订单已付款、交易完成
 //                layoutReward.setVisibility(View.VISIBLE);
-                tvLikeTip.setVisibility(View.VISIBLE);
-                lineLikeTip.setVisibility(View.VISIBLE);
+//                tvLikeTip.setVisibility(View.VISIBLE);
+//                lineLikeTip.setVisibility(View.VISIBLE);
                 btnCancel.setVisibility(View.GONE);
                 btnPay.setVisibility(View.GONE);
 
-                if(orderDetail.getComments() == null || orderDetail.getComments().size() == 0){
+                if(orderDetail.getComments() == null || orderDetail.getComments().size() == 0){//点评
                     btnComment.setVisibility(View.VISIBLE);
                 } else {
                     btnComment.setVisibility(View.GONE);
                 }
             } else {
 //                layoutReward.setVisibility(View.GONE);
-                tvLikeTip.setVisibility(View.GONE);
-                lineLikeTip.setVisibility(View.GONE);
+//                tvLikeTip.setVisibility(View.GONE);
+//                lineLikeTip.setVisibility(View.GONE);
                 btnCancel.setVisibility(View.GONE);
                 btnPay.setVisibility(View.GONE);
                 btnComment.setVisibility(View.GONE);
@@ -323,8 +342,8 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
             btnCancel.setVisibility(View.GONE);
             btnPay.setVisibility(View.GONE);
 //            layoutReward.setVisibility(View.GONE);
-            tvLikeTip.setVisibility(View.GONE);
-            lineLikeTip.setVisibility(View.GONE);
+//            tvLikeTip.setVisibility(View.GONE);
+//            lineLikeTip.setVisibility(View.GONE);
             btnComment.setVisibility(View.GONE);
         }
     }
@@ -376,6 +395,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 
     @Override
     public void onSuccess(OrderDetailBean orderDetail) {
+
         fillData(orderDetail);
     }
 
@@ -419,5 +439,9 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         orderDetail.setState(-1);
         orderDetail.setState_label("订单已取消");
         fillData(orderDetail);
+
+        BusEvent.CancelOrderEvent event = new BusEvent.CancelOrderEvent();
+        event.setId(order.getId());
+        Bus.getDefault().postSticky(event);
     }
 }

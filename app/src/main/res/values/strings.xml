@@ -171,4 +171,5 @@
     <string name="member_count">%d人</string>
 
     <string name="forward">转发</string>
+    <string name="tutor_reply">导师回复：%s</string>
 </resources>

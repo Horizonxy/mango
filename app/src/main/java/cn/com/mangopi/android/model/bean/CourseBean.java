@@ -26,6 +26,15 @@ public class CourseBean implements Serializable {
     private String tutor_jobs;
     private String hot_types;
     private String tutor_logo_rsurl;
+    private int off_approve_state;
+
+    public int getOff_approve_state() {
+        return off_approve_state;
+    }
+
+    public void setOff_approve_state(int off_approve_state) {
+        this.off_approve_state = off_approve_state;
+    }
 
     public long getId() {
         return id;

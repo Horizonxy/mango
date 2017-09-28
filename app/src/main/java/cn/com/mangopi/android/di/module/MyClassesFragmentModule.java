@@ -43,10 +43,10 @@ public class MyClassesFragmentModule {
                 if(item.getApprove_state() != null && item.getApprove_state().intValue() == 50){//已审核
                     helper.setVisible(R.id.btn_function, false);
 
-                    if(item.getState() != null && item.getState().intValue() == 0){//下架
-                        helper.setVisible(R.id.btn_function, true);
-                        helper.setText(R.id.btn_function, "上架");
-                    }
+//                    if(item.getState() != null && item.getState().intValue() == 0){//下架
+//                        helper.setVisible(R.id.btn_function, true);
+//                        helper.setText(R.id.btn_function, "上架");
+//                    }
                     if(item.getState() != null && item.getState().intValue() == 50){//上架
                         helper.setVisible(R.id.btn_function, true);
                         helper.setText(R.id.btn_function, "下架");

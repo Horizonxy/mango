@@ -256,6 +256,15 @@
                 android:layout_marginTop="@dimen/dp_15"
                 android:textColor="@color/color_999999"
                 android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/tv_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:textColor="@color/color_999999"
+                android:textSize="@dimen/sp_14" />
         </LinearLayout>
 
         <View

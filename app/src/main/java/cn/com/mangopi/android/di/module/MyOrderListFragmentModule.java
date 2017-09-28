@@ -53,7 +53,7 @@ public class MyOrderListFragmentModule {
                     helper.setText(R.id.tv_member_name, item.getTutor_name());
                     helper.setVisible(R.id.btn_act, false);
                     helper.setVisible(R.id.btn_un_act, false);
-                    if(item.getState() != null && item.getState().intValue() == 2) {
+                    if(item.getState() != null && item.getState().intValue() == 2) {//订单待付款
                         helper.setVisible(R.id.layout_action, true);
                         helper.setVisible(R.id.v_line, true);
                     } else {
@@ -64,12 +64,12 @@ public class MyOrderListFragmentModule {
                     helper.setText(R.id.tv_member_name, item.getMember_name());
                     helper.setVisible(R.id.btn_pay, false);
                     helper.setVisible(R.id.btn_cancle, false);
-                    if(item.getState() != null && item.getState().intValue() == 4) {
+                    if(item.getState() != null && item.getState().intValue() == 4) {//订单已付款，待安排
                         helper.setVisible(R.id.layout_action, true);
                         helper.setVisible(R.id.v_line, true);
                         helper.setVisible(R.id.btn_act, true);
                         helper.setVisible(R.id.btn_un_act, false);
-                    } else if(item.getState() != null && item.getState().intValue() == 5) {
+                    } else if(item.getState() != null && item.getState().intValue() == 5) {//订单已付款，已安排
                         helper.setVisible(R.id.layout_action, true);
                         helper.setVisible(R.id.v_line, true);
                         helper.setVisible(R.id.btn_act, false);

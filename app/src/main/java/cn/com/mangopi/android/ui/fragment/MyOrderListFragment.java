@@ -8,6 +8,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mcxiaoke.bus.Bus;
+import com.mcxiaoke.bus.annotation.BusReceiver;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +28,7 @@ import cn.com.mangopi.android.ui.viewlistener.OrderListListener;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
+import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.EmptyHelper;
 
 public class MyOrderListFragment extends BaseFragment implements AdapterView.OnItemClickListener, OrderListListener, EmptyHelper.OnRefreshListener, MyOrderListFragmentModule.OnOrderStateListener {
@@ -32,7 +36,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     PullToRefreshListView listView;
 
     int pageNo = 1;
-    List datas = new ArrayList();
+    List<OrderBean> datas = new ArrayList<OrderBean>();
     @Inject
     QuickAdapter adapter;
     @Inject
@@ -56,6 +60,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         relation = getArguments().getInt(Constants.BUNDLE_ORDER_RELATION);
 
         DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(this, datas, relation, this)).build().inject(this);
+        Bus.getDefault().register(this);
     }
 
     @Override
@@ -176,6 +181,18 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         adapter.notifyDataSetChanged();
     }
 
+    @BusReceiver
+    public void onCancelOrderEvent(BusEvent.CancelOrderEvent event){
+        for (OrderBean order : datas){
+            if(order.getId() == event.getId()){
+                order.setState(-1);
+                order.setState_label("订单已取消");
+                adapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
     @Override
     public void onRefresh() {
         pageNo = 1;
@@ -185,10 +202,11 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         if(presenter != null) {
             presenter.onDestroy();
         }
+        Bus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override

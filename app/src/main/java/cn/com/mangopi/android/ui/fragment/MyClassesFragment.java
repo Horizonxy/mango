@@ -183,9 +183,10 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
 
     @Override
     public void onOffSuccess(CourseBean course) {
-//        course.setState(0);
-//        course.setState_label("停用");
-//        adapter.notifyDataSetChanged();
+        course.setState(0);
+        course.setState_label("停用");
+        course.setOff_approve_state(50);
+        adapter.notifyDataSetChanged();
         AppUtils.showToast(getContext(), "您的下架请求已提交到后台，请耐心等待管理人员的审核");
     }
 
