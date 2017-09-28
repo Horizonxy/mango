@@ -1,5 +1,6 @@
 package cn.com.mangopi.android.model.data;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,5 +35,9 @@ public class TrendModel {
 
     public Subscription replyTrend(Map<String, Object> map, Action0 onSubscriber, Subscriber<RestResult<ReplyTrendBean>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.replyTrend(map), onSubscriber).subscribe(subscriber);
+    }
+
+    public Subscription trendUpdate(String current, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMain(ApiManager.trendUpdate(current)).subscribe(subscriber);
     }
 }

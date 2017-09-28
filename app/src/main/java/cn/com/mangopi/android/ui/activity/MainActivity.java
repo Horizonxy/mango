@@ -11,7 +11,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mcxiaoke.bus.Bus;
@@ -33,30 +33,34 @@ import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.data.MessageModel;
 import cn.com.mangopi.android.presenter.MessagePresenter;
+import cn.com.mangopi.android.presenter.TrendUpdatePresenter;
 import cn.com.mangopi.android.ui.adapter.FragmentAdapter;
 import cn.com.mangopi.android.ui.fragment.FoundFragment;
 import cn.com.mangopi.android.ui.fragment.HomeFragment;
 import cn.com.mangopi.android.ui.fragment.MyFragment;
 import cn.com.mangopi.android.ui.fragment.TecaherFragment;
 import cn.com.mangopi.android.ui.viewlistener.MessageListener;
+import cn.com.mangopi.android.ui.viewlistener.TrendUpdateListener;
+import cn.com.mangopi.android.ui.widget.RedPointView;
 import cn.com.mangopi.android.util.ActivityBuilder;
-import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MaskUtils;
 import cn.jpush.android.api.JPushInterface;
 
-public class MainActivity extends BaseActivity implements MessageListener, View.OnClickListener {
+public class MainActivity extends BaseActivity implements MessageListener, View.OnClickListener, TrendUpdateListener, FoundFragment.OnRefreshTrendLsitener {
 
     @Bind(R.id.tab_indicator)
     MagicIndicator tabIndicator;
     @Bind(R.id.view_pager)
     ViewPager contentPager;
+    RedPointView rpFound;
 
     String[] tabTitles;
     List<Fragment> contents = new ArrayList<>();
     MessagePresenter messagePresenter;
-    Handler messageHandler;
+    Handler loopHandler;
+    TrendUpdatePresenter trendUpdatePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +71,9 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
 
         initPush();
         messagePresenter = new MessagePresenter(new MessageModel(), this);
-        messageHandler = new Handler();
-        messageHandler.postDelayed(new MessageCheckRunnable(), 3 * 1000);
+        trendUpdatePresenter = new TrendUpdatePresenter(this);
+        loopHandler = new Handler();
+        loopHandler.postDelayed(new LoopCheckRunnable(), 3 * 1000);
 
         MaskUtils.attachMaskFromRes(this, R.layout.layout_image_mask, R.id.iv_mask_del, this, R.id.iv_mask_pic);
     }
@@ -82,12 +87,27 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
         }
     }
 
-    class MessageCheckRunnable implements Runnable {
+    @Override
+    public void onHasTrend(boolean update) {
+        if(rpFound != null){
+            rpFound.setVisibility(update ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    public void onRefreshComplete() {
+        if(rpFound != null){
+            rpFound.setVisibility(View.GONE);
+        }
+    }
+
+    class LoopCheckRunnable implements Runnable {
 
         @Override
         public void run() {
             messagePresenter.getMessageCheck();
-            messageHandler.postDelayed(this, 3 * 60 * 1000);
+            trendUpdatePresenter.trendUpdate();
+            loopHandler.postDelayed(this, 3 * 60 * 1000);
         }
     }
 
@@ -101,7 +121,9 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
         tabTitles = getResources().getStringArray(R.array.main_tab);
         contents.add(new HomeFragment());
         contents.add(new TecaherFragment());
-        contents.add(new FoundFragment());
+        FoundFragment trendFragment = new FoundFragment();
+        trendFragment.setRefreshTrendLsitener(this);
+        contents.add(trendFragment);
         contents.add(new MyFragment());
 
         contentPager.setAdapter(new FragmentAdapter(getSupportFragmentManager() ,contents));
@@ -127,7 +149,7 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
                         this.setSelected(false);
                     }
                 };
-                LinearLayout view = (LinearLayout) getLayoutInflater().inflate(R.layout.tab_item_main_indicator, null, false);
+                RelativeLayout view = (RelativeLayout) getLayoutInflater().inflate(R.layout.tab_item_main_indicator, null, false);
                 FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(DisplayUtils.screenWidth(context) / contents.size(), (int) getResources().getDimension(R.dimen.dp_49));
                 params.gravity = Gravity.CENTER;
                 titleView.setContentView(view, params);
@@ -138,6 +160,7 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
                     ivTab.setImageResource(R.drawable.selector_btn_bg_teacher_tab_main_indicator);
                 } else if(i == 2){
                     ivTab.setImageResource(R.drawable.selector_btn_bg_found_tab_main_indicator);
+                    rpFound = (RedPointView) view.findViewById(R.id.rp_tab);
                 } else if(i == 3){
                     ivTab.setImageResource(R.drawable.selector_btn_bg_my_tab_main_indicator);
                 }
@@ -201,11 +224,14 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
 
     @Override
     protected void onDestroy() {
-        if(messageHandler != null && messageHandler.getLooper() == Looper.getMainLooper()){
-            messageHandler.removeCallbacksAndMessages(null);
+        if(loopHandler != null && loopHandler.getLooper() == Looper.getMainLooper()){
+            loopHandler.removeCallbacksAndMessages(null);
         }
         if(messagePresenter != null){
             messagePresenter.onDestroy();
+        }
+        if(trendUpdatePresenter != null){
+            trendUpdatePresenter.onDestroy();
         }
         super.onDestroy();
     }

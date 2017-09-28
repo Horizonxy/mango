@@ -2,6 +2,7 @@ package cn.com.mangopi.android.model.api;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -454,5 +455,13 @@ public interface ApiService {
     Observable<RestResult<ReplyTrendBean>> replyTrend(
             @Query("lst_sessid") String sessid,
             @QueryMap Map<String, Object> map
+    );
+
+    //监测动态更新接口
+    @GET("outer/router?trend_update")
+    Observable<RestResult<Object>> trendUpdate(
+            @Query("lst_sessid") String sessid,
+            @Query("current") String current,
+            @Query("minute") int minute
     );
 }

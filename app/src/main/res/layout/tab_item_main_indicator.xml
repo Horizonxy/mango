@@ -1,25 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_49"
-    android:gravity="center"
-    style="@style/repple_out_backguound"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/iv_tab"
-        android:layout_width="@dimen/dp_21"
-        android:layout_height="@dimen/dp_21"
-        android:background="@android:color/transparent"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"/>
-
-    <TextView
-        android:id="@+id/tv_tab_text"
+    <LinearLayout
+        style="@style/repple_out_backguound"
+        android:id="@+id/layout_tab"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_4"
-        android:textColor="@drawable/selector_text_color_tab_main"
-        android:textSize="@dimen/sp_10" />
+        android:layout_centerHorizontal="true"
+        android:layout_height="@dimen/dp_49"
+        android:gravity="center"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/iv_tab"
+            android:layout_width="@dimen/dp_21"
+            android:layout_height="@dimen/dp_21"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/tv_tab_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:textColor="@drawable/selector_text_color_tab_main"
+            android:textSize="@dimen/sp_10" />
+    </LinearLayout>
+
+    <cn.com.mangopi.android.ui.widget.RedPointView
+        xmlns:redpoint="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rp_tab"
+        android:layout_width="@dimen/dp_6"
+        android:layout_height="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_6"
+        android:layout_toRightOf="@id/layout_tab"
+        android:visibility="gone"
+        redpoint:radius="3dp"/>
+</RelativeLayout>

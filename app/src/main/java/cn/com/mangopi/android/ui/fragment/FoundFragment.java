@@ -64,6 +64,11 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     EmptyHelper emptyHelper;
     TrendCommentsPresenter trendCommentsPresenter;
     int type;
+    OnRefreshTrendLsitener refreshTrendLsitener;
+
+    public void setRefreshTrendLsitener(OnRefreshTrendLsitener refreshTrendLsitener) {
+        this.refreshTrendLsitener = refreshTrendLsitener;
+    }
 
     public FoundFragment() {
     }
@@ -172,6 +177,9 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     public void onSuccess(List<TrendBean> trendList) {
         if(pageNo == 1){
             datas.clear();
+            if(refreshTrendLsitener != null){
+                refreshTrendLsitener.onRefreshComplete();
+            }
         }
 
         listView.onRefreshComplete();
@@ -307,5 +315,9 @@ public class FoundFragment extends BaseFragment implements AdapterView.OnItemCli
     public void onSuccess(boolean success) {
         favTrend.setIs_favor(success);
         adapter.notifyDataSetChanged();
+    }
+
+    public interface OnRefreshTrendLsitener{
+        void onRefreshComplete();
     }
 }

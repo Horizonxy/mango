@@ -2,6 +2,7 @@ package cn.com.mangopi.android.model.api;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -291,5 +292,9 @@ public class ApiManager {
 
     public static Observable<RestResult<ReplyTrendBean>> replyTrend(Map<String, Object> map){
         return Application.application.getApiService().replyTrend(Application.application.getSessId(), map);
+    }
+
+    public static Observable<RestResult<Object>> trendUpdate(String current){
+        return Application.application.getApiService().trendUpdate(Application.application.getSessId(), current, 3);
     }
 }
