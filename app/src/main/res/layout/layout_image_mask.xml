@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_80000000"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/iv_mask_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginLeft="@dimen/dp_40"
+        android:src="@drawable/home_coupon"
+        android:layout_marginRight="@dimen/dp_40" />
+
+    <ImageView
+        android:id="@+id/iv_mask_del"
+        android:layout_width="@dimen/dp_35"
+        android:layout_height="@dimen/dp_35"
+        android:src="@drawable/home_del"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="@dimen/dp_30"/>
+</LinearLayout>

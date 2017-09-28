@@ -43,9 +43,10 @@ import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
+import cn.com.mangopi.android.util.MaskUtils;
 import cn.jpush.android.api.JPushInterface;
 
-public class MainActivity extends BaseActivity implements MessageListener {
+public class MainActivity extends BaseActivity implements MessageListener, View.OnClickListener {
 
     @Bind(R.id.tab_indicator)
     MagicIndicator tabIndicator;
@@ -68,6 +69,17 @@ public class MainActivity extends BaseActivity implements MessageListener {
         messagePresenter = new MessagePresenter(new MessageModel(), this);
         messageHandler = new Handler();
         messageHandler.postDelayed(new MessageCheckRunnable(), 3 * 1000);
+
+        MaskUtils.attachMaskFromRes(this, R.layout.layout_image_mask, R.id.iv_mask_del, this, R.id.iv_mask_pic);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.iv_mask_pic:
+
+                break;
+        }
     }
 
     class MessageCheckRunnable implements Runnable {

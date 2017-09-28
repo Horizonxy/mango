@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -405,5 +406,14 @@ public class MangoUtils {
             e.printStackTrace();
         }
         return dpi;
+    }
+
+    public static void setOnClickListener(View.OnClickListener clickListener, View layoutView, int... ids){
+        for (int id : ids){
+            View view = layoutView.findViewById(id);
+            if(view  != null){
+                view.setOnClickListener(clickListener);
+            }
+        }
     }
 }

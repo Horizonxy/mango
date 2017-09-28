@@ -75,7 +75,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     @Inject
     HomePresenter homePresenter;
     AdvertDetaiClickListener advertDetaiClickListener;
-    RedPointView messagePoint;
+//    RedPointView messagePoint;
+    ImageView ivMessage;
     LinearLayout layoutTwoGroup;
     ImageView ivGroup1, ivGroup2;
 
@@ -120,9 +121,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
         layoutHomeBar = (RelativeLayout) root.findViewById(R.id.layout_home_bar);
         root.findViewById(R.id.ib_scan).setOnClickListener(this);
-        root.findViewById(R.id.iv_message).setOnClickListener(this);
+        ivMessage = (ImageView) root.findViewById(R.id.iv_message);
+        ivMessage.setOnClickListener(this);
         root.findViewById(R.id.iv_bottom_del).setOnClickListener(this);
-        messagePoint = (RedPointView) root.findViewById(R.id.point_message);
+//        messagePoint = (RedPointView) root.findViewById(R.id.point_message);
 
         advertDetaiClickListener = new AdvertDetaiClickListener(getActivity());
 
@@ -492,8 +494,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @BusReceiver
     public void onHasMessageEvent(BusEvent.HasMessageEvent event) {
-        if (event != null && messagePoint != null) {
-            messagePoint.setVisibility(event.isHasMessage() ? View.VISIBLE : View.GONE);
+        if (event != null /*&& messagePoint != null*/) {
+            ivMessage.setImageResource(event.isHasMessage() ? R.drawable.home_xiaoxi_dot : R.drawable.home_xiaoxi);
+//            messagePoint.setVisibility(event.isHasMessage() ? View.VISIBLE : View.GONE);
         }
     }
 

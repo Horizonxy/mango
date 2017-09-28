@@ -29,10 +29,12 @@
                 layout="@layout/layout_item_setting" />
 
             <View
-                style="@style/margin_horizontal_line" />
+                style="@style/margin_horizontal_line"
+                android:visibility="gone"/>
 
             <include
                 android:id="@+id/layout_trans_pwd"
+                android:visibility="gone"
                 layout="@layout/layout_item_setting" />
 
 
