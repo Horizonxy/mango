@@ -33,6 +33,7 @@ import cn.com.mangopi.android.model.bean.ProjectListBean;
 import cn.com.mangopi.android.model.bean.ProjectTeamBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
+import cn.com.mangopi.android.model.bean.ScheduleCalendarBean;
 import cn.com.mangopi.android.model.bean.SearchBean;
 import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
@@ -41,6 +42,7 @@ import cn.com.mangopi.android.model.bean.TutorBean;
 import cn.com.mangopi.android.model.bean.UploadBean;
 import cn.com.mangopi.android.model.bean.ReplyTrendBean;
 import okhttp3.RequestBody;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 public class ApiManager {
@@ -262,8 +264,8 @@ public class ApiManager {
         return Application.application.getApiService().walletTransList(Application.application.getSessId(), pageNo, Constants.PAGE_SIZE);
     }
 
-    public static  Observable<RestResult<String>> scheduleCalendar(){
-        return Application.application.getApiService().scheduleCalendar(Application.application.getSessId());
+    public static  Observable<RestResult<List<ScheduleCalendarBean>>> scheduleCalendar(@QueryMap Map<String, Object> map){
+        return Application.application.getApiService().scheduleCalendar(Application.application.getSessId(), map);
     }
 
     public static  Observable<RestResult<ProjectJoinBean>> projectJoin(Map<String, Object> map){

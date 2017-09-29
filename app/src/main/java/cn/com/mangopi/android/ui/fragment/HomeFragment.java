@@ -494,7 +494,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
     @BusReceiver
     public void onHasMessageEvent(BusEvent.HasMessageEvent event) {
-        if (event != null /*&& messagePoint != null*/) {
+        if (event != null && ivMessage != null) {
             ivMessage.setImageResource(event.isHasMessage() ? R.drawable.home_xiaoxi_dot : R.drawable.home_xiaoxi);
 //            messagePoint.setVisibility(event.isHasMessage() ? View.VISIBLE : View.GONE);
         }

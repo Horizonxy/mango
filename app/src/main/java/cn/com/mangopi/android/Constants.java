@@ -64,8 +64,9 @@ public class Constants {
 	/** 二维码扫描结果. */
 	public final static String BUNDLE_SCAN_RESULT = "bundle_scan_result";
 	public static final String FORM_DATA = "multipart/form-data";
+    public static final String BUNDLE_COURSE_ID = "bundle_course_id";
 
-	public static enum UserIndentity {
+    public static enum UserIndentity {
 
 		PUBLIC("public", "自由人"),
 		STUDENT("student", "学生"),

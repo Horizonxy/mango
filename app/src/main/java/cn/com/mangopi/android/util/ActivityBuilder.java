@@ -264,7 +264,13 @@ public class ActivityBuilder {
     }
 
     public static void startOrderScheduleCalendarActivity(Activity activity){
+        startOrderScheduleCalendarActivity(activity, 0, 0);
+    }
+
+    public static void startOrderScheduleCalendarActivity(Activity activity, long courseId, long orderId){
         Intent intent = new Intent(activity, OrderScheduleCalendarActivity.class);
+        intent.putExtra(Constants.BUNDLE_COURSE_ID, courseId);
+        intent.putExtra(Constants.BUNDLE_ORDER_ID, orderId);
         activity.startActivity(intent);
     }
 

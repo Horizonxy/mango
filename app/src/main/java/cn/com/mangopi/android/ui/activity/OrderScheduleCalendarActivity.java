@@ -7,12 +7,18 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
+import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.ScheduleCalendarBean;
 import cn.com.mangopi.android.presenter.ScheduleCalendarPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
@@ -27,18 +33,21 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
 
     @Bind(R.id.gv_calendar)
     GridView gvCalendar;
-    Calendar currentCalendar;
     Calendar systemCalendar;
-    List<String> datas = new ArrayList<>();
-    QuickAdapter<String> calendarAdapter;
+    List<ScheduleCalendarBean> datas = new ArrayList<ScheduleCalendarBean>();
+    QuickAdapter<ScheduleCalendarBean> calendarAdapter;
     boolean today;
     ScheduleCalendarPresenter scheduleCalendarPresenter;
+    private long courseId;
+    private long orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_schedule_calendar);
 
+        courseId = getIntent().getLongExtra(Constants.BUNDLE_COURSE_ID, 0);
+        orderId = getIntent().getLongExtra(Constants.BUNDLE_ORDER_ID, 0);
         initView();
         scheduleCalendarPresenter = new ScheduleCalendarPresenter(this);
         scheduleCalendarPresenter.scheduleCalendar();
@@ -47,29 +56,28 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
 
     private void initData() {
         systemCalendar = Calendar.getInstance();
-        currentCalendar = Calendar.getInstance();
-        Calendar firstDayCalendar = Calendar.getInstance();
-        firstDayCalendar.set(Calendar.DATE, 1);
-        int weekDay = firstDayCalendar.get(Calendar.DAY_OF_WEEK);
-        int dayOfMonth = currentCalendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
-        fillDatas(weekDay, dayOfMonth);
-        titleBar.setTitle(DateUtils.calendarToString(firstDayCalendar, DateUtils.DATE_MONTH_CN));
 
         int width = (DisplayUtils.screenWidth(this) - DisplayUtils.dip2px(this, 15) * 2 - DisplayUtils.dip2px(this, 0.5F) * 6) / 7;
-        gvCalendar.setAdapter(calendarAdapter = new QuickAdapter<String>(this, R.layout.gridview_item_order_calendar, datas) {
+        gvCalendar.setAdapter(calendarAdapter = new QuickAdapter<ScheduleCalendarBean>(this, R.layout.gridview_item_order_calendar, datas) {
             @Override
-            protected void convert(BaseAdapterHelper helper, String item) {
-                helper.setText(R.id.tv_day, item);
+            protected void convert(BaseAdapterHelper helper, ScheduleCalendarBean item) {
+
                 FrameLayout layoutDay = helper.getView(R.id.layout_day);
-                if(today && !TextUtils.isEmpty(item) && (systemCalendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(item))){
-                    helper.setTextColorRes(R.id.tv_day, R.color.white);
-                    layoutDay.setBackgroundResource(R.color.color_ffb900);
-                } else if(!TextUtils.isEmpty(item) && (helper.getPosition() % 7 == 5 || helper.getPosition() % 7 == 6)){
-                    helper.setTextColorRes(R.id.tv_day, R.color.color_ffb900);
-                    layoutDay.setBackgroundResource(R.color.white);
+                if(TextUtils.isEmpty(item.getDate())){
+                    helper.setVisible(R.id.tv_day, false);
                 } else {
-                    helper.setTextColorRes(R.id.tv_day, R.color.color_333333);
-                    layoutDay.setBackgroundResource(R.color.white);
+                    helper.setText(R.id.tv_day, item.getDate())
+                        .setVisible(R.id.tv_day, true);
+                    if (today && null != item && (systemCalendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(item.getDate()))) {
+                        helper.setTextColorRes(R.id.tv_day, R.color.white);
+                        layoutDay.setBackgroundResource(R.color.color_ffb900);
+                    } else if (null != item && (helper.getPosition() % 7 == 5 || helper.getPosition() % 7 == 6)) {
+                        helper.setTextColorRes(R.id.tv_day, R.color.color_ffb900);
+                        layoutDay.setBackgroundResource(R.color.white);
+                    } else {
+                        helper.setTextColorRes(R.id.tv_day, R.color.color_333333);
+                        layoutDay.setBackgroundResource(R.color.white);
+                    }
                 }
                 AbsListView.LayoutParams params = (AbsListView.LayoutParams) layoutDay.getLayoutParams();
                 params.width = params.height = width;
@@ -78,50 +86,85 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
         });
     }
 
-    private void fillDatas(int weekDay, int dayOfMonth){
-        datas.clear();
-        if(weekDay == 1){
-            for (int i = 0; i < 6; i++){
-                datas.add("");
-            }
-        } else {
-            for (int i = 0; i < (weekDay - 2); i++){
-                datas.add("");
-            }
-        }
-
-        for (int i = 0; i < dayOfMonth; i++){
-//            currentCalendar.set(Calendar.DATE, i + 1 );
-//            datas.add(DateUtils.calendarToString(currentCalendar, DateUtils.DATE_PATTERN));
-            datas.add(String.valueOf(i + 1));
-        }
-
-        today = (systemCalendar.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR) &&
-                (systemCalendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)));
-    }
-
     private void initView() {
         titleBar.setRightText("今天");
         titleBar.setOnTitleBarClickListener(this);
-
     }
 
     @Override
     public void onTitleButtonClick(View view) {
        if(view.getId() == R.id.tv_right){
-           currentCalendar.add(Calendar.MONTH , 1);
-           currentCalendar.set(Calendar.DATE, 1);
-           int weekDay = currentCalendar.get(Calendar.DAY_OF_WEEK);
-           int dayOfMonth = currentCalendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
-           fillDatas(weekDay, dayOfMonth);
-           titleBar.setTitle(DateUtils.calendarToString(currentCalendar, DateUtils.DATE_MONTH_CN));
-           calendarAdapter.notifyDataSetChanged();
+
        }
     }
 
     @Override
     public void onFailure(String message) {
         AppUtils.showToast(this, message);
+    }
+
+    @Override
+    public void onScheduleCanlendarSuccess(List<ScheduleCalendarBean> scheduleCalendarList) {
+        datas.clear();
+        Calendar currentCalendar = Calendar.getInstance();
+        titleBar.setTitle(DateUtils.calendarToString(currentCalendar, DateUtils.DATE_MONTH_CN));
+        currentCalendar.set(Calendar.DATE, 1);
+        int weekDay = currentCalendar.get(Calendar.DAY_OF_WEEK);
+
+        if(weekDay == 1){
+            for (int i = 0; i < 6; i++){
+                datas.add(new ScheduleCalendarBean());
+            }
+        } else {
+            for (int i = 0; i < (weekDay - 2); i++){
+                datas.add(new ScheduleCalendarBean());
+            }
+        }
+
+        List<ScheduleCalendarBean> month = new ArrayList<ScheduleCalendarBean>();
+        for (int i = 0; i < currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
+            String date = String.valueOf(i + 1);
+            boolean hasRs = false;
+            for (int j = 0; scheduleCalendarList != null && j < scheduleCalendarList.size(); j++){
+                if(date.equals(scheduleCalendarList.get(j).getDate())){
+                    month.add(scheduleCalendarList.get(j));
+                    hasRs = true;
+                    break;
+                }
+            }
+            if(!hasRs) {
+                ScheduleCalendarBean calendarBean = new ScheduleCalendarBean();
+                calendarBean.setDate(date);
+                month.add(calendarBean);
+            }
+        }
+
+        datas.addAll(month);
+        Logger.e(""+datas.size()+" "+(7 - (datas.size() % 7)));
+        for(int i = 0; (datas.size() % 7) != 0 && i < (7 - (datas.size() % 7)); i++){
+            datas.add(new ScheduleCalendarBean());
+        }
+
+        calendarAdapter.notifyDataSetChanged();
+
+        today = (systemCalendar.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR) &&
+                (systemCalendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)));
+    }
+
+    @Override
+    public Map<String, Object> getQueryMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        if(courseId > 0) {
+            map.put("course_id", courseId);
+        }
+        if(orderId > 0) {
+            map.put("order_id", orderId);
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE, 1);
+        map.put("start_date", DateUtils.calendarToString(calendar, DateUtils.DATE_PATTERN));
+        map.put("month_limit", calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return map;
     }
 
     @Override

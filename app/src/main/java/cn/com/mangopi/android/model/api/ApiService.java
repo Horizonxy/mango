@@ -31,6 +31,7 @@ import cn.com.mangopi.android.model.bean.ProjectListBean;
 import cn.com.mangopi.android.model.bean.ProjectTeamBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.bean.RestResult;
+import cn.com.mangopi.android.model.bean.ScheduleCalendarBean;
 import cn.com.mangopi.android.model.bean.SearchBean;
 import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
@@ -407,8 +408,9 @@ public interface ApiService {
 
     //5.3.12课程安排日历接口
     @GET("outer/router?schedule_calendar")
-    Observable<RestResult<String>> scheduleCalendar(
-            @Query("lst_sessid") String sessid
+    Observable<RestResult<List<ScheduleCalendarBean>>> scheduleCalendar(
+            @Query("lst_sessid") String sessid,
+            @QueryMap Map<String, Object> map
     );
 
     //5.4.2	 工作包报名接口

@@ -2,7 +2,10 @@ package cn.com.mangopi.android.presenter;
 
 import android.content.Context;
 
+import java.util.List;
+
 import cn.com.mangopi.android.model.bean.RestResult;
+import cn.com.mangopi.android.model.bean.ScheduleCalendarBean;
 import cn.com.mangopi.android.model.data.ScheduleCalendarModel;
 import cn.com.mangopi.android.ui.viewlistener.OrderScheduleCalendarListener;
 import rx.Subscription;
@@ -19,8 +22,8 @@ public class ScheduleCalendarPresenter extends BasePresenter {
 
     public void scheduleCalendar(){
         Context context  = scheduleCalendarListener.currentContext();
-        Subscription subscription = scheduleCalendarModel.scheduleCalendar(new CreateLoading(context),
-                new BaseLoadingSubscriber<RestResult<String>>(){
+        Subscription subscription = scheduleCalendarModel.scheduleCalendar(scheduleCalendarListener.getQueryMap(), new CreateLoading(context),
+                new BaseLoadingSubscriber<RestResult<List<ScheduleCalendarBean>>>(){
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
@@ -30,10 +33,10 @@ public class ScheduleCalendarPresenter extends BasePresenter {
                     }
 
                     @Override
-                    public void onNext(RestResult<String> restResult) {
+                    public void onNext(RestResult<List<ScheduleCalendarBean>> restResult) {
                         if(restResult != null){
                             if(restResult.isSuccess()){
-
+                                scheduleCalendarListener.onScheduleCanlendarSuccess(restResult.getData());
                             } else {
                                 scheduleCalendarListener.onFailure(restResult.getRet_msg());
                             }
