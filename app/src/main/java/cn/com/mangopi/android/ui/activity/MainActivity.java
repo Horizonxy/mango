@@ -45,7 +45,6 @@ import cn.com.mangopi.android.ui.widget.RedPointView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
-import cn.com.mangopi.android.util.MaskUtils;
 import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseActivity implements MessageListener, View.OnClickListener, TrendUpdateListener, FoundFragment.OnRefreshTrendLsitener {
@@ -75,7 +74,7 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
         loopHandler = new Handler();
         loopHandler.postDelayed(new LoopCheckRunnable(), 3 * 1000);
 
-        MaskUtils.attachMaskFromRes(this, R.layout.layout_image_mask, R.id.iv_mask_del, this, R.id.iv_mask_pic);
+//        MaskUtils.attachMaskFromRes(this, R.layout.layout_image_mask, R.id.iv_mask_del, this, R.id.iv_mask_pic);
     }
 
     @Override

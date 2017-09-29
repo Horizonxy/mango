@@ -122,6 +122,7 @@ public class MyOrderListFragmentModule {
                 case R.id.btn_un_act:
                     break;
                 case R.id.btn_act:
+                    ActivityBuilder.startOrderScheduleCalendarActivity(fragment.getActivity(), order.getCourse_id(), order.getId());
                     break;
             }
         }

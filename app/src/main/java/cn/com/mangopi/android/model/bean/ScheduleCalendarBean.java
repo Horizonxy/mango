@@ -15,6 +15,15 @@ public class ScheduleCalendarBean implements Serializable {
     private String cause;
     private List<Details> details;
     private String date;
+    private boolean clicked;
+
+    public boolean isClicked() {
+        return clicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
 
     public String getDate(){
         if(TextUtils.isEmpty(date) && sct_date == null){

@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 
@@ -29,7 +32,8 @@ import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 
-public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener, OrderScheduleCalendarListener {
+public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener,
+        OrderScheduleCalendarListener, AdapterView.OnItemClickListener {
 
     @Bind(R.id.gv_calendar)
     GridView gvCalendar;
@@ -40,6 +44,15 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
     ScheduleCalendarPresenter scheduleCalendarPresenter;
     private long courseId;
     private long orderId;
+    private ScheduleCalendarBean clickedSchedule;
+    @Bind(R.id.layout_bottom)
+    RelativeLayout layoutBottom;
+    @Bind(R.id.tv_time_tip)
+    TextView tvTimeTip;
+    @Bind(R.id.gv_sct_time)
+    GridView gvSctTime;
+    List<ScheduleCalendarBean.Details> times = new ArrayList<ScheduleCalendarBean.Details>();
+    QuickAdapter<ScheduleCalendarBean.Details> timeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +77,18 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
 
                 FrameLayout layoutDay = helper.getView(R.id.layout_day);
                 if(TextUtils.isEmpty(item.getDate())){
-                    helper.setVisible(R.id.tv_day, false);
+                    helper.setVisible(R.id.tv_day, false).setVisible(R.id.iv_course_icon, false);
                 } else {
-                    helper.setText(R.id.tv_day, item.getDate())
-                        .setVisible(R.id.tv_day, true);
-                    if (today && null != item && (systemCalendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(item.getDate()))) {
+                    helper.setText(R.id.tv_day, item.getDate()).setVisible(R.id.tv_day, true);
+                    int date = Integer.parseInt(item.getDate());
+                    if(item == clickedSchedule){
                         helper.setTextColorRes(R.id.tv_day, R.color.white);
                         layoutDay.setBackgroundResource(R.color.color_ffb900);
+                    } else if (today && null != item && (systemCalendar.get(Calendar.DAY_OF_MONTH) == date)) {
+                        helper.setTextColorRes(R.id.tv_day, R.color.white);
+                        layoutDay.setBackgroundResource(R.color.color_ffb900);
+                        initClickedSchedule = item;
+                        initClickedSchedule.setClicked(true);
                     } else if (null != item && (helper.getPosition() % 7 == 5 || helper.getPosition() % 7 == 6)) {
                         helper.setTextColorRes(R.id.tv_day, R.color.color_ffb900);
                         layoutDay.setBackgroundResource(R.color.white);
@@ -78,10 +96,19 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
                         helper.setTextColorRes(R.id.tv_day, R.color.color_333333);
                         layoutDay.setBackgroundResource(R.color.white);
                     }
+                    helper.setVisible(R.id.iv_course_icon, item.isCur_join());
                 }
                 AbsListView.LayoutParams params = (AbsListView.LayoutParams) layoutDay.getLayoutParams();
                 params.width = params.height = width;
                 layoutDay.setLayoutParams(params);
+            }
+        });
+        gvCalendar.setOnItemClickListener(this);
+
+        gvSctTime.setAdapter(timeAdapter = new QuickAdapter<ScheduleCalendarBean.Details>(this, R.layout.gridview_item_order_schedule_calendar_time, times) {
+            @Override
+            protected void convert(BaseAdapterHelper helper, ScheduleCalendarBean.Details item) {
+
             }
         });
     }
@@ -89,6 +116,8 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
     private void initView() {
         titleBar.setRightText("今天");
         titleBar.setOnTitleBarClickListener(this);
+
+        layoutBottom.setVisibility((courseId == 0 || orderId == 0) ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -149,6 +178,26 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
 
         today = (systemCalendar.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR) &&
                 (systemCalendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)));
+        if(initClickedSchedule != null){
+            clickedSchedule = initClickedSchedule;
+            invalidateTimes(initClickedSchedule);
+        } else if(scheduleCalendarList.size() > 0){
+            initClickedSchedule = scheduleCalendarList.get(0);
+            invalidateTimes(initClickedSchedule);
+        } else {
+            times.clear();
+            timeAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private ScheduleCalendarBean initClickedSchedule;
+
+    private void invalidateTimes(ScheduleCalendarBean scheduleCalendar){
+        times.clear();
+        for (int i = 0; i < 9; i++){
+            times.add(new ScheduleCalendarBean.Details());
+        }
+        timeAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -178,5 +227,20 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
             scheduleCalendarPresenter.onDestroy();
         }
         super.onDestroy();
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ScheduleCalendarBean schedule = (ScheduleCalendarBean) parent.getAdapter().getItem(position);
+        if(schedule != null && !TextUtils.isEmpty(schedule.getDate()) && schedule != clickedSchedule){
+            if(clickedSchedule != null) {
+                clickedSchedule.setClicked(false);
+            }
+            schedule.setClicked(true);
+            clickedSchedule = schedule;
+            calendarAdapter.notifyDataSetChanged();
+            invalidateTimes(schedule);
+        }
     }
 }
