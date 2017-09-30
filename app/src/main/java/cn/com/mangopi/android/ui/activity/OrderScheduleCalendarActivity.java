@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +47,8 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
     ScheduleCalendarBean clickedSchedule;
     @Bind(R.id.layout_bottom)
     RelativeLayout layoutBottom;
-//    @Bind(R.id.tv_time_tip)
-//    TextView tvTimeTip;
+    @Bind(R.id.tv_time_tip)
+    TextView tvTimeTip;
     @Bind(R.id.gv_sct_time)
     GridView gvSctTime;
     List<ScheduleCalendarBean.Details> times = new ArrayList<ScheduleCalendarBean.Details>();
@@ -114,15 +113,15 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
                 helper.setText(R.id.tv_time, item.getTime() + "点");
                 int position = helper.getPosition();
                 View layout = helper.getView();
-//                if(position % 3 == 0){
-//                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_selected);
-//                }
-//                if(position % 3 == 1){
-//                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_unselected);
-//                }
-//                if(position % 3 == 2){
-//                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_none);
-//                }
+                if(position % 3 == 0){
+                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_selected);
+                }
+                if(position % 3 == 1){
+                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_unselected);
+                }
+                if(position % 3 == 2){
+                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_none);
+                }
             }
         });
         gvSctTime.setOnItemClickListener(this);
@@ -138,10 +137,12 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
             btnReset.setVisibility(View.VISIBLE);
             btnAddSchedule.setVisibility(View.GONE);
             btnOrderBySchedule.setVisibility(View.VISIBLE);
+            tvTimeTip.setText("计划上课时间");
         } else {
             btnReset.setVisibility(View.GONE);
             btnAddSchedule.setVisibility(View.VISIBLE);
             btnOrderBySchedule.setVisibility(View.GONE);
+            tvTimeTip.setText("选择上课时间");
         }
     }
 

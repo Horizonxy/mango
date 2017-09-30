@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/dp_15"
     android:paddingRight="@dimen/dp_15"
-    android:background="@drawable/selector_border_order_schedule_calendar_time"
     android:paddingTop="@dimen/dp_10"
     android:paddingBottom="@dimen/dp_10">
 
