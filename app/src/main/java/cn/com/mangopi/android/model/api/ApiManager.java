@@ -41,6 +41,7 @@ import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
 import cn.com.mangopi.android.model.bean.UploadBean;
 import cn.com.mangopi.android.model.bean.ReplyTrendBean;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.QueryMap;
 import rx.Observable;
@@ -160,7 +161,7 @@ public class ApiManager {
         return Application.application.getApiService().wantCount(Application.application.getSessId(), entityId, entityTypeId);
     }
 
-    public static  Observable<RestResult<UploadBean>> upload(long entityId, int entityTypeId, RequestBody file){
+    public static  Observable<RestResult<UploadBean>> upload(long entityId, int entityTypeId, MultipartBody.Part file){
         return Application.application.getApiService().upload(Application.application.getSessId(), entityId, entityTypeId, file);
     }
 
@@ -298,5 +299,17 @@ public class ApiManager {
 
     public static Observable<RestResult<Object>> trendUpdate(String current){
         return Application.application.getApiService().trendUpdate(Application.application.getSessId(), current, 3);
+    }
+
+    public static Observable<RestResult<Object>> addOrderSchedule(long orderId, String date, int time){
+        return Application.application.getApiService().addOrderSchedule(Application.application.getSessId(), orderId, date, time);
+    }
+
+    public static Observable<RestResult<Object>> cancelOrderBatchSchedule(String date, int time){
+        return Application.application.getApiService().cancelOrderBatchSchedule(Application.application.getSessId(), date, time);
+    }
+
+    public static Observable<RestResult<Object>> cancelOrderSchedule(long orderId){
+        return Application.application.getApiService().cancelOrderSchedule(Application.application.getSessId(), orderId);
     }
 }

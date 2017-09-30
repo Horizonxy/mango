@@ -39,6 +39,7 @@ import cn.com.mangopi.android.model.bean.TrendDetailBean;
 import cn.com.mangopi.android.model.bean.TutorBean;
 import cn.com.mangopi.android.model.bean.UploadBean;
 import cn.com.mangopi.android.model.bean.ReplyTrendBean;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -246,7 +247,7 @@ public interface ApiService {
             @Query("lst_sessid") String sessId,
             @Query("entity_id") long entityId,
             @Query("entity_type_id") int entityTypeId,
-            @Part("file\"; filename=\"image.png\"") RequestBody file
+            @Part MultipartBody.Part file
         );
 
     //5.1.11	升级会员学生身份接口
@@ -465,5 +466,29 @@ public interface ApiService {
             @Query("lst_sessid") String sessid,
             @Query("current") String current,
             @Query("minute") int minute
+    );
+
+    //5.3.6	 安排课程接口
+    @POST("outer/router?order_schedule")
+    Observable<RestResult<Object>> addOrderSchedule(
+            @Query("lst_sessid") String sessid,
+            @Query("order_id") long orderId,
+            @Query("attend_date") String attendDate,
+            @Query("time") int time
+    );
+
+    //5.3.8	 批量取消课程安排接口
+    @POST("outer/router?batch_schedule_cancel")
+    Observable<RestResult<Object>> cancelOrderBatchSchedule(
+            @Query("lst_sessid") String sessid,
+            @Query("sct_date") String sctDate,
+            @Query("sct_time") int sctTime
+    );
+
+    //5.3.7	 取消课程安排接口
+    @POST("outer/router?order_schedule_cancel")
+    Observable<RestResult<Object>> cancelOrderSchedule(
+            @Query("lst_sessid") String sessid,
+            @Query("order_id") long orderId
     );
 }

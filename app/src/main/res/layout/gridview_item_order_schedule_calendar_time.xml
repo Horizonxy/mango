@@ -9,10 +9,10 @@
     android:paddingBottom="@dimen/dp_10">
 
     <TextView
+        android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/color_333333"
-        android:text="8点"
         android:textSize="@dimen/sp_14"/>
 
     <TextView

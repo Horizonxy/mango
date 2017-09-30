@@ -248,7 +248,10 @@
         <activity
             android:name=".ui.activity.ProjectWorkDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.TrendForwardActivity"
+        <activity
+            android:name=".ui.activity.TrendForwardActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.ScheduleOrderListActivity"
             android:screenOrientation="portrait" />
 
 

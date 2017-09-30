@@ -17,6 +17,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.mcxiaoke.bus.Bus;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
@@ -360,12 +361,12 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 
     @OnClick(R.id.btn_act)
     void onAct(View v){
-
+        ActivityBuilder.startOrderScheduleCalendarActivity(this, orderDetail.getCourse_id(), orderDetail.getId());
     }
 
     @OnClick(R.id.btn_un_act)
     void onUnAct(View v){
-
+        presenter.cancelSchedule(converOrderBean(orderDetail));
     }
 
     @OnClick(R.id.btn_reply)
@@ -425,13 +426,8 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     public void onOrderListSuccess(List<OrderBean> orderList) {}
 
     @Override
-    public int getPageNo() {
-        return 0;
-    }
-
-    @Override
-    public int getRelation() {
-        return relation;
+    public Map<String, Object> getQueryMap() {
+        return null;
     }
 
     @Override
@@ -441,6 +437,17 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         fillData(orderDetail);
 
         BusEvent.CancelOrderEvent event = new BusEvent.CancelOrderEvent();
+        event.setId(order.getId());
+        Bus.getDefault().postSticky(event);
+    }
+
+    @Override
+    public void onCancelScheduleSuccess(OrderBean order) {
+        order.setState(4);
+        order.setState_label("订单已付款，待安排");
+        fillData(orderDetail);
+
+        BusEvent.CancelOrderSeheduleEvent event = new BusEvent.CancelOrderSeheduleEvent();
         event.setId(order.getId());
         Bus.getDefault().postSticky(event);
     }

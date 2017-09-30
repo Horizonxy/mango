@@ -39,6 +39,7 @@ import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.FileUtils;
 import cn.com.mangopi.android.util.SelectorImageLoader;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.functions.Action1;
 
@@ -60,7 +61,7 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
 
     UploadPresenter uploadPresenter;
     MemberBean member;
-    RequestBody studentCardImage;
+    MultipartBody.Part studentCardImage;
     UpdateRolePresenter updateRolePresenter;
     String studentCardRsurl;
 
@@ -90,7 +91,8 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
                 public void onSuccess(List<String> photoList) {
                     if (photoList != null && photoList.size() > 0) {
                         File file = FileUtils.compressImageFromPath(UpgradeToStudentActivity.this, photoList.get(0));
-                        studentCardImage = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
+                        RequestBody requestFile = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
+                        studentCardImage = MultipartBody.Part.createFormData(Constants.FILE_PARAM, file.getName(), requestFile);
                         if(studentCardImage == null){
                             return;
                         }
@@ -233,7 +235,7 @@ public class UpgradeToStudentActivity extends BaseTitleBarActivity implements Up
     }
 
     @Override
-    public RequestBody getFile() {
+    public MultipartBody.Part getFile() {
         return studentCardImage;
     }
 

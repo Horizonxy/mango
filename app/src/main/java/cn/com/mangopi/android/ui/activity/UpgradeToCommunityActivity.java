@@ -49,6 +49,7 @@ import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.FileUtils;
 import cn.com.mangopi.android.util.SelectorImageLoader;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.functions.Action1;
 
@@ -84,7 +85,7 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
     GalleryConfig galleryConfig;
     UploadPresenter uploadPresenter;
     MemberBean member;
-    RequestBody communityLogoImage;
+    MultipartBody.Part communityLogoImage;
     UpdateRolePresenter updateRolePresenter;
     String communityLogoRsurl;
     CommunityPresenter communityPresenter;
@@ -121,7 +122,8 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
                 public void onSuccess(List<String> photoList) {
                     if (photoList != null && photoList.size() > 0) {
                         File file = FileUtils.compressImageFromPath(UpgradeToCommunityActivity.this, photoList.get(0));
-                        communityLogoImage = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
+                        RequestBody requestFile = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
+                        communityLogoImage = MultipartBody.Part.createFormData(Constants.FILE_PARAM, file.getName(), requestFile);
                         if(communityLogoImage == null){
                             return;
                         }
@@ -288,7 +290,7 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
     }
 
     @Override
-    public RequestBody getFile() {
+    public MultipartBody.Part getFile() {
         return communityLogoImage;
     }
 

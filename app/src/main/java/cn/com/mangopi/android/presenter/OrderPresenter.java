@@ -12,6 +12,7 @@ import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.data.OrderModel;
+import cn.com.mangopi.android.model.data.ScheduleCalendarModel;
 import cn.com.mangopi.android.ui.viewlistener.BaseViewListener;
 import cn.com.mangopi.android.ui.viewlistener.OrderDetailListener;
 import cn.com.mangopi.android.ui.viewlistener.OrderListListener;
@@ -23,6 +24,7 @@ public class OrderPresenter extends BasePresenter {
 
     OrderModel orderModel;
     BaseViewListener viewListener;
+    ScheduleCalendarModel scheduleModel;
 
     public OrderPresenter(OrderModel orderModel, BaseViewListener viewListener) {
         this.orderModel = orderModel;
@@ -31,12 +33,7 @@ public class OrderPresenter extends BasePresenter {
 
     public void getOrderList(){
         OrderListListener listener = (OrderListListener) viewListener;
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("lst_sessid", Application.application.getSessId());
-        map.put("page_no", listener.getPageNo());
-        map.put("page_size", Constants.PAGE_SIZE);
-        map.put("relation", listener.getRelation());
-        Subscription subscription = orderModel.getOrderList(map, new Action1<Throwable>() {
+        Subscription subscription = orderModel.getOrderList(listener.getQueryMap(), new Action1<Throwable>() {
             @Override
             public void call(Throwable e) {
                 if (e != null) {
@@ -139,6 +136,35 @@ public class OrderPresenter extends BasePresenter {
                         }
                     }
                 });
+        addSubscription(subscription);
+    }
+
+    public void cancelSchedule(OrderBean order){
+        OrderListListener listener = (OrderListListener) viewListener;
+        Context context = listener.currentContext();
+        if(scheduleModel == null){
+            scheduleModel = new ScheduleCalendarModel();
+        }
+        Subscription subscription = scheduleModel.cancelOrderSchedule(order.getId(), new CreateLoading(context), new BaseLoadingSubscriber<RestResult<Object>>(){
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if(e != null){
+                    listener.onFailure(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(RestResult<Object> restResult) {
+                if(restResult != null){
+                    if(restResult.isSuccess()){
+                        listener.onCancelScheduleSuccess(order);
+                    } else {
+                        listener.onFailure(restResult.getRet_msg());
+                    }
+                }
+            }
+        });
         addSubscription(subscription);
     }
 }

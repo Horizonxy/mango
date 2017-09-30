@@ -41,6 +41,7 @@ import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.FileUtils;
 import cn.com.mangopi.android.util.SelectorImageLoader;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.functions.Action1;
 
@@ -68,7 +69,7 @@ public class UpgradeToTutorActivity extends BaseTitleBarActivity implements Upda
     GalleryConfig galleryConfig;
     UploadPresenter uploadPresenter;
     MemberBean member;
-    RequestBody tutorLogoImage;
+    MultipartBody.Part tutorLogoImage;
     UpdateRolePresenter updateRolePresenter;
     String tutorLogoRsurl;
 
@@ -100,7 +101,8 @@ public class UpgradeToTutorActivity extends BaseTitleBarActivity implements Upda
                 public void onSuccess(List<String> photoList) {
                     if (photoList != null && photoList.size() > 0) {
                         File file = FileUtils.compressImageFromPath(UpgradeToTutorActivity.this, photoList.get(0));
-                        tutorLogoImage = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
+                        RequestBody requestFile = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
+                        tutorLogoImage = MultipartBody.Part.createFormData(Constants.FILE_PARAM, file.getName(), requestFile);
                         if(tutorLogoImage == null){
                             return;
                         }
@@ -268,7 +270,7 @@ public class UpgradeToTutorActivity extends BaseTitleBarActivity implements Upda
     }
 
     @Override
-    public RequestBody getFile() {
+    public MultipartBody.Part getFile() {
         return tutorLogoImage;
     }
 

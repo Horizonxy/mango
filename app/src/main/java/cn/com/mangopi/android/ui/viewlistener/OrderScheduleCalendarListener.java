@@ -8,4 +8,11 @@ import cn.com.mangopi.android.model.bean.ScheduleCalendarBean;
 public interface OrderScheduleCalendarListener extends BaseViewListener {
     void onScheduleCanlendarSuccess(List<ScheduleCalendarBean> scheduleCalendarList);
     Map<String, Object> getQueryMap();
+
+    long getOrderId();
+    String getScheduleDate();
+    int getScheduleTime();
+    void onAddScheduleSuccess();
+
+    void onCancelScheduleSuccess();
 }

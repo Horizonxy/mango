@@ -29,6 +29,7 @@ import cn.com.mangopi.android.ui.activity.GetCashActivity;
 import cn.com.mangopi.android.ui.activity.InputMessageActivity;
 import cn.com.mangopi.android.ui.activity.ProjectTeamDetailActivity;
 import cn.com.mangopi.android.ui.activity.ProjectWorkDetailActivity;
+import cn.com.mangopi.android.ui.activity.ScheduleOrderListActivity;
 import cn.com.mangopi.android.ui.activity.TrendCommentsActivity;
 import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
@@ -343,6 +344,13 @@ public class ActivityBuilder {
     public static void startTrendForwardActivity(Activity activity, TrendBean trendBean){
         Intent intent = new Intent(activity, TrendForwardActivity.class);
         intent.putExtra(Constants.BUNDLE_DATA, trendBean);
+        activity.startActivity(intent);
+    }
+
+    public static void startScheduleOrderListActivity(Activity activity, String sctDate, int sctTime){
+        Intent intent = new Intent(activity, ScheduleOrderListActivity.class);
+        intent.putExtra(Constants.BUNDLE_ORDER_SCT_DATE, sctDate);
+        intent.putExtra(Constants.BUNDLE_ORDER_SCT_TIME, sctTime);
         activity.startActivity(intent);
     }
 }

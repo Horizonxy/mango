@@ -50,6 +50,7 @@ import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.FileUtils;
 import cn.com.mangopi.android.util.SelectorImageLoader;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.functions.Action1;
 
@@ -111,7 +112,7 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
     View layoutEmail;
     TextView tvEmail;
     SettingMemberPresenter presenter;
-    RequestBody memberAvatar;
+    MultipartBody.Part memberAvatar;
     UploadPresenter uploadPresenter;
     UploadBean uploadBean;
     GalleryConfig galleryConfig;
@@ -191,7 +192,9 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
                 public void onSuccess(List<String> photoList) {
                     if (photoList != null && photoList.size() > 0) {
                         File file = FileUtils.compressImageFromPath(ProfileInfoActivity.this, photoList.get(0));
-                        memberAvatar = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
+                        RequestBody requestFile = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
+                        memberAvatar = MultipartBody.Part.createFormData(Constants.FILE_PARAM, file.getName(), requestFile);
+
                         if(memberAvatar == null){
                             return;
                         }
@@ -592,7 +595,7 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
     }
 
     @Override
-    public RequestBody getFile() {
+    public MultipartBody.Part getFile() {
         return memberAvatar;
     }
 }

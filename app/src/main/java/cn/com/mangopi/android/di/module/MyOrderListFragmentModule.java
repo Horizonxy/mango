@@ -18,10 +18,6 @@ import cn.com.mangopi.android.util.DateUtils;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * @author 蒋先明
- * @date 2017/6/29
- */
 @Module
 public class MyOrderListFragmentModule {
 
@@ -120,6 +116,9 @@ public class MyOrderListFragmentModule {
                     }
                     break;
                 case R.id.btn_un_act:
+                    if(onOrderStateListener != null){
+                        onOrderStateListener.onCancelScdule(order);
+                    }
                     break;
                 case R.id.btn_act:
                     ActivityBuilder.startOrderScheduleCalendarActivity(fragment.getActivity(), order.getCourse_id(), order.getId());
@@ -130,5 +129,6 @@ public class MyOrderListFragmentModule {
 
     public interface OnOrderStateListener {
         void onCancel(OrderBean order);
+        void onCancelScdule(OrderBean order);
     }
 }

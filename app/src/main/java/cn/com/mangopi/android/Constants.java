@@ -4,8 +4,8 @@ public class Constants {
 
 	public static final int PAGE_SIZE = 20;
 
-//	public static final String END_POIND = "https://www.mangopi.com.cn/";
-	public static final String END_POIND = "https://demo.lvshetong.cn/mangotree-portal/";
+	public static final String END_POIND = "https://www.mangopi.com.cn/";
+//	public static final String END_POIND = "https://demo.lvshetong.cn/mangotree-portal/";
 
 	public static final String COURSE_URL = "https://www.mangopi.com.cn/wx/course/%d.html";
 	public static final String WORK_PROJECT_URL = "https://www.mangopi.com.cn/wx/project/info/%d.html";
@@ -15,7 +15,8 @@ public class Constants {
 	public static final String PICTURE_DIR = BASE_DIR.concat("/photo");
 	public static final String IMG_WEB_CACHE_DIR = BASE_DIR.concat("/image_web");
 
-	public static final int REQ_PERMISSIONS = 1000;
+	public static final int REQ_PERMISSIONS = 1001;
+	public static final int REQ_FILE = 1002;
 
 	/** 缓存100天 */
 	public static final long CACHE_TIME = 60 * 60 * 24 * 100;
@@ -48,6 +49,8 @@ public class Constants {
 	public static final String BUNDLE_ORDER = "bundle_order";
     public static final String BUNDLE_ORDER_ID = "bundle_order_id";
 	public static final String BUNDLE_ORDER_RELATION = "bundle_order_relation";
+	public static final String BUNDLE_ORDER_SCT_DATE = "bundle_order_sct_date";
+	public static final String BUNDLE_ORDER_SCT_TIME = "bundle_order_sct_time";
 	public static final String BUNDLE_WORKS_RELATION = "bundle_works_relation";
     public static final String BUNDLE_WEBVIEW_URL = "bundle_webview_url";
     public static final String BUNDLE_RIGHT_TEXT = "bundle_right_text";
@@ -65,6 +68,7 @@ public class Constants {
 	public final static String BUNDLE_SCAN_RESULT = "bundle_scan_result";
 	public static final String FORM_DATA = "multipart/form-data";
     public static final String BUNDLE_COURSE_ID = "bundle_course_id";
+	public static final String FILE_PARAM = "file";
 
     public static enum UserIndentity {
 

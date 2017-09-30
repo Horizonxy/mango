@@ -1,11 +1,12 @@
 package cn.com.mangopi.android.model.bean;
 
 import android.text.TextUtils;
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+
+import cn.com.mangopi.android.util.DateUtils;
 
 public class ScheduleCalendarBean implements Serializable {
 
@@ -71,12 +72,13 @@ public class ScheduleCalendarBean implements Serializable {
     }
 
     public static class Details implements Serializable{
-        private Date sct_date;
+        private Date sct_time;
         private boolean salable;
         private boolean cur_join;
         private String cause;
         private int count;
         private boolean selected;
+        private int time;
 
         public boolean isSelected() {
             return selected;
@@ -86,12 +88,26 @@ public class ScheduleCalendarBean implements Serializable {
             this.selected = selected;
         }
 
-        public Date getSct_date() {
-            return sct_date;
+        public Date getSct_time() {
+            return sct_time;
         }
 
-        public void setSct_date(Date sct_date) {
-            this.sct_date = sct_date;
+        public void setSct_time(Date sct_time) {
+            this.sct_time = sct_time;
+        }
+
+        public int getTime() {
+            if(time == 0) {
+                String timeStr = DateFormat.getDateInstance(DateFormat.HOUR0_FIELD).format(sct_time);
+                if(!TextUtils.isEmpty(timeStr)){
+                    time = Integer.parseInt(timeStr);
+                }
+            }
+            return time;
+        }
+
+        public void setTime(int time) {
+            this.time = time;
         }
 
         public boolean isSalable() {

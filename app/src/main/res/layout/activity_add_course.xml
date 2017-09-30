@@ -204,17 +204,14 @@
             android:textSize="@dimen/sp_14"/>
 
         <GridLayout
+            android:id="@+id/grid_material"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_15">
-
-            <ImageView
-                android:layout_width="@dimen/dp_60"
-                android:layout_height="@dimen/dp_60"
-                android:adjustViewBounds="true"
-                android:src="@drawable/add_pic"/>
-
-        </GridLayout>
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_15"
+            android:rowCount="3"
+            android:columnCount="3" />
 
         <View style="@style/horizontal_line"
             android:layout_marginTop="@dimen/dp_15"/>

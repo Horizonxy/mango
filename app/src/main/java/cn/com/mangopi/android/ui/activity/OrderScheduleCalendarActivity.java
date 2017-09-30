@@ -6,17 +6,20 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.ScheduleCalendarBean;
@@ -26,6 +29,7 @@ import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.OrderScheduleCalendarListener;
 import cn.com.mangopi.android.ui.widget.GridView;
 import cn.com.mangopi.android.ui.widget.TitleBar;
+import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
@@ -39,18 +43,25 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
     List<ScheduleCalendarBean> datas = new ArrayList<ScheduleCalendarBean>();
     QuickAdapter<ScheduleCalendarBean> calendarAdapter;
     ScheduleCalendarPresenter scheduleCalendarPresenter;
-    private long courseId;
-    private long orderId;
-    private ScheduleCalendarBean clickedSchedule;
+    long courseId;
+    long orderId;
+    ScheduleCalendarBean clickedSchedule;
     @Bind(R.id.layout_bottom)
     RelativeLayout layoutBottom;
-    @Bind(R.id.tv_time_tip)
-    TextView tvTimeTip;
+//    @Bind(R.id.tv_time_tip)
+//    TextView tvTimeTip;
     @Bind(R.id.gv_sct_time)
     GridView gvSctTime;
     List<ScheduleCalendarBean.Details> times = new ArrayList<ScheduleCalendarBean.Details>();
     QuickAdapter<ScheduleCalendarBean.Details> timeAdapter;
-    private ScheduleCalendarBean.Details selectedDetaill;
+    ScheduleCalendarBean.Details selectedDetaill;
+    Calendar currentCalendar;
+    @Bind(R.id.btn_add_schedule)
+    Button btnAddSchedule;
+    @Bind(R.id.btn_reset)
+    Button btnReset;
+    @Bind(R.id.btn_to_order_by_schedule)
+    Button btnOrderBySchedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +72,8 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
         orderId = getIntent().getLongExtra(Constants.BUNDLE_ORDER_ID, 0);
         initView();
         scheduleCalendarPresenter = new ScheduleCalendarPresenter(this);
-        scheduleCalendarPresenter.scheduleCalendar();
         initData();
+        scheduleCalendarPresenter.scheduleCalendar();
     }
 
     private void initData() {
@@ -100,34 +111,62 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
         gvSctTime.setAdapter(timeAdapter = new QuickAdapter<ScheduleCalendarBean.Details>(this, R.layout.gridview_item_order_schedule_calendar_time, times) {
             @Override
             protected void convert(BaseAdapterHelper helper, ScheduleCalendarBean.Details item) {
+                helper.setText(R.id.tv_time, item.getTime() + "点");
                 int position = helper.getPosition();
                 View layout = helper.getView();
-                if(position % 3 == 0){
-                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_selected);
-                }
-                if(position % 3 == 1){
-                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_unselected);
-                }
-                if(position % 3 == 2){
-                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_none);
-                }
+//                if(position % 3 == 0){
+//                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_selected);
+//                }
+//                if(position % 3 == 1){
+//                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_unselected);
+//                }
+//                if(position % 3 == 2){
+//                    layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_none);
+//                }
             }
         });
         gvSctTime.setOnItemClickListener(this);
+
+        currentCalendar = Calendar.getInstance();
     }
 
     private void initView() {
         titleBar.setRightText("今天");
         titleBar.setOnTitleBarClickListener(this);
 
-        layoutBottom.setVisibility((courseId == 0 || orderId == 0) ? View.GONE : View.VISIBLE);
+        if(courseId == 0 || orderId == 0){
+            btnReset.setVisibility(View.VISIBLE);
+            btnAddSchedule.setVisibility(View.GONE);
+            btnOrderBySchedule.setVisibility(View.VISIBLE);
+        } else {
+            btnReset.setVisibility(View.GONE);
+            btnAddSchedule.setVisibility(View.VISIBLE);
+            btnOrderBySchedule.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onTitleButtonClick(View view) {
        if(view.getId() == R.id.tv_right){
-
+           currentCalendar.add(Calendar.MONTH, 1);
+           currentCalendar.set(Calendar.DATE, 1);
+           scheduleCalendarPresenter.scheduleCalendar();
        }
+    }
+
+    @OnClick(R.id.btn_add_schedule)
+    void onAddScheduleClick(View v){
+        scheduleCalendarPresenter.addOrderSchedule();
+    }
+
+    @OnClick(R.id.btn_reset)
+    void onCancelBatchScheduleClick(View v){
+        scheduleCalendarPresenter.cancelOrderBatchSchedule();
+    }
+
+    @OnClick(R.id.btn_to_order_by_schedule)
+    void onOrderByScheduleClick(View v){
+        ActivityBuilder.startScheduleOrderListActivity(this, getScheduleDate(), getScheduleTime());
     }
 
     @Override
@@ -138,7 +177,6 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
     @Override
     public void onScheduleCanlendarSuccess(List<ScheduleCalendarBean> scheduleCalendarList) {
         datas.clear();
-        Calendar currentCalendar = Calendar.getInstance();
         titleBar.setTitle(DateUtils.calendarToString(currentCalendar, DateUtils.DATE_MONTH_CN));
         currentCalendar.set(Calendar.DATE, 1);
         int weekDay = currentCalendar.get(Calendar.DAY_OF_WEEK);
@@ -191,8 +229,21 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
 
     private void invalidateTimes(ScheduleCalendarBean scheduleCalendar){
         times.clear();
-        for (int i = 0; i < 9; i++){
-            times.add(new ScheduleCalendarBean.Details());
+        List<ScheduleCalendarBean.Details> details = scheduleCalendar.getDetails();
+        for (int i = 8; i < 20; i++){
+            boolean hasRs = false;
+            for (int j = 0; details != null && j < details.size(); j++){
+                ScheduleCalendarBean.Details detail = details.get(j);
+                times.add(detail);
+                times.add(detail);
+                hasRs = true;
+                break;
+            }
+            if(!hasRs) {
+                ScheduleCalendarBean.Details detail = new ScheduleCalendarBean.Details();
+                detail.setTime(i);
+                times.add(detail);
+            }
         }
         timeAdapter.notifyDataSetChanged();
     }
@@ -206,11 +257,39 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
         if(orderId > 0) {
             map.put("order_id", orderId);
         }
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DATE, 1);
-        map.put("start_date", DateUtils.calendarToString(calendar, DateUtils.DATE_PATTERN));
-        map.put("month_limit", calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        currentCalendar.set(Calendar.DATE, 1);
+        map.put("start_date", DateUtils.calendarToString(currentCalendar, DateUtils.DATE_PATTERN));
+        map.put("month_limit", currentCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         return map;
+    }
+
+    @Override
+    public long getOrderId() {
+        return orderId;
+    }
+
+    @Override
+    public String getScheduleDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, currentCalendar.get(Calendar.MONTH));
+        calendar.set(Calendar.DATE, Integer.parseInt(clickedSchedule.getDate()));
+        return DateUtils.calendarToString(calendar, DateUtils.DATE_PATTERN);
+    }
+
+    @Override
+    public int getScheduleTime() {
+        return selectedDetaill.getTime();
+    }
+
+    @Override
+    public void onAddScheduleSuccess() {
+
+        finish();
+    }
+
+    @Override
+    public void onCancelScheduleSuccess() {
+
     }
 
     @Override
@@ -225,7 +304,6 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
         }
         super.onDestroy();
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

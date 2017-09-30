@@ -12,17 +12,21 @@ import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.di.component.DaggerMyOrderListFragmentComponent;
 import cn.com.mangopi.android.di.module.MyOrderListFragmentModule;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.presenter.OrderPresenter;
+import cn.com.mangopi.android.presenter.ScheduleCalendarPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.OrderListListener;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
@@ -45,6 +49,8 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     int relation;
     EmptyHelper emptyHelper;
     TextView tvSeePlan;
+    String sctDate;
+    int sctTime;
 
     public static MyOrderListFragment newInstance(int relation) {
         MyOrderListFragment fragment = new MyOrderListFragment();
@@ -54,11 +60,24 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         return fragment;
     }
 
+    public static MyOrderListFragment newInstance(int relation, String sctDate, int sctTime) {
+        MyOrderListFragment fragment = new MyOrderListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.BUNDLE_ORDER_RELATION, relation);
+        bundle.putString(Constants.BUNDLE_ORDER_SCT_DATE, sctDate);
+        bundle.putInt(Constants.BUNDLE_ORDER_SCT_TIME, sctTime);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        relation = getArguments().getInt(Constants.BUNDLE_ORDER_RELATION);
-
+        if(getArguments() != null) {
+            relation = getArguments().getInt(Constants.BUNDLE_ORDER_RELATION);
+            sctDate = getArguments().getString(Constants.BUNDLE_ORDER_SCT_DATE);
+            sctTime = getArguments().getInt(Constants.BUNDLE_ORDER_SCT_TIME);
+        }
         DaggerMyOrderListFragmentComponent.builder().myOrderListFragmentModule(new MyOrderListFragmentModule(this, datas, relation, this)).build().inject(this);
         Bus.getDefault().register(this);
     }
@@ -164,13 +183,19 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     }
 
     @Override
-    public int getPageNo() {
-        return pageNo;
-    }
-
-    @Override
-    public int getRelation() {
-        return relation;
+    public Map<String, Object> getQueryMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("lst_sessid", Application.application.getSessId());
+        map.put("page_no", pageNo);
+        map.put("page_size", Constants.PAGE_SIZE);
+        map.put("relation", relation);
+        if(!TextUtils.isEmpty(sctDate)){
+            map.put("sct_date", sctDate);
+        }
+        if(sctTime != 0){
+            map.put("sct_time", sctTime);
+        }
+        return map;
     }
 
     @Override
@@ -181,12 +206,32 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onCancelScheduleSuccess(OrderBean order) {
+        order.setState(4);
+        order.setState_label("订单已付款，待安排");
+
+        adapter.notifyDataSetChanged();
+    }
+
     @BusReceiver
     public void onCancelOrderEvent(BusEvent.CancelOrderEvent event){
         for (OrderBean order : datas){
             if(order.getId() == event.getId()){
                 order.setState(-1);
                 order.setState_label("订单已取消");
+                adapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    @BusReceiver
+    public void onCancelOrderSeheduleEvent(BusEvent.CancelOrderSeheduleEvent event){
+        for (OrderBean order : datas){
+            if(order.getId() == event.getId()){
+                order.setState(4);
+                order.setState_label("订单已付款，待安排");
                 adapter.notifyDataSetChanged();
                 break;
             }
@@ -212,5 +257,10 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onCancel(OrderBean order) {
         presenter.cancelOrder(order);
+    }
+
+    @Override
+    public void onCancelScdule(OrderBean order) {
+        presenter.cancelSchedule(order);
     }
 }

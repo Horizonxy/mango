@@ -45,4 +45,57 @@ public class ScheduleCalendarPresenter extends BasePresenter {
                 });
         addSubscription(subscription);
     }
+
+    public void addOrderSchedule(){
+        Context context  = scheduleCalendarListener.currentContext();
+        Subscription subscription = scheduleCalendarModel.addOrderSchedule(scheduleCalendarListener.getOrderId(),
+                scheduleCalendarListener.getScheduleDate(), scheduleCalendarListener.getScheduleTime(), new CreateLoading(context),
+                new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            scheduleCalendarListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                scheduleCalendarListener.onAddScheduleSuccess();
+                            } else {
+                                scheduleCalendarListener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
+
+    public void cancelOrderBatchSchedule(){
+        Context context  = scheduleCalendarListener.currentContext();
+        Subscription subscription = scheduleCalendarModel.cancelOrderBatchSchedule(scheduleCalendarListener.getScheduleDate(), scheduleCalendarListener.getScheduleTime(), new CreateLoading(context),
+                new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            scheduleCalendarListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                scheduleCalendarListener.onCancelScheduleSuccess();
+                            } else {
+                                scheduleCalendarListener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
 }

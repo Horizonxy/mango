@@ -25,8 +25,10 @@ import cn.com.mangopi.android.model.bean.UploadImageBean;
 import cn.com.mangopi.android.model.data.UploadModel;
 import cn.com.mangopi.android.presenter.UploadPresenter;
 import cn.com.mangopi.android.ui.viewlistener.UploadViewListener;
+import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.FileUtils;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public class UploadPictureView extends FrameLayout implements View.OnClickListener, UploadViewListener {
@@ -38,7 +40,7 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
     View layoutAdd;
     UploadImageBean imageBean;
     DisplayImageOptions options;
-    RequestBody uploadImage;
+    MultipartBody.Part uploadImage;
     OnUploadPictureListener onUploadPictureListener;
     UploadPresenter presenter;
 
@@ -98,7 +100,8 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
         this.imageBean = imageBean;
         if(imageBean.getType() != UploadImageBean.ADD_BTN){
             File file = FileUtils.compressImageFromPath(getContext(), imageBean.getLocalPath());
-            uploadImage = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
+            RequestBody requestFile = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
+            uploadImage = MultipartBody.Part.createFormData(Constants.FILE_PARAM, file.getName(), requestFile);
         }
         setImageLayout();
     }
@@ -119,7 +122,13 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
             case UploadImageBean.READY:
                 layoutAdd.setVisibility(View.GONE);
                 ivPicture.setVisibility(View.VISIBLE);
-                Application.application.getImageLoader().displayImage(Constants.FILE_PREFIX + imageBean.getLocalPath(), ivPicture, options);
+                String path = imageBean.getLocalPath();
+                String suffix = FileUtils.getMIMEType(path);
+                if(FileUtils.FILE_TYPE_IMAGE.equals(suffix)) {
+                    Application.application.getImageLoader().displayImage(Constants.FILE_PREFIX + path, ivPicture, options);
+                } else {
+                    ivPicture.setImageResource(AppUtils.getResIdBySuffix(path));
+                }
                 ivDelete.setVisibility(View.GONE);
                 progress.setVisibility(View.VISIBLE);
                 ivRetry.setVisibility(View.GONE);
@@ -199,7 +208,7 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
     }
 
     @Override
-    public RequestBody getFile() {
+    public MultipartBody.Part getFile() {
         return uploadImage;
     }
 
