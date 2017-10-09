@@ -312,4 +312,12 @@ public class ApiManager {
     public static Observable<RestResult<Object>> cancelOrderSchedule(long orderId){
         return Application.application.getApiService().cancelOrderSchedule(Application.application.getSessId(), orderId);
     }
+
+    public static Observable<RestResult<Object>> addCourseComment(long orderId, long courseId, String content){
+        return Application.application.getApiService().addCourseComment(Application.application.getSessId(), orderId, courseId, content);
+    }
+
+    public static Observable<RestResult<Object>> replyCourseComment(long commentId, String reply){
+        return Application.application.getApiService().replyCourseComment(Application.application.getSessId(), commentId, reply);
+    }
 }

@@ -6,4 +6,9 @@ public interface OrderDetailListener extends BaseViewListener {
 
     void onSuccess(OrderDetailBean orderDetail);
     long getId();
+    long getCourseId();
+    void onCommentSuccess(String content);
+
+    long getCommentId();
+    void onReplySuccess(String reply);
 }

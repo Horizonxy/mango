@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.mcxiaoke.bus.Bus;
+import com.mcxiaoke.bus.annotation.BusReceiver;
 
 import java.util.List;
 import java.util.Map;
@@ -157,6 +158,20 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
             lineAfterInfo.setVisibility(View.VISIBLE);
             layoutAfterInfo.setVisibility(View.VISIBLE);
         }
+
+        bindOrderCommentData(orderDetail);
+
+        if(relation ==1){
+            tvMemberName.setText(orderDetail.getTutor_name());
+            bindMakeOrder(orderDetail);
+        } else if(relation == 2){
+            tvMemberName.setText(orderDetail.getMember_name());
+            bindReceivedOrder(orderDetail);
+        }
+
+    }
+
+    private void bindOrderCommentData(OrderDetailBean orderDetail){
         List<OrderDetailBean.Comment> commentList = orderDetail.getComments();
         if(commentList == null || commentList.size() == 0){//点评
             layoutContent.setVisibility(View.GONE);
@@ -173,15 +188,6 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
                 tvTutorReply.setText(String.format(getString(R.string.tutor_reply), comment.getReply()));
             }
         }
-
-        if(relation ==1){
-            tvMemberName.setText(orderDetail.getTutor_name());
-            bindMakeOrder(orderDetail);
-        } else if(relation == 2){
-            tvMemberName.setText(orderDetail.getMember_name());
-            bindReceivedOrder(orderDetail);
-        }
-
     }
 
     private void bindReceivedOrder(OrderDetailBean orderDetail){
@@ -234,6 +240,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         } else {
             layoutMaterial.setVisibility(View.VISIBLE);
             lineMaterial.setVisibility(View.VISIBLE);
+            gridMaterial.removeAllViews();
             for (int i = 0; i < orderDetail.getMaterial_rsurls().size(); i++){
                 String rsurl = orderDetail.getMaterial_rsurls().get(i);
                 ImageView item = new ImageView(this);
@@ -371,7 +378,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 
     @OnClick(R.id.btn_reply)
     void onReply(View v){
-
+        ActivityBuilder.startInputMessageActivity(this, "回复", "确定", "reply_comment", 200, "");
     }
 
     @OnClick(R.id.btn_reward)
@@ -381,7 +388,17 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 
     @OnClick(R.id.btn_comment)
     void onComment(View v){
+        ActivityBuilder.startInputMessageActivity(this, "点评", "确定", "comment_order", 200, "");
+    }
 
+    @BusReceiver
+    public void onInputEvent(BusEvent.InputEvent event) {
+        String type = event.getType();
+        if ("comment_order".equals(type) && !TextUtils.isEmpty(event.getContent())) {
+            presenter.addCourseComment(event.getContent());
+        } else if("reply_comment".equals(type) && !TextUtils.isEmpty(event.getContent())){
+            presenter.replyCourseComment(event.getContent());
+        }
     }
 
     @Override
@@ -403,6 +420,46 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     @Override
     public long getId() {
         return id;
+    }
+
+    @Override
+    public long getCourseId() {
+        if(orderDetail != null){
+            return orderDetail.getCourse_id();
+        }
+        return 0;
+    }
+
+    @Override
+    public void onCommentSuccess(String content) {
+        List<OrderDetailBean.Comment> comments = orderDetail.getComments();
+        if(comments != null && comments.size() > 0){
+            OrderDetailBean.Comment comment = comments.get(0);
+            comment.setCourse_id(orderDetail.getCourse_id());
+            comment.setContent(content);
+            bindOrderCommentData(orderDetail);
+        }
+    }
+
+    @Override
+    public long getCommentId() {
+        if(orderDetail != null){
+            List<OrderDetailBean.Comment> comments = orderDetail.getComments();
+            if(comments != null && comments.size() > 0){
+                return comments.get(0).getId();
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public void onReplySuccess(String reply) {
+        List<OrderDetailBean.Comment> comments = orderDetail.getComments();
+        if(comments != null && comments.size() > 0) {
+            OrderDetailBean.Comment comment = comments.get(0);
+            comment.setReply(reply);
+            bindOrderCommentData(orderDetail);
+        }
     }
 
     private OrderBean converOrderBean(OrderDetailBean orderDetail){

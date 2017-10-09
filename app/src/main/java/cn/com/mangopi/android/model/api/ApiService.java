@@ -491,4 +491,21 @@ public interface ApiService {
             @Query("lst_sessid") String sessid,
             @Query("order_id") long orderId
     );
+
+    //5.2.7	 课程点评接口
+    @POST("outer/router?course_comment_add")
+    Observable<RestResult<Object>> addCourseComment(
+            @Query("lst_sessid") String sessid,
+            @Query("order_id") long orderId,
+            @Query("course_id") long courseId,
+            @Query("content") String content
+    );
+
+    //5.2.8	 导师回复点评接口
+    @POST("outer/router?course_comment_reply")
+    Observable<RestResult<Object>> replyCourseComment(
+            @Query("lst_sessid") String sessid,
+            @Query("comment_id") long commentId,
+            @Query("reply") String reply
+    );
 }

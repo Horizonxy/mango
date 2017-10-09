@@ -20,6 +20,7 @@ public class DateUtils{
 	public static String TIME_PATTERN_YMDHMS_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
 	public static String TIME_PATTERN_YMDHM = "yyyy-MM-dd HH:mm";
 	public static String TIME_PATTERN_MD = "MM-dd";
+	public static String TIME_PATTERN_D = "dd";
 	public static String TIME_PATTERN_HM = "HH:mm";
 	public static String TIME_PATTERN_HMS = "HH:mm:ss";
 	

@@ -167,4 +167,58 @@ public class OrderPresenter extends BasePresenter {
         });
         addSubscription(subscription);
     }
+
+    public void addCourseComment(String content){
+        OrderDetailListener listener = (OrderDetailListener) viewListener;
+        Context context = listener.currentContext();
+        Subscription subscription = orderModel.addCourseComment(listener.getId(), listener.getCourseId(), content,
+                new CreateLoading(context), new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            listener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                listener.onCommentSuccess(content);
+                            } else {
+                                listener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
+
+    public void replyCourseComment(String reply){
+        OrderDetailListener listener = (OrderDetailListener) viewListener;
+        Context context = listener.currentContext();
+        Subscription subscription = orderModel.replyCourseComment(listener.getCommentId(), reply,
+                new CreateLoading(context), new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            listener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                listener.onReplySuccess(reply);
+                            } else {
+                                listener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
 }

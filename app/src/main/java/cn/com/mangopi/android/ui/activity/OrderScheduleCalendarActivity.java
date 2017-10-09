@@ -110,16 +110,13 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
         gvSctTime.setAdapter(timeAdapter = new QuickAdapter<ScheduleCalendarBean.Details>(this, R.layout.gridview_item_order_schedule_calendar_time, times) {
             @Override
             protected void convert(BaseAdapterHelper helper, ScheduleCalendarBean.Details item) {
-                helper.setText(R.id.tv_time, item.getTime() + "点");
-                int position = helper.getPosition();
+                helper.setText(R.id.tv_time, item.getSct_time() + "点");
                 View layout = helper.getView();
-                if(position % 3 == 0){
+                if(item.isSelected()){
                     layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_selected);
-                }
-                if(position % 3 == 1){
+                } else if(item.isSalable()){
                     layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_unselected);
-                }
-                if(position % 3 == 2){
+                } else {
                     layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_none);
                 }
             }
@@ -157,16 +154,28 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
 
     @OnClick(R.id.btn_add_schedule)
     void onAddScheduleClick(View v){
+        if(selectedDetaill == null){
+            AppUtils.showToast(this, "请选择上课时间");
+            return;
+        }
         scheduleCalendarPresenter.addOrderSchedule();
     }
 
     @OnClick(R.id.btn_reset)
     void onCancelBatchScheduleClick(View v){
+        if(selectedDetaill == null){
+            AppUtils.showToast(this, "请选择需重新安排的上课时间");
+            return;
+        }
         scheduleCalendarPresenter.cancelOrderBatchSchedule();
     }
 
     @OnClick(R.id.btn_to_order_by_schedule)
     void onOrderByScheduleClick(View v){
+        if(selectedDetaill == null){
+            AppUtils.showToast(this, "请选择上课时间");
+            return;
+        }
         ActivityBuilder.startScheduleOrderListActivity(this, getScheduleDate(), getScheduleTime());
     }
 
@@ -235,14 +244,16 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
             boolean hasRs = false;
             for (int j = 0; details != null && j < details.size(); j++){
                 ScheduleCalendarBean.Details detail = details.get(j);
-                times.add(detail);
-                times.add(detail);
-                hasRs = true;
-                break;
+                if(detail.getSct_time() == i) {
+                    times.add(detail);
+                    hasRs = true;
+                    break;
+                }
             }
             if(!hasRs) {
                 ScheduleCalendarBean.Details detail = new ScheduleCalendarBean.Details();
-                detail.setTime(i);
+                detail.setSct_time(i);
+                detail.setSct_time(i);
                 times.add(detail);
             }
         }
@@ -279,18 +290,19 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
 
     @Override
     public int getScheduleTime() {
-        return selectedDetaill.getTime();
+        return selectedDetaill.getSct_time();
     }
 
     @Override
     public void onAddScheduleSuccess() {
-
+        AppUtils.showToast(this, "安排课程已提交，请下拉刷新");
         finish();
     }
 
     @Override
     public void onCancelScheduleSuccess() {
-
+        AppUtils.showToast(this, "重新安排课程已提交，请下拉刷新");
+        finish();
     }
 
     @Override

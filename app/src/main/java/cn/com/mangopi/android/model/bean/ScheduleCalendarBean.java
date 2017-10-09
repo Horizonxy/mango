@@ -22,7 +22,10 @@ public class ScheduleCalendarBean implements Serializable {
             date = "";
         }
         if(date == null) {
-            date = DateFormat.getDateInstance(DateFormat.DATE_FIELD).format(sct_date);
+            date = DateUtils.dateToString(sct_date, DateUtils.TIME_PATTERN_D);
+            if(date.startsWith("0")){
+                date = date.substring(1);
+            }
         }
         return date;
     }
@@ -72,13 +75,21 @@ public class ScheduleCalendarBean implements Serializable {
     }
 
     public static class Details implements Serializable{
-        private Date sct_time;
+        private int sct_time;
         private boolean salable;
         private boolean cur_join;
         private String cause;
         private int count;
+        private List<String> courseTitles;
         private boolean selected;
-        private int time;
+
+        public List<String> getCourseTitles() {
+            return courseTitles;
+        }
+
+        public void setCourseTitles(List<String> courseTitles) {
+            this.courseTitles = courseTitles;
+        }
 
         public boolean isSelected() {
             return selected;
@@ -88,26 +99,12 @@ public class ScheduleCalendarBean implements Serializable {
             this.selected = selected;
         }
 
-        public Date getSct_time() {
+        public int getSct_time() {
             return sct_time;
         }
 
-        public void setSct_time(Date sct_time) {
+        public void setSct_time(int sct_time) {
             this.sct_time = sct_time;
-        }
-
-        public int getTime() {
-            if(time == 0) {
-                String timeStr = DateFormat.getDateInstance(DateFormat.HOUR0_FIELD).format(sct_time);
-                if(!TextUtils.isEmpty(timeStr)){
-                    time = Integer.parseInt(timeStr);
-                }
-            }
-            return time;
-        }
-
-        public void setTime(int time) {
-            this.time = time;
         }
 
         public boolean isSalable() {

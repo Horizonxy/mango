@@ -94,7 +94,7 @@ public class Application extends MultiDexApplication {
     public String getSessId(){
         if(TextUtils.isEmpty(sessId)){
             sessId = PreUtils.getString(this, cn.com.mangopi.android.Constants.SESS_ID, "");
-//            sessId = "d0bb18b2-ff49-49fc-88b0-115a1a1c7c90";
+//            sessId = "5a07eeda-5485-441c-85d1-c29058559169";
         }
         return sessId;
     }

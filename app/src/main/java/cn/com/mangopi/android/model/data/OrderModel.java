@@ -34,5 +34,13 @@ public class OrderModel {
     public Subscription cancelOrder(long id, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.cancelOrder(id), onSubscribe).subscribe(subscriber);
     }
+
+    public Subscription addCourseComment(long orderId, long courseId, String content, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.addCourseComment(orderId, courseId, content), onSubscribe).subscribe(subscriber);
+    }
+
+    public Subscription replyCourseComment(long commentId, String reply, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.replyCourseComment(commentId, reply), onSubscribe).subscribe(subscriber);
+    }
 }
 

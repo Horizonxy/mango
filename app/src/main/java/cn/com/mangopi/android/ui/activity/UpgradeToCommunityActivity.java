@@ -247,6 +247,7 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
         map.put("place_school", etCommunitySchool.getText().toString());
         map.put("community_classify", tvCommunityClassify.getText().toString());
         map.put("community_intro", tvCommunityDesc.getText().toString());
+        map.put("link_name", etCommunityContacts.getText().toString());
         map.put("logo_rsurl", communityLogoRsurl);
         map.put("lst_sessid", Application.application.getSessId());
         return map;
