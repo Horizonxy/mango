@@ -124,7 +124,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
-
+        Bus.getDefault().register(this);
         id = getIntent().getLongExtra(Constants.BUNDLE_ORDER_ID, 0);
         relation = getIntent().getIntExtra(Constants.BUNDLE_ORDER_RELATION, 1);
         initView();
@@ -134,6 +134,15 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         dp5 = (int) getResources().getDimension(R.dimen.dp_5);
         int width = (int) ((DisplayUtils.screenWidth(this) - getResources().getDimension(R.dimen.dp_15) * 2 - dp5 * 4) / 5);
         rsItemLp = new FrameLayout.LayoutParams(width, width);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(presenter != null){
+            presenter.onDestroy();
+        }
+        Bus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     private void initView() {
@@ -432,13 +441,13 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 
     @Override
     public void onCommentSuccess(String content) {
-        List<OrderDetailBean.Comment> comments = orderDetail.getComments();
-        if(comments != null && comments.size() > 0){
-            OrderDetailBean.Comment comment = comments.get(0);
-            comment.setCourse_id(orderDetail.getCourse_id());
-            comment.setContent(content);
-            bindOrderCommentData(orderDetail);
-        }
+        OrderDetailBean.Comment comment = new OrderDetailBean.Comment();
+        comment.setContent(content);
+        comment.setCourse_id(orderDetail.getCourse_id());
+        comment.setMember_id(Application.application.getMember().getId());
+        orderDetail.getComments().add(0, comment);
+        bindOrderCommentData(orderDetail);
+        btnComment.setVisibility(View.GONE);
     }
 
     @Override
@@ -459,6 +468,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
             OrderDetailBean.Comment comment = comments.get(0);
             comment.setReply(reply);
             bindOrderCommentData(orderDetail);
+            btnReply.setVisibility(View.GONE);
         }
     }
 
