@@ -53,9 +53,9 @@ public class FoundPresenter extends BasePresenter {
         addSubscription(subscription);
     }
 
-    public void praise(TrendBean  trend){
+    public void praise(TrendBean trend){
         Context context = viewListener.currentContext();
-        Subscription subscription = praiseModel.praise(trend.getId(), Constants.EntityType.TREND.getTypeId(), new CreateLoading(context, context.getResources().getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<Object>>(){
+        Subscription subscription = praiseModel.praiseTrend(trend.getId(), new CreateLoading(context, context.getResources().getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<Object>>(){
             @Override
             public void onError(Throwable e) {
                 super.onError(e);

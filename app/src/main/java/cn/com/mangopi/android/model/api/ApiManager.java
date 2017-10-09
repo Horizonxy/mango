@@ -93,6 +93,10 @@ public class ApiManager {
         return Application.application.getApiService().praise(Application.application.getSessId(), entityId, entityTypeId);
     }
 
+    public static  Observable<RestResult<Object>> praiseTrend(long id){
+        return Application.application.getApiService().praiseTrend(Application.application.getSessId(), id);
+    }
+
     public static  Observable<RestResult<Object>> addTrend(String content, List<String> pics){
         return Application.application.getApiService().addTrend(Application.application.getSessId(), content, pics);
     }

@@ -117,6 +117,13 @@ public interface ApiService {
     );
 
     //点赞接口
+    @POST("outer/router?trend_praise")
+    Observable<RestResult<Object>> praiseTrend(
+            @Query("lst_sessid") String sessId,
+            @Query("id") long id
+    );
+
+    //点赞接口
     @POST("outer/router?praise_count")
     Observable<RestResult<Object>> praise(
             @Query("lst_sessid") String sessId,
