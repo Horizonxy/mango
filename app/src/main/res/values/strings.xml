@@ -176,4 +176,7 @@
     <string name="my_coupon">我的优惠券</string>
 
     <string name="work_project_comment">点评</string>
+    <string name="write_comment">写评价</string>
+    <string name="has_write_comment">已评</string>
+    <string name="vote_count">%d票</string>
 </resources>

@@ -9,13 +9,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.jakewharton.rxbinding.widget.RxTextView;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.presenter.WorkProjectCommentPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.dialog.ListViewDialog;
@@ -38,14 +38,14 @@ public class WorkProjectCommentActivity extends BaseTitleBarActivity implements 
     @Bind(R.id.btn_submit_comment)
     Button btnSubmitComment;
     List<String> scores = new ArrayList<String>();
-    long actorId;
+    ProjectDetailBean.ProjectActorBean actorBean;
     WorkProjectCommentPresenter commentPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_project_comment);
-
+        actorBean = (ProjectDetailBean.ProjectActorBean) getIntent().getSerializableExtra(Constants.BUNDLE_DATA);
         initView();
         commentPresenter = new WorkProjectCommentPresenter(this);
     }
@@ -108,7 +108,7 @@ public class WorkProjectCommentActivity extends BaseTitleBarActivity implements 
 
     @Override
     public long getActorId() {
-        return actorId;
+        return actorBean.getActor_id();
     }
 
     @Override

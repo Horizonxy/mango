@@ -69,8 +69,17 @@ public class Constants {
 	public static final String FORM_DATA = "multipart/form-data";
     public static final String BUNDLE_COURSE_ID = "bundle_course_id";
 	public static final String FILE_PARAM = "file";
+	public static final String BUNDLE_WHERE_FROM = "bundle_where_from";
+	/**
+	 * 我的企业工作包
+	 */
+	public static final int FROM_MY_COMPANY_PROJECT = 2;
+	/**
+	 * 我参与的工作包
+	 */
+	public static final int FROM_MY_JOIN_PROJECT = 1;
 
-    public static enum UserIndentity {
+	public static enum UserIndentity {
 
 		PUBLIC("public", "自由人"),
 		STUDENT("student", "学生"),

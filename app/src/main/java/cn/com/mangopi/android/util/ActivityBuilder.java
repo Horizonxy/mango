@@ -16,6 +16,7 @@ import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
+import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.ui.activity.AddBlankCardActivity;
@@ -285,16 +286,21 @@ public class ActivityBuilder {
     public static void startMemberWorksActivity(Activity activity, @NonNull Constants.UserIndentity indentity){
         Intent intent = new Intent(activity, MemberWorksActivity.class);
         if(indentity == Constants.UserIndentity.COMPANY) {
-            intent.putExtra(Constants.BUNDLE_WORKS_RELATION, 2);
+            intent.putExtra(Constants.BUNDLE_WORKS_RELATION, Constants.FROM_MY_COMPANY_PROJECT);
         } else if(indentity == Constants.UserIndentity.STUDENT){
-            intent.putExtra(Constants.BUNDLE_WORKS_RELATION, 1);
+            intent.putExtra(Constants.BUNDLE_WORKS_RELATION, Constants.FROM_MY_JOIN_PROJECT);
         }
         activity.startActivity(intent);
     }
 
     public static void startWorksProjectDetailActivity(Activity activity, long id){
+        startWorksProjectDetailActivity(activity, id, 0);
+    }
+
+    public static void startWorksProjectDetailActivity(Activity activity, long id, int whereFrom){
         Intent intent = new Intent(activity, WorksProjectDetailActivity.class);
         intent.putExtra(Constants.BUNDLE_ID, id);
+        intent.putExtra(Constants.BUNDLE_WHERE_FROM, whereFrom);
         activity.startActivity(intent);
     }
 
@@ -355,8 +361,9 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
-    public static void startWorkProjectCommentActivity(Activity activity){
+    public static void startWorkProjectCommentActivity(Activity activity, ProjectDetailBean.ProjectActorBean actorBean){
         Intent intent = new Intent(activity, WorkProjectCommentActivity.class);
+        intent.putExtra(Constants.BUNDLE_DATA, actorBean);
         activity.startActivity(intent);
     }
 }

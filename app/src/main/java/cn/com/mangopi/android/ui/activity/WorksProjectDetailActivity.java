@@ -21,11 +21,13 @@ import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.CourseBean;
+import cn.com.mangopi.android.model.bean.ProjectActorBean;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.presenter.WantCountPresenter;
 import cn.com.mangopi.android.presenter.WorksProjectPresenter;
 import cn.com.mangopi.android.ui.adapter.ProjectDetailProgressAdapter;
 import cn.com.mangopi.android.ui.adapter.RecommendCourseAdapter;
+import cn.com.mangopi.android.ui.adapter.TeamInProjectDetailAdapter;
 import cn.com.mangopi.android.ui.popupwindow.SharePopupWindow;
 import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
 import cn.com.mangopi.android.ui.viewlistener.WorksProjectDetailListener;
@@ -97,6 +99,17 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
     ProjectDetailBean projectDetail;
     List<Constants.UserIndentity> indentityList;
 
+    @Bind(R.id.tv_project_team)
+    TextView tvProjectTeam;
+    @Bind(R.id.lv_project_team)
+    ListView lvProjectTeam;
+    @Bind(R.id.line_project_team)
+    View lineProjectTeam;
+    List<ProjectDetailBean.ProjectActorBean> projectActors = new ArrayList<>();
+    TeamInProjectDetailAdapter teamAdatper;
+
+    int whereFrom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +118,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         if(id == 0){
             finish();
         }
+        whereFrom = getIntent().getIntExtra(Constants.BUNDLE_WHERE_FROM, 0);
         setContentView(R.layout.activity_works_project_detail);
 
         indentityList = MangoUtils.getIndentityList();
@@ -164,6 +178,23 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         } else {
             ivWant.setImageResource(R.drawable.faxian_xiangting);
             ivWant.setClickable(true);
+        }
+
+        if(whereFrom == Constants.FROM_MY_COMPANY_PROJECT){//我的企业工作包
+            projectActors.clear();
+            projectActors.addAll(projectDetail.getActors());
+            if(teamAdatper == null) {
+                lvProjectTeam.setAdapter(teamAdatper = new TeamInProjectDetailAdapter(this, R.layout.listview_item_project_team_in_detail, projectActors));
+            } else {
+                teamAdatper.notifyDataSetChanged();
+            }
+            tvProjectName.setVisibility(View.VISIBLE);
+            lvProjectTeam.setVisibility(View.VISIBLE);
+            lineProjectTeam.setVisibility(View.VISIBLE);
+        } else {
+            tvProjectName.setVisibility(View.GONE);
+            lvProjectTeam.setVisibility(View.GONE);
+            lineProjectTeam.setVisibility(View.GONE);
         }
 
         List<CourseBean> courses = projectDetail.getCourses();

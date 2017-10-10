@@ -66,9 +66,9 @@ public class MemberWorksActivity extends BaseTitleBarActivity implements WorksPr
     }
 
     private void initView() {
-        if(relation == 1) {
+        if(relation == Constants.FROM_MY_JOIN_PROJECT) {
             titleBar.setTitle(R.string.my_join_works);
-        } else if(relation == 2){
+        } else if(relation == Constants.FROM_MY_COMPANY_PROJECT){
             titleBar.setTitle(R.string.my_company_works);
         }
 
