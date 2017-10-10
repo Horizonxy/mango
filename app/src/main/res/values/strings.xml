@@ -179,4 +179,7 @@
     <string name="write_comment">写评价</string>
     <string name="has_write_comment">已评</string>
     <string name="vote_count">%d票</string>
+
+    <string name="tutor_reply_comment">导师回复：%s</string>
+    <string name="progress">%1$d%%</string>
 </resources>
