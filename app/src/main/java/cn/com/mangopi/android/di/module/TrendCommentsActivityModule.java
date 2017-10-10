@@ -51,7 +51,7 @@ public class TrendCommentsActivityModule {
                         .setVisible(R.id.iv_comment, (indentityList.contains(Constants.UserIndentity.TUTOR) || indentityList.contains(Constants.UserIndentity.COMMUNITY))
                                 && TextUtils.isEmpty(item.getReply()) && trendDetail != null && member != null && trendDetail.getPublisher_id() == member.getId())
                         .setVisible(R.id.tv_reply, !TextUtils.isEmpty(item.getReply()))
-                        .setText(R.id.tv_reply, item.getReply())
+                        .setText(R.id.tv_reply, String.format(context.getResources().getString(R.string.tutor_reply_comment), item.getReply()))
                         .setImageUrl(R.id.iv_avatar, item.getAvatar_rsurl())
                 .setOnClickListener(R.id.iv_comment, new View.OnClickListener() {
                     @Override

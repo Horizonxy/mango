@@ -280,7 +280,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
 
     @Override
     public void onReplyCommentSuccess(ReplyTrendBean replyTrendBean) {
-        replyComment.setReply(replyTrendBean.getContent());
+        replyComment.setReply(replyTrendBean.getReply());
         adapter.notifyDataSetChanged();
         replyCommentContent = "";
         replyComment = null;
@@ -298,7 +298,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     @Override
     public void onReply(TrendDetailBean.Comment comment) {
         replyComment = comment;
-        ActivityBuilder.startInputMessageActivity(this, "回复评论", "确定", "reply_comment", 100, "回复 "+comment.getMember_name()+"：");
+        ActivityBuilder.startInputMessageActivity(this, "回复评论", "确定", "reply_comment", "回复 "+comment.getMember_name(), 100);
     }
 
     @Override

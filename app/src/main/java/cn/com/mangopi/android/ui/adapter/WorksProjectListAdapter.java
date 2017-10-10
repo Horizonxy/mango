@@ -3,6 +3,9 @@ package cn.com.mangopi.android.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -51,7 +54,16 @@ public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
                 .setProgress(R.id.progress, item.getProgress())
                 .setOnClickListener(R.id.btn_works, clickListener)
                 .setOnClickListener(R.id.btn_teams, clickListener)
-                .setOnClickListener(R.id.btn_detail, clickListener);
+                .setOnClickListener(R.id.btn_detail, clickListener)
+                .setText(R.id.tv_progress, String.format(context.getString(R.string.progress), item.getProgress()));
+
+        ProgressBar progressBar = helper.getView(R.id.progress);
+        TextView tvProgress = helper.getView(R.id.tv_progress);
+        int matchWitdth = progressBar.getWidth();
+        int leftMargin = (int) (matchWitdth / 100F * item.getProgress());
+        LinearLayout.LayoutParams tvProgressParams = (LinearLayout.LayoutParams) tvProgress.getLayoutParams();
+        tvProgressParams.leftMargin = leftMargin;
+        tvProgress.setLayoutParams(tvProgressParams);
     }
 
     class WorksProjectItemClickListener implements View.OnClickListener {

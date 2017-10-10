@@ -33,6 +33,7 @@ public class InputMessageActivity extends BaseTitleBarActivity implements TitleB
     int limitNum;
     String content;
     boolean must;
+    String hint;
     /**
      * 1、数字
      * 2、字母
@@ -53,6 +54,7 @@ public class InputMessageActivity extends BaseTitleBarActivity implements TitleB
         content = intent.getStringExtra(Constants.BUNDLE_CONTENT);
         must = intent.getBooleanExtra(Constants.BUNDLE_MUST, true);
         inputType = intent.getIntExtra(Constants.BUNDLE_INPUT_TYPE, -1);
+        hint = intent.getStringExtra(Constants.BUNDLE_INPUT_HINT);
 
         initView();
     }
@@ -85,6 +87,10 @@ public class InputMessageActivity extends BaseTitleBarActivity implements TitleB
         });
         etContent.setText(content);
         etContent.setSelection(etContent.getText().toString().length());
+
+        if(!TextUtils.isEmpty(hint)){
+            etContent.setHint(hint);
+        }
     }
 
     @Override

@@ -183,14 +183,18 @@ public class ActivityBuilder {
     }
 
     public static void startInputMessageActivity(Activity activity, String title, String right, String type, int limitNum, String content){
-        startInputMessageActivity(activity, title, right, type, limitNum, content, false, -1);
+        startInputMessageActivity(activity, title, right, type, limitNum, content, false, -1, null);
     }
 
     public static void startInputMessageActivity(Activity activity, String title, String right, String type, int limitNum, String content, int inputType){
-        startInputMessageActivity(activity, title, right, type, limitNum, content, false, inputType);
+        startInputMessageActivity(activity, title, right, type, limitNum, content, false, inputType, null);
     }
 
-    public static void startInputMessageActivity(Activity activity, String title, String right, String type, int limitNum, String content, boolean must, int inputType){
+    public static void startInputMessageActivity(Activity activity, String title, String right, String type, String hint, int limitNum){
+        startInputMessageActivity(activity, title, right, type, limitNum, "", false, -1, hint);
+    }
+
+    public static void startInputMessageActivity(Activity activity, String title, String right, String type, int limitNum, String content, boolean must, int inputType, String hint){
         Intent intent = new Intent(activity, InputMessageActivity.class);
         intent.putExtra(Constants.BUNDLE_TITLE, title);
         intent.putExtra(Constants.BUNDLE_RIGHT_TEXT, right);
@@ -199,6 +203,7 @@ public class ActivityBuilder {
         intent.putExtra(Constants.BUNDLE_CONTENT, content);
         intent.putExtra(Constants.BUNDLE_MUST, must);
         intent.putExtra(Constants.BUNDLE_INPUT_TYPE, inputType);
+        intent.putExtra(Constants.BUNDLE_INPUT_HINT, hint);
         activity.startActivity(intent);
     }
 

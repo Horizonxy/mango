@@ -7,7 +7,9 @@ public class ReplyTrendBean implements Serializable {
     private String content;
     private Date createTime;
     private long id;
+    private long memberId;
     private String memberName;
+    private String reply;
     private int state;
     private long trendId;
 
@@ -57,5 +59,21 @@ public class ReplyTrendBean implements Serializable {
 
     public void setTrendId(long trendId) {
         this.trendId = trendId;
+    }
+
+    public long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(long memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
     }
 }
