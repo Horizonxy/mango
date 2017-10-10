@@ -32,4 +32,8 @@ public class WorksProjectModel {
     public Subscription projectTeamList(long id, Action0 onSubscribe, Subscriber<RestResult<List<ProjectTeamBean>>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.projectTeamList(id), onSubscribe).subscribe(subscriber);
     }
+
+    public Subscription actorComment(long id, int score, String comment, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.actorComment(id, score, comment), onSubscribe).subscribe(subscriber);
+    }
 }

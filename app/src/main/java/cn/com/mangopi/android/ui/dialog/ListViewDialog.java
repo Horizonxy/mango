@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -63,6 +64,14 @@ public abstract class ListViewDialog<T> implements AdapterView.OnItemClickListen
                 }
             }
         });
+        if(dataList.size() > 5){
+            View listItem = dataAdapteer.getView(0, null, listView);
+            listItem.measure(0, 0);
+            int height = listItem.getMeasuredHeight();
+            LinearLayout.LayoutParams listviewParams = (LinearLayout.LayoutParams) listView.getLayoutParams();
+            listviewParams.height = (int) (height * 5.5);
+            listView.setLayoutParams(listviewParams);
+        }
         listView.setOnItemClickListener(this);
         tvOk = (TextView) view.findViewById(R.id.tv_ok);
         tvCancel = (TextView) view.findViewById(R.id.tv_cancel);

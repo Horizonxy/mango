@@ -54,6 +54,8 @@ public class MessagePresenter extends BasePresenter {
                     public void onNext(RestResult<String> restResult) {
                         if(restResult != null && restResult.isSuccess()){
                             messageListener.onHasMessage(true);
+                        } else {
+                            messageListener.onHasMessage(false);
                         }
                     }
                 });

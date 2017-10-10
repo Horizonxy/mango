@@ -57,6 +57,7 @@ import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
 import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
 import cn.com.mangopi.android.ui.activity.UpgradeRoleActivity;
 import cn.com.mangopi.android.ui.activity.WebViewActivity;
+import cn.com.mangopi.android.ui.activity.WorkProjectCommentActivity;
 import cn.com.mangopi.android.ui.activity.WorksProjectDetailActivity;
 
 /**
@@ -351,6 +352,11 @@ public class ActivityBuilder {
         Intent intent = new Intent(activity, ScheduleOrderListActivity.class);
         intent.putExtra(Constants.BUNDLE_ORDER_SCT_DATE, sctDate);
         intent.putExtra(Constants.BUNDLE_ORDER_SCT_TIME, sctTime);
+        activity.startActivity(intent);
+    }
+
+    public static void startWorkProjectCommentActivity(Activity activity){
+        Intent intent = new Intent(activity, WorkProjectCommentActivity.class);
         activity.startActivity(intent);
     }
 }

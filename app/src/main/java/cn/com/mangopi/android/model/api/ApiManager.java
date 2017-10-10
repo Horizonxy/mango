@@ -324,4 +324,8 @@ public class ApiManager {
     public static Observable<RestResult<Object>> replyCourseComment(long commentId, String reply){
         return Application.application.getApiService().replyCourseComment(Application.application.getSessId(), commentId, reply);
     }
+
+    public static Observable<RestResult<Object>> actorComment(long id, int score, String comment){
+        return Application.application.getApiService().actorComment(Application.application.getSessId(), id, score, comment);
+    }
 }

@@ -211,11 +211,9 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
 
     @Override
     public void onHasMessage(boolean hasMessage) {
-        if(hasMessage){
-            BusEvent.HasMessageEvent event = new BusEvent.HasMessageEvent();
-            event.setHasMessage(true);
-            Bus.getDefault().postSticky(event);
-        }
+        BusEvent.HasMessageEvent event = new BusEvent.HasMessageEvent();
+        event.setHasMessage(hasMessage);
+        Bus.getDefault().postSticky(event);
     }
 
     @Override

@@ -515,4 +515,13 @@ public interface ApiService {
             @Query("comment_id") long commentId,
             @Query("reply") String reply
     );
+
+    //5.4.7	 参与者企业评论接口
+    @POST("outer/router?actor_comment")
+    Observable<RestResult<Object>> actorComment(
+            @Query("lst_sessid") String sessid,
+            @Query("id") long id,
+            @Query("score") int score,
+            @Query("comment") String comment
+    );
 }
