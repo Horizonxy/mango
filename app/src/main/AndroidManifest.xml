@@ -251,9 +251,9 @@
         <activity
             android:name=".ui.activity.TrendForwardActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.ScheduleOrderListActivity"
+        <activity
+            android:name=".ui.activity.ScheduleOrderListActivity"
             android:screenOrientation="portrait" />
-
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>
@@ -466,7 +466,8 @@
             android:value="45cff4eb5903e8d0b616362e" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- JPush end -->
 
-
+        <activity android:name=".ui.activity.MemberCouponListActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -172,4 +172,9 @@
 
     <string name="forward">转发</string>
     <string name="tutor_reply">导师回复：%s</string>
+
+    <string name="my_coupon">我的优惠券</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

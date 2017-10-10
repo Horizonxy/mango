@@ -21,4 +21,10 @@
         <item>我发的动态</item>
         <item>我回复的动态</item>
     </array>
+
+    <array name="member_coupon">
+        <item>未使用</item>
+        <item>已过去</item>
+        <item>已使用</item>
+    </array>
 </resources>

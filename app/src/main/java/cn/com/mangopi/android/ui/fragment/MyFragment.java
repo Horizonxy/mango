@@ -25,6 +25,7 @@ import cn.com.mangopi.android.di.component.DaggerMyFragmentComponent;
 import cn.com.mangopi.android.di.module.MyFragmentModule;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.presenter.MemberPresenter;
+import cn.com.mangopi.android.ui.activity.MemberCouponListActivity;
 import cn.com.mangopi.android.ui.activity.MyAccountActivity;
 import cn.com.mangopi.android.ui.activity.MyOrderListActivity;
 import cn.com.mangopi.android.ui.activity.SettingActivity;
@@ -41,6 +42,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
     TextView tvNickName;
     TextView tvUpdateInfo;
     View vRole;
+    View vCoupon;
     View vOrderList;
     View vWorks;
     View vClasses;
@@ -48,6 +50,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
     View vSetting;
 
     TextView tvRole;
+    TextView tvCoupon;
     TextView tvOrderList;
     TextView tvWorks;
     TextView tvClasses;
@@ -95,6 +98,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
         tvNickName = (TextView) root.findViewById(R.id.tv_nick_name);
         tvUpdateInfo = (TextView) root.findViewById(R.id.tv_update_info);
         vRole = root.findViewById(R.id.layout_role);
+        vCoupon = root.findViewById(R.id.layout_coupon);
         vOrderList = root.findViewById(R.id.layout_order_list);
         vWorks = root.findViewById(R.id.layout_works);
         vClasses = root.findViewById(R.id.layout_classes);
@@ -116,6 +120,9 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
                 switch (v.getId()) {
                     case R.id.layout_role:
                         ActivityBuilder.startUpgradeRoleActivityy(getActivity());
+                        break;
+                    case R.id.layout_coupon:
+                        startActivity(new Intent(getActivity(), MemberCouponListActivity.class));
                         break;
                     case R.id.layout_order_list:
                         startActivity(new Intent(getActivity(), MyOrderListActivity.class));
@@ -151,6 +158,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
             }
         };
         vRole.setOnClickListener(clickListener);
+        vCoupon.setOnClickListener(clickListener);
         vOrderList.setOnClickListener(clickListener);
         vWorks.setOnClickListener(clickListener);
         vClasses.setOnClickListener(clickListener);
@@ -165,18 +173,21 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
     @Override
     void initView() {
         tvRole = (TextView) vRole.findViewById(R.id.tv_left);
+        tvCoupon = (TextView) vCoupon.findViewById(R.id.tv_left);
         tvOrderList = (TextView) vOrderList.findViewById(R.id.tv_left);
         tvWorks = (TextView) vWorks.findViewById(R.id.tv_left);
         tvClasses = (TextView) vClasses.findViewById(R.id.tv_left);
         tvAccount = (TextView) vAccount.findViewById(R.id.tv_left);
         tvSetting = (TextView) vSetting.findViewById(R.id.tv_left);
         tvRole.setText(getString(R.string.my_role));
+        tvCoupon.setText(getString(R.string.my_coupon));
         tvOrderList.setText(getString(R.string.my_order_list));
         tvWorks.setText(getString(R.string.my_works));
         tvClasses.setText(getString(R.string.my_classes));
         tvAccount.setText(getString(R.string.my_account));
         tvSetting.setText(getString(R.string.setting));
         ((ImageView)vRole.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_id);
+        ((ImageView)vCoupon.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_dingdan);
         ((ImageView)vOrderList.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_dingdan);
         ((ImageView)vWorks.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_gongzuobao);
         ((ImageView)vClasses.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_shouke);
