@@ -116,6 +116,8 @@
     <string name="place_order">下单</string>
     <string name="place_order_to_pay">下单支付</string>
     <string name="use">使用</string>
+    <string name="valid_promotion_code">派号：%s，享受8折优惠</string>
+    <string name="not_valid_promotion_code">这是一个无效的派号：%s</string>
     <string name="pay_for_order">支付订单</string>
     <string name="pay_of_now">立即支付</string>
     <string name="pay_with_card">银行卡支付</string>
@@ -182,4 +184,6 @@
 
     <string name="tutor_reply_comment">导师回复：%s</string>
     <string name="progress">%1$d%%</string>
+    <string name="people_count">%d人</string>
+    <string name="schedule_time">%d点</string>
 </resources>

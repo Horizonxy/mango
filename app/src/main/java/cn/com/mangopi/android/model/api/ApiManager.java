@@ -15,6 +15,7 @@ import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
 import cn.com.mangopi.android.model.bean.CommunityTypeBean;
 import cn.com.mangopi.android.model.bean.CompanyDetailBean;
 import cn.com.mangopi.android.model.bean.ContentDetailBean;
+import cn.com.mangopi.android.model.bean.CouponBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
@@ -327,5 +328,9 @@ public class ApiManager {
 
     public static Observable<RestResult<Object>> actorComment(long id, int score, String comment){
         return Application.application.getApiService().actorComment(Application.application.getSessId(), id, score, comment);
+    }
+
+    public static Observable<RestResult<List<CouponBean>>> memberCouponList(int pageNo, int state){
+        return Application.application.getApiService().memberCouponList(Application.application.getSessId(), pageNo, Constants.PAGE_SIZE, state);
     }
 }

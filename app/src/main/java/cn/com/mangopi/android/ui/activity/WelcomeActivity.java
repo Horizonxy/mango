@@ -42,6 +42,7 @@ public class WelcomeActivity extends Activity implements MemberDetailListener {
         member = new MemberBean();
         member.setId(13);
 //        member.setId(15);
+//        member.setId(14);
         if(member == null){
             jumpActivity(member);
         } else {

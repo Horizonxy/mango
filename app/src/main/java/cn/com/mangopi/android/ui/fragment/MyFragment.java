@@ -187,7 +187,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
         tvAccount.setText(getString(R.string.my_account));
         tvSetting.setText(getString(R.string.setting));
         ((ImageView)vRole.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_id);
-        ((ImageView)vCoupon.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_dingdan);
+        ((ImageView)vCoupon.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_coupon);
         ((ImageView)vOrderList.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_dingdan);
         ((ImageView)vWorks.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_gongzuobao);
         ((ImageView)vClasses.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_shouke);

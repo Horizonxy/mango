@@ -13,6 +13,7 @@ import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
 import cn.com.mangopi.android.model.bean.CommunityTypeBean;
 import cn.com.mangopi.android.model.bean.CompanyDetailBean;
 import cn.com.mangopi.android.model.bean.ContentDetailBean;
+import cn.com.mangopi.android.model.bean.CouponBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
@@ -523,5 +524,14 @@ public interface ApiService {
             @Query("id") long id,
             @Query("score") int score,
             @Query("comment") String comment
+    );
+
+    //5.1.30	 个人领取的优惠券列表接口
+    @GET("outer/router?coupon_owns")
+    Observable<RestResult<List<CouponBean>>> memberCouponList(
+            @Query("lst_sessid") String sessid,
+            @Query("page_no") int pageNo,
+            @Query("page_size") int pageSize,
+            @Query("state") int state
     );
 }

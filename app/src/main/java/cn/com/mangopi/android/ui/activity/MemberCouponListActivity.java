@@ -41,8 +41,9 @@ public class MemberCouponListActivity extends BaseTitleBarActivity {
         titleBar.setTitle(R.string.my_coupon);
 
         tabTitles = getResources().getStringArray(R.array.member_coupon);
+        int[] tabStates = getResources().getIntArray(R.array.member_coupon_state);
         for (int i = 0; tabTitles != null && i < tabTitles.length; i++){
-            viewLists.add(CouponListFragment.newInstance(tabTitles[i]));
+            viewLists.add(CouponListFragment.newInstance(tabStates[i]));
         }
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), viewLists));
 

@@ -24,8 +24,14 @@
 
     <array name="member_coupon">
         <item>未使用</item>
-        <item>已过去</item>
+        <item>已过期</item>
         <item>已使用</item>
+    </array>
+
+    <array name="member_coupon_state">
+        <item>50</item>
+        <item>-1</item>
+        <item>0</item>
     </array>
 
     <array name="score">

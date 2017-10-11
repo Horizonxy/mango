@@ -11,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -110,7 +112,8 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
         gvSctTime.setAdapter(timeAdapter = new QuickAdapter<ScheduleCalendarBean.Details>(this, R.layout.gridview_item_order_schedule_calendar_time, times) {
             @Override
             protected void convert(BaseAdapterHelper helper, ScheduleCalendarBean.Details item) {
-                helper.setText(R.id.tv_time, item.getSct_time() + "点");
+                helper.setText(R.id.tv_time, String.format(getString(R.string.schedule_time), item.getSct_time()))
+                .setText(R.id.tv_count, String.format(getString(R.string.people_count), item.getCount()));
                 View layout = helper.getView();
                 if(item.isSelected()){
                     layout.setBackgroundResource(R.drawable.shape_border_order_schedule_calendar_time_selected);
@@ -230,10 +233,10 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
         invalidateTimes(clickedSchedule);
 
         datas.addAll(month);
-        for(int i = 0; (datas.size() % 7) != 0 && i < (7 - (datas.size() % 7)); i++){
+        int remainder = 7 - (datas.size() % 7);
+        for(int i = 0; (datas.size() % 7) != 0 && i < remainder; i++){
             datas.add(new ScheduleCalendarBean());
         }
-
         calendarAdapter.notifyDataSetChanged();
     }
 
