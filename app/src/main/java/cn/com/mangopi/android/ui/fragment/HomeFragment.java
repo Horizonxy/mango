@@ -330,7 +330,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 }
             } else if("4".equals(advertBean.getType()) && advertBean.getDetails().size() > 0){
                 AdvertBean.DetailsBean item = advertBean.getDetails().get(0);
-                Application.application.getImageLoader().loadImage("http:"+item.getFile_path(), Application.application.getDefaultOptions(), new SimpleImageLoadingListener(){
+                Application.application.getImageLoader().loadImage(item.getFile_path(), Application.application.getDefaultOptions(), new SimpleImageLoadingListener(){
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         if(couponView == null) {
