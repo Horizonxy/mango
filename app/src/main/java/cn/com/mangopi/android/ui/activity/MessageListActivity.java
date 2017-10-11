@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.mcxiaoke.bus.Bus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import cn.com.mangopi.android.ui.adapter.MessageListAdapter;
 import cn.com.mangopi.android.ui.viewlistener.MessageListener;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
+import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DialogUtil;
 import cn.com.mangopi.android.util.EmptyHelper;
 
@@ -155,6 +158,19 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
             messageBean.setState(1);
             messageBean.setState_label("已阅");
             view.findViewById(R.id.tv_num).setVisibility(View.GONE);
+        }
+
+        boolean allRead = true;
+        for (int i = 0; i < datas.size(); i++){
+            if(datas.get(i).getState() != 1){
+                allRead = false;
+                break;
+            }
+        }
+        if(allRead){
+            BusEvent.HasMessageEvent event = new BusEvent.HasMessageEvent();
+            event.setHasMessage(false);
+            Bus.getDefault().postSticky(event);
         }
     }
 }
