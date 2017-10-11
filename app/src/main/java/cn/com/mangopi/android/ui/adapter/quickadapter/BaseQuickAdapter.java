@@ -180,7 +180,9 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends
 
 	public void addAll(List<T> elem)
 	{
-		data.addAll(elem);
+		if(elem != null) {
+			data.addAll(elem);
+		}
 		notifyDataSetChanged();
 	}
 
@@ -210,7 +212,9 @@ public abstract class BaseQuickAdapter<T, H extends BaseAdapterHelper> extends
 	public void replaceAll(List<T> elem)
 	{
 		data.clear();
-		data.addAll(elem);
+		if(elem != null) {
+			data.addAll(elem);
+		}
 		notifyDataSetChanged();
 	}
 

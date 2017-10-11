@@ -8,10 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.chanven.lib.cptr.PtrDefaultHandler;
-import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -137,7 +133,9 @@ public class ClassListFragment extends BaseFragment implements AdapterView.OnIte
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(courseList);
+        if(courseList != null) {
+            datas.addAll(courseList);
+        }
 
         adapter.notifyDataSetChanged();
 

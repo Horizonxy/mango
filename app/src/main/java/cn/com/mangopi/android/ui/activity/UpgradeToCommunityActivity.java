@@ -310,7 +310,9 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
     @Override
     public void onTypeListSuccess(List<CommunityTypeBean> communityTypeList) {
         this.typeList.clear();
-        this.typeList.addAll(communityTypeList);
+        if(communityTypeList != null) {
+            this.typeList.addAll(communityTypeList);
+        }
         showTypeList(typeList);
     }
 
@@ -347,7 +349,9 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
     @Override
     public void onClassifyListSuccess(List<CommunityClassifyBean> communityClassifyList) {
         this.classifyList.clear();
-        this.classifyList.addAll(communityClassifyList);
+        if(communityClassifyList != null) {
+            this.classifyList.addAll(communityClassifyList);
+        }
         showClassifyList(classifyList);
     }
 

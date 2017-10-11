@@ -53,7 +53,6 @@ import cn.com.mangopi.android.ui.viewlistener.HomeFragmentListener;
 import cn.com.mangopi.android.ui.widget.ListView;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.ui.widget.ObservableScrollView;
-import cn.com.mangopi.android.ui.widget.RedPointView;
 import cn.com.mangopi.android.ui.widget.VerticalTextview;
 import cn.com.mangopi.android.ui.widget.ViewPagerFixed;
 import cn.com.mangopi.android.util.ActivityBuilder;
@@ -244,7 +243,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             bindAdverts(advertList);
         } else if (Constants.INDEX_BANNER.equals(position)) {
             banners.clear();
-            if(advertList != null && advertList.size() > 0) {
+            if(advertList != null && advertList.size() > 0 && advertList.get(0).getDetails() != null) {
                 banners.addAll(advertList.get(0).getDetails());
             }
             homeBanner.notifyDataSetChanged();

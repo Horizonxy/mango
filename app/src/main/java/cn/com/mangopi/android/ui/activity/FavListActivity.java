@@ -105,7 +105,9 @@ public class FavListActivity extends BaseTitleBarActivity implements FavListList
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(favList);
+        if(favList != null) {
+            datas.addAll(favList);
+        }
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);

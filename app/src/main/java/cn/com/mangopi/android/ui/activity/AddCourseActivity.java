@@ -3,10 +3,8 @@ package cn.com.mangopi.android.ui.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -260,14 +258,18 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
     @Override
     public void onClassifySuccess(List<CourseClassifyBean> classifyList) {
         this.classifyList.clear();
-        this.classifyList.addAll(classifyList);
+        if(classifyList != null) {
+            this.classifyList.addAll(classifyList);
+        }
         showClassifyList(this.classifyList);
     }
 
     @Override
     public void onTypeSuccess(List<CourseTypeBean> typeList) {
         this.typeList.clear();
-        this.typeList.addAll(typeList);
+        if(typeList != null) {
+            this.typeList.addAll(typeList);
+        }
         showTypeList(typeList);
     }
 

@@ -116,7 +116,9 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         tvIntro.setText(tutor.getIntro());
 
         courseList.clear();
-        courseList.addAll(tutor.getCourses());
+        if(tutor.getCourses() != null) {
+            courseList.addAll(tutor.getCourses());
+        }
         adapter.notifyDataSetChanged();
     }
 

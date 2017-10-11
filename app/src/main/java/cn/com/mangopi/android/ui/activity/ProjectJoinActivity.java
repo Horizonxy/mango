@@ -172,7 +172,9 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
     @Override
     public void onTeamList(List<ProjectTeamBean> projectTeamList) {
         this.projectTeamList.clear();
-        this.projectTeamList.addAll(projectTeamList);
+        if(projectTeamList != null) {
+            this.projectTeamList.addAll(projectTeamList);
+        }
         teamAdapter.notifyDataSetChanged();
     }
 

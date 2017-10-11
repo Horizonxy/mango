@@ -146,7 +146,9 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(courseList);
+        if(courseList != null) {
+            datas.addAll(courseList);
+        }
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);

@@ -107,7 +107,9 @@ public class MemberCardListActivity extends BaseTitleBarActivity implements Meme
     @Override
     public void onCardListSuccess(List<MemberCardBean> memberCardList) {
         cardList.clear();
-        cardList.addAll(memberCardList);
+        if(memberCardList != null) {
+            cardList.addAll(memberCardList);
+        }
         adapter.notifyDataSetChanged();
     }
 

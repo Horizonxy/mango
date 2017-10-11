@@ -245,11 +245,15 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
                 listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
             }
 
-            listDatas.addAll(courseList);
+            if(courseList != null) {
+                listDatas.addAll(courseList);
+            }
             listAdapter.notifyDataSetChanged();
         } else if(hotTypes == 1){
             bannerDatas.clear();
-            bannerDatas.addAll(courseList);
+            if(courseList != null) {
+                bannerDatas.addAll(courseList);
+            }
             courseBanner.notifyDataSetChanged();
         }
     }
@@ -260,7 +264,9 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
 //        if(classifyList != null && classifyList.size() > 7){
 //            gridDatas.addAll(classifyList.subList(0, 7));
 //        } else {
+        if(classifyList != null) {
             gridDatas.addAll(classifyList);
+        }
 //        }
 //        CourseClassifyBean classifyAll = new CourseClassifyBean();
 //        classifyAll.setClassify_name("全部");

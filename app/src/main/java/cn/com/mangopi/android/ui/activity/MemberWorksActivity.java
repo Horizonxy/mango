@@ -13,18 +13,13 @@ import java.util.List;
 import butterknife.Bind;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
-import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.ProjectListBean;
-import cn.com.mangopi.android.model.data.MessageModel;
-import cn.com.mangopi.android.presenter.MessagePresenter;
 import cn.com.mangopi.android.presenter.WorksProjectPresenter;
-import cn.com.mangopi.android.ui.adapter.MessageListAdapter;
 import cn.com.mangopi.android.ui.adapter.WorksProjectListAdapter;
 import cn.com.mangopi.android.ui.viewlistener.WorksProjectListListener;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.EmptyHelper;
-import cn.com.mangopi.android.util.MangoUtils;
 
 /**
  * 我的工作包
@@ -133,7 +128,9 @@ public class MemberWorksActivity extends BaseTitleBarActivity implements WorksPr
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(projectList);
+        if(projectList != null) {
+            datas.addAll(projectList);
+        }
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);

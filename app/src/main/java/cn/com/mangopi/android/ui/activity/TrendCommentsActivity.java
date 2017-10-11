@@ -149,7 +149,9 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
         this.trendDetail = trendDetail;
         bindData(trendDetail);
         datas.clear();
-        datas.addAll(trendDetail.getComments());
+        if(trendDetail.getComments() != null) {
+            datas.addAll(trendDetail.getComments());
+        }
         adapter.notifyDataSetChanged();
     }
 

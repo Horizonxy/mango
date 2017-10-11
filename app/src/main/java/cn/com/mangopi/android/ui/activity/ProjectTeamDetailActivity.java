@@ -91,7 +91,9 @@ public class ProjectTeamDetailActivity extends BaseTitleBarActivity implements T
         tvMemberCount.setText(String.format(getString(R.string.member_count), actorTeamBean.getMember_count()));
 
         memberData.clear();
-        memberData.addAll(actorTeamBean.getMembers());
+        if(actorTeamBean.getMembers() != null) {
+            memberData.addAll(actorTeamBean.getMembers());
+        }
         teamMemberAdapter.notifyDataSetChanged();
     }
 

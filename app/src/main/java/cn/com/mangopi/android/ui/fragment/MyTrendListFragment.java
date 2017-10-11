@@ -145,7 +145,9 @@ public class MyTrendListFragment extends BaseFragment implements AdapterView.OnI
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(trendList);
+        if(trendList != null) {
+            datas.addAll(trendList);
+        }
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);

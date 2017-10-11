@@ -21,7 +21,6 @@ import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.CourseBean;
-import cn.com.mangopi.android.model.bean.ProjectActorBean;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.presenter.WantCountPresenter;
 import cn.com.mangopi.android.presenter.WorksProjectPresenter;
@@ -182,17 +181,19 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
 
         if(whereFrom == Constants.FROM_MY_COMPANY_PROJECT){//我的企业工作包
             projectActors.clear();
-            projectActors.addAll(projectDetail.getActors());
+            if(projectDetail.getActors() != null) {
+                projectActors.addAll(projectDetail.getActors());
+            }
             if(teamAdatper == null) {
                 lvProjectTeam.setAdapter(teamAdatper = new TeamInProjectDetailAdapter(this, R.layout.listview_item_project_team_in_detail, projectActors));
             } else {
                 teamAdatper.notifyDataSetChanged();
             }
-            tvProjectName.setVisibility(View.VISIBLE);
+            tvProjectTeam.setVisibility(View.VISIBLE);
             lvProjectTeam.setVisibility(View.VISIBLE);
             lineProjectTeam.setVisibility(View.VISIBLE);
         } else {
-            tvProjectName.setVisibility(View.GONE);
+            tvProjectTeam.setVisibility(View.GONE);
             lvProjectTeam.setVisibility(View.GONE);
             lineProjectTeam.setVisibility(View.GONE);
         }

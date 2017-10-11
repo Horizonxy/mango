@@ -17,7 +17,6 @@ import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.CouponBean;
 import cn.com.mangopi.android.presenter.CouponListPresenter;
 import cn.com.mangopi.android.ui.adapter.CouponListAdapter;
-import cn.com.mangopi.android.ui.adapter.RecommendCourseAdapter;
 import cn.com.mangopi.android.ui.viewlistener.CouponListListener;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
@@ -141,7 +140,9 @@ public class CouponListFragment extends BaseFragment implements AdapterView.OnIt
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(couponList);
+        if(couponList != null) {
+            datas.addAll(couponList);
+        }
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);

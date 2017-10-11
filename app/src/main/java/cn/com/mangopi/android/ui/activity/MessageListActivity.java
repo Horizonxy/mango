@@ -114,7 +114,9 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(messageList);
+        if(messageList != null) {
+            datas.addAll(messageList);
+        }
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);

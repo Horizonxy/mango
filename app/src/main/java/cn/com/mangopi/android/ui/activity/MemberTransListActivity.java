@@ -1,6 +1,5 @@
 package cn.com.mangopi.android.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,18 +12,10 @@ import java.util.List;
 import butterknife.Bind;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
-import cn.com.mangopi.android.model.bean.MemberCardBean;
-import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.TransListBean;
-import cn.com.mangopi.android.model.data.MessageModel;
-import cn.com.mangopi.android.presenter.MemberWalletPresenter;
-import cn.com.mangopi.android.presenter.MessagePresenter;
 import cn.com.mangopi.android.presenter.WalletTransListPresenter;
 import cn.com.mangopi.android.ui.adapter.MemberTransListAdapter;
-import cn.com.mangopi.android.ui.adapter.MessageListAdapter;
-import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.WalletTransListListener;
-import cn.com.mangopi.android.ui.widget.ListView;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
 import cn.com.mangopi.android.util.ActivityBuilder;
@@ -118,7 +109,9 @@ public class MemberTransListActivity extends BaseTitleBarActivity implements Wal
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(transList);
+        if(transList != null) {
+            datas.addAll(transList);
+        }
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);

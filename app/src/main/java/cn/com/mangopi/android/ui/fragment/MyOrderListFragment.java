@@ -18,7 +18,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
@@ -26,7 +25,6 @@ import cn.com.mangopi.android.di.component.DaggerMyOrderListFragmentComponent;
 import cn.com.mangopi.android.di.module.MyOrderListFragmentModule;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.presenter.OrderPresenter;
-import cn.com.mangopi.android.presenter.ScheduleCalendarPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.OrderListListener;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
@@ -168,7 +166,9 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(orderList);
+        if(orderList != null) {
+            datas.addAll(orderList);
+        }
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);

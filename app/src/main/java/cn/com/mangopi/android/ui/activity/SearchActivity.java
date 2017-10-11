@@ -111,7 +111,9 @@ public class SearchActivity extends BaseActivity implements SearchListener, Adap
             listView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         }
 
-        datas.addAll(searchList);
+        if(searchList != null) {
+            datas.addAll(searchList);
+        }
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);
