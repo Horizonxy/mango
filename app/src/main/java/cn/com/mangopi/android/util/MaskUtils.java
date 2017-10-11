@@ -9,6 +9,11 @@ import android.widget.RelativeLayout;
 
 public class MaskUtils {
 
+    public static void removeAttchMask(Context context, View layoutView){
+        WindowManager windowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        windowManager.removeView(layoutView);
+    }
+
     public static void attachMaskFromRes(Context context, View layoutView, int clickLayoutResId, View.OnClickListener clickListener, int... clickResId){
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT,

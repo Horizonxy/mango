@@ -112,15 +112,15 @@ public class DialogUtil {
     }
 
     public static void createInputDialog(Context context, String title, String btnOkMsg, String btnCancelMsg, String hint, final OnInputDialogListener onInputDialogListener){
-        final AlertDialog dialog = new AlertDialog.Builder(context).create();
-        dialog.show();
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_input, null ,false);
-        dialog.setContentView(view);
+        final AlertDialog dialog = new AlertDialog.Builder(context).setView(view).create();
+        dialog.show();
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
         EditText etContent = (EditText) view.findViewById(R.id.et_content);
         TextView tvOk = (TextView) view.findViewById(R.id.tv_ok);
         TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
         etContent.setHint(hint);
+        etContent.requestFocus();
         tvTitle.setText(title);
         tvOk.setText(btnOkMsg);
         tvCancel.setText(btnCancelMsg);

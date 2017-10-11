@@ -55,7 +55,8 @@ public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
                 .setOnClickListener(R.id.btn_works, clickListener)
                 .setOnClickListener(R.id.btn_teams, clickListener)
                 .setOnClickListener(R.id.btn_detail, clickListener)
-                .setText(R.id.tv_progress, String.format(context.getString(R.string.progress), item.getProgress()));
+                .setText(R.id.tv_progress, String.format(context.getString(R.string.progress), item.getProgress()))
+                .setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
 
         ProgressBar progressBar = helper.getView(R.id.progress);
         TextView tvProgress = helper.getView(R.id.tv_progress);

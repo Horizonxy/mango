@@ -1,187 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/dp_15"
-    android:paddingLeft="@dimen/dp_15"
-    android:paddingRight="@dimen/dp_15"
-    android:background="@drawable/selector_bg_layout_item">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/layout_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:layout_alignParentRight="true">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="投票邀请"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@color/color_333333"/>
-            <ImageView
-                android:layout_width="@dimen/dp_22"
-                android:layout_height="@dimen/dp_22"
-                android:src="@drawable/icon_share"
-                android:adjustViewBounds="true"
-                android:layout_marginLeft="@dimen/dp_2"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_project_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/layout_share"
-            android:layout_centerVertical="true"
-            android:paddingRight="@dimen/dp_5"
-            android:textSize="@dimen/sp_16"
-            android:textColor="@color/color_333333"/>
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_start_join"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_15"
-        android:textSize="@dimen/sp_14"
-        android:textColor="@color/color_666666" />
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10">
+        android:background="@drawable/selector_bg_layout_item"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_15">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/layout_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="投票邀请"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
+                    android:layout_marginLeft="@dimen/dp_2"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/icon_share" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_project_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/layout_share"
+                android:paddingRight="@dimen/dp_5"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_16" />
+        </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_start_join"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_18"
-            android:text="进度"
+            android:layout_marginTop="@dimen/dp_15"
             android:textColor="@color/color_666666"
             android:textSize="@dimen/sp_14" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/dp_10">
 
             <TextView
-                android:id="@+id/tv_progress"
-                android:layout_width="34dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_2"
-                android:background="@drawable/icon_bu"
-                android:gravity="center_horizontal"
-                android:paddingBottom="@dimen/dp_6"
-                android:paddingLeft="@dimen/dp_4"
-                android:paddingRight="@dimen/dp_4"
-                android:paddingTop="@dimen/dp_2"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/sp_10" />
+                android:layout_marginTop="@dimen/dp_18"
+                android:text="进度"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_14" />
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_8"
-                android:layout_marginLeft="@dimen/dp_17"
-                android:layout_marginRight="@dimen/dp_17"
-                android:max="100"
-                android:progressDrawable="@drawable/progress_indeterminate_horizontal"
-                android:secondaryProgress="100" />
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_17"
-                android:layout_marginRight="@dimen/dp_17">
+                android:layout_marginLeft="@dimen/dp_10"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_focus_count"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_progress"
+                    android:layout_width="34dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="关注"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/sp_14" />
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:background="@drawable/icon_bu"
+                    android:gravity="center_horizontal"
+                    android:paddingBottom="@dimen/dp_6"
+                    android:paddingLeft="@dimen/dp_4"
+                    android:paddingRight="@dimen/dp_4"
+                    android:paddingTop="@dimen/dp_2"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_10" />
 
-                <TextView
-                    android:id="@+id/tv_applied_count"
-                    android:layout_width="wrap_content"
+                <ProgressBar
+                    android:id="@+id/progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_8"
+                    android:layout_marginLeft="@dimen/dp_17"
+                    android:layout_marginRight="@dimen/dp_17"
+                    android:max="100"
+                    android:progressDrawable="@drawable/progress_indeterminate_horizontal"
+                    android:secondaryProgress="100" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="报名"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/sp_14" />
-            </RelativeLayout>
+                    android:layout_marginLeft="@dimen/dp_17"
+                    android:layout_marginRight="@dimen/dp_17">
+
+                    <TextView
+                        android:id="@+id/tv_focus_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:text="关注"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_applied_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:text="报名"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_14" />
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
+
+        <View
+            style="@style/horizontal_line"
+            android:layout_marginTop="@dimen/dp_15" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_state_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="已报名"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_14" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right|center_vertical">
+
+                <Button
+                    android:id="@+id/btn_works"
+                    style="@style/lesser_corners_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_margin="@dimen/dp_15"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
+                    android:text="作品"
+                    android:textSize="@dimen/sp_14" />
+
+                <Button
+                    android:id="@+id/btn_teams"
+                    style="@style/lesser_corners_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
+                    android:text="团队"
+                    android:textSize="@dimen/sp_14"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/btn_detail"
+                    style="@style/lesser_corners_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_30"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
+                    android:text="详情"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
     </LinearLayout>
 
     <View
-        style="@style/horizontal_line"
-        android:layout_marginTop="@dimen/dp_15"/>
-
-    <RelativeLayout
+        android:id="@+id/v_line"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_state_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="已报名"
-            android:textColor="@color/color_666666"
-            android:layout_centerVertical="true"
-            android:textSize="@dimen/sp_14"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="right|center_vertical">
-            <Button
-                android:id="@+id/btn_works"
-                android:layout_width="wrap_content"
-                style="@style/lesser_corners_btn"
-                android:textSize="@dimen/sp_14"
-                android:layout_height="@dimen/dp_30"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:layout_margin="@dimen/dp_15"
-                android:paddingLeft="@dimen/dp_20"
-                android:paddingRight="@dimen/dp_20"
-                android:text="作品"/>
-
-            <Button
-                android:id="@+id/btn_teams"
-                android:layout_width="wrap_content"
-                style="@style/lesser_corners_btn"
-                android:textSize="@dimen/sp_14"
-                android:layout_height="@dimen/dp_30"
-                android:minHeight="0dp"
-                android:layout_marginRight="@dimen/dp_15"
-                android:minWidth="0dp"
-                android:visibility="gone"
-                android:paddingLeft="@dimen/dp_20"
-                android:paddingRight="@dimen/dp_20"
-                android:text="团队"/>
-
-            <Button
-                android:id="@+id/btn_detail"
-                android:layout_width="wrap_content"
-                style="@style/lesser_corners_btn"
-                android:textSize="@dimen/sp_14"
-                android:layout_height="@dimen/dp_30"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:paddingLeft="@dimen/dp_20"
-                android:paddingRight="@dimen/dp_20"
-                android:text="详情"/>
-        </LinearLayout>
-    </RelativeLayout>
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/color_efeff4" />
 </LinearLayout>

@@ -4,6 +4,7 @@ package cn.com.mangopi.android.ui.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -27,6 +28,7 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,7 @@ import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
+import cn.com.mangopi.android.util.MaskUtils;
 
 public class HomeFragment extends BaseFragment implements HomeFragmentListener, View.OnClickListener {
 
@@ -271,6 +274,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         }
     }
 
+    private View couponView;
     private void bindAdverts(List<AdvertBean> adverts){
         layoutAdverts.removeAllViews();
         for (int i = 0; adverts != null && i < adverts.size(); i++){
@@ -324,6 +328,20 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                     itemImageView.setTag(details.get(j));
                     itemImageView.setOnClickListener(advertDetaiClickListener);
                 }
+            } else if("4".equals(advertBean.getType()) && advertBean.getDetails().size() > 0){
+                AdvertBean.DetailsBean item = advertBean.getDetails().get(0);
+                Application.application.getImageLoader().loadImage("http:"+item.getFile_path(), Application.application.getDefaultOptions(), new SimpleImageLoadingListener(){
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        if(couponView == null) {
+                            couponView = View.inflate(getActivity(), R.layout.layout_image_mask, null);
+                            MaskUtils.attachMaskFromRes(getActivity(), couponView, R.id.iv_mask_del, HomeFragment.this, R.id.iv_mask_pic);
+                        }
+                        ImageView ivCoupon = (ImageView) couponView.findViewById(R.id.iv_mask_pic);
+                        ivCoupon.setImageBitmap(loadedImage);
+                        ivCoupon.setTag(item);
+                    }
+                });
             } else {
                 child = LayoutInflater.from(getContext()).inflate(R.layout.layout_home_setting_advert, layoutAdverts, false);
                 TextView title = (TextView) child.findViewById(R.id.tv_title3);
@@ -340,7 +358,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                             }
                         });
             }
-            layoutAdverts.addView(child);
+            if(child != null) {
+                layoutAdverts.addView(child);
+            }
         }
     }
 
@@ -465,6 +485,16 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             case R.id.iv_tab_search:
                 if (!TextUtils.isEmpty(etSearch.getText())) {
                     ActivityBuilder.startSearchActivity(getActivity(), etSearch.getText().toString());
+                }
+                break;
+            case R.id.iv_mask_pic:
+                Object data = v.getTag();
+                if(data instanceof AdvertBean.DetailsBean){
+                    AdvertBean.DetailsBean detail = (AdvertBean.DetailsBean) data;
+                    //MangoUtils.jumpAdvert(getActivity(), detail);
+                    if(20 == detail.getBind_type()){//优惠券
+
+                    }
                 }
                 break;
         }
