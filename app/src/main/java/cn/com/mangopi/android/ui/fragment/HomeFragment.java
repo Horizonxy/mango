@@ -42,13 +42,18 @@ import cn.com.mangopi.android.di.component.DaggerHomeFragmentComponent;
 import cn.com.mangopi.android.di.module.HomeFragmentModule;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
+import cn.com.mangopi.android.model.bean.CommonBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
+import cn.com.mangopi.android.model.bean.HasFetchCouponBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
+import cn.com.mangopi.android.model.db.CommonDaoImpl;
+import cn.com.mangopi.android.presenter.FetchCouponPresenter;
 import cn.com.mangopi.android.presenter.HomePresenter;
 import cn.com.mangopi.android.ui.activity.CaptureActivity;
 import cn.com.mangopi.android.ui.adapter.ViewPagerAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
+import cn.com.mangopi.android.ui.viewlistener.FetchCouponListener;
 import cn.com.mangopi.android.ui.viewlistener.HomeFragmentListener;
 import cn.com.mangopi.android.ui.widget.ListView;
 import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
@@ -56,12 +61,13 @@ import cn.com.mangopi.android.ui.widget.ObservableScrollView;
 import cn.com.mangopi.android.ui.widget.VerticalTextview;
 import cn.com.mangopi.android.ui.widget.ViewPagerFixed;
 import cn.com.mangopi.android.util.ActivityBuilder;
+import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 import cn.com.mangopi.android.util.MaskUtils;
 
-public class HomeFragment extends BaseFragment implements HomeFragmentListener, View.OnClickListener {
+public class HomeFragment extends BaseFragment implements HomeFragmentListener, View.OnClickListener, FetchCouponListener {
 
     MangoPtrFrameLayout refreshLayout;
     ConvenientBanner homeBanner;
@@ -85,6 +91,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     LinearLayout layoutAdverts;
 
     EditText etSearch;
+    FetchCouponPresenter fetchCouponPresenter;
+    CommonDaoImpl commonDao;
+    String fetchCouponKey = "has_fetch_coupon_";
 
     public HomeFragment() {
     }
@@ -94,6 +103,11 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         super.onCreate(savedInstanceState);
         Bus.getDefault().register(this);
         DaggerHomeFragmentComponent.builder().homeFragmentModule(new HomeFragmentModule(this)).build().inject(this);
+
+        commonDao = new CommonDaoImpl(getContext());
+        if(Application.application.getMember() != null) {
+            fetchCouponKey += Application.application.getMember().getId();
+        }
     }
 
     @Override
@@ -329,16 +343,28 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 }
             } else if("4".equals(advertBean.getType()) && advertBean.getDetails().size() > 0){
                 AdvertBean.DetailsBean item = advertBean.getDetails().get(0);
-                Application.application.getImageLoader().loadImage(item.getFile_path(), Application.application.getDefaultOptions(), new SimpleImageLoadingListener(){
+                List<CommonBean> commonList = commonDao.findByColumn(CommonBean.DATA_TYPE, fetchCouponKey);
+                if(commonList != null && commonList.size() > 0){
+                    CommonBean commonBean = commonList.get(0);
+                    HasFetchCouponBean hasFetchCoupon = (HasFetchCouponBean) commonBean.getData();
+                    if(hasFetchCoupon != null){
+                        List<String> hasFetchCouponIds = hasFetchCoupon.getCouponIds();
+                        if(hasFetchCouponIds != null && hasFetchCouponIds.size() > 0 && hasFetchCouponIds.contains(String.valueOf(item.getEntity_id()))){
+                            return;
+                        }
+                    }
+                }
+
+                Application.application.getImageLoader().loadImage("http:"+item.getFile_path(), Application.application.getDefaultOptions(), new SimpleImageLoadingListener(){
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         if(couponView == null) {
                             couponView = View.inflate(getActivity(), R.layout.layout_image_mask, null);
-                            MaskUtils.attachMaskFromRes(getActivity(), couponView, R.id.iv_mask_del, HomeFragment.this, R.id.iv_mask_pic);
                         }
                         ImageView ivCoupon = (ImageView) couponView.findViewById(R.id.iv_mask_pic);
                         ivCoupon.setImageBitmap(loadedImage);
                         ivCoupon.setTag(item);
+                        MaskUtils.attachMaskFromRes(getActivity(), couponView, R.id.iv_mask_del, HomeFragment.this, R.id.iv_mask_pic);
                     }
                 });
             } else {
@@ -361,6 +387,39 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 layoutAdverts.addView(child);
             }
         }
+    }
+
+    @Override
+    public void onFetchCouponSuccess(long id) {
+        ActivityBuilder.startMemberCouponListActivity(getActivity());
+
+        List<CommonBean> commonList = commonDao.findByColumn(CommonBean.DATA_TYPE, fetchCouponKey);
+        if(commonList != null && commonList.size() > 0) {
+            CommonBean commonBean = commonList.get(0);
+            HasFetchCouponBean hasFetchCoupon = (HasFetchCouponBean) commonBean.getData();
+            if(hasFetchCoupon == null){
+                hasFetchCoupon = new HasFetchCouponBean();
+            }
+            if(hasFetchCoupon.getCouponIds() == null){
+                hasFetchCoupon.setCouponIds(new ArrayList<String>());
+            }
+            hasFetchCoupon.getCouponIds().add(String.valueOf(id));
+            commonDao.update(commonBean);
+        } else {
+            CommonBean commonBean = new CommonBean();
+            commonBean.setData_type(fetchCouponKey);
+            HasFetchCouponBean hasFetchCoupon = new HasFetchCouponBean();
+            List<String> ids = new ArrayList<>();
+            ids.add(String.valueOf(id));
+            hasFetchCoupon.setCouponIds(ids);
+            commonBean.setData(hasFetchCoupon);
+            commonDao.saveOrUpdate(commonBean);
+        }
+    }
+
+    @Override
+    public void onFetchCouponFailure(String message) {
+        AppUtils.showToast(getContext(), message);
     }
 
     private static class AdvertDetaiClickListener implements View.OnClickListener {
@@ -479,7 +538,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 layoutUpdateRole.setVisibility(View.GONE);
                 break;
             case R.id.btn_update_info:
-                ActivityBuilder.startUpgradeRoleActivityy(getActivity());
+                ActivityBuilder.startUpgradeRoleActivity(getActivity());
                 break;
             case R.id.iv_tab_search:
                 if (!TextUtils.isEmpty(etSearch.getText())) {
@@ -492,7 +551,10 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                     AdvertBean.DetailsBean detail = (AdvertBean.DetailsBean) data;
                     //MangoUtils.jumpAdvert(getActivity(), detail);
                     if(20 == detail.getBind_type()){//优惠券
-
+                        if(fetchCouponPresenter == null){
+                            fetchCouponPresenter = new FetchCouponPresenter(this);
+                        }
+                        fetchCouponPresenter.fetchCoupon(detail.getEntity_id());
                     }
                 }
                 break;

@@ -186,4 +186,7 @@
     <string name="progress">%1$d%%</string>
     <string name="people_count">%d人</string>
     <string name="schedule_time">%d点</string>
+
+    <string name="coupon_use_time">%1$s—%2$s使用</string>
+    <string name="discount_price">&#165;%s</string>
 </resources>

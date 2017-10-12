@@ -28,6 +28,7 @@ import cn.com.mangopi.android.ui.activity.CourseListActivity;
 import cn.com.mangopi.android.ui.activity.FavListActivity;
 import cn.com.mangopi.android.ui.activity.GetCashActivity;
 import cn.com.mangopi.android.ui.activity.InputMessageActivity;
+import cn.com.mangopi.android.ui.activity.MemberCouponListActivity;
 import cn.com.mangopi.android.ui.activity.ProjectTeamDetailActivity;
 import cn.com.mangopi.android.ui.activity.ProjectWorkDetailActivity;
 import cn.com.mangopi.android.ui.activity.ScheduleOrderListActivity;
@@ -246,7 +247,7 @@ public class ActivityBuilder {
     }
 
 
-    public static void startUpgradeRoleActivityy(Activity activity){
+    public static void startUpgradeRoleActivity(Activity activity){
         Intent intent = new Intent(activity, UpgradeRoleActivity.class);
         activity.startActivity(intent);
     }
@@ -369,6 +370,11 @@ public class ActivityBuilder {
     public static void startWorkProjectCommentActivity(Activity activity, ProjectDetailBean.ProjectActorBean actorBean){
         Intent intent = new Intent(activity, WorkProjectCommentActivity.class);
         intent.putExtra(Constants.BUNDLE_DATA, actorBean);
+        activity.startActivity(intent);
+    }
+
+    public static void startMemberCouponListActivity(Activity activity){
+        Intent intent = new Intent(activity, MemberCouponListActivity.class);
         activity.startActivity(intent);
     }
 }

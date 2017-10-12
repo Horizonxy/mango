@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -15,11 +16,13 @@ import java.util.List;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.CouponBean;
+import cn.com.mangopi.android.model.bean.CourseCouponBean;
 import cn.com.mangopi.android.presenter.CouponListPresenter;
 import cn.com.mangopi.android.ui.adapter.CouponListAdapter;
 import cn.com.mangopi.android.ui.viewlistener.CouponListListener;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshBase;
 import cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView;
+import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.EmptyHelper;
 
 public class CouponListFragment extends BaseFragment implements AdapterView.OnItemClickListener, CouponListListener {
@@ -150,5 +153,9 @@ public class CouponListFragment extends BaseFragment implements AdapterView.OnIt
             emptyHelper.hideEmptyView(listView);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onCourseCouponListSuccess(List<CourseCouponBean> courseCouponList) {
     }
 }

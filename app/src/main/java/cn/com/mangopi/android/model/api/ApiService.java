@@ -9,6 +9,7 @@ import java.util.Map;
 import cn.com.mangopi.android.model.bean.ActorTeamBean;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
+import cn.com.mangopi.android.model.bean.CalcPriceBean;
 import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
 import cn.com.mangopi.android.model.bean.CommunityTypeBean;
 import cn.com.mangopi.android.model.bean.CompanyDetailBean;
@@ -16,6 +17,7 @@ import cn.com.mangopi.android.model.bean.ContentDetailBean;
 import cn.com.mangopi.android.model.bean.CouponBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
+import cn.com.mangopi.android.model.bean.CourseCouponBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.CourseTypeBean;
 import cn.com.mangopi.android.model.bean.FavBean;
@@ -533,5 +535,26 @@ public interface ApiService {
             @Query("page_no") int pageNo,
             @Query("page_size") int pageSize,
             @Query("state") int state
+    );
+
+    //5.1.29	 领取优惠券接口
+    @POST("outer/router?coupon_fetch")
+    Observable<RestResult<Object>> fetchCoupon(
+            @Query("lst_sessid") String sessid,
+            @Query("couponId") long couponId
+    );
+
+    //5.3.11	订单价格计算接口
+    @POST("outer/router?calc_price")
+    Observable<RestResult<CalcPriceBean>> calcPrice(
+            @Query("lst_sessid") String sessid,
+            @QueryMap Map<String, Object> map
+    );
+
+    //5.3.13	课程个人可使用的优惠券列表
+    @POST("outer/router?promotion")
+    Observable<RestResult<List<CourseCouponBean>>> promotion(
+            @Query("lst_sessid") String sessid,
+            @Query("course_id") long courseId
     );
 }

@@ -46,6 +46,15 @@ public class HomePresenter extends BasePresenter {
         boolean show = true;
         if(list != null && list.size() > 0){
             List<AdvertBean> data = (List<AdvertBean>) list.get(0).getData();
+            List<AdvertBean> coupons = new ArrayList<>();
+            for (int i = 0; data != null && i < data.size(); i++){
+                if("4".equals(data.get(i).getType())){
+                    coupons.add(data.get(i));
+                }
+            }
+            if(coupons.size() > 0){
+                data.removeAll(coupons);
+            }
             homeListener.onSuccess(position, data);
             show = false;
         }

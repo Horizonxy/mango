@@ -232,7 +232,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
             DialogUtil.createChoosseDialog(this, "提示", "只有升级成为学生才能参与该工作包", "去认证", "暂不认证", new DialogUtil.OnChooseDialogListener() {
                 @Override
                 public void onChoose() {
-                    ActivityBuilder.startUpgradeRoleActivityy(WorksProjectDetailActivity.this);
+                    ActivityBuilder.startUpgradeRoleActivity(WorksProjectDetailActivity.this);
                 }
             });
         }

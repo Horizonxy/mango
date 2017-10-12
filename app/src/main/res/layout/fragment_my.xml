@@ -197,13 +197,6 @@
                 layout="@layout/layout_item_profile" />
 
             <include
-                android:id="@+id/layout_coupon"
-                layout="@layout/layout_item_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_0.5" />
-
-            <include
                 android:id="@+id/layout_order_list"
                 layout="@layout/layout_item_profile"
                 android:layout_width="match_parent"
@@ -226,6 +219,13 @@
 
             <include
                 android:id="@+id/layout_account"
+                layout="@layout/layout_item_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_0.5" />
+
+            <include
+                android:id="@+id/layout_coupon"
                 layout="@layout/layout_item_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

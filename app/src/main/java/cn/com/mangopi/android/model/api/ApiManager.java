@@ -11,6 +11,7 @@ import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.model.bean.ActorTeamBean;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
+import cn.com.mangopi.android.model.bean.CalcPriceBean;
 import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
 import cn.com.mangopi.android.model.bean.CommunityTypeBean;
 import cn.com.mangopi.android.model.bean.CompanyDetailBean;
@@ -18,6 +19,7 @@ import cn.com.mangopi.android.model.bean.ContentDetailBean;
 import cn.com.mangopi.android.model.bean.CouponBean;
 import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
+import cn.com.mangopi.android.model.bean.CourseCouponBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.CourseTypeBean;
 import cn.com.mangopi.android.model.bean.FavBean;
@@ -332,5 +334,17 @@ public class ApiManager {
 
     public static Observable<RestResult<List<CouponBean>>> memberCouponList(int pageNo, int state){
         return Application.application.getApiService().memberCouponList(Application.application.getSessId(), pageNo, Constants.PAGE_SIZE, state);
+    }
+
+    public static Observable<RestResult<List<CourseCouponBean>>> promotion(long courseId){
+        return Application.application.getApiService().promotion(Application.application.getSessId(), courseId);
+    }
+
+    public static Observable<RestResult<Object>> fetchCoupon(long couponId){
+        return Application.application.getApiService().fetchCoupon(Application.application.getSessId(), couponId);
+    }
+
+    public static Observable<RestResult<CalcPriceBean>> calcPrice(Map<String, Object> map){
+        return Application.application.getApiService().calcPrice(Application.application.getSessId(), map);
     }
 }

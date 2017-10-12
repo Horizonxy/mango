@@ -25,7 +25,6 @@ import cn.com.mangopi.android.di.component.DaggerMyFragmentComponent;
 import cn.com.mangopi.android.di.module.MyFragmentModule;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.presenter.MemberPresenter;
-import cn.com.mangopi.android.ui.activity.MemberCouponListActivity;
 import cn.com.mangopi.android.ui.activity.MyAccountActivity;
 import cn.com.mangopi.android.ui.activity.MyOrderListActivity;
 import cn.com.mangopi.android.ui.activity.SettingActivity;
@@ -119,10 +118,10 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
             void onLoginClick(View v) {
                 switch (v.getId()) {
                     case R.id.layout_role:
-                        ActivityBuilder.startUpgradeRoleActivityy(getActivity());
+                        ActivityBuilder.startUpgradeRoleActivity(getActivity());
                         break;
                     case R.id.layout_coupon:
-                        startActivity(new Intent(getActivity(), MemberCouponListActivity.class));
+                        ActivityBuilder.startMemberCouponListActivity(getActivity());
                         break;
                     case R.id.layout_order_list:
                         startActivity(new Intent(getActivity(), MyOrderListActivity.class));

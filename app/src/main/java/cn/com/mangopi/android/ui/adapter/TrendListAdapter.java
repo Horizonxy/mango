@@ -237,7 +237,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                         DialogUtil.createChoosseDialog(context, "提示", "只有升级成为导师或社团才能转发哦", "去认证", "暂不认证", new DialogUtil.OnChooseDialogListener() {
                             @Override
                             public void onChoose() {
-                                ActivityBuilder.startUpgradeRoleActivityy((Activity) context);
+                                ActivityBuilder.startUpgradeRoleActivity((Activity) context);
                             }
                         });
                     }
