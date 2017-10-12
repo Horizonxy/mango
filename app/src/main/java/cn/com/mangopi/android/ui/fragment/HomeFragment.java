@@ -355,7 +355,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                     }
                 }
 
-                Application.application.getImageLoader().loadImage("http:"+item.getFile_path(), Application.application.getDefaultOptions(), new SimpleImageLoadingListener(){
+                Application.application.getImageLoader().loadImage(item.getFile_path(), Application.application.getDefaultOptions(), new SimpleImageLoadingListener(){
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         if(couponView == null) {
@@ -392,6 +392,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     @Override
     public void onFetchCouponSuccess(long id) {
         ActivityBuilder.startMemberCouponListActivity(getActivity());
+        MaskUtils.removeAttchMask(getContext(), couponView);
 
         List<CommonBean> commonList = commonDao.findByColumn(CommonBean.DATA_TYPE, fetchCouponKey);
         if(commonList != null && commonList.size() > 0) {
