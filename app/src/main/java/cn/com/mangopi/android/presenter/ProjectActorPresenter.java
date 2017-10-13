@@ -19,7 +19,7 @@ public class ProjectActorPresenter extends BasePresenter {
 
     public void getProjectActor(){
         Context context = projectWorkListener.currentContext();
-        Subscription subscription = actorModel.getProjectActor(projectWorkListener.getProjectId(), new CreateLoading(context), new BaseLoadingSubscriber<RestResult<ProjectActorBean>>(){
+        Subscription subscription = actorModel.getProjectActor(projectWorkListener.getActorId(), new CreateLoading(context), new BaseLoadingSubscriber<RestResult<ProjectActorBean>>(){
             @Override
             public void onError(Throwable e) {
                 super.onError(e);

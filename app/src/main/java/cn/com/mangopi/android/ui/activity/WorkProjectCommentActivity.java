@@ -9,24 +9,34 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.mcxiaoke.bus.Bus;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.ProjectActorBean;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
+import cn.com.mangopi.android.presenter.ProjectActorPresenter;
 import cn.com.mangopi.android.presenter.WorkProjectCommentPresenter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.dialog.ListViewDialog;
+import cn.com.mangopi.android.ui.viewlistener.ProjectWorkListener;
 import cn.com.mangopi.android.ui.viewlistener.WorkProjectCommentListener;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.BusEvent;
 import rx.functions.Action1;
 
-public class WorkProjectCommentActivity extends BaseTitleBarActivity implements WorkProjectCommentListener {
+public class WorkProjectCommentActivity extends BaseTitleBarActivity implements WorkProjectCommentListener, ProjectWorkListener {
 
+    @Bind(R.id.tv_tutor_comment_tip)
+    TextView tvTutorCommentTip;
     @Bind(R.id.tv_tutor_comment)
     TextView tvToturComment;
+    @Bind(R.id.line_tutor_comment)
+    View lineTutorComment;
     @Bind(R.id.layout_score)
     LinearLayout layoutScore;
     @Bind(R.id.tv_score)
@@ -38,16 +48,20 @@ public class WorkProjectCommentActivity extends BaseTitleBarActivity implements 
     @Bind(R.id.btn_submit_comment)
     Button btnSubmitComment;
     List<String> scores = new ArrayList<String>();
-    ProjectDetailBean.ProjectActorBean actorBean;
     WorkProjectCommentPresenter commentPresenter;
+    long actorId;
+    ProjectActorPresenter projectActorPresenter;
+    ProjectActorBean projectActorBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_project_comment);
-        actorBean = (ProjectDetailBean.ProjectActorBean) getIntent().getSerializableExtra(Constants.BUNDLE_DATA);
+        actorId = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
         initView();
         commentPresenter = new WorkProjectCommentPresenter(this);
+        projectActorPresenter = new ProjectActorPresenter(this);
+        projectActorPresenter.getProjectActor();
     }
 
     private void initView() {
@@ -108,7 +122,7 @@ public class WorkProjectCommentActivity extends BaseTitleBarActivity implements 
 
     @Override
     public long getActorId() {
-        return actorBean.getActor_id();
+        return actorId;
     }
 
     @Override
@@ -123,6 +137,11 @@ public class WorkProjectCommentActivity extends BaseTitleBarActivity implements 
 
     @Override
     public void onCommentSuccess() {
+        BusEvent.ActorCompanyCommentEvent event = new BusEvent.ActorCompanyCommentEvent();
+        event.setId(actorId);
+        event.setComment(getComment());
+        event.setScore(getScore());
+        Bus.getDefault().postSticky(event);
         finish();
     }
 
@@ -131,6 +150,24 @@ public class WorkProjectCommentActivity extends BaseTitleBarActivity implements 
         if(commentPresenter != null){
             commentPresenter.onDestroy();
         }
+        if(projectActorPresenter != null){
+            projectActorPresenter.onDestroy();
+        }
         super.onDestroy();
+    }
+
+    @Override
+    public void onProjectActorSuccess(ProjectActorBean projectActorBean) {
+        this.projectActorBean = projectActorBean;
+        if(!TextUtils.isEmpty(projectActorBean.getTutor_comments())) {
+            tvTutorCommentTip.setVisibility(View.VISIBLE);
+            tvToturComment.setVisibility(View.VISIBLE);
+            lineTutorComment.setVisibility(View.VISIBLE);
+            tvToturComment.setText(projectActorBean.getTutor_comments());
+        } else {
+            tvTutorCommentTip.setVisibility(View.GONE);
+            tvToturComment.setVisibility(View.GONE);
+            lineTutorComment.setVisibility(View.GONE);
+        }
     }
 }

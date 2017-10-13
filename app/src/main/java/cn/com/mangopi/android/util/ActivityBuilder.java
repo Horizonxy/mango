@@ -348,9 +348,9 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
-    public static void startProjectWorkDetailActivity(Activity activity, long projectId){
+    public static void startProjectWorkDetailActivity(Activity activity, long id){
         Intent intent = new Intent(activity, ProjectWorkDetailActivity.class);
-        intent.putExtra(Constants.BUNDLE_ID, projectId);
+        intent.putExtra(Constants.BUNDLE_ID, id);
         activity.startActivity(intent);
     }
 
@@ -367,9 +367,9 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
-    public static void startWorkProjectCommentActivity(Activity activity, ProjectDetailBean.ProjectActorBean actorBean){
+    public static void startWorkProjectCommentActivity(Activity activity, long actorId){
         Intent intent = new Intent(activity, WorkProjectCommentActivity.class);
-        intent.putExtra(Constants.BUNDLE_DATA, actorBean);
+        intent.putExtra(Constants.BUNDLE_ID, actorId);
         activity.startActivity(intent);
     }
 

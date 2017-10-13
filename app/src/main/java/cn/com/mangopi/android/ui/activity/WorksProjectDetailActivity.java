@@ -214,11 +214,15 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         }
 
         Date applyAbort = projectDetail.getApply_abort_time();
-        if(applyAbort != null && applyAbort.after(new Date()) && !indentityList.contains(Constants.UserIndentity.COMPANY)){
-            btnProjectJoin.setVisibility(View.VISIBLE);
+        if(applyAbort != null && applyAbort.after(new Date()) /*&& !indentityList.contains(Constants.UserIndentity.COMPANY)*/){
+            btnProjectJoin.setEnabled(true);
+            btnProjectJoin.setText("立即报名");
+            btnProjectJoin.setText("立即报名");
         } else {
-            btnProjectJoin.setVisibility(View.INVISIBLE);
+            btnProjectJoin.setEnabled(false);
+            btnProjectJoin.setText("报名截止");
         }
+        btnProjectJoin.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.btn_project_join)
@@ -311,6 +315,9 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
 
     @Override
     protected void onDestroy() {
+        if(teamAdatper != null){
+            teamAdatper.onDestory();
+        }
         if(projectPresenter != null){
             projectPresenter.onDestroy();
         }

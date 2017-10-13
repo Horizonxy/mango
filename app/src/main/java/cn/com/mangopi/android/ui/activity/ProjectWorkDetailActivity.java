@@ -24,7 +24,7 @@ import cn.com.mangopi.android.util.DisplayUtils;
 public class ProjectWorkDetailActivity extends BaseTitleBarActivity implements ProjectWorkListener {
 
     ProjectActorPresenter projectActorPresenter;
-    long projectId;
+    long id;
     ProjectActorBean projectActorBean;
     @Bind(R.id.tv_project_name)
     TextView tvProjectName;
@@ -58,7 +58,7 @@ public class ProjectWorkDetailActivity extends BaseTitleBarActivity implements P
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_work_detail);
 
-        projectId = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
+        id = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
         initView();
         projectActorPresenter = new ProjectActorPresenter(this);
         projectActorPresenter.getProjectActor();
@@ -84,8 +84,8 @@ public class ProjectWorkDetailActivity extends BaseTitleBarActivity implements P
     }
 
     @Override
-    public long getProjectId() {
-        return projectId;
+    public long getActorId() {
+        return id;
     }
 
     @Override

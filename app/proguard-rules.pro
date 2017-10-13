@@ -38,6 +38,9 @@
     public void *(android.view.View);
     public void on*Event(**);
 }
+-keepclassmembers class * { # 保持自定义控件类不被混淆
+    public void on*Event(**);
+}
 
 -keep class cn.com.mangopi.android.ui.widget.** { *; }
 

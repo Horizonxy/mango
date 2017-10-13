@@ -4,17 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
+
+import com.mcxiaoke.bus.Bus;
+import com.mcxiaoke.bus.annotation.BusReceiver;
+
 import java.util.List;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.util.ActivityBuilder;
+import cn.com.mangopi.android.util.BusEvent;
 
 public class TeamInProjectDetailAdapter extends QuickAdapter<ProjectDetailBean.ProjectActorBean> {
 
     public TeamInProjectDetailAdapter(Context context, int layoutResId, List<ProjectDetailBean.ProjectActorBean> data) {
         super(context, layoutResId, data);
+        Bus.getDefault().register(this);
     }
 
     @Override
@@ -46,12 +52,29 @@ public class TeamInProjectDetailAdapter extends QuickAdapter<ProjectDetailBean.P
             switch (v.getId()){
                 case R.id.tv_comment:
                     if(TextUtils.isEmpty(actorBean.getCompany_comments())){
-                        ActivityBuilder.startWorkProjectCommentActivity((Activity) context, actorBean);
+                        ActivityBuilder.startWorkProjectCommentActivity((Activity) context, actorBean.getId());
                     }
                     break;
                 case R.id.tv_work:
                     break;
             }
         }
+    }
+
+    @BusReceiver
+    public void onActorCompanyCommentEvent(BusEvent.ActorCompanyCommentEvent event){
+        long id = event.getId();
+        for (int i = 0; data != null && i < data.size(); i++){
+            ProjectDetailBean.ProjectActorBean actorBean = data.get(i);
+            if(actorBean.getId() == id){
+                actorBean.setCompany_comments(event.getComment());
+                notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    public void onDestory(){
+        Bus.getDefault().unregister(this);
     }
 }
