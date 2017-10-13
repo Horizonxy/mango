@@ -416,4 +416,13 @@ public class MangoUtils {
             }
         }
     }
+
+    public static void setViewsVisibility(int visibility, View... views){
+        if(views == null || views.length == 0){
+            return;
+        }
+        for (View view : views){
+            view.setVisibility(View.VISIBLE);
+        }
+    }
 }

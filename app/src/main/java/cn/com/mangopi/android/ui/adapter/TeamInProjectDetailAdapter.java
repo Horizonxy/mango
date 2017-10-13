@@ -56,6 +56,7 @@ public class TeamInProjectDetailAdapter extends QuickAdapter<ProjectDetailBean.P
                     }
                     break;
                 case R.id.tv_work:
+                    ActivityBuilder.startWorkProjectTeamPhotoActivity((Activity) context, actorBean.getId());
                     break;
             }
         }

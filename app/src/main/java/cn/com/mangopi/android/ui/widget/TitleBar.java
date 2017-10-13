@@ -79,6 +79,10 @@ public class TitleBar extends FrameLayout implements View.OnClickListener {
         tvLeft.setText(getResources().getString(resId));
     }
 
+    public void setRightTextVisibilty(int visibility){
+        tvRight.setVisibility(visibility);
+    }
+
     public void setRightText(int resId){
         if(View.GONE == tvRight.getVisibility()){
             tvRight.setVisibility(View.VISIBLE);

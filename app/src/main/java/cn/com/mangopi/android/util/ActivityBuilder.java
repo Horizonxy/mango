@@ -16,7 +16,6 @@ import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
-import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.ui.activity.AddBlankCardActivity;
@@ -28,15 +27,11 @@ import cn.com.mangopi.android.ui.activity.CourseListActivity;
 import cn.com.mangopi.android.ui.activity.FavListActivity;
 import cn.com.mangopi.android.ui.activity.GetCashActivity;
 import cn.com.mangopi.android.ui.activity.InputMessageActivity;
-import cn.com.mangopi.android.ui.activity.MemberCouponListActivity;
-import cn.com.mangopi.android.ui.activity.ProjectTeamDetailActivity;
-import cn.com.mangopi.android.ui.activity.ProjectWorkDetailActivity;
-import cn.com.mangopi.android.ui.activity.ScheduleOrderListActivity;
-import cn.com.mangopi.android.ui.activity.TrendCommentsActivity;
 import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
 import cn.com.mangopi.android.ui.activity.MemberCardListActivity;
 import cn.com.mangopi.android.ui.activity.MemberCardStateActivity;
+import cn.com.mangopi.android.ui.activity.MemberCouponListActivity;
 import cn.com.mangopi.android.ui.activity.MemberTrendActivity;
 import cn.com.mangopi.android.ui.activity.MemberWorksActivity;
 import cn.com.mangopi.android.ui.activity.MessageListActivity;
@@ -48,12 +43,16 @@ import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
 import cn.com.mangopi.android.ui.activity.PlaceOrderActivity;
 import cn.com.mangopi.android.ui.activity.ProfileInfoActivity;
 import cn.com.mangopi.android.ui.activity.ProjectJoinActivity;
+import cn.com.mangopi.android.ui.activity.ProjectTeamDetailActivity;
+import cn.com.mangopi.android.ui.activity.ProjectWorkDetailActivity;
 import cn.com.mangopi.android.ui.activity.PublishDynamicsActivity;
+import cn.com.mangopi.android.ui.activity.ScheduleOrderListActivity;
 import cn.com.mangopi.android.ui.activity.SearchActivity;
 import cn.com.mangopi.android.ui.activity.SelectPayActivity;
 import cn.com.mangopi.android.ui.activity.SetNickNameActivity;
 import cn.com.mangopi.android.ui.activity.SuccessActivity;
 import cn.com.mangopi.android.ui.activity.TransDetailActivity;
+import cn.com.mangopi.android.ui.activity.TrendCommentsActivity;
 import cn.com.mangopi.android.ui.activity.TrendForwardActivity;
 import cn.com.mangopi.android.ui.activity.TutorClassCategoryActivity;
 import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
@@ -61,6 +60,7 @@ import cn.com.mangopi.android.ui.activity.UpgradeRoleActivity;
 import cn.com.mangopi.android.ui.activity.WebViewActivity;
 import cn.com.mangopi.android.ui.activity.WorkProjectCommentActivity;
 import cn.com.mangopi.android.ui.activity.WorksProjectDetailActivity;
+import cn.com.mangopi.android.ui.activity.WorkProjectTeamPhotoActivity;
 
 /**
  * @author 蒋先明
@@ -369,6 +369,12 @@ public class ActivityBuilder {
 
     public static void startWorkProjectCommentActivity(Activity activity, long actorId){
         Intent intent = new Intent(activity, WorkProjectCommentActivity.class);
+        intent.putExtra(Constants.BUNDLE_ID, actorId);
+        activity.startActivity(intent);
+    }
+
+    public static void startWorkProjectTeamPhotoActivity(Activity activity, long actorId){
+        Intent intent = new Intent(activity, WorkProjectTeamPhotoActivity.class);
         intent.putExtra(Constants.BUNDLE_ID, actorId);
         activity.startActivity(intent);
     }
