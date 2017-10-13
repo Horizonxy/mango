@@ -94,10 +94,10 @@ public class Application extends MultiDexApplication {
     public String getSessId(){
         if(TextUtils.isEmpty(sessId)){
 //            sessId = PreUtils.getString(this, cn.com.mangopi.android.Constants.SESS_ID, "");
-//            sessId = "5a07eeda-5485-441c-85d1-c29058559169";
+            sessId = "5a07eeda-5485-441c-85d1-c29058559169";
 //            sessId = "46e15e6c-2ff3-4ee9-a596-db0472a32bb2";
 //            sessId = "c37d1b12-8521-43e6-b8ee-62b9bc41f979";
-            sessId = "bab864d3-55d5-43f5-bb5d-fc7452de002a";
+//            sessId = "bab864d3-55d5-43f5-bb5d-fc7452de002a";
         }
         return sessId;
     }

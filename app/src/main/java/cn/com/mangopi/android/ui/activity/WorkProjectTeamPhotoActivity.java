@@ -47,6 +47,10 @@ public class WorkProjectTeamPhotoActivity extends BaseTitleBarActivity implement
     ListView lvPhotos;
     List<String> photoDatas = new ArrayList<String>();
     MatchParentPhotoAdapter photoAdapter;
+    @Bind(R.id.layout_empty)
+    View emptyPhotoView;
+    @Bind(R.id.tv_content_empty_tip)
+    TextView tvEmptyPhotoTip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public class WorkProjectTeamPhotoActivity extends BaseTitleBarActivity implement
 
     private void initView() {
 
+        tvEmptyPhotoTip.setText("暂无作品照片");
         lvPhotos.setAdapter(photoAdapter = new MatchParentPhotoAdapter(this, R.layout.listview_item_match_photo, photoDatas));
     }
 
@@ -73,7 +78,9 @@ public class WorkProjectTeamPhotoActivity extends BaseTitleBarActivity implement
 
     @OnClick(R.id.tv_other_doc)
     void otherDocClicked(View v){
-
+        if(projectActorBean != null){
+            ActivityBuilder.startWorkProjectTeamDocActivity(this, projectActorBean.getActor_name(), projectActorBean.getScheme_doc_rsurls());
+        }
     }
 
     @Override
@@ -115,6 +122,9 @@ public class WorkProjectTeamPhotoActivity extends BaseTitleBarActivity implement
         photoDatas.clear();
         if(projectActorBean.getWorks_photo_rsurls() != null){
             photoDatas.addAll(projectActorBean.getWorks_photo_rsurls());
+        }
+        if(lvPhotos.getEmptyView() == null) {
+            lvPhotos.setEmptyView(emptyPhotoView);
         }
         photoAdapter.notifyDataSetChanged();
 

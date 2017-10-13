@@ -59,6 +59,7 @@ import cn.com.mangopi.android.ui.activity.TutorDetailActivity;
 import cn.com.mangopi.android.ui.activity.UpgradeRoleActivity;
 import cn.com.mangopi.android.ui.activity.WebViewActivity;
 import cn.com.mangopi.android.ui.activity.WorkProjectCommentActivity;
+import cn.com.mangopi.android.ui.activity.WorkProjectTeamDocActivity;
 import cn.com.mangopi.android.ui.activity.WorksProjectDetailActivity;
 import cn.com.mangopi.android.ui.activity.WorkProjectTeamPhotoActivity;
 
@@ -376,6 +377,13 @@ public class ActivityBuilder {
     public static void startWorkProjectTeamPhotoActivity(Activity activity, long actorId){
         Intent intent = new Intent(activity, WorkProjectTeamPhotoActivity.class);
         intent.putExtra(Constants.BUNDLE_ID, actorId);
+        activity.startActivity(intent);
+    }
+
+    public static void startWorkProjectTeamDocActivity(Activity activity, String actorName, List<String> docRsurls){
+        Intent intent = new Intent(activity, WorkProjectTeamDocActivity.class);
+        intent.putExtra(Constants.BUNDLE_TITLE, actorName);
+        intent.putExtra(Constants.BUNDLE_DATA, (Serializable) docRsurls);
         activity.startActivity(intent);
     }
 

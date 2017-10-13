@@ -261,7 +261,10 @@
             android:name=".ui.activity.WorkProjectCommentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
-        <activity android:name=".ui.activity.WorkProjectTeamPhotoActivity"
+        <activity
+            android:name=".ui.activity.WorkProjectTeamPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.WorkProjectTeamDocActivity"
             android:screenOrientation="portrait" />
 
         <receiver android:name=".receiver.NetReceiver">

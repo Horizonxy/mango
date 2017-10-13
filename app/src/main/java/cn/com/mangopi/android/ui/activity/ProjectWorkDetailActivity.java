@@ -53,6 +53,14 @@ public class ProjectWorkDetailActivity extends BaseTitleBarActivity implements P
     QuickAdapter<String> docsAdapter;
     QuickAdapter<String> teamsPhotoAdatper;
 
+    @Bind(R.id.layout_photo_empty)
+    View emptyPhotoView;
+    @Bind(R.id.layout_doc_empty)
+    View emptyDocView;
+    @Bind(R.id.layout_team_empty)
+    View emptyTeamView;
+    TextView tvEmptyPhotoTip, tvEmptyDocTip, tvEmptyTeamTip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +79,13 @@ public class ProjectWorkDetailActivity extends BaseTitleBarActivity implements P
         gvWorksPhoto.setAdapter(worksPhotoAdapter = new ProjectActorPhotoAdapter(this, R.layout.gridview_item_image, worksPhoto, width));
         gvDoc.setAdapter(docsAdapter = new ProjectActorPhotoAdapter(this, R.layout.gridview_item_image, docs, width));
         gvTeam.setAdapter(teamsPhotoAdatper = new ProjectActorPhotoAdapter(this, R.layout.gridview_item_image, teamPhoto, width));
+
+        tvEmptyPhotoTip = (TextView) emptyPhotoView.findViewById(R.id.tv_content_empty_tip);
+        tvEmptyDocTip = (TextView) emptyDocView.findViewById(R.id.tv_content_empty_tip);
+        tvEmptyTeamTip = (TextView) emptyTeamView.findViewById(R.id.tv_content_empty_tip);
+        tvEmptyPhotoTip.setText("暂无作品照片");
+        tvEmptyDocTip.setText("暂无方案文档");
+        tvEmptyTeamTip.setText("暂无团队照片");
     }
 
     @Override
@@ -101,17 +116,26 @@ public class ProjectWorkDetailActivity extends BaseTitleBarActivity implements P
         if(projectActorBean.getWorks_photo_rsurls() != null && projectActorBean.getWorks_photo_rsurls().size() > 0) {
             worksPhoto.addAll(projectActorBean.getWorks_photo_rsurls());
         }
+        if(gvWorksPhoto.getEmptyView() == null){
+            gvWorksPhoto.setEmptyView(emptyPhotoView);
+        }
         worksPhotoAdapter.notifyDataSetChanged();
 
         docs.clear();
         if(projectActorBean.getScheme_doc_rsurls() != null && projectActorBean.getScheme_doc_rsurls().size() > 0) {
             docs.addAll(projectActorBean.getScheme_doc_rsurls());
         }
+        if(gvDoc.getEmptyView() == null){
+            gvDoc.setEmptyView(emptyDocView);
+        }
         docsAdapter.notifyDataSetChanged();
 
         teamPhoto.clear();
         if(projectActorBean.getTeam_photo_rsurls() != null && projectActorBean.getTeam_photo_rsurls().size() > 0) {
             teamPhoto.addAll(projectActorBean.getTeam_photo_rsurls());
+        }
+        if(gvTeam.getEmptyView() == null){
+            gvTeam.setEmptyView(emptyTeamView);
         }
         teamsPhotoAdatper.notifyDataSetChanged();
 

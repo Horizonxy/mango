@@ -17,6 +17,11 @@
             android:layout_height="wrap_content"
             android:scrollbars="none" />
 
+        <include
+            android:id="@+id/layout_empty"
+            android:visibility="gone"
+            layout="@layout/layout_nodata_in_content" />
+
         <TextView
             android:id="@+id/tv_other_doc"
             android:layout_width="match_parent"

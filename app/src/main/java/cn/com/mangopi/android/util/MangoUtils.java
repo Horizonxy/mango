@@ -422,7 +422,7 @@ public class MangoUtils {
             return;
         }
         for (View view : views){
-            view.setVisibility(View.VISIBLE);
+            view.setVisibility(visibility);
         }
     }
 }

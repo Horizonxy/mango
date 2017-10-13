@@ -108,6 +108,10 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
     TeamInProjectDetailAdapter teamAdatper;
 
     int whereFrom;
+    @Bind(R.id.layout_empty)
+    View emptyTeamView;
+    @Bind(R.id.tv_content_empty_tip)
+    TextView tvEmptyTeamTip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +130,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
             titleBar.setRightText("我的工作包");
             titleBar.setOnTitleBarClickListener(this);
         }
+        tvEmptyTeamTip.setText("暂无报名团队");
         projectPresenter = new WorksProjectPresenter(this);
         projectPresenter.getProject();
 
@@ -188,6 +193,9 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
                 lvProjectTeam.setAdapter(teamAdatper = new TeamInProjectDetailAdapter(this, R.layout.listview_item_project_team_in_detail, projectActors));
             } else {
                 teamAdatper.notifyDataSetChanged();
+            }
+            if(lvProjectTeam.getEmptyView() == null) {
+                lvProjectTeam.setEmptyView(emptyTeamView);
             }
             tvProjectTeam.setVisibility(View.VISIBLE);
             lvProjectTeam.setVisibility(View.VISIBLE);
