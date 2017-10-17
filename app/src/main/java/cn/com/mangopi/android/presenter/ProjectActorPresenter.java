@@ -41,4 +41,29 @@ public class ProjectActorPresenter extends BasePresenter {
         });
         addSubscription(subscription);
     }
+
+    public void getProjectActor(long actorId){
+        Context context = projectWorkListener.currentContext();
+        Subscription subscription = actorModel.getProjectActor(actorId, new CreateLoading(context), new BaseLoadingSubscriber<RestResult<ProjectActorBean>>(){
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if(e != null){
+                    projectWorkListener.onFailure(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(RestResult<ProjectActorBean> restResult) {
+                if(restResult != null){
+                    if(restResult.isSuccess()){
+                        projectWorkListener.onProjectActorSuccess(restResult.getData());
+                    } else {
+                        projectWorkListener.onFailure(restResult.getRet_msg());
+                    }
+                }
+            }
+        });
+        addSubscription(subscription);
+    }
 }

@@ -12,9 +12,9 @@ public class ProjectActorBean implements Serializable {
     private long actor_id;
     private int member_count;
     private int vote_count;
-    private int tutor_score;
-    private int company_score;
-    private int integrated_score;
+    private float tutor_score;
+    private float company_score;
+    private float integrated_score;
     private int integrated_ranking;
     private String awards;
     private String tutor_comments;
@@ -90,27 +90,27 @@ public class ProjectActorBean implements Serializable {
         this.vote_count = vote_count;
     }
 
-    public int getTutor_score() {
+    public float getTutor_score() {
         return tutor_score;
     }
 
-    public void setTutor_score(int tutor_score) {
+    public void setTutor_score(float tutor_score) {
         this.tutor_score = tutor_score;
     }
 
-    public int getCompany_score() {
+    public float getCompany_score() {
         return company_score;
     }
 
-    public void setCompany_score(int company_score) {
+    public void setCompany_score(float company_score) {
         this.company_score = company_score;
     }
 
-    public int getIntegrated_score() {
+    public float getIntegrated_score() {
         return integrated_score;
     }
 
-    public void setIntegrated_score(int integrated_score) {
+    public void setIntegrated_score(float integrated_score) {
         this.integrated_score = integrated_score;
     }
 

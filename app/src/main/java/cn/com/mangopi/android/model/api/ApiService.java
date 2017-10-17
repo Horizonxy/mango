@@ -44,6 +44,7 @@ import cn.com.mangopi.android.model.bean.UploadBean;
 import cn.com.mangopi.android.model.bean.ReplyTrendBean;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -453,6 +454,12 @@ public interface ApiService {
     //5.4.5	 工作包参与者详情接口
     @GET("outer/router?project_actor_get")
     Observable<RestResult<ProjectActorBean>> getProjectActor(
+            @Query("id") long id
+    );
+
+    //5.4.5	 工作包参与者详情接口
+    @GET("outer/router?project_actor_get")
+    Call<RestResult<ProjectActorBean>> getProjectActorSync(
             @Query("id") long id
     );
 
