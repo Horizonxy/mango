@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import cn.com.mangopi.android.BuildConfig;
+import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 
 public class AppUtils {
@@ -310,5 +313,19 @@ public class AppUtils {
             return "http" + url.substring(5);
         }
         return url;
+    }
+
+    public static void synCookies(Context context, String... cookie) {
+        if(cookie.length == 0 || cookie.length%2 != 0) return;
+        CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(context);
+        CookieManager cookieManager = CookieManager.getInstance();
+        CookieSyncManager.getInstance().startSync();
+        cookieManager.setAcceptCookie(true);
+        for (int i = 0; i < cookie.length; i+=2) {
+            String c = cookie[i]+"=" + cookie[i+1];
+            System.out.println("cookie: "+c);
+            cookieManager.setCookie(Constants.DOMAIN, c);
+        }
+        cookieSyncManager.sync();
     }
 }

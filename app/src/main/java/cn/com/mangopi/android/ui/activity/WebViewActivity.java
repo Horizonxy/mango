@@ -12,12 +12,14 @@ import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
 
 import butterknife.Bind;
+import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.ui.widget.web.MangoWebChromeClient;
 import cn.com.mangopi.android.ui.widget.web.MangoWebChromeListener;
 import cn.com.mangopi.android.ui.widget.web.MangoWebView;
 import cn.com.mangopi.android.ui.widget.web.MangoWebViewClient;
+import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 
 public class WebViewActivity extends BaseActivity implements MangoWebChromeListener {
@@ -49,6 +51,8 @@ public class WebViewActivity extends BaseActivity implements MangoWebChromeListe
         // 如果有设置的WebChromeClient，则需要将对象传入，否则影响本身回调；如果没有，第三个参数设置为null即可
         StatService.trackWebView(this, webView, new MangoWebChromeClient(this));
         webView.setWebViewClient(new MangoWebViewClient());
+
+        AppUtils.synCookies(this, "sessid", Application.application.getSessId());
 
         webView.loadUrl(url);
     }

@@ -4,6 +4,9 @@ public class Constants {
 
 	public static final int PAGE_SIZE = 20;
 
+	/** 域名*/
+	public static final String DOMAIN = ".mangopi.com.cn";
+
 //	public static final String END_POIND = "https://www.mangopi.com.cn/";
 	public static final String END_POIND = "https://demo.lvshetong.cn/mangotree-portal/";
 
