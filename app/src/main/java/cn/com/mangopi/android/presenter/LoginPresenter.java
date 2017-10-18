@@ -64,7 +64,7 @@ public class LoginPresenter extends BasePresenter {
         addSubscription(subscription);
     }
 
-    public void quickLogin(String mobile, String smsCode){
+    public void quickLogin(String smsCode){
         Context context = viewListener.currentContext();
         if(TextUtils.isEmpty(smsCode)){
             viewListener.onFailure(context.getString(R.string.please_input_smscode));
@@ -73,7 +73,7 @@ public class LoginPresenter extends BasePresenter {
         if(!hasNet()){
             return;
         }
-        Subscription subscription = memberModel.quickLogin(mobile, smsCode, sessId, new CreateLoading(context, context.getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<RegistBean>>() {
+        Subscription subscription = memberModel.quickLogin(viewListener.getLoginParams(), sessId, new CreateLoading(context, context.getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<RegistBean>>() {
 
             @Override
             public void onError(Throwable e) {
@@ -134,7 +134,7 @@ public class LoginPresenter extends BasePresenter {
                 } else {
                     if(restResult != null){
                         if("BIZ_ERR_MEMBER_NONEXISTENT".equals(restResult.getError_code())){
-                            viewListener.startRegist();
+                            viewListener.startRegist(openId, "");
                         } else {
                             viewListener.onFailure(restResult.getRet_msg());
                         }
@@ -175,7 +175,7 @@ public class LoginPresenter extends BasePresenter {
                 } else {
                     if(restResult != null){
                         if("BIZ_ERR_MEMBER_NONEXISTENT".equals(restResult.getError_code())){
-                            viewListener.startRegist();
+                            viewListener.startRegist(openId, unionId);
                         } else {
                             viewListener.onFailure(restResult.getRet_msg());
                         }

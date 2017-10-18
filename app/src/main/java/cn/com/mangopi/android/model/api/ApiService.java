@@ -63,8 +63,7 @@ public interface ApiService {
     @POST("outer/router?quick_login")
     Observable<RestResult<RegistBean>> quickLogin(
             @Query("mobile") String mobile,
-            @Query("sms_code") String smsCode,
-            @Query("lst_sessid") String sessId
+            @QueryMap Map<String, Object> map
     );
 
     @POST("outer/router?wx_login_openid")

@@ -17,6 +17,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.RegistBean;
 import cn.com.mangopi.android.model.data.MemberModel;
@@ -42,12 +45,15 @@ public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnT
 
     CountDownTimer getCodeCountDownTimer;
     LoginPresenter loginPresenter;
+    String openId, unionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
 
+        openId = getIntent().getStringExtra("open_id");
+        unionId = getIntent().getStringExtra("union_d");
         initView();
         loginPresenter = new LoginPresenter(new MemberModel(), this);
     }
@@ -79,7 +85,7 @@ public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnT
 
     @OnClick(R.id.btn_regist)
     void userRegist(View v){
-        loginPresenter.quickLogin(etPhone.getText().toString(), etVerifyCode.getText().toString());
+        loginPresenter.quickLogin(etVerifyCode.getText().toString());
     }
 
     @Override
@@ -134,7 +140,22 @@ public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnT
     }
 
     @Override
-    public void startRegist() {
+    public void startRegist(String openId, String unionId) {
+    }
+
+
+    @Override
+    public Map<String, Object> getLoginParams() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("mobile", etPhone.getText().toString());
+        map.put("sms_code", etVerifyCode.getText().toString());
+        if(openId != null) {
+            map.put("open_id", openId);
+        }
+        if(unionId != null) {
+            map.put("union_id", unionId);
+        }
+        return map;
     }
 
     @Override

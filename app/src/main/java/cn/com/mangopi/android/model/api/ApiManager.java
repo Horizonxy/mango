@@ -56,8 +56,8 @@ public class ApiManager {
         return Application.application.getApiService().getLoginVerifyCode(mobile);
     }
 
-    public static  Observable<RestResult<RegistBean>> quickLogin(String mobile, String smsCode, String sessId){
-        return Application.application.getApiService().quickLogin(mobile, smsCode, sessId);
+    public static  Observable<RestResult<RegistBean>> quickLogin(Map<String, Object> map, String sessId){
+        return Application.application.getApiService().quickLogin(sessId, map);
     }
 
     public static  Observable<RestResult<RegistBean>> wxLogin(String openId){

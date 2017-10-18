@@ -32,8 +32,8 @@ public class MemberModel {
                 .subscribe(subscriber);
     }
 
-    public Subscription quickLogin(String mobile, String smsCode, String sessId, Action0 onSubscribe, Subscriber<RestResult<RegistBean>> subscriber){
-        return ApiManager.quickLogin(mobile, smsCode, sessId)
+    public Subscription quickLogin(Map<String, Object> map, String sessId, Action0 onSubscribe, Subscriber<RestResult<RegistBean>> subscriber){
+        return ApiManager.quickLogin(map, sessId)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(onSubscribe)
                 .subscribeOn(AndroidSchedulers.mainThread())

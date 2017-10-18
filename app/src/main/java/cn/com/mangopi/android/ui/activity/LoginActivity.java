@@ -26,6 +26,8 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -80,12 +82,6 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
         titleBar.setTitle(getString(R.string.login_mango));
         titleBar.setLeftBtnIconVisibility(View.GONE);
 
-        RxView.clicks(btnLogin).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
-                startActivity(new Intent(LoginActivity.this, SetNickNameActivity.class));
-            }
-        });
         btnLogin.setEnabled(false);
 
         RxTextView.textChanges(etPhone).subscribe(new Action1<CharSequence>() {
@@ -111,7 +107,7 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
         RxView.clicks(btnLogin).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-                loginPresenter.quickLogin(etPhone.getText().toString(), etVerifyCode.getText().toString());
+                loginPresenter.quickLogin(etVerifyCode.getText().toString());
             }
         });
 
@@ -232,9 +228,19 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
     }
 
     @Override
-    public void startRegist() {
+    public void startRegist(String openId, String unionId) {
         Intent intent = new Intent(this, RegistActivity.class);
+        intent.putExtra("open_id", openId);
+        intent.putExtra("union_d", unionId);
         startActivity(intent);
+    }
+
+    @Override
+    public Map<String, Object> getLoginParams() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("mobile", etPhone.getText().toString());
+        map.put("sms_code", etVerifyCode.getText().toString());
+        return map;
     }
 
     @Override
