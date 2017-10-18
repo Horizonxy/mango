@@ -329,6 +329,10 @@ public class MangoUtils {
             if(advertDetail.getEntity_id() != null) {
                 ActivityBuilder.startContentDetailActivity(activity, advertDetail.getEntity_id().longValue());
             }
+        } else if(type == 4){//导师
+            if(advertDetail.getEntity_id() != null) {
+                ActivityBuilder.startTutorDetailActivity(activity, advertDetail.getEntity_id().longValue());
+            }
         }
     }
 

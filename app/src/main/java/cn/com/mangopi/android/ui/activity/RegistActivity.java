@@ -1,5 +1,6 @@
 package cn.com.mangopi.android.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,25 +18,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.RegistBean;
+import cn.com.mangopi.android.model.data.MemberModel;
+import cn.com.mangopi.android.presenter.LoginPresenter;
+import cn.com.mangopi.android.ui.viewlistener.LoginListener;
 import cn.com.mangopi.android.ui.widget.TitleBar;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.mangopi.android.util.ActivityBuilder;
+import cn.com.mangopi.android.util.AppUtils;
 
-public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener {
+public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener,LoginListener<RegistBean> {
 
     @Bind(R.id.et_phone)
     EditText etPhone;
-    @Bind(R.id.et_pwd)
-    EditText etPwd;
+    @Bind(R.id.et_verify_code)
+    EditText etVerifyCode;
     @Bind(R.id.btn_regist)
     Button btnRegist;
-    @Bind(R.id.tv_protocol)
-    TextView tvProtocal;
     @Bind(R.id.tv_get_verify_code)
     TextView tvGetVerifyCode;
 
     CountDownTimer getCodeCountDownTimer;
+    LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +49,13 @@ public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnT
         setContentView(R.layout.activity_regist);
 
         initView();
+        loginPresenter = new LoginPresenter(new MemberModel(), this);
     }
 
     private void initView() {
-        titleBar.setLeftBtnIconVisibility(View.GONE);
-        titleBar.setRightBtnIcon(R.drawable.back);
-        titleBar.setOnTitleBarClickListener(this);
+        titleBar.setTitle("初次注册");
 
         setGetVerifyCodeTvWidth();
-        initProtocol();
     }
 
     private void setGetVerifyCodeTvWidth() {
@@ -68,48 +72,14 @@ public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnT
         });
     }
 
-    private void initProtocol() {
-        String tip = getResources().getString(R.string.regist_protocal_tip);
-        String userProtocol = getResources().getString(R.string.user_protocal);
-
-        SpannableString span = new SpannableString(tip + userProtocol);
-        span.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-                Toast.makeText(RegistActivity.this, userProtocol, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                ds.setColor(getResources().getColor(R.color.color_14b2ec));
-            }
-        }, tip.length(), tip.length() + userProtocol.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        tvProtocal.setHighlightColor(getResources().getColor(android.R.color.transparent));
-        tvProtocal.setText(span);
-        tvProtocal.setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
     @OnClick(R.id.tv_get_verify_code)
     void getVerifyCode(View v){
-        tvGetVerifyCode.setEnabled(false);
-        getCodeCountDownTimer = new CountDownTimer(60 * 1000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                tvGetVerifyCode.setText(millisUntilFinished / 1000 + "s");
-            }
-
-            @Override
-            public void onFinish() {
-                tvGetVerifyCode.setEnabled(true);
-            }
-        };
-        getCodeCountDownTimer.start();
+        loginPresenter.getVerifyCode(etPhone.getText().toString());
     }
 
     @OnClick(R.id.btn_regist)
     void userRegist(View v){
-        startActivity(new Intent(this, SetNickNameActivity.class));
+        loginPresenter.quickLogin(etPhone.getText().toString(), etVerifyCode.getText().toString());
     }
 
     @Override
@@ -121,9 +91,59 @@ public class RegistActivity extends BaseTitleBarActivity implements TitleBar.OnT
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        if(loginPresenter != null){
+            loginPresenter.onDestroy();
+        }
         if(getCodeCountDownTimer != null){
             getCodeCountDownTimer.cancel();
         }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onSuccess(RegistBean data) {
+        if(data == null) {
+            tvGetVerifyCode.setEnabled(false);
+            getCodeCountDownTimer = new CountDownTimer(60 * 1000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    tvGetVerifyCode.setText(millisUntilFinished / 1000 + "s");
+                }
+
+                @Override
+                public void onFinish() {
+                    tvGetVerifyCode.setEnabled(true);
+                    tvGetVerifyCode.setText(getString(R.string.get_verify_code));
+                }
+            };
+            getCodeCountDownTimer.start();
+        }
+    }
+
+    @Override
+    public void startSetNickName() {
+        ActivityBuilder.startSetNickNameActivity(this);
+        ActivityBuilder.defaultTransition(this);
+    }
+
+    @Override
+    public void startMain() {
+        ActivityBuilder.startMainActivity(this);
+        ActivityBuilder.defaultTransition(this);
+        finish();
+    }
+
+    @Override
+    public void startRegist() {
+    }
+
+    @Override
+    public void onFailure(String message) {
+        AppUtils.showToast(this,message);
+    }
+
+    @Override
+    public Context currentContext() {
+        return this;
     }
 }

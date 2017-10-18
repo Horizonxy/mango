@@ -108,13 +108,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
     }
 
+    LoadingDialog loadingDialog;
     /**
      * 获取openid accessToken值用于后期操作
      *
      * @param code 请求码
      */
     private void getAccess_token(final String code) {
-        LoadingDialog loadingDialog = new LoadingDialog(this, getString(R.string.please_wait));
+        loadingDialog = new LoadingDialog(this, getString(R.string.please_wait));
         loadingDialog.show();
 
         String path = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
@@ -134,17 +135,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     jsonObject = new JSONObject(response);
                     String openid = jsonObject.getString("openid").toString().trim();
 
-                    BusEvent.WxOpenIdEvent event = new BusEvent.WxOpenIdEvent();
-                    event.setOpenId(openid);
-                    Bus.getDefault().postSticky(event);
-//                String access_token = jsonObject.getString("access_token").toString().trim();
-//                getUserMesg(access_token, openid);
+                    String access_token = jsonObject.getString("access_token").toString().trim();
+                    getUserMesg(access_token, openid);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    loadingDialog.dismiss();
+                    finish();
                 }
-
-                loadingDialog.dismiss();
-                finish();
             }
 
             @Override
@@ -172,34 +169,39 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 + openid;
         Logger.d("getUserMesg：" + path);
 
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(path)
-                .build();
-        Call call = okHttpClient.newCall(request);
-        try {
-            Response response = call.execute();
-            System.out.println(response.body().string());
 
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject(response.body().string());
-                String nickname = jsonObject.getString("nickname");
-                int sex = Integer.parseInt(jsonObject.get("sex").toString());
-                String headimgurl = jsonObject.getString("headimgurl");
+        OkHttpUtils.ResultCallback<String> resultCallback = new OkHttpUtils.ResultCallback<String>() {
+            @Override
+            public void onSuccess(String response) {
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response);
+                    String openId = jsonObject.getString("openid");
+                    String unoinId = jsonObject.getString("unionid");
 
-                Logger.d("用户基本信息:");
-                Logger.d("nickname:" + nickname);
-                Logger.d("sex:" + sex);
-                Logger.d("headimgurl:" + headimgurl);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    BusEvent.WxOpenIdEvent event = new BusEvent.WxOpenIdEvent();
+                    event.setOpenId(openId);
+                    event.setUnoinId(unoinId);
+                    Bus.getDefault().postSticky(event);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(loadingDialog != null) {
+                    loadingDialog.dismiss();
+                }
+                finish();
             }
-            finish();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+            @Override
+            public void onFailure(Exception e) {
+                AppUtils.showToast(WXEntryActivity.this, "登录失败");
+                if(loadingDialog != null) {
+                    loadingDialog.dismiss();
+                }
+                finish();
+            }
+        };
+        OkHttpUtils.get(path, resultCallback);
     }
 
     private static SSLSocketFactory createSSLSocketFactory() {

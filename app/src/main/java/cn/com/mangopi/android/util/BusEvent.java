@@ -31,6 +31,15 @@ public class BusEvent {
     @com.mcxiaoke.bus.annotation.BusEvent
     public static class WxOpenIdEvent{
         private String openId;
+        private String unoinId;
+
+        public String getUnoinId() {
+            return unoinId;
+        }
+
+        public void setUnoinId(String unoinId) {
+            this.unoinId = unoinId;
+        }
 
         public String getOpenId() {
             return openId;

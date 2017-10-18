@@ -64,6 +64,10 @@ public class ApiManager {
         return Application.application.getApiService().wxLogin(openId);
     }
 
+    public static  Observable<RestResult<RegistBean>> wxLogin(String openId, String unionId){
+        return Application.application.getApiService().wxLogin(openId, unionId);
+    }
+
     public static  Observable<RestResult<Object>> updateMember(String nickName, int gender, String sessId){
         return Application.application.getApiService().updateMember(nickName, gender, sessId);
     }

@@ -181,7 +181,7 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
 
     @BusReceiver
     public void onWxOpenIdEvent(BusEvent.WxOpenIdEvent event){
-        loginPresenter.wxLogin(event.getOpenId());
+        loginPresenter.wxLogin(event.getOpenId(), event.getUnoinId());
     }
 
     @Override
@@ -229,6 +229,12 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
         ActivityBuilder.startMainActivity(this);
         ActivityBuilder.defaultTransition(this);
         finish();
+    }
+
+    @Override
+    public void startRegist() {
+        Intent intent = new Intent(this, RegistActivity.class);
+        startActivity(intent);
     }
 
     @Override

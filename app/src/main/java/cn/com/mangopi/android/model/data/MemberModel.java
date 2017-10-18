@@ -51,6 +51,15 @@ public class MemberModel {
                 .subscribe(subscriber);
     }
 
+    public Subscription wxLogin(String openId, String unionId, Action0 onSubscribe, Subscriber<RestResult<RegistBean>> subscriber){
+        return ApiManager.wxLogin(openId, unionId)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(onSubscribe)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
     public Subscription updateMember(String nickName, int gender, String sessId, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return ApiManager.updateMember(nickName, gender, sessId)
                 .subscribeOn(Schedulers.io())

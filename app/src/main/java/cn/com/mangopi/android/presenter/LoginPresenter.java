@@ -124,14 +124,61 @@ public class LoginPresenter extends BasePresenter {
                     MemberBean member = restResult.getData().getMember();
                     String sessId = restResult.getData().getLst_sessid();
                     Application.application.saveMember(member, sessId);
-//                    if(member.getGender() == null || TextUtils.isEmpty(member.getNick_name())){
-//                        viewListener.startSetNickName();
-//                    } else {
-//                        viewListener.startMain();
-//                    }
+                    /*if(member.getMobile() == null){
+                        viewListener.startRegist();
+                    } else */if(member.getGender() == null || TextUtils.isEmpty(member.getNick_name())){
+                        viewListener.startSetNickName();
+                    } else {
+                        viewListener.startMain();
+                    }
                 } else {
                     if(restResult != null){
-                        viewListener.onFailure(restResult.getRet_msg());
+                        if("BIZ_ERR_MEMBER_NONEXISTENT".equals(restResult.getError_code())){
+                            viewListener.startRegist();
+                        } else {
+                            viewListener.onFailure(restResult.getRet_msg());
+                        }
+                    } else {
+                        viewListener.onFailure(context.getString(R.string.login_failure));
+                    }
+                }
+            }
+        });
+        addSubscription(subscription);
+    }
+
+    public void  wxLogin(String openId, String unionId){
+        Context context = viewListener.currentContext();
+        Subscription subscription = memberModel.wxLogin(openId, unionId, new CreateLoading(context), new BaseLoadingSubscriber<RestResult<RegistBean>>() {
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if(e != null) {
+                    viewListener.onFailure(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(RestResult<RegistBean> restResult) {
+                if(restResult.isSuccess() && restResult.getData() != null){
+                    MemberBean member = restResult.getData().getMember();
+                    String sessId = restResult.getData().getLst_sessid();
+                    Application.application.saveMember(member, sessId);
+                    /*if(member.getMobile() == null){
+                        viewListener.startRegist();
+                    } else */if(member.getGender() == null || TextUtils.isEmpty(member.getNick_name())){
+                        viewListener.startSetNickName();
+                    } else {
+                        viewListener.startMain();
+                    }
+                } else {
+                    if(restResult != null){
+                        if("BIZ_ERR_MEMBER_NONEXISTENT".equals(restResult.getError_code())){
+                            viewListener.startRegist();
+                        } else {
+                            viewListener.onFailure(restResult.getRet_msg());
+                        }
                     } else {
                         viewListener.onFailure(context.getString(R.string.login_failure));
                     }

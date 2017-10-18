@@ -72,6 +72,12 @@ public interface ApiService {
             @Query("open_id") String openId
     );
 
+    @POST("outer/router?wx_login")
+    Observable<RestResult<RegistBean>> wxLogin(
+            @Query("open_id") String openId,
+            @Query("union_id") String unionId
+    );
+
     @POST("outer/router?update_member")
     Observable<RestResult<Object>> updateMember(
             @Query("nick_name") String nickName,

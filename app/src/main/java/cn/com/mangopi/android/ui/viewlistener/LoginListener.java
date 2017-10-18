@@ -7,4 +7,6 @@ public interface LoginListener<T> extends BaseViewListener {
     void startSetNickName();
 
     void startMain();
+
+    void startRegist();
 }
