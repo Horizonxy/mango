@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import com.yancy.gallerypick.config.GalleryConfig;
+import com.yancy.gallerypick.config.GalleryPick;
 import com.yancy.gallerypick.inter.IHandlerCallBack;
 
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ import cn.com.mangopi.android.ui.widget.UploadPictureView;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.FileUtils;
+import cn.com.mangopi.android.util.SelectorImageLoader;
 import rx.functions.Action1;
 
 public class AddCourseActivity extends BaseTitleBarActivity implements AddCourseLisetener, UploadPictureView.OnUploadPictureListener {
@@ -306,39 +309,54 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
 
     @Override
     public void onAddPicture() {
-        RxPermissions.getInstance(this).request(Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
+        if (iHandlerCallBack == null) {
+            iHandlerCallBack = new IHandlerCallBack() {
+                @Override
+                public void onStart() {}
+
+                @Override
+                public void onSuccess(List<String> photoList) {
+                    if (photoList == null || photoList.size() == 0) {
+                        return;
+                    }
+                    for (String photoInfo : photoList) {
+                        UploadImageBean imageBean = new UploadImageBean(UploadImageBean.READY);
+                        imageBean.setLocalPath(photoInfo);
+                        materials.add(imageBean);
+                    }
+                    setImageView();
+                }
+
+                @Override
+                public void onCancel() {}
+
+                @Override
+                public void onFinish() {}
+
+                @Override
+                public void onError() {}
+            };
+        }
+        GalleryConfig galleryConfig = new GalleryConfig.Builder()
+                .imageLoader(new SelectorImageLoader())    // ImageLoader 加载框架（必填）
+                .iHandlerCallBack(iHandlerCallBack)     // 监听接口（必填）
+                .provider(getPackageName() + ".fileprovider")   // provider(必填)
+                .multiSelect(true, 9 - materials.size())                   // 配置是否多选的同时 配置多选数量   默认：false ， 9
+                .crop(false)                             // 快捷开启裁剪功能，仅当单选 或直接开启相机时有效
+                .isShowCamera(true)                     // 是否现实相机按钮  默认：false
+                .filePath(FileUtils.getEnvPath(this, true, Constants.PICTURE_DIR))          // 图片存放路径
+                .build();
+
+        RxPermissions.getInstance(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
             @Override
             public void call(Boolean granted) {
                 if (granted) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("application/msword;application/vnd.openxmlformats-officedocument.wordprocessingml.document;" +
-                            "application/vnd.ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;" +
-                            "application/vnd.ms-powerpoint;application/vnd.openxmlformats-officedocument.presentationml.presentation;" +
-                            "text/plain;application/pdf;image/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    startActivityForResult(intent, Constants.REQ_FILE);
+                    GalleryPick.getInstance().setGalleryConfig(galleryConfig).open(AddCourseActivity.this);
                 } else {
                     AppUtils.showToast(AddCourseActivity.this, "请在 设置-应用管理 中开启此应用的储存授权。");
                 }
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK){
-            if(requestCode == Constants.REQ_FILE && data != null){
-                Uri uri = data.getData();
-                String path = FileUtils.getPath(this, uri);
-                Logger.e("path: " + path);
-
-                UploadImageBean imageBean = new UploadImageBean(UploadImageBean.READY);
-                imageBean.setLocalPath(path);
-                materials.add(imageBean);
-                setImageView();
-            }
-        }
     }
 
     @Override

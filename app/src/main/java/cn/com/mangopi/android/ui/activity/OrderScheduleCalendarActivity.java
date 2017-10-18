@@ -8,6 +8,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,8 +36,7 @@ import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 
-public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implements TitleBar.OnTitleBarClickListener,
-        OrderScheduleCalendarListener, AdapterView.OnItemClickListener {
+public class OrderScheduleCalendarActivity extends BaseActivity implements OrderScheduleCalendarListener, AdapterView.OnItemClickListener {
 
     @Bind(R.id.gv_calendar)
     GridView gvCalendar;
@@ -64,6 +64,11 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
     @Bind(R.id.btn_to_order_by_schedule)
     Button btnOrderBySchedule;
 
+    @Bind(R.id.tv_title)
+    TextView tvTitle;
+    @Bind(R.id.tv_today)
+    TextView tvToday;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +93,7 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
                 FrameLayout layoutDay = helper.getView(R.id.layout_day);
                 if(TextUtils.isEmpty(item.getDate())){
                     helper.setVisible(R.id.tv_day, false).setVisible(R.id.iv_course_icon, false);
+                    layoutDay.setBackgroundResource(R.color.white);
                 } else {
                     helper.setText(R.id.tv_day, item.getDate()).setVisible(R.id.tv_day, true);
                     if (clickedSchedule == item) {
@@ -130,8 +136,6 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
     }
 
     private void initView() {
-        titleBar.setRightText("今天");
-        titleBar.setOnTitleBarClickListener(this);
 
         if(courseId == 0 || orderId == 0){
             btnReset.setVisibility(View.VISIBLE);
@@ -146,13 +150,24 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
         }
     }
 
-    @Override
-    public void onTitleButtonClick(View view) {
-       if(view.getId() == R.id.tv_right){
-           currentCalendar.add(Calendar.MONTH, 1);
-           currentCalendar.set(Calendar.DATE, 1);
-           scheduleCalendarPresenter.scheduleCalendar();
-       }
+    @OnClick(R.id.tv_today)
+    void todayClicked(View v){
+        currentCalendar = Calendar.getInstance();
+        scheduleCalendarPresenter.scheduleCalendar();
+    }
+
+    @OnClick(R.id.iv_last)
+    void lastClicked(View v){
+        currentCalendar.add(Calendar.MONTH, -1);
+        currentCalendar.set(Calendar.DATE, 1);
+        scheduleCalendarPresenter.scheduleCalendar();
+    }
+
+    @OnClick(R.id.iv_next)
+    void nextClicked(View v){
+        currentCalendar.add(Calendar.MONTH, 1);
+        currentCalendar.set(Calendar.DATE, 1);
+        scheduleCalendarPresenter.scheduleCalendar();
     }
 
     @OnClick(R.id.btn_add_schedule)
@@ -190,7 +205,7 @@ public class OrderScheduleCalendarActivity extends BaseTitleBarActivity implemen
     @Override
     public void onScheduleCanlendarSuccess(List<ScheduleCalendarBean> scheduleCalendarList) {
         datas.clear();
-        titleBar.setTitle(DateUtils.calendarToString(currentCalendar, DateUtils.DATE_MONTH_CN));
+        tvTitle.setText(DateUtils.calendarToString(currentCalendar, DateUtils.DATE_MONTH_CN));
         currentCalendar.set(Calendar.DATE, 1);
         int weekDay = currentCalendar.get(Calendar.DAY_OF_WEEK);
 

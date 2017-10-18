@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,7 +47,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     boolean hasNext = true;
     int relation;
     EmptyHelper emptyHelper;
-    TextView tvSeePlan;
+    FrameLayout layoutSeePlan;
     String sctDate;
     int sctTime;
 
@@ -86,8 +87,8 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         emptyHelper = new EmptyHelper(getContext(), root.findViewById(R.id.layout_empty), this);
         emptyHelper.setImageRes(R.drawable.page_icon_06);
         emptyHelper.setMessage(R.string.page_no_data);
-        tvSeePlan = (TextView) root.findViewById(R.id.tv_see_plan);
-        tvSeePlan.setOnClickListener(new View.OnClickListener() {
+        layoutSeePlan = (FrameLayout) root.findViewById(R.id.layout_see_plan);
+        layoutSeePlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityBuilder.startOrderScheduleCalendarActivity(getActivity());
@@ -172,11 +173,11 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
 
         if(datas == null || datas.size() == 0){
             emptyHelper.showEmptyView(listView);
-            tvSeePlan.setVisibility(View.GONE);
+            layoutSeePlan.setVisibility(View.GONE);
         } else {
             emptyHelper.hideEmptyView(listView);
             if(relation == 2) {
-                tvSeePlan.setVisibility(View.VISIBLE);
+                layoutSeePlan.setVisibility(View.VISIBLE);
             }
         }
         adapter.notifyDataSetChanged();
