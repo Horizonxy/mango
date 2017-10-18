@@ -19,6 +19,7 @@ public class ScheduleOrderListActivity extends BaseTitleBarActivity {
     private void initView() {
         String sctDate = getIntent().getStringExtra(Constants.BUNDLE_ORDER_SCT_DATE);
         int sctTime = getIntent().getIntExtra(Constants.BUNDLE_ORDER_SCT_TIME, 0);
+        titleBar.setTitle(sctDate);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         MyOrderListFragment orderListFragment = MyOrderListFragment.newInstance(2, sctDate, sctTime);

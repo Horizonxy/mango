@@ -1,10 +1,14 @@
 package cn.com.mangopi.android.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -32,6 +36,7 @@ import cn.com.mangopi.android.model.data.OrderModel;
 import cn.com.mangopi.android.presenter.OrderPresenter;
 import cn.com.mangopi.android.ui.viewlistener.OrderDetailListener;
 import cn.com.mangopi.android.ui.viewlistener.OrderListListener;
+import cn.com.mangopi.android.ui.widget.Clickable;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
@@ -120,6 +125,11 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 //    @Bind(R.id.btn_reward)
 //    Button btnReward;
 
+    @Bind(R.id.line_receive)
+    View lineReceive;
+    @Bind(R.id.tv_receive_price)
+    TextView tvReceivePrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,10 +213,31 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         laoutMake.setVisibility(View.GONE);
         layoutMake2.setVisibility(View.GONE);
         layoutReceived.setVisibility(View.VISIBLE);
+
+        lineReceive.setVisibility(View.VISIBLE);
+        tvReceivePrice.setVisibility(View.VISIBLE);
+
         if(orderDetail.getTotal_price() != null) {
-            tvSalePrice.setText(getString(R.string.rmb)+orderDetail.getTotal_price().toString());
+            tvReceivePrice.setText(getString(R.string.rmb)+orderDetail.getTotal_price().toString());
         } else {
+            tvReceivePrice.setText("");
+        }
+
+        if(TextUtils.isEmpty(orderDetail.getMember_mobile())){
             tvSalePrice.setText("");
+        } else {
+            String mobile = orderDetail.getMember_mobile();
+            SpannableString spannableString = new SpannableString(mobile);
+            spannableString.setSpan(new Clickable(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityBuilder.startPhoneNumber(OrderDetailActivity.this, mobile);
+                }
+            }), 0, mobile.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tvSalePrice.setText(spannableString, TextView.BufferType.SPANNABLE);
+            tvSalePrice.setMovementMethod(LinkMovementMethod.getInstance());
+            tvSalePrice.setHighlightColor(getResources().getColor(android.R.color.transparent));
+            tvSalePrice.setTextSize(14);
         }
 
         if(orderDetail.getState() != null){
@@ -307,6 +338,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 
         if(orderDetail.getSale_price() != null) {
             tvSalePrice.setText(getString(R.string.rmb)+orderDetail.getSale_price().toString());
+            tvSalePrice.setTextSize(16);
         } else {
             tvSalePrice.setText("");
         }
@@ -363,6 +395,9 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 //            lineLikeTip.setVisibility(View.GONE);
             btnComment.setVisibility(View.GONE);
         }
+
+        lineReceive.setVisibility(View.GONE);
+        tvReceivePrice.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.btn_pay)

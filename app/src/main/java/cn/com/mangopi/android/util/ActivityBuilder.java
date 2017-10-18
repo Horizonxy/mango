@@ -391,4 +391,10 @@ public class ActivityBuilder {
         Intent intent = new Intent(activity, MemberCouponListActivity.class);
         activity.startActivity(intent);
     }
+
+    public static void startPhoneNumber(Activity activity, String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+    }
 }

@@ -97,6 +97,22 @@
 
         <View style="@style/horizontal_line" />
 
+        <TextView
+            android:id="@+id/tv_receive_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginBottom="@dimen/dp_15"
+            android:textColor="@color/color_000000"
+            android:textSize="@dimen/sp_16"
+            android:visibility="gone"
+            android:gravity="right"/>
+
+        <View
+            android:id="@+id/line_receive"
+            android:visibility="gone"
+            style="@style/horizontal_line" />
+
         <LinearLayout
             android:id="@+id/layout_make"
             android:layout_width="match_parent"
