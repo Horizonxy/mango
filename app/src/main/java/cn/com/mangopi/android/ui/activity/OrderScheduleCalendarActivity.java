@@ -8,11 +8,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +27,6 @@ import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.OrderScheduleCalendarListener;
 import cn.com.mangopi.android.ui.widget.GridView;
-import cn.com.mangopi.android.ui.widget.TitleBar;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.DateUtils;
@@ -301,6 +297,7 @@ public class OrderScheduleCalendarActivity extends BaseActivity implements Order
     @Override
     public String getScheduleDate() {
         Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, currentCalendar.get(Calendar.YEAR));
         calendar.set(Calendar.MONTH, currentCalendar.get(Calendar.MONTH));
         calendar.set(Calendar.DATE, Integer.parseInt(clickedSchedule.getDate()));
         return DateUtils.calendarToString(calendar, DateUtils.DATE_PATTERN);
