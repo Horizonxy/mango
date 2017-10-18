@@ -1,9 +1,12 @@
 package cn.com.mangopi.android.util;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,6 +22,7 @@ import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.ui.activity.AddBlankCardActivity;
+import cn.com.mangopi.android.ui.activity.AddCourseActivity;
 import cn.com.mangopi.android.ui.activity.BulletinDetailActivity;
 import cn.com.mangopi.android.ui.activity.CalssListActivity;
 import cn.com.mangopi.android.ui.activity.ContentDetailActivity;
@@ -62,6 +66,7 @@ import cn.com.mangopi.android.ui.activity.WorkProjectCommentActivity;
 import cn.com.mangopi.android.ui.activity.WorkProjectTeamDocActivity;
 import cn.com.mangopi.android.ui.activity.WorksProjectDetailActivity;
 import cn.com.mangopi.android.ui.activity.WorkProjectTeamPhotoActivity;
+import rx.functions.Action1;
 
 /**
  * @author 蒋先明
@@ -393,8 +398,17 @@ public class ActivityBuilder {
     }
 
     public static void startPhoneNumber(Activity activity, String phone) {
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        activity.startActivity(intent);
+        RxPermissions.getInstance(activity).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean granted) {
+                if (granted) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    activity.startActivity(intent);
+                } else {
+                    AppUtils.showToast(activity, "请在 设置-应用管理 中开启此应用的拨号授权。");
+                }
+            }
+        });
     }
 }
