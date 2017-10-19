@@ -133,7 +133,7 @@ public class WorkProjectTeamPhotoActivity extends BaseTitleBarActivity implement
             MangoUtils.setViewsVisibility(View.GONE, lineTutorComment, tvTutorComment, tvTutorCommentTip);
         } else {
             MangoUtils.setViewsVisibility(View.VISIBLE, lineTutorComment, tvTutorComment, tvTutorCommentTip);
-            tvCompanyComment.setText(tutorCommment);
+            tvTutorComment.setText(tutorCommment);
         }
 
         String companyComment = projectActorBean.getCompany_comments();

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mcxiaoke.bus.Bus;
@@ -50,6 +51,7 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     FrameLayout layoutSeePlan;
     String sctDate;
     int sctTime;
+    RelativeLayout layoutMainContent;
 
     public static MyOrderListFragment newInstance(int relation) {
         MyOrderListFragment fragment = new MyOrderListFragment();
@@ -94,6 +96,18 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
                 ActivityBuilder.startOrderScheduleCalendarActivity(getActivity());
             }
         });
+
+        if(relation == 2) {
+            if(!TextUtils.isEmpty(sctDate) && sctTime != 0){
+                layoutSeePlan.setVisibility(View.GONE);
+            } else {
+                layoutSeePlan.setVisibility(View.VISIBLE);
+            }
+        } else {
+            layoutSeePlan.setVisibility(View.GONE);
+        }
+
+        layoutMainContent = (RelativeLayout) root.findViewById(R.id.layout_main_content);
     }
 
     @Override
@@ -141,9 +155,9 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
             listView.onRefreshComplete();
 
             if(datas == null || datas.size() == 0){
-                emptyHelper.showEmptyView(listView);
+                emptyHelper.showEmptyView(layoutMainContent);
             } else {
-                emptyHelper.hideEmptyView(listView);
+                emptyHelper.hideEmptyView(layoutMainContent);
             }
         }
     }
@@ -172,13 +186,9 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         }
 
         if(datas == null || datas.size() == 0){
-            emptyHelper.showEmptyView(listView);
-            layoutSeePlan.setVisibility(View.GONE);
+            emptyHelper.showEmptyView(layoutMainContent);
         } else {
-            emptyHelper.hideEmptyView(listView);
-            if(relation == 2) {
-                layoutSeePlan.setVisibility(View.VISIBLE);
-            }
+            emptyHelper.hideEmptyView(layoutMainContent);
         }
         adapter.notifyDataSetChanged();
     }

@@ -5,17 +5,9 @@
     android:background="@color/color_efeff4">
 
     <RelativeLayout
+        android:id="@+id/layout_main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView xmlns:mango="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@color/color_efeff4"
-            mango:ptrAnimationStyle="flip"
-            mango:ptrMode="both"
-            mango:ptrShowIndicator="false" />
 
         <FrameLayout
             android:id="@+id/layout_see_plan"
@@ -39,6 +31,16 @@
                 android:layout_height="@dimen/dp_0.5"
                 android:background="@color/color_cccccc"/>
         </FrameLayout>
+
+        <cn.com.mangopi.android.ui.widget.pulltorefresh.PullToRefreshListView xmlns:mango="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/color_efeff4"
+            android:layout_above="@id/layout_see_plan"
+            mango:ptrAnimationStyle="flip"
+            mango:ptrMode="both"
+            mango:ptrShowIndicator="false" />
     </RelativeLayout>
 
     <include

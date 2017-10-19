@@ -19,6 +19,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.ScheduleCalendarBean;
@@ -310,13 +311,13 @@ public class OrderScheduleCalendarActivity extends BaseActivity implements Order
 
     @Override
     public void onAddScheduleSuccess() {
-        AppUtils.showToast(this, "安排课程已提交，请下拉刷新");
+        AppUtils.showToast(Application.application.getApplicationContext(), "安排课程已提交，请下拉刷新");
         finish();
     }
 
     @Override
     public void onCancelScheduleSuccess() {
-        AppUtils.showToast(this, "重新安排课程已提交，请下拉刷新");
+        AppUtils.showToast(Application.application.getApplicationContext(), "重新安排课程已提交，请下拉刷新");
         finish();
     }
 
