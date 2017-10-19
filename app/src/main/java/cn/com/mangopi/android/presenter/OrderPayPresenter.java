@@ -2,6 +2,7 @@ package cn.com.mangopi.android.presenter;
 
 import android.content.Context;
 
+import cn.com.mangopi.android.model.bean.PayResultBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.data.OrderModel;
 import cn.com.mangopi.android.ui.viewlistener.OrderPayListener;
@@ -20,7 +21,7 @@ public class OrderPayPresenter extends BasePresenter {
     public void orderPay(){
         Context context  = payListener.currentContext();
         Subscription subscription = orderModel.orderPay(payListener.getId(), payListener.getChannel(),
-                new CreateLoading(context), new BaseLoadingSubscriber<RestResult<String>>(){
+                new CreateLoading(context), new BaseLoadingSubscriber<RestResult<PayResultBean>>(){
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
@@ -30,7 +31,7 @@ public class OrderPayPresenter extends BasePresenter {
                     }
 
                     @Override
-                    public void onNext(RestResult<String> restResult) {
+                    public void onNext(RestResult<PayResultBean> restResult) {
                         if(restResult != null){
                             if(restResult.isFailure()){
                                 payListener.onFailure(restResult.getRet_msg());

@@ -220,9 +220,6 @@
             android:name=".ui.activity.TransDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.activity.GuideActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -321,8 +318,17 @@
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <!--微信支付回调函数-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+
 
         <!-- 百度统计 start -->
         <!-- 您从百度网站获取的APP KEY -->

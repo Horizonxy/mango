@@ -38,9 +38,9 @@ public class WelcomeActivity extends Activity implements MemberDetailListener {
     }
 
     private void initData() {
-//        member = Application.application.getMember();
-        member = new MemberBean();
-        member.setId(13);
+        member = Application.application.getMember();
+//        member = new MemberBean();
+//        member.setId(13);
 //        member.setId(15);
 //        member.setId(14);
 //        member.setId(17);

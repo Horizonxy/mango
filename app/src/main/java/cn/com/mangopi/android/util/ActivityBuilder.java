@@ -19,6 +19,7 @@ import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
+import cn.com.mangopi.android.model.bean.ShowPayResultBean;
 import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
 import cn.com.mangopi.android.ui.activity.AddBlankCardActivity;
@@ -232,8 +233,9 @@ public class ActivityBuilder {
         activity.startActivity(intent);
     }
 
-    public static void startPayResultActivity(Activity activity){
+    public static void startPayResultActivity(Activity activity, @NonNull ShowPayResultBean result){
         Intent intent = new Intent(activity, PayResultActivity.class);
+        intent.putExtra(Constants.BUNDLE_DATA, result);
         activity.startActivity(intent);
     }
 

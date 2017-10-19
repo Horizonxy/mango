@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,13 +99,13 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
         });
 
         if(relation == 2) {
-            if(!TextUtils.isEmpty(sctDate) && sctTime != 0){
+            if(TextUtils.isEmpty(sctDate) && sctTime != 0){
                 layoutSeePlan.setVisibility(View.GONE);
             } else {
                 layoutSeePlan.setVisibility(View.VISIBLE);
             }
         } else {
-            layoutSeePlan.setVisibility(View.GONE);
+
         }
 
         layoutMainContent = (RelativeLayout) root.findViewById(R.id.layout_main_content);
@@ -273,5 +274,18 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     @Override
     public void onCancelScdule(OrderBean order) {
         presenter.cancelSchedule(order);
+    }
+
+    @BusReceiver
+    public void onPayOrderSuccessEventEvent(BusEvent.PayOrderSuccessEvent event) {
+        if(event != null && event.getId() > 0){
+            for (int i = 0; i < datas.size(); i++){
+                if(datas.get(i).getId() == event.getId()){
+                    datas.get(i).setState(4);
+                    datas.get(i).setState_label("订单已付款，待安排");
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 }

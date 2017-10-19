@@ -50,7 +50,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bus.getDefault().register(this);
         mWeixinAPI = WXAPIFactory.createWXAPI(this, WEIXIN_APP_ID, true);
         mWeixinAPI.handleIntent(this.getIntent(), this);
     }
@@ -242,11 +241,5 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         public boolean verify(String hostname, SSLSession session) {
             return true;
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Bus.getDefault().unregister(this);
     }
 }

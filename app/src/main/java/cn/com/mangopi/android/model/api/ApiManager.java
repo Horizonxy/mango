@@ -29,6 +29,7 @@ import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
+import cn.com.mangopi.android.model.bean.PayResultBean;
 import cn.com.mangopi.android.model.bean.ProjectActorBean;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.model.bean.ProjectJoinBean;
@@ -212,7 +213,7 @@ public class ApiManager {
         return Application.application.getApiService().getContent(id);
     }
 
-    public static  Observable<RestResult<String>> orderPay(long id, String channel){
+    public static  Observable<RestResult<PayResultBean>> orderPay(long id, String channel){
         return Application.application.getApiService().orderPay(id, channel);
     }
 

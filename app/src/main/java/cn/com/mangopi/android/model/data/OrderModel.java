@@ -6,6 +6,7 @@ import java.util.Map;
 import cn.com.mangopi.android.model.api.ApiManager;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
+import cn.com.mangopi.android.model.bean.PayResultBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.util.RxJavaUtils;
 import rx.Subscriber;
@@ -27,7 +28,7 @@ public class OrderModel {
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getOrder(id), onSubscribe).subscribe(subscriber);
     }
 
-    public Subscription orderPay(long id, String channel, Action0 onSubscribe, Subscriber<RestResult<String>> subscriber){
+    public Subscription orderPay(long id, String channel, Action0 onSubscribe, Subscriber<RestResult<PayResultBean>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.orderPay(id, channel), onSubscribe).subscribe(subscriber);
     }
 

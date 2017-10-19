@@ -7,16 +7,31 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.mcxiaoke.bus.Bus;
+import com.mcxiaoke.bus.annotation.BusReceiver;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Date;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.OrderBean;
+import cn.com.mangopi.android.model.bean.PayResultBean;
+import cn.com.mangopi.android.model.bean.ShowPayResultBean;
 import cn.com.mangopi.android.model.data.OrderModel;
 import cn.com.mangopi.android.presenter.OrderPayPresenter;
 import cn.com.mangopi.android.ui.viewlistener.OrderPayListener;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.BusEvent;
+import cn.com.mangopi.android.wxapi.WXEntryActivity;
 
 public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayListener {
 
@@ -44,6 +59,7 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_pay);
+        Bus.getDefault().register(this);
 
         order = (OrderBean) getIntent().getSerializableExtra(Constants.BUNDLE_ORDER);
         if(order == null){
@@ -107,8 +123,45 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
     }
 
     @Override
-    public void onSuccess(String payData) {
-        ActivityBuilder.startPayResultActivity(this);
+    public void onSuccess(PayResultBean data) {
+        String payDataStr = data.getPayData();
+
+        IWXAPI mWxApi = WXAPIFactory.createWXAPI(this, WXEntryActivity.WEIXIN_APP_ID, true);
+        PayReq req = new PayReq();
+        req.appId = WXEntryActivity.WEIXIN_APP_ID;// 微信开放平台审核通过的应用APPID
+        try {
+            JSONObject payData = new JSONObject(payDataStr);
+            req.partnerId = payData.getString("partnerid");// 微信支付分配的商户号
+            req.prepayId = payData.getString("prepayid");// 预支付订单号，app服务器调用“统一下单”接口获取
+            req.nonceStr = payData.getString("noncestr");// 随机字符串，不长于32位，服务器小哥会给咱生成
+            req.timeStamp = payData.getString("timestamp");// 时间戳，app服务器小哥给出
+            req.packageValue = payData.getString("package");// 固定值Sign=WXPay，可以直接写死，服务器返回的也是这个固定值
+            req.sign = payData.getString("sign");// 签名，服务器小哥给出，他会根据：https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_3指导得到这个
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mWxApi.sendReq(req);
+    }
+
+    @BusReceiver
+    public void onPayCodeEventEvent(BusEvent.PayCodeEvent event) {
+        ShowPayResultBean result = new ShowPayResultBean();
+        if(order.getPay_price() != null) {
+            result.setPayPrice(order.getPay_price().toString());
+        }
+        result.setOrderName(order.getOrder_name());
+        result.setOrderNo(order.getOrder_no());
+        result.setPayDate(new Date());
+        result.setPayChannel(getChannel());
+        if(event.getErrorCode() == 0){//支付成功
+            result.setSuccess(true);
+            BusEvent.PayOrderSuccessEvent payOrderSuccessEvent = new BusEvent.PayOrderSuccessEvent();
+            payOrderSuccessEvent.setId(getId());
+            Bus.getDefault().postSticky(payOrderSuccessEvent);
+        } else {
+            result.setSuccess(false);
+        }
+        ActivityBuilder.startPayResultActivity(this, result);
         finish();
     }
 
@@ -127,6 +180,7 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
         if(payPresenter !=  null){
             payPresenter.onDestroy();
         }
+        Bus.getDefault().unregister(this);
         super.onDestroy();
     }
 }

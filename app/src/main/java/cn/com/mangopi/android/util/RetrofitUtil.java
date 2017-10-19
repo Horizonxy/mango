@@ -32,7 +32,7 @@ public class RetrofitUtil {
 		HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-		String userAgent = System.getProperty("http.agent", "");
+		String userAgent = AppUtils.getUserAgent();
 		//缓存路径
 		FileUtils.delDir(new File( Application.application.getCacheDir(), "http"));
 		Cache cache = new Cache(new File(Application.application.getCacheDir(), "/response"), Constants.SIZE_OF_CACHE);

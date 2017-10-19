@@ -27,6 +27,7 @@ import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
+import cn.com.mangopi.android.model.bean.PayResultBean;
 import cn.com.mangopi.android.model.bean.ProjectActorBean;
 import cn.com.mangopi.android.model.bean.ProjectDetailBean;
 import cn.com.mangopi.android.model.bean.ProjectJoinBean;
@@ -319,7 +320,7 @@ public interface ApiService {
 
     //订单支付接口
     @POST("outer/router?order_pay")
-    Observable<RestResult<String>> orderPay(
+    Observable<RestResult<PayResultBean>> orderPay(
             @Query("id") long id,
             @Query("channel") String channel
     );
