@@ -105,6 +105,11 @@ public class SettingActivity extends BaseTitleBarActivity {
         ActivityBuilder.startProfileInfoActivity(this);
     }
 
+    @OnClick(R.id.layout_about_us)
+    void aboutClick(View v){
+        startActivity(new Intent(this, AboutActivity.class));
+    }
+
     @OnClick(R.id.layout_clear_cache)
     void clearCacheClick(View v) {
         Observable.create(new Observable.OnSubscribe<String>() {

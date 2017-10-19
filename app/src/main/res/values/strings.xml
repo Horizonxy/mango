@@ -56,6 +56,9 @@
     <string name="phone_num">手机号</string>
     <string name="trans_pwd">交易密码</string>
     <string name="about_us">关于我们</string>
+    <string name="about_detail">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;乐享芒果派微信公众号是一家以帮助大学生成才为使命的移动互联网公司，旗下拥有乐享芒果派、双创学院、青年成长书院等产品和服务，最终通过产品+服务的方式，打造一个青年优秀人才的孵化平台。\n&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;乐享芒果派微信公众号定位于大学生成长社区，核心功能为习惯养成和轻社团，帮助大学生养成好习惯，找到志同道合的人，一起学习和成长，记录成长的轨迹。</string>
+    <string name="about_company_year">Copyright © 2006 - 2013</string>
+    <string name="about_company">广州市互原电子商务有限公司</string>
     <string name="share_to_friend">分享给好友</string>
     <string name="clear_cache">清除缓存</string>
 
@@ -189,4 +192,6 @@
 
     <string name="coupon_use_time">%1$s—%2$s使用</string>
     <string name="discount_price">&#165;%s</string>
+
+
 </resources>

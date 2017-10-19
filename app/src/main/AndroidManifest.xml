@@ -265,7 +265,10 @@
         <activity
             android:name=".ui.activity.WorkProjectTeamPhotoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.WorkProjectTeamDocActivity"
+        <activity
+            android:name=".ui.activity.WorkProjectTeamDocActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait" />
 
         <receiver android:name=".receiver.NetReceiver">
