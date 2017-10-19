@@ -449,7 +449,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
         if(event != null && event.getId() == id && orderDetail != null){
             orderDetail.setState(4);
             orderDetail.setState_label("订单已付款，待安排");
-            bindOrderCommentData(orderDetail);
+            fillData(orderDetail);
         }
     }
 
