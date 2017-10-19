@@ -1,6 +1,5 @@
 package cn.com.mangopi.android.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -442,6 +441,15 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
             presenter.addCourseComment(event.getContent());
         } else if("reply_comment".equals(type) && !TextUtils.isEmpty(event.getContent())){
             presenter.replyCourseComment(event.getContent());
+        }
+    }
+
+    @BusReceiver
+    public void onPayOrderSuccessEventEvent(BusEvent.PayOrderSuccessEvent event) {
+        if(event != null && event.getId() == id && orderDetail != null){
+            orderDetail.setState(4);
+            orderDetail.setState_label("订单已付款，待安排");
+            bindOrderCommentData(orderDetail);
         }
     }
 
