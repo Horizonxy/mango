@@ -156,6 +156,11 @@ public class OrderScheduleCalendarActivity extends BaseActivity implements Order
         scheduleCalendarPresenter.scheduleCalendar();
     }
 
+    @OnClick(R.id.ib_left)
+    void leftClicked(View v){
+        finish();
+    }
+
     @OnClick(R.id.iv_last)
     void lastClicked(View v){
         currentCalendar.add(Calendar.MONTH, -1);
