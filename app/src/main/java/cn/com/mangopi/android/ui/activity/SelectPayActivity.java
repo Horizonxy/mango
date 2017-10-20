@@ -106,10 +106,10 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
     private void initView() {
         titleBar.setTitle(R.string.pay_for_order);
 
-//        lineUnion.setVisibility(View.GONE);
-//        layoutUnionPay.setVisibility(View.GONE);
-//        lineAlipay.setVisibility(View.GONE);
-//        layoutAlipay.setVisibility(View.GONE);
+        lineUnion.setVisibility(View.GONE);
+        layoutUnionPay.setVisibility(View.GONE);
+        lineAlipay.setVisibility(View.GONE);
+        layoutAlipay.setVisibility(View.GONE);
     }
 
     @Override
