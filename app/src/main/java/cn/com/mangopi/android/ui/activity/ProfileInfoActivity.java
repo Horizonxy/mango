@@ -1,7 +1,9 @@
 package cn.com.mangopi.android.ui.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.text.TextUtils;
@@ -321,6 +323,13 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
     @OnClick(R.id.ib_left)
     void clickBack(View v){
         presenter.settingMember();
+    }
+
+    @OnClick(R.id.layout_cv)
+    void clickCv(View v){
+        if(!TextUtils.isEmpty(member.getResume_rsurl())) {
+            ActivityBuilder.startSystemBrowser(this, Uri.parse(member.getResume_rsurl()));
+        }
     }
 
     @OnClick(R.id.layout_birthday)

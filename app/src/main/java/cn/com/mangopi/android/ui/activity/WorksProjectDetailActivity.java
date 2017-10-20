@@ -389,8 +389,8 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         if(projectDetail == null){
             return;
         }
-        SharePopupWindow sharePopupWindow = new SharePopupWindow(this, String.format(Constants.WORK_PROJECT_URL, projectDetail.getId()), projectDetail.getProject_name(),
-                projectDetail.getIntroduction(), null, new MangoUMShareListener());
+        SharePopupWindow sharePopupWindow = new SharePopupWindow(this, String.format(Constants.WORK_PROJECT_URL, projectDetail.getId()), projectDetail.getIntroduction(),
+                projectDetail.getProject_name(), null, new MangoUMShareListener());
         sharePopupWindow.show();
     }
 

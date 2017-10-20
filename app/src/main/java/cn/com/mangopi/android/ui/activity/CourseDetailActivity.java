@@ -190,8 +190,8 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
                 if(courseDetail == null){
                     return;
                 }
-                SharePopupWindow sharePopupWindow = new SharePopupWindow(this, String.format(Constants.COURSE_URL, courseDetail.getId()), courseDetail.getCourse_title(),
-                        courseDetail.getCourse_content(), null, new MangoUMShareListener());
+                SharePopupWindow sharePopupWindow = new SharePopupWindow(this, String.format(Constants.COURSE_URL, courseDetail.getId()), courseDetail.getCourse_content(),
+                        courseDetail.getCourse_title(), null, new MangoUMShareListener());
                 sharePopupWindow.show();
                 break;
             case R.id.ib_second_right:

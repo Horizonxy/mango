@@ -181,8 +181,8 @@ public class SettingActivity extends BaseTitleBarActivity {
 
     @OnClick(R.id.layout_share_to_friend)
     void shareToFriend(View v){
-        SharePopupWindow sharePopupWindow = new SharePopupWindow(this, "", "",
-                "", null, new MangoUMShareListener());
+        SharePopupWindow sharePopupWindow = new SharePopupWindow(this, "https://www.mangopi.com.cn/", "π的世界，伴你创造无限可能。",
+                "乐享芒果派", null, new MangoUMShareListener());
         sharePopupWindow.show();
     }
 }
