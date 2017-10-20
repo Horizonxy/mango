@@ -277,12 +277,25 @@ public class MyOrderListFragment extends BaseFragment implements AdapterView.OnI
     }
 
     @BusReceiver
-    public void onPayOrderSuccessEventEvent(BusEvent.PayOrderSuccessEvent event) {
+    public void onPayOrderSuccessEvent(BusEvent.PayOrderSuccessEvent event) {
         if(event != null && event.getId() > 0){
             for (int i = 0; i < datas.size(); i++){
                 if(datas.get(i).getId() == event.getId()){
                     datas.get(i).setState(4);
                     datas.get(i).setState_label("订单已付款，待安排");
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+    @BusReceiver
+    public void onOrderSeheduleEvent(BusEvent.OrderSeheduleEvent event) {
+        if(event != null && event.getId() > 0){
+            for (int i = 0; i < datas.size(); i++){
+                if(datas.get(i).getId() == event.getId()){
+                    datas.get(i).setState(5);
+                    datas.get(i).setState_label("订单已安排，待上课");
                     adapter.notifyDataSetChanged();
                 }
             }

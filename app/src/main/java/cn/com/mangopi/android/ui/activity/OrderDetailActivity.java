@@ -365,8 +365,7 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 //                tvLikeTip.setVisibility(View.GONE);
 //                lineLikeTip.setVisibility(View.GONE);
                 btnComment.setVisibility(View.GONE);
-            }  else if(orderDetail.getState().intValue() == 3 ||orderDetail.getState().intValue() == 4
-                    || orderDetail.getState().intValue() == 5 || orderDetail.getState().intValue() == 50){//订单已付款、交易完成
+            }  else if(orderDetail.getState().intValue() == 5 || orderDetail.getState().intValue() == 50){//订单已安排、交易完成
 //                layoutReward.setVisibility(View.VISIBLE);
 //                tvLikeTip.setVisibility(View.VISIBLE);
 //                lineLikeTip.setVisibility(View.VISIBLE);
@@ -446,6 +445,24 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
 
     @BusReceiver
     public void onPayOrderSuccessEventEvent(BusEvent.PayOrderSuccessEvent event) {
+        if(event != null && event.getId() == id && orderDetail != null){
+            orderDetail.setState(4);
+            orderDetail.setState_label("订单已付款，待安排");
+            fillData(orderDetail);
+        }
+    }
+
+    @BusReceiver
+    public void onOrderSeheduleEvent(BusEvent.OrderSeheduleEvent event) {
+        if(event != null && event.getId() == id && orderDetail != null){
+            orderDetail.setState(5);
+            orderDetail.setState_label("订单已安排，待上课");
+            fillData(orderDetail);
+        }
+    }
+
+    @BusReceiver
+    public void onCancelOrderSeheduleEvent(BusEvent.CancelOrderSeheduleEvent event){
         if(event != null && event.getId() == id && orderDetail != null){
             orderDetail.setState(4);
             orderDetail.setState_label("订单已付款，待安排");

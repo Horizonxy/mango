@@ -148,6 +148,19 @@ public class BusEvent {
     }
 
     @com.mcxiaoke.bus.annotation.BusEvent
+    public static class OrderSeheduleEvent{
+        private long id;
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+    }
+
+    @com.mcxiaoke.bus.annotation.BusEvent
     public static class ActorCompanyCommentEvent{
         private long id;
         private String comment;

@@ -11,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mcxiaoke.bus.Bus;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -30,6 +32,7 @@ import cn.com.mangopi.android.ui.viewlistener.OrderScheduleCalendarListener;
 import cn.com.mangopi.android.ui.widget.GridView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DateUtils;
 import cn.com.mangopi.android.util.DisplayUtils;
 
@@ -311,7 +314,9 @@ public class OrderScheduleCalendarActivity extends BaseActivity implements Order
 
     @Override
     public void onAddScheduleSuccess() {
-        AppUtils.showToast(Application.application.getApplicationContext(), "安排课程已提交，请下拉刷新");
+        BusEvent.OrderSeheduleEvent event = new BusEvent.OrderSeheduleEvent();
+        event.setId(orderId);
+        Bus.getDefault().postSticky(event);
         finish();
     }
 
