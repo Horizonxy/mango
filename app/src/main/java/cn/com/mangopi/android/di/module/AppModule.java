@@ -52,7 +52,7 @@ public class AppModule {
             imgFile.mkdirs();
         }
         ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(application)
-                .threadPoolSize(5)
+                .threadPoolSize(10)
                 .threadPriority(Thread.NORM_PRIORITY - 2)
                 .memoryCache(new UsingFreqLimitedMemoryCache(5 * 1024 * 1024))
                 .denyCacheImageMultipleSizesInMemory()
