@@ -29,6 +29,7 @@ import cn.com.mangopi.android.ui.viewlistener.TutorDetailListener;
 import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.MangoUtils;
 
 public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDetailListener, AdapterView.OnItemClickListener, WantCountListener{
 
@@ -89,7 +90,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
     }
 
     private void fillTutor(TutorBean tutor){
-        Application.application.getImageLoader().displayImage(tutor.getAvatar_rsurl(), ivLogo, Application.application.getDefaultOptions());
+        Application.application.getImageLoader().displayImage(MangoUtils.getCalculateScreenWidthSizeUrl(tutor.getAvatar_rsurl()), ivLogo, Application.application.getDefaultOptions());
         tvName.setText(tutor.getName());
         tvJob.setText(tutor.getTutor_jobs());
         tvCity.setText(tutor.getCity());

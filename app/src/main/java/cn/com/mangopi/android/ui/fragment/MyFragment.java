@@ -33,6 +33,7 @@ import cn.com.mangopi.android.ui.widget.MangoPtrFrameLayout;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
+import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 
 public class MyFragment extends BaseFragment implements MemberDetailListener {
@@ -242,7 +243,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
                         .bitmapConfig(Bitmap.Config.RGB_565)
                         .build();
             }
-            Application.application.getImageLoader().displayImage(member.getAvatar_rsurl(), ivAvatar, options);
+            Application.application.getImageLoader().displayImage(MangoUtils.getCalculateWidthSizeUrl(member.getAvatar_rsurl(), DisplayUtils.dip2px(getContext(), 84)), ivAvatar, options);
             tvNickName.setText(member.getNick_name());
             tvCollectionCount.setText(String.valueOf(member.getFav_count()));
             tvMsgCount.setText(String.valueOf(member.getMessage_count()));

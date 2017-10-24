@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
@@ -428,5 +429,39 @@ public class MangoUtils {
         for (View view : views){
             view.setVisibility(visibility);
         }
+    }
+
+    public static String getCalculateScreenWidthSizeUrl(String url){
+        return getCalculateWidthSizeUrl(url, DisplayUtils.screenWidth(Application.application.getApplicationContext()));
+    }
+
+    public static String getCalculateWidthSizeUrl(String url, int width){
+        if (TextUtils.isEmpty(url)) {
+            return "";
+        }
+        if (!url.endsWith(".jpeg") && !url.endsWith(".jpg") && !url.endsWith(".png")&& !url.endsWith(".gif")) {//图片名字一定要带后缀
+            return url;
+        }
+
+        int at = url.lastIndexOf(".");
+        String name = url.substring(0, at);
+        String lasts = url.substring(at);
+
+        return name.concat("_").concat(String.valueOf(width)).concat("_").concat("-").concat(lasts);
+    }
+
+    public static String getCalculateHeightSizeUrl(String url, int height){
+        if (TextUtils.isEmpty(url)) {
+            return "";
+        }
+        if (!url.endsWith(".jpeg") && !url.endsWith(".jpg") && !url.endsWith(".png")&& !url.endsWith(".gif")) {//图片名字一定要带后缀
+            return url;
+        }
+
+        int at = url.lastIndexOf(".");
+        String name = url.substring(0, at);
+        String lasts = url.substring(at);
+
+        return name.concat("_").concat("-").concat("_").concat(String.valueOf(height)).concat(lasts);
     }
 }

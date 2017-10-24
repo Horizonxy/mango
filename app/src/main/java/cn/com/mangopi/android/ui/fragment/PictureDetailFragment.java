@@ -21,6 +21,7 @@ import java.io.File;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.util.DisplayUtils;
+import cn.com.mangopi.android.util.MangoUtils;
 import cn.com.mangopi.android.util.SimpleAnimatorListener;
 import cn.com.mangopi.android.util.SmallPicInfo;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -81,7 +82,7 @@ public class PictureDetailFragment extends BaseFragment {
             if (bitmap != null && !bitmap.isRecycled()) {
                 loadOnCache(bitmap);
             } else {
-                Application.application.getImageLoader().loadImage(smallPicInfo.url, options, new SimpleImageLoadingListener() {
+                Application.application.getImageLoader().loadImage(MangoUtils.getCalculateScreenWidthSizeUrl(smallPicInfo.url), options, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         loadOnCache(loadedImage);
@@ -161,7 +162,7 @@ public class PictureDetailFragment extends BaseFragment {
             public void onAnimationEnd(Animator animation) {
                 progressLoad.setVisibility(View.VISIBLE);
 
-                Application.application.getImageLoader().displayImage(smallPicInfo.url, ivDetail, options, new SimpleImageLoadingListener() {
+                Application.application.getImageLoader().displayImage(MangoUtils.getCalculateScreenWidthSizeUrl(smallPicInfo.url), ivDetail, options, new SimpleImageLoadingListener() {
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

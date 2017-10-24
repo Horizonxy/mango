@@ -304,7 +304,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                             @Override
                             protected void convert(BaseAdapterHelper helper, AdvertBean.DetailsBean item) {
                                 helper.setImageResource(R.id.iv_advert_one_item, 0)
-                                        .setImageUrl(R.id.iv_advert_one_item, item.getFile_path())
+                                        .setImageUrl(R.id.iv_advert_one_item, MangoUtils.getCalculateScreenWidthSizeUrl(item.getFile_path()))
                                         .setTag(R.id.iv_advert_one_item, item)
                                         .setOnClickListener(R.id.iv_advert_one_item, advertDetaiClickListener)
                                         .setVisible(R.id.line_divider, false/*helper.getPosition() < (data.size() - 1)*/);
@@ -336,7 +336,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                     itemImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     HorizontalScrollView.LayoutParams imageParams = new HorizontalScrollView.LayoutParams(width, HorizontalScrollView.LayoutParams.MATCH_PARENT);
                     itemImageView.setLayoutParams(imageParams);
-                    Application.application.getImageLoader().displayImage(details.get(j).getFile_path(), itemImageView, Application.application.getDefaultOptions());
+                    Application.application.getImageLoader().displayImage(MangoUtils.getCalculateWidthSizeUrl(details.get(j).getFile_path(), width), itemImageView, Application.application.getDefaultOptions());
                     layoutAdvert.addView(itemImageView);
                     itemImageView.setTag(details.get(j));
                     itemImageView.setOnClickListener(advertDetaiClickListener);
@@ -355,7 +355,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                     }
                 }
 
-                Application.application.getImageLoader().loadImage(item.getFile_path(), Application.application.getDefaultOptions(), new SimpleImageLoadingListener(){
+                Application.application.getImageLoader().loadImage(MangoUtils.getCalculateScreenWidthSizeUrl(item.getFile_path()), Application.application.getDefaultOptions(), new SimpleImageLoadingListener(){
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         if(couponView == null) {
@@ -575,7 +575,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
         @Override
         public void UpdateUI(Context context, int position, AdvertBean.DetailsBean data) {
-            Application.application.getImageLoader().displayImage(data.getFile_path(), imageView, Application.application.getDefaultOptions());
+            String path = MangoUtils.getCalculateScreenWidthSizeUrl(data.getFile_path());
+            Application.application.getImageLoader().displayImage(path, imageView, Application.application.getDefaultOptions());
         }
     }
 

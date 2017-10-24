@@ -11,19 +11,23 @@ import cn.com.mangopi.android.model.bean.CourseBean;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.util.ActivityBuilder;
+import cn.com.mangopi.android.util.DisplayUtils;
+import cn.com.mangopi.android.util.MangoUtils;
 
 public class RecommendCourseAdapter extends QuickAdapter<CourseBean> {
 
     private Context context;
+    private int dp60;
 
     public RecommendCourseAdapter(Context context, int layoutResId, List<CourseBean> data) {
         super(context, layoutResId, data);
         this.context = context;
+        this.dp60 = DisplayUtils.dip2px(context, 60);
     }
 
     @Override
     protected void convert(BaseAdapterHelper helper, CourseBean item) {
-        helper.setImageUrl(R.id.iv_avatar, item.getAvatar_rsurl())
+        helper.setImageUrl(R.id.iv_avatar, MangoUtils.getCalculateWidthSizeUrl(item.getAvatar_rsurl(), dp60))
                 .setText(R.id.tv_course_title, item.getCourse_title())
                 .setText(R.id.tv_member_name, item.getMember_name())
                 .setText(R.id.tv_type_name, item.getType_name())

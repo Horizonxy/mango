@@ -26,6 +26,7 @@ import cn.com.mangopi.android.ui.widget.MangoUMShareListener;
 import cn.com.mangopi.android.ui.widget.TitleBar;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
+import cn.com.mangopi.android.util.MangoUtils;
 
 public class CourseDetailActivity extends BaseTitleBarActivity implements CourseDetailListener, FavListener, TitleBar.OnTitleBarClickListener, WantCountListener {
 
@@ -103,7 +104,7 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
             btnPlaceOrder.setEnabled(false);
         }
 
-        Application.application.getImageLoader().displayImage(courseDetail.getAvatar_rsurl(), ivLogo, Application.application.getDefaultOptions());
+        Application.application.getImageLoader().displayImage(MangoUtils.getCalculateScreenWidthSizeUrl(courseDetail.getAvatar_rsurl()), ivLogo, Application.application.getDefaultOptions());
         tvCourseTitle.setText(courseDetail.getCourse_title());
         if(courseDetail.getMember_name() != null) {
             tvToturName.setText("（" + courseDetail.getMember_name() + "）");

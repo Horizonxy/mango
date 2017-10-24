@@ -138,12 +138,13 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                 ivPicture.setVisibility(View.VISIBLE);
                 gvPicture.setVisibility(View.GONE);
                 ivPicture.setImageResource(0);
-                Application.application.getImageLoader().displayImage(pictures.get(0), ivPicture, options, new SimpleImageLoadingListener() {
+                int picHeight = DisplayUtils.dip2px(context, 180);
+                Application.application.getImageLoader().displayImage(MangoUtils.getCalculateHeightSizeUrl(pictures.get(0), picHeight), ivPicture, options, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         int width = loadedImage.getWidth();
                         int height = loadedImage.getHeight();
-                        float scale = DisplayUtils.dip2px(context, 180) * 1F / height;
+                        float scale = picHeight * 1F / height;
 
                         Matrix matrix = new Matrix();
                         matrix.setScale(scale, scale);
@@ -173,7 +174,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                         AbsListView.LayoutParams params = (AbsListView.LayoutParams) ivPicture.getLayoutParams();
                         params.width = params.height = width;
                         ivPicture.setLayoutParams(params);
-                        Application.application.getImageLoader().displayImage(item, ivPicture, options);
+                        Application.application.getImageLoader().displayImage(MangoUtils.getCalculateWidthSizeUrl(item, width), ivPicture, options);
                         MangoUtils.showBigPictures(gvPicture, pictures, ivPicture, helper.getPosition());
                     }
                 });

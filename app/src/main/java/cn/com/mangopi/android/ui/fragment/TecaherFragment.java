@@ -164,7 +164,7 @@ public class TecaherFragment extends BaseFragment implements AdapterView.OnItemC
 
         @Override
         public void UpdateUI(Context context, int position, CourseBean data) {
-            Application.application.getImageLoader().displayImage(data.getTutor_logo_rsurl(), imageView, Application.application.getDefaultOptions());
+            Application.application.getImageLoader().displayImage(MangoUtils.getCalculateScreenWidthSizeUrl(data.getTutor_logo_rsurl()), imageView, Application.application.getDefaultOptions());
             tvTitle.setText(data.getCourse_title());
         }
     }
