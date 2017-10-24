@@ -15,6 +15,8 @@ import cn.com.mangopi.android.ui.adapter.RecommendCourseAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.viewlistener.TeacherListener;
+import cn.com.mangopi.android.util.DisplayUtils;
+import cn.com.mangopi.android.util.MangoUtils;
 import dagger.Module;
 import dagger.Provides;
 
@@ -43,6 +45,7 @@ public class TeacherFragmentModule {
     @Provides
     @Type("grid")
     public QuickAdapter provideGridQuickAdapter(){
+        int dp40 = DisplayUtils.dip2px(fragment.getContext(), 40);
         return new QuickAdapter<CourseClassifyBean>(fragment.getContext(), R.layout.gridview_item_class_category, gridDatas) {
             @Override
             protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
@@ -50,7 +53,7 @@ public class TeacherFragmentModule {
 //                if(helper.getPosition() == (gridDatas.size() - 1)){
 //                    helper.setImageResource(R.id.iv_logo, R.drawable.daoshi_08);
 //                } else {
-                    helper.setImageUrl(R.id.iv_logo, item.getLogo_rsurl());
+                    helper.setImageUrl(R.id.iv_logo, MangoUtils.getCalculateWidthSizeUrl(item.getLogo_rsurl(), dp40));
 //                }
                 helper.setText(R.id.tv_name, item.getClassify_name());
 

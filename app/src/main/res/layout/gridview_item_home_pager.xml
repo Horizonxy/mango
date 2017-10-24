@@ -10,8 +10,7 @@
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_16"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/home_pic1"/>
+        android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/tv_title"
@@ -19,6 +18,5 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp_12"
         android:layout_marginTop="@dimen/dp_7"
-        android:text="电商"
         android:textColor="@color/color_666666"/>
 </LinearLayout>

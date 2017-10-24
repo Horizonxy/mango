@@ -264,10 +264,11 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         } else if (Constants.INDEX_TWO_ADVERT.equals(position)) {
             if (advertList.size() > 0) {
                 layoutTwoGroup.setVisibility(View.VISIBLE);
+                int width = DisplayUtils.screenWidth(getContext());
                 List<AdvertBean.DetailsBean> details = advertList.get(0).getDetails();
                 if (details.size() > 0) {
                     AdvertBean.DetailsBean detail1 = details.get(0);
-                    Application.application.getImageLoader().displayImage(detail1.getFile_path(), ivGroup1, Application.application.getDefaultOptions());
+                    Application.application.getImageLoader().displayImage(MangoUtils.getCalculateWidthSizeUrl(detail1.getFile_path(), width), ivGroup1, Application.application.getDefaultOptions());
                     ivGroup1.setTag(detail1);
                 } else {
                     ivGroup1.setImageResource(0);
@@ -275,7 +276,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 }
                 if (details.size() > 1) {
                     AdvertBean.DetailsBean detail2 = details.get(1);
-                    Application.application.getImageLoader().displayImage(detail2.getFile_path(), ivGroup2, Application.application.getDefaultOptions());
+                    Application.application.getImageLoader().displayImage(MangoUtils.getCalculateWidthSizeUrl(detail2.getFile_path(), width), ivGroup2, Application.application.getDefaultOptions());
                     ivGroup2.setTag(detail2);
                 } else {
                     ivGroup2.setImageResource(0);
@@ -451,6 +452,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
         refreshLayout.refreshComplete();
         gridViews.clear();
         homeIndicator.removeAllViews();
+        int dp40 = DisplayUtils.dip2px(getContext(), 40);
         for (int i = 0; courseClassifyList != null && i < courseClassifyList.size(); i += 4) {
             List<CourseClassifyBean> pager = new ArrayList<CourseClassifyBean>();
             pager.addAll(courseClassifyList.subList(i, (i + 4) < courseClassifyList.size() ? (i + 4) : courseClassifyList.size()));
@@ -460,7 +462,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
             gridView.setAdapter(new QuickAdapter<CourseClassifyBean>(getActivity(), R.layout.gridview_item_home_pager, pager) {
                 @Override
                 protected void convert(BaseAdapterHelper helper, CourseClassifyBean item) {
-                    helper.setImageUrl(R.id.iv_classify, item.getLogo_rsurl());
+                    helper.setImageUrl(R.id.iv_classify, MangoUtils.getCalculateWidthSizeUrl(item.getLogo_rsurl(), dp40));
                     helper.setText(R.id.tv_title, item.getClassify_name());
                 }
             });
