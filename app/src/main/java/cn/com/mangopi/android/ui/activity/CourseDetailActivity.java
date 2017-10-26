@@ -124,11 +124,11 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
             ivWant.setClickable(true);
         }
 
-        tvContent.setText(courseDetail.getCourse_content());
+        tvContent.setText(MangoUtils.delHTMLTag(courseDetail.getCourse_content()));
         tvTypeMethod.setText(courseDetail.getType_method()+"，"
                 + courseDetail.getEach_time() +"/" + courseDetail.getService_time()+"  "
                 +getString(R.string.rmb)+courseDetail.getSale_price().toString()+"元");
-        tvTypeExplains.setText(courseDetail.getType_explains());
+        tvTypeExplains.setText(MangoUtils.delHTMLTag(courseDetail.getType_explains()));
     }
 
     @OnClick(R.id.btn_place_order)

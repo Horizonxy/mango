@@ -464,4 +464,34 @@ public class MangoUtils {
 
         return name.concat("_").concat("-").concat("_").concat(String.valueOf(height)).concat(lasts);
     }
+
+    /**
+     * 定义script的正则表达式
+     */
+    private static final String REGEX_SCRIPT = "<script[^>]*?>[\\s\\S]*?<\\/script>";
+    /**
+     * 定义style的正则表达式
+     */
+    private static final String REGEX_STYLE = "<style[^>]*?>[\\s\\S]*?<\\/style>";
+    /**
+     * 定义HTML标签的正则表达式
+     */
+    private static final String REGEX_HTML = "<[^>]+>";
+
+    public static String delHTMLTag(String htmlStr) {
+        // 过滤script标签
+        Pattern p_script = Pattern.compile(REGEX_SCRIPT, Pattern.CASE_INSENSITIVE);
+        Matcher m_script = p_script.matcher(htmlStr);
+        htmlStr = m_script.replaceAll("");
+        // 过滤style标签
+        Pattern p_style = Pattern.compile(REGEX_STYLE, Pattern.CASE_INSENSITIVE);
+        Matcher m_style = p_style.matcher(htmlStr);
+        htmlStr = m_style.replaceAll("");
+        // 过滤html标签
+        Pattern p_html = Pattern.compile(REGEX_HTML, Pattern.CASE_INSENSITIVE);
+        Matcher m_html = p_html.matcher(htmlStr);
+        htmlStr = m_html.replaceAll("");
+
+        return htmlStr.trim(); // 返回文本字符串
+    }
 }

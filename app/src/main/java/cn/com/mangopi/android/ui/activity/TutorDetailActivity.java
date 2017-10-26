@@ -114,7 +114,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
             ivWant.setImageResource(R.drawable.faxian_xiangting);
         }
 
-        tvIntro.setText(tutor.getIntro());
+        tvIntro.setText(MangoUtils.delHTMLTag(tutor.getIntro()));
 
         courseList.clear();
         if(tutor.getCourses() != null) {
