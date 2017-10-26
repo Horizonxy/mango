@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.j256.ormlite.stmt.query.In;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
+import com.tbruyelle.rxpermissions.Permission;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yancy.gallerypick.config.GalleryConfig;
 import com.yancy.gallerypick.config.GalleryPick;
@@ -308,13 +309,17 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         if(uploadPresenter == null){
             uploadPresenter = new UploadPresenter(new UploadModel(), this);
         }
-        RxPermissions.getInstance(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
+        RxPermissions.getInstance(this).requestEach(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Permission>() {
             @Override
-            public void call(Boolean granted) {
-                if(granted){
+            public void call(Permission permission) {
+                if(permission.name.equals(Manifest.permission.CAMERA)){
+                    if(!permission.granted) {
+                        AppUtils.showToast(ProfileInfoActivity.this, getString(R.string.permission_camera));
+                    }
+                } else if(permission.name.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
                     GalleryPick.getInstance().setGalleryConfig(galleryConfig).open(ProfileInfoActivity.this);
                 } else {
-                    AppUtils.showToast(ProfileInfoActivity.this, "请在 设置-应用管理 中开启此应用的储存授权。");
+                    AppUtils.showToast(ProfileInfoActivity.this, getString(R.string.permission_storage));
                 }
             }
         });

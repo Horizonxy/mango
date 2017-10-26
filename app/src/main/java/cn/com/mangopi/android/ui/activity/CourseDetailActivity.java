@@ -115,7 +115,7 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
             tvPrice.setText(getString(R.string.rmb) + courseDetail.getSale_price().toString());
         }
         if(courseDetail.is_favor()){
-            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang);
+            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
             ivWant.setImageResource(R.drawable.faxian_xiangting_0);
             ivWant.setClickable(false);
         } else {
@@ -172,7 +172,7 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     public void onSuccess(boolean success) {
         if(success){
             courseDetail.setIs_favor(true);
-            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang);
+            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
             ivWant.setImageResource(R.drawable.faxian_xiangting_0);
             ivWant.setClickable(false);
          } else {
@@ -211,7 +211,7 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     @Override
     public void onWantCountSuccess() {
         courseDetail.setIs_favor(true);
-        titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang);
+        titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
         ivWant.setImageResource(R.drawable.faxian_xiangting_0);
         ivWant.setClickable(false);
     }

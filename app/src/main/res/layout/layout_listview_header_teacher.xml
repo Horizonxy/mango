@@ -7,7 +7,7 @@
     <com.bigkoo.convenientbanner.ConvenientBanner xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/course_banner"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_180"
+        android:layout_height="@dimen/dp_375"
         app:canLoop="true" />
     
     <cn.com.mangopi.android.ui.widget.GridView

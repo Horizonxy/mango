@@ -77,7 +77,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
         helper.setText(R.id.tv_faword_count, String.valueOf(item.getFaword_count()));
         helper.setText(R.id.tv_comment_count, String.valueOf(item.getComment_count()));
         helper.setText(R.id.tv_praise_count, String.valueOf(item.getPraise_count()));
-        helper.setImageResource(R.id.iv_right, item.is_favor() ? R.drawable.icon_shoucang : R.drawable.icon_shoucang_nor);
+        helper.setImageResource(R.id.iv_right, item.is_favor() ? R.drawable.icon_shoucang_pressed : R.drawable.icon_shoucang_nor);
 
         List<String> pictures = item.getPic_rsurls();
         setPictures(helper.getView(R.id.iv_picture), helper.getView(R.id.gv_picture), pictures);

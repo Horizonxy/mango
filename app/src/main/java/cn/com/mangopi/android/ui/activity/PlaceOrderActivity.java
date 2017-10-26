@@ -65,6 +65,8 @@ public class PlaceOrderActivity extends BaseTitleBarActivity implements PlaceOrd
     CalcPricePresenter calcPricePresenter;
     @Bind(R.id.btn_add_order)
     Button btnAddOrder;
+    @Bind(R.id.layout_coupon)
+    View layoutCoupon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,9 @@ public class PlaceOrderActivity extends BaseTitleBarActivity implements PlaceOrd
         presenter = new OrderPresenter(new OrderModel(), this);
         calcPricePresenter = new CalcPricePresenter(this);
         calcPricePresenter.calcPrice();
+
+        couponListPresenter = new CouponListPresenter(this);
+        couponListPresenter.courseCouponList(courseDetail.getId());
     }
 
     private void initView() {
@@ -93,9 +98,6 @@ public class PlaceOrderActivity extends BaseTitleBarActivity implements PlaceOrd
         if(couponList.size() > 0){
             showCouponList(this.couponList);
         } else {
-            if (couponListPresenter == null) {
-                couponListPresenter = new CouponListPresenter(this);
-            }
             couponListPresenter.courseCouponList(courseDetail.getId());
         }
     }
@@ -184,7 +186,13 @@ public class PlaceOrderActivity extends BaseTitleBarActivity implements PlaceOrd
         if(courseCouponList != null) {
             this.couponList.addAll(courseCouponList);
         }
-        showCouponList(this.couponList);
+//        showCouponList(this.couponList);
+
+        if(this.couponList.size() == 0){
+            tvCouponName.setText("暂时没有可以使用的优惠券");
+        }
+        layoutCoupon.setClickable(this.couponList.size() != 0);
+
     }
 
     private void showCouponList(List<CourseCouponBean> couponList){

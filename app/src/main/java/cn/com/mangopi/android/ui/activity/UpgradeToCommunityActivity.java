@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
+import com.tbruyelle.rxpermissions.Permission;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yancy.gallerypick.config.GalleryConfig;
 import com.yancy.gallerypick.config.GalleryPick;
@@ -167,13 +168,17 @@ public class UpgradeToCommunityActivity extends BaseTitleBarActivity implements 
 
     @OnClick(R.id.layout_logo)
     void clickCommunityLogo(View v){
-        RxPermissions.getInstance(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
+        RxPermissions.getInstance(this).requestEach(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Permission>() {
             @Override
-            public void call(Boolean granted) {
-                if(granted){
+            public void call(Permission permission) {
+                if(permission.name.equals(Manifest.permission.CAMERA)){
+                    if(!permission.granted) {
+                        AppUtils.showToast(UpgradeToCommunityActivity.this, getString(R.string.permission_camera));
+                    }
+                } else if(permission.name.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
                     GalleryPick.getInstance().setGalleryConfig(galleryConfig).open(UpgradeToCommunityActivity.this);
                 } else {
-                    AppUtils.showToast(UpgradeToCommunityActivity.this, "请在 设置-应用管理 中开启此应用的储存授权。");
+                    AppUtils.showToast(UpgradeToCommunityActivity.this, getString(R.string.permission_storage));
                 }
             }
         });

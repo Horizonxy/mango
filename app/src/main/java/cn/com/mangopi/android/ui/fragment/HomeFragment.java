@@ -1,6 +1,7 @@
 package cn.com.mangopi.android.ui.fragment;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import com.chanven.lib.cptr.PtrFrameLayout;
 import com.mcxiaoke.bus.Bus;
 import com.mcxiaoke.bus.annotation.BusReceiver;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,7 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.db.CommonDaoImpl;
 import cn.com.mangopi.android.presenter.FetchCouponPresenter;
 import cn.com.mangopi.android.presenter.HomePresenter;
+import cn.com.mangopi.android.ui.activity.AddCourseActivity;
 import cn.com.mangopi.android.ui.activity.CaptureActivity;
 import cn.com.mangopi.android.ui.adapter.ViewPagerAdapter;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
@@ -66,6 +69,7 @@ import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 import cn.com.mangopi.android.util.MaskUtils;
+import rx.functions.Action1;
 
 public class HomeFragment extends BaseFragment implements HomeFragmentListener, View.OnClickListener, FetchCouponListener {
 
@@ -532,7 +536,17 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ib_scan:
-                getActivity().startActivityForResult(new Intent(getActivity(), CaptureActivity.class), Constants.REQ_SCAN);
+                RxPermissions.getInstance(getActivity()).request(Manifest.permission.CAMERA).subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean granted) {
+                        if (granted) {
+                            getActivity().startActivityForResult(new Intent(getActivity(), CaptureActivity.class), Constants.REQ_SCAN);
+                        } else {
+                            AppUtils.showToast(getContext(), getString(R.string.permission_camera));
+                        }
+                    }
+                });
+
                 break;
             case R.id.iv_message:
                 ActivityBuilder.startMessageListActivity(getActivity());

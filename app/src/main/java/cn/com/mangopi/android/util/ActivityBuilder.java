@@ -400,7 +400,7 @@ public class ActivityBuilder {
     }
 
     public static void startPhoneNumber(Activity activity, String phone) {
-        RxPermissions.getInstance(activity).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
+        RxPermissions.getInstance(activity).request(Manifest.permission.CALL_PHONE).subscribe(new Action1<Boolean>() {
             @Override
             public void call(Boolean granted) {
                 if (granted) {
@@ -408,7 +408,7 @@ public class ActivityBuilder {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(intent);
                 } else {
-                    AppUtils.showToast(activity, "请在 设置-应用管理 中开启此应用的拨号授权。");
+                    AppUtils.showToast(activity, activity.getString(R.string.permission_call_phone));
                 }
             }
         });
