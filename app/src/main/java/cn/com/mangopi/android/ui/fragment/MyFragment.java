@@ -46,6 +46,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
     View vOrderList;
     View vWorks;
     View vClasses;
+    View vClassSechedule;
     View vAccount;
     View vSetting;
 
@@ -54,6 +55,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
     TextView tvOrderList;
     TextView tvWorks;
     TextView tvClasses;
+    TextView tvClassSchedule;
     TextView tvAccount;
     TextView tvSetting;
     TextView tvOrderCount;
@@ -102,6 +104,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
         vOrderList = root.findViewById(R.id.layout_order_list);
         vWorks = root.findViewById(R.id.layout_works);
         vClasses = root.findViewById(R.id.layout_classes);
+        vClassSechedule = root.findViewById(R.id.layout_classes_schedule);
         vAccount = root.findViewById(R.id.layout_account);
         vSetting = root.findViewById(R.id.layout_setting);
         tvCollectionCount = (TextView) root.findViewById(R.id.tv_collection_count);
@@ -136,6 +139,9 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
                     case R.id.layout_classes:
                         ActivityBuilder.startMyClassesActivity(getActivity());
                         break;
+                    case R.id.layout_classes_schedule:
+                        ActivityBuilder.startOrderScheduleCalendarActivity(getActivity());
+                        break;
                     case R.id.layout_account:
                         startActivity(new Intent(getActivity(), MyAccountActivity.class));
                         break;
@@ -162,6 +168,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
         vOrderList.setOnClickListener(clickListener);
         vWorks.setOnClickListener(clickListener);
         vClasses.setOnClickListener(clickListener);
+        vClassSechedule.setOnClickListener(clickListener);
         vAccount.setOnClickListener(clickListener);
         vSetting.setOnClickListener(clickListener);
         tvUpdateInfo.setOnClickListener(clickListener);
@@ -177,6 +184,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
         tvOrderList = (TextView) vOrderList.findViewById(R.id.tv_left);
         tvWorks = (TextView) vWorks.findViewById(R.id.tv_left);
         tvClasses = (TextView) vClasses.findViewById(R.id.tv_left);
+        tvClassSchedule = (TextView) vClassSechedule.findViewById(R.id.tv_left);
         tvAccount = (TextView) vAccount.findViewById(R.id.tv_left);
         tvSetting = (TextView) vSetting.findViewById(R.id.tv_left);
         tvRole.setText(getString(R.string.my_role));
@@ -184,6 +192,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
         tvOrderList.setText(getString(R.string.my_order_list));
         tvWorks.setText(getString(R.string.my_works));
         tvClasses.setText(getString(R.string.my_classes));
+        tvClassSchedule.setText(getString(R.string.my_class_schedule));
         tvAccount.setText(getString(R.string.my_account));
         tvSetting.setText(getString(R.string.setting));
         ((ImageView)vRole.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_id);
@@ -191,6 +200,7 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
         ((ImageView)vOrderList.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_dingdan);
         ((ImageView)vWorks.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_gongzuobao);
         ((ImageView)vClasses.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_shouke);
+        ((ImageView)vClassSechedule.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_shouke);
         ((ImageView)vAccount.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_zhanghu);
         ((ImageView)vSetting.findViewById(R.id.iv_left)).setImageResource(R.drawable.icon_shezhi);
 
@@ -201,9 +211,11 @@ public class MyFragment extends BaseFragment implements MemberDetailListener {
         List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
         if(!indentityList.contains(Constants.UserIndentity.TUTOR)){
             vClasses.setVisibility(View.GONE);
+            vClassSechedule.setVisibility(View.GONE);
             vAccount.setVisibility(View.GONE);
         } else {
             vClasses.setVisibility(View.VISIBLE);
+            vClassSechedule.setVisibility(View.VISIBLE);
             vAccount.setVisibility(View.GONE);
         }
         if(indentityList.contains(Constants.UserIndentity.COMPANY)){

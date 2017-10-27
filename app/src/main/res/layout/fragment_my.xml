@@ -218,6 +218,13 @@
                 android:layout_marginTop="@dimen/dp_0.5" />
 
             <include
+                android:id="@+id/layout_classes_schedule"
+                layout="@layout/layout_item_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_0.5" />
+
+            <include
                 android:id="@+id/layout_account"
                 layout="@layout/layout_item_profile"
                 android:layout_width="match_parent"

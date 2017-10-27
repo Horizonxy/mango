@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.io.File;
 
+import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.ui.popupwindow.SharePopupWindow;
@@ -84,7 +85,9 @@ public class SettingActivity extends BaseTitleBarActivity {
         tvProfileLeft.setText(getString(R.string.profile_info));
         tvProfileRight.setText(getString(R.string.click_to_edit));
         tvPhoneNunLeft.setText(getString(R.string.phone_num));
-        tvPhoneNunRight.setText("18583681149");
+        if(Application.application.getMember() != null) {
+            tvPhoneNunRight.setText(Application.application.getMember().getMobile());
+        }
         tvPhoneNunRight.setTextColor(getResources().getColor(R.color.color_666666));
         tvTransPwdLeft.setText(getString(R.string.trans_pwd));
         tvTransPwdRight.setText(getString(R.string.un_setting));

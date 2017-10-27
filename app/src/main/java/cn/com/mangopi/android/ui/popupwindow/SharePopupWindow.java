@@ -71,21 +71,24 @@ public class SharePopupWindow extends PopupWindow {
     private void buildList() {
         this.list = new ArrayList<ShareVo>();
 
-        ShareVo wxMoments = new ShareVo();
-        wxMoments.shareMedia = SHARE_MEDIA.WEIXIN_CIRCLE;
-        wxMoments.platform = "朋友圈";
-        wxMoments.iconId = R.drawable.icon_share_wx_moments;
-        list.add(wxMoments);
         ShareVo wechat = new ShareVo();
         wechat.shareMedia = SHARE_MEDIA.WEIXIN;
         wechat.platform = "微信好友";
         wechat.iconId = R.drawable.icon_share_wx_frient;
         list.add(wechat);
+
+        ShareVo wxMoments = new ShareVo();
+        wxMoments.shareMedia = SHARE_MEDIA.WEIXIN_CIRCLE;
+        wxMoments.platform = "朋友圈";
+        wxMoments.iconId = R.drawable.icon_share_wx_moments;
+        list.add(wxMoments);
+
         ShareVo qq = new ShareVo();
         qq.shareMedia = SHARE_MEDIA.QQ;
         qq.platform = "QQ";
         qq.iconId = R.drawable.icon_share_qq;
         list.add(qq);
+
         ShareVo qzone = new ShareVo();
         qzone.shareMedia = SHARE_MEDIA.QZONE;
         qzone.platform = "QQ空间";

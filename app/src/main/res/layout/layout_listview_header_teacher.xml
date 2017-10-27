@@ -19,10 +19,16 @@
         android:numColumns="4"
         android:cacheColorHint="@android:color/transparent"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/color_efeff4" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_15"
         android:layout_marginBottom="@dimen/dp_10">
         <View
             android:layout_width="@dimen/dp_4"
