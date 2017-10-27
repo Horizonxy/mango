@@ -450,6 +450,21 @@ public class MangoUtils {
         return name.concat("_").concat(String.valueOf(width)).concat("_").concat("-").concat(lasts);
     }
 
+    public static String getCalculateSizeUrl(String url, int width, int height){
+        if (TextUtils.isEmpty(url)) {
+            return "";
+        }
+        if (!url.endsWith(".jpeg") && !url.endsWith(".jpg") && !url.endsWith(".png")&& !url.endsWith(".gif")) {//图片名字一定要带后缀
+            return url;
+        }
+
+        int at = url.lastIndexOf(".");
+        String name = url.substring(0, at);
+        String lasts = url.substring(at);
+
+        return name.concat("_").concat(String.valueOf(width)).concat("_").concat(String.valueOf(height)).concat(lasts);
+    }
+
     public static String getCalculateHeightSizeUrl(String url, int height){
         if (TextUtils.isEmpty(url)) {
             return "";

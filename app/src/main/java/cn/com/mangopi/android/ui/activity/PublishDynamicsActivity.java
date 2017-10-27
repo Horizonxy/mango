@@ -76,7 +76,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
         });
 
         dp5 = (int) getResources().getDimension(R.dimen.dp_5);
-        int width = (int) ((DisplayUtils.screenWidth(this) - getResources().getDimension(R.dimen.dp_15) * 2 - dp5 * 2) / COLUMN_COUNT);
+        int width = (int) ((DisplayUtils.screenWidth(this) - getResources().getDimension(R.dimen.dp_15) * 2 - dp5 * (COLUMN_COUNT - 1)) / COLUMN_COUNT);
         pictureItemLp = new FrameLayout.LayoutParams(width, width);
 
         UploadImageBean addImageBean = new UploadImageBean(UploadImageBean.ADD_BTN);
@@ -197,6 +197,11 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
         }
         if(pictures.remove(uploadImage)) {
             gridPicture.removeViewAt(index);
+        }
+        if(gridPicture.getChildCount() > 9){
+            gridPicture.getChildAt(9).setVisibility(View.GONE);
+        } else {
+            gridPicture.getChildAt(gridPicture.getChildCount() - 1).setVisibility(View.VISIBLE);
         }
     }
 

@@ -88,6 +88,9 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
     ImageView ivForwardPicture;
     GridView gvForwardPicture;
 
+    int picWidth;
+    int picHeight;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +110,9 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
         this.width = (int) ((DisplayUtils.screenWidth(this)
                 - getResources().getDimension(R.dimen.dp_15) * 2
                 - getResources().getDimension(R.dimen.dp_5) * 2) / 3);
+
+        picWidth = DisplayUtils.screenWidth(context) - DisplayUtils.dip2px(context, 15 * 2);
+        picHeight = (int) (picWidth * 320 * 1F/ 690);
     }
 
     private void initView() {
@@ -184,19 +190,19 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
                 ivPicture.setVisibility(View.VISIBLE);
                 gvPicture.setVisibility(View.GONE);
                 ivPicture.setImageResource(0);
-                Application.application.getImageLoader().displayImage(pictures.get(0), ivPicture, options, new SimpleImageLoadingListener() {
+                Application.application.getImageLoader().displayImage(MangoUtils.getCalculateSizeUrl(pictures.get(0), picWidth, picHeight), ivPicture, options/*, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         int width = loadedImage.getWidth();
                         int height = loadedImage.getHeight();
-                        float scale = DisplayUtils.dip2px(TrendCommentsActivity.this, 180) * 1F / height;
+                        float scale = picHeight * 1F / height;
 
                         Matrix matrix = new Matrix();
                         matrix.setScale(scale, scale);
                         Bitmap bitmap = Bitmap.createBitmap(loadedImage, 0, 0, width, height, matrix, false);
                         ivPicture.setImageBitmap(bitmap);
                     }
-                });
+                }*/);
                 MangoUtils.showBigPicture(ivPicture, pictures.get(0));
             } else {
                 ivPicture.setVisibility(View.GONE);

@@ -44,6 +44,8 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
     FoundListener listener;
     DisplayImageOptions options;
     List<Constants.UserIndentity> indentityList;
+    int picWidth;
+    int picHeight;
 
     public TrendListAdapter(Context context, int layoutResId, List<TrendBean> data, FoundListener listener) {
         super(context, layoutResId, data);
@@ -58,6 +60,8 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
         indentityList = MangoUtils.getIndentityList();
+        picWidth = DisplayUtils.screenWidth(context) - DisplayUtils.dip2px(context, 15 * 2);
+        picHeight = (int) (picWidth * 320 * 1F/ 690);
     }
 
     @Override
@@ -138,8 +142,8 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                 ivPicture.setVisibility(View.VISIBLE);
                 gvPicture.setVisibility(View.GONE);
                 ivPicture.setImageResource(0);
-                int picHeight = DisplayUtils.dip2px(context, 160);
-                Application.application.getImageLoader().displayImage(MangoUtils.getCalculateHeightSizeUrl(pictures.get(0), picHeight), ivPicture, options, new SimpleImageLoadingListener() {
+
+                Application.application.getImageLoader().displayImage(MangoUtils.getCalculateSizeUrl(pictures.get(0), picWidth, picHeight), ivPicture, options/*, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         int width = loadedImage.getWidth();
@@ -151,7 +155,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                         Bitmap bitmap = Bitmap.createBitmap(loadedImage, 0, 0, width, height, matrix, false);
                         ivPicture.setImageBitmap(bitmap);
                     }
-                });
+                }*/);
 
                 MangoUtils.showBigPicture(ivPicture, pictures.get(0));
             } else {

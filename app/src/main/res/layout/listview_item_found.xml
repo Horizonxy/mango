@@ -107,11 +107,12 @@
 
             <ImageView
                 android:id="@+id/iv_forward_picture"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_160"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_15"
                 android:layout_marginRight="@dimen/dp_15"
                 android:layout_marginTop="@dimen/dp_10"
+                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
                 android:visibility="gone"
                 android:layout_gravity="left"/>
@@ -133,10 +134,11 @@
 
         <ImageView
             android:id="@+id/iv_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_160"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:layout_gravity="left"
+            android:scaleType="centerCrop"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_15"
             android:layout_marginBottom="@dimen/dp_15"/>

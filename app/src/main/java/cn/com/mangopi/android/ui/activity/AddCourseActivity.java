@@ -105,7 +105,7 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
         tvEachTime.setText(eachTimeList.get(0));
 
         dp5 = (int) getResources().getDimension(R.dimen.dp_5);
-        int width = (int) ((DisplayUtils.screenWidth(this) - getResources().getDimension(R.dimen.dp_15) * 2 - dp5 * 2) / COLUMN_COUNT);
+        int width = (int) ((DisplayUtils.screenWidth(this) - getResources().getDimension(R.dimen.dp_15) * 2 - dp5 * (COLUMN_COUNT - 1)) / COLUMN_COUNT);
         materialItemLp = new FrameLayout.LayoutParams(width, width);
 
         UploadImageBean addImageBean = new UploadImageBean(UploadImageBean.ADD_BTN);
@@ -377,6 +377,11 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
         }
         if(materials.remove(uploadImage)) {
             gridMaterial.removeViewAt(index);
+        }
+        if(gridMaterial.getChildCount() > 9){
+            gridMaterial.getChildAt(9).setVisibility(View.GONE);
+        } else {
+            gridMaterial.getChildAt(gridMaterial.getChildCount() - 1).setVisibility(View.VISIBLE);
         }
     }
 
