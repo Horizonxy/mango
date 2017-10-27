@@ -170,7 +170,12 @@ public class DataCleanManager {
             }  
         }  
     }  
-      
+
+    public static String getFormatMBSize(double size){
+        double result = size / 1024 / 2014;
+        return new BigDecimal(Double.toString(result)).setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "M";
+    }
+
     /** 
      * 格式化单位 
      *  

@@ -41,8 +41,7 @@ public class MyClassesFragmentModule {
                 helper.setText(R.id.tv_type_method, typeMethod);
 
                 if(item.getApprove_state() != null && item.getApprove_state().intValue() == 50){//已审核
-                    helper.setVisible(R.id.btn_function, false)
-                        .setVisible(R.id.iv_state, true);
+                    helper.setVisible(R.id.btn_function, false);
 
 //                    if(item.getState() != null && item.getState().intValue() == 0){//下架
 //                        helper.setVisible(R.id.btn_function, true);
@@ -70,7 +69,7 @@ public class MyClassesFragmentModule {
                     });
                 } else {
                     helper.setVisible(R.id.btn_function, false);
-                    helper.getView(R.id.iv_state).setVisibility(View.INVISIBLE);
+                    helper.setImageResource(R.id.iv_state, R.drawable.red);
                 }
 
                 if(item.getState() != null && item.getState().intValue() == -50){//删除状态

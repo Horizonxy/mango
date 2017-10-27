@@ -76,6 +76,7 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
     FrameLayout.LayoutParams materialItemLp;
     int dp5;
     IHandlerCallBack iHandlerCallBack;
+    final int COLUMN_COUNT = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
         tvEachTime.setText(eachTimeList.get(0));
 
         dp5 = (int) getResources().getDimension(R.dimen.dp_5);
-        int width = (int) ((DisplayUtils.screenWidth(this) - getResources().getDimension(R.dimen.dp_15) * 2 - dp5 * 2) / 3);
+        int width = (int) ((DisplayUtils.screenWidth(this) - getResources().getDimension(R.dimen.dp_15) * 2 - dp5 * 2) / COLUMN_COUNT);
         materialItemLp = new FrameLayout.LayoutParams(width, width);
 
         UploadImageBean addImageBean = new UploadImageBean(UploadImageBean.ADD_BTN);
@@ -387,7 +388,7 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
             pictureView.setImageBean(imageBean);
             GridLayout.LayoutParams gl = new GridLayout.LayoutParams(materialItemLp);
             gl.topMargin = dp5;
-            if (i % 3 == 0 || i % 3 == 1) {
+            if (i % COLUMN_COUNT != (COLUMN_COUNT - 1)) {
                 gl.rightMargin = dp5;
             }
             gridMaterial.addView(pictureView, i, gl);

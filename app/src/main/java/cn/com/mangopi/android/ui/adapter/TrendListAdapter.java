@@ -138,7 +138,7 @@ public class TrendListAdapter extends QuickAdapter<TrendBean> {
                 ivPicture.setVisibility(View.VISIBLE);
                 gvPicture.setVisibility(View.GONE);
                 ivPicture.setImageResource(0);
-                int picHeight = DisplayUtils.dip2px(context, 180);
+                int picHeight = DisplayUtils.dip2px(context, 160);
                 Application.application.getImageLoader().displayImage(MangoUtils.getCalculateHeightSizeUrl(pictures.get(0), picHeight), ivPicture, options, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

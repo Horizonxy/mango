@@ -51,6 +51,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
     int dp5;
     AddTrendPresenter presenter;
     IHandlerCallBack iHandlerCallBack;
+    final int COLUMN_COUNT = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +76,12 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
         });
 
         dp5 = (int) getResources().getDimension(R.dimen.dp_5);
-        int width = (int) ((DisplayUtils.screenWidth(this) - getResources().getDimension(R.dimen.dp_15) * 2 - dp5 * 2) / 3);
+        int width = (int) ((DisplayUtils.screenWidth(this) - getResources().getDimension(R.dimen.dp_15) * 2 - dp5 * 2) / COLUMN_COUNT);
         pictureItemLp = new FrameLayout.LayoutParams(width, width);
 
         UploadImageBean addImageBean = new UploadImageBean(UploadImageBean.ADD_BTN);
         UploadPictureView pictureView = new UploadPictureView(this);
+        pictureView.setAddIconResId(R.drawable.add_pic);
         pictureView.setOnUploadPictureListener(this);
         pictureView.setImageBean(addImageBean);
         GridLayout.LayoutParams gl = new GridLayout.LayoutParams(pictureItemLp);
@@ -91,11 +93,12 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
         for (int i = gridPicture.getChildCount() == 0 ? 0 : (gridPicture.getChildCount() - 1); i < pictures.size(); i++) {
             UploadImageBean imageBean = pictures.get(i);
             UploadPictureView pictureView = new UploadPictureView(this);
+            pictureView.setAddIconResId(R.drawable.add_pic);
             pictureView.setOnUploadPictureListener(this);
             pictureView.setImageBean(imageBean);
             GridLayout.LayoutParams gl = new GridLayout.LayoutParams(pictureItemLp);
             gl.topMargin = dp5;
-            if (i % 3 == 0 || i % 3 == 1) {
+            if (i % COLUMN_COUNT != ((COLUMN_COUNT - 1))) {
                 gl.rightMargin = dp5;
             }
             gridPicture.addView(pictureView, i, gl);

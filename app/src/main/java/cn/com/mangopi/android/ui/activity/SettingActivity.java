@@ -95,7 +95,7 @@ public class SettingActivity extends BaseTitleBarActivity {
         tvShareToLeft.setText(getString(R.string.share_to_friend));
         tvClearCacheft.setText(getString(R.string.clear_cache));
 
-        tvClearCacheRight.setText(DataCleanManager.getFormatSize(getCacheSize()));
+        tvClearCacheRight.setText(DataCleanManager.getFormatMBSize(getCacheSize()));
     }
 
     @OnClick(R.id.btn_login_out)
@@ -122,7 +122,7 @@ public class SettingActivity extends BaseTitleBarActivity {
                 DataCleanManager.cleanInternalCache(SettingActivity.this);
                 DataCleanManager.cleanCustomCache(Constants.BASE_DIR);
 
-                subscriber.onNext(DataCleanManager.getFormatSize(getCacheSize()));
+                subscriber.onNext(DataCleanManager.getFormatMBSize(getCacheSize()));
                 subscriber.onCompleted();
             }
         }).subscribeOn(Schedulers.io())
