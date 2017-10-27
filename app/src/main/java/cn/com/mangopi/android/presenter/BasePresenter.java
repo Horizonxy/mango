@@ -76,7 +76,7 @@ public class BasePresenter {
     }
 
     public boolean hasNet(){
-        if(!NetUtils.isNetworkConnected(context)){
+        if(!NetUtils.isNetworkConnected(Application.application.getApplicationContext())){
             AppUtils.showToast(Application.application.getTopActivity(), R.string.noconnection);
             return false;
         } else {
