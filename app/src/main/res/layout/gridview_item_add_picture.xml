@@ -27,22 +27,22 @@
 
     <ImageView
         android:id="@+id/iv_retry"
-        android:layout_width="@dimen/dp_20"
-        android:layout_height="@dimen/dp_20"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_launcher"
+        android:scaleType="fitXY"
+        android:src="@drawable/default_ptr_rotate"
         android:visibility="gone" />
 
     <ImageView
         android:id="@+id/iv_delete"
-        android:layout_width="@dimen/dp_20"
-        android:layout_height="@dimen/dp_20"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
         android:layout_gravity="right|top"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
-        android:src="@drawable/dele_white"
+        android:src="@drawable/mine_icon_del_red"
         android:visibility="gone" />
 
 </FrameLayout>

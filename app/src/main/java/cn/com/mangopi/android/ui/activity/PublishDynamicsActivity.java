@@ -51,7 +51,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
     int dp5;
     AddTrendPresenter presenter;
     IHandlerCallBack iHandlerCallBack;
-    final int COLUMN_COUNT = 3;
+    final int COLUMN_COUNT = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

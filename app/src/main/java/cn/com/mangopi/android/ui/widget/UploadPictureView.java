@@ -43,7 +43,6 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
     MultipartBody.Part uploadImage;
     OnUploadPictureListener onUploadPictureListener;
     UploadPresenter presenter;
-    int addIconResId;
 
     public UploadPictureView(@NonNull Context context) {
         this(context, null);

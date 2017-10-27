@@ -52,6 +52,6 @@
             android:layout_marginRight="@dimen/dp_15"
             android:layout_marginBottom="@dimen/dp_30"
             android:rowCount="3"
-            android:columnCount="3" />
+            android:columnCount="5" />
     </LinearLayout>
 </ScrollView>
