@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_666666"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="@dimen/sp_10" />
 
             <TextView
                 android:id="@+id/tv_pay_state_label"
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/color_666666"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="@dimen/sp_12" />
 
             <TextView
                 android:id="@+id/tv_order_time"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@color/color_666666"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="@dimen/sp_10" />
         </RelativeLayout>
 
         <View style="@style/horizontal_line" />
