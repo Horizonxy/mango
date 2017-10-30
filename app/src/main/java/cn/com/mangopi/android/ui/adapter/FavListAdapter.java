@@ -26,6 +26,7 @@ public class FavListAdapter extends QuickAdapter<FavBean> {
     @Override
     protected void convert(BaseAdapterHelper helper, FavBean item) {
         helper.setImageBuilder(R.id.iv_avatar, item.getLogo_rsurl(), options)
+                .setText(R.id.tv_content, item.getEntity_name())
                 .setText(R.id.tv_title, item.getEntity_name());
         helper.setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
     }

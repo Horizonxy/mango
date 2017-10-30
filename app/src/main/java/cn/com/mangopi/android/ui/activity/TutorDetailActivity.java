@@ -1,6 +1,7 @@
 package cn.com.mangopi.android.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -27,11 +28,12 @@ import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
 import cn.com.mangopi.android.ui.popupwindow.TutorCourseListPopupWindow;
 import cn.com.mangopi.android.ui.viewlistener.TutorDetailListener;
 import cn.com.mangopi.android.ui.viewlistener.WantCountListener;
+import cn.com.mangopi.android.ui.widget.TitleBar;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 
-public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDetailListener, AdapterView.OnItemClickListener, WantCountListener{
+public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDetailListener, AdapterView.OnItemClickListener, WantCountListener, TitleBar.OnTitleBarClickListener{
 
     ImageView ivLogo;
     TextView tvCity;
@@ -63,6 +65,10 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
 
     private void initView() {
         titleBar.setTitle(R.string.teacher_detail);
+        List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
+        if(indentityList.contains(Constants.UserIndentity.TUTOR)) {
+            titleBar.setRightText("+授课");
+        }
 
         View header = getLayoutInflater().inflate(R.layout.layout_header_teacher_detail, null, false);
         ivLogo = (ImageView) header.findViewById(R.id.iv_logo);
@@ -191,5 +197,14 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
     @Override
     public int wantEntityType() {
         return Constants.EntityType.MEMBER.getTypeId();
+    }
+
+    @Override
+    public void onTitleButtonClick(View view) {
+        switch (view.getId()){
+            case R.id.tv_right:
+                startActivity(new Intent(this, AddCourseActivity.class));
+                break;
+        }
     }
 }

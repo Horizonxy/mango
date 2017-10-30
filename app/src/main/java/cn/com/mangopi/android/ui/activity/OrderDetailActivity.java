@@ -335,12 +335,12 @@ public class OrderDetailActivity extends BaseTitleBarActivity implements OrderDe
             }
         }
 
-        if(orderDetail.getSale_price() != null) {
-            tvSalePrice.setText(getString(R.string.rmb)+orderDetail.getSale_price().toString());
-            tvSalePrice.setTextSize(16);
-        } else {
+//        if(orderDetail.getSale_price() != null) {
+//            tvSalePrice.setText(getString(R.string.rmb)+orderDetail.getSale_price().toString());
+//            tvSalePrice.setTextSize(16);
+//        } else {
             tvSalePrice.setText("");
-        }
+//        }
         if(orderDetail.getTotal_price() != null) {
             tvTotalPrice.setText(getString(R.string.rmb)+orderDetail.getTotal_price().toString());
         } else {

@@ -3,6 +3,7 @@ package cn.com.mangopi.android.model.bean;
 import android.text.TextUtils;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class MessageBean implements Serializable {
 
@@ -16,6 +17,8 @@ public class MessageBean implements Serializable {
     private Integer state;
     private String state_label;
     private String url;
+    private Date create_time;
+    private String create_time_label;
 
     private String showContent;
     public String getShowContent(){
@@ -130,5 +133,21 @@ public class MessageBean implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Date getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
+    }
+
+    public String getCreate_time_label() {
+        return create_time_label;
+    }
+
+    public void setCreate_time_label(String create_time_label) {
+        this.create_time_label = create_time_label;
     }
 }

@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
-                android:textColor="@color/color_999999"
+                android:textColor="@color/color_666666"
                 android:textSize="@dimen/sp_14" />
 
             <TextView
@@ -52,7 +52,7 @@
                 android:layout_toLeftOf="@id/tv_price"
                 android:layout_toRightOf="@id/tv_type_method"
                 android:gravity="right"
-                android:textColor="@color/color_999999"
+                android:textColor="@color/color_666666"
                 android:paddingLeft="@dimen/dp_5"
                 android:paddingRight="@dimen/dp_5" />
         </RelativeLayout>
