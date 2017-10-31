@@ -151,7 +151,7 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
             showContent.append("\n\n").append(messageBean.getResult());
         }
         if(!TextUtils.isEmpty(messageBean.getRemark())){
-            showContent.append("\n\n").append(messageBean.getRemark());
+            showContent.append(",").append(messageBean.getRemark());
         }
         DialogUtil.createAlertDialog(this, showContent.toString(), "确定");
 //        ActivityBuilder.startContentDetailActivity(this, messageBean.getTitle(), messageBean.getResult()+"<br/>"+messageBean.getRemark());

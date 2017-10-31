@@ -97,7 +97,7 @@ public class MemberPresenter extends BasePresenter {
 
             @Override
             public void onError(Throwable e) {
-
+                listener.onFailure("");
             }
 
             @Override

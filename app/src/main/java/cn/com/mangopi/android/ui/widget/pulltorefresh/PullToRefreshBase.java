@@ -111,7 +111,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 	private boolean isZooming;
 	private OnPullZoomListener onPullZoomListener;
 
-	private boolean isCheckNetWorkNextPage=true;
+	private boolean isCheckNetWorkNextPage=false;
 
 	public PullToRefreshBase(Context context) {
 		super(context);

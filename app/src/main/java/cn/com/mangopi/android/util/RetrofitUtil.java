@@ -7,6 +7,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import cn.com.mangopi.android.Application;
+import cn.com.mangopi.android.BuildConfig;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.util.http.NetworkInterceptor;
 import cn.com.mangopi.android.util.http.UserAgentInterceptor;
@@ -29,21 +30,23 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class RetrofitUtil {
 
 	public static OkHttpClient createOkHttpClient(){
-		HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
 		String userAgent = AppUtils.getUserAgent();
 		//缓存路径
-		FileUtils.delDir(new File( Application.application.getCacheDir(), "http"));
 		Cache cache = new Cache(new File(Application.application.getCacheDir(), "/response"), Constants.SIZE_OF_CACHE);
 
-		OkHttpClient client = new OkHttpClient.Builder()
+		OkHttpClient.Builder builder = new OkHttpClient.Builder()
 				.addInterceptor(new UserAgentInterceptor(userAgent))
 				//有网络时的拦截器
-				.addNetworkInterceptor(new NetworkInterceptor())
+				//.addNetworkInterceptor(new NetworkInterceptor())
 				//没网络时的拦截器
-				.addInterceptor(new NetworkInterceptor())
-				.addInterceptor(logging)
+				.addInterceptor(new NetworkInterceptor());
+		if(BuildConfig.DEBUG){
+			HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+			logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+			builder = builder.addInterceptor(logging);
+		}
+
+		OkHttpClient client = builder
 				.cache(cache)
 				.connectTimeout(Constants.TIME_OUT, TimeUnit.SECONDS)
 				.writeTimeout(Constants.TIME_OUT, TimeUnit.SECONDS)
