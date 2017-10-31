@@ -125,6 +125,7 @@ public class Application extends MultiDexApplication {
         commonDao.deleteList(members);
 
         member = null;
+        sessId = "";
         PreUtils.putString(this, cn.com.mangopi.android.Constants.SESS_ID, "");
     }
 
