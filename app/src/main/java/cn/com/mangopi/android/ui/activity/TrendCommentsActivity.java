@@ -111,7 +111,7 @@ public class TrendCommentsActivity extends BaseTitleBarActivity implements Trend
                 - getResources().getDimension(R.dimen.dp_15) * 2
                 - getResources().getDimension(R.dimen.dp_5) * 2) / 3);
 
-        picWidth = DisplayUtils.screenWidth(context) - DisplayUtils.dip2px(context, 15 * 2);
+        picWidth = DisplayUtils.screenWidth(this) - DisplayUtils.dip2px(this, 15 * 2);
         picHeight = (int) (picWidth * 320 * 1F/ 690);
     }
 
