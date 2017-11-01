@@ -20,6 +20,7 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.mangopi.android.BuildConfig;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.OrderBean;
@@ -100,7 +101,11 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
             AppUtils.showToast(this, "请选择支付方式");
             return;
         }
-        payPresenter.orderPay();
+        if(BuildConfig.DEBUG){
+            payPresenter.payNotice();
+        } else {
+            payPresenter.orderPay();
+        }
     }
 
     private void initView() {
@@ -141,6 +146,12 @@ public class SelectPayActivity extends BaseTitleBarActivity implements OrderPayL
             e.printStackTrace();
         }
         mWxApi.sendReq(req);
+    }
+
+    @Override
+    public void onPayNoticeSuccess() {
+        BusEvent.PayCodeEvent event = new BusEvent.PayCodeEvent(0);
+        Bus.getDefault().postSticky(event);
     }
 
     @BusReceiver

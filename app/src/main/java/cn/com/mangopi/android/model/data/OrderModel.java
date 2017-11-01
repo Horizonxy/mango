@@ -43,5 +43,9 @@ public class OrderModel {
     public Subscription replyCourseComment(long commentId, String reply, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.replyCourseComment(commentId, reply), onSubscribe).subscribe(subscriber);
     }
+
+    public Subscription payNotice(long id, String channel, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.payNotice(id, channel), onSubscribe).subscribe(subscriber);
+    }
 }
 

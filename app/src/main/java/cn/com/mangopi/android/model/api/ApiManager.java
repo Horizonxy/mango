@@ -352,4 +352,8 @@ public class ApiManager {
     public static Observable<RestResult<CalcPriceBean>> calcPrice(Map<String, Object> map){
         return Application.application.getApiService().calcPrice(Application.application.getSessId(), map);
     }
+
+    public static Observable<RestResult<Object>> payNotice(long id, String channel){
+        return Application.application.getApiService().payNotice(Application.application.getSessId(), "124649813441351", id, channel);
+    }
 }

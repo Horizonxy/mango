@@ -570,4 +570,13 @@ public interface ApiService {
             @Query("lst_sessid") String sessid,
             @Query("course_id") long courseId
     );
+
+    //通知支付成功
+    @POST("outer/router?order_pay_notice")
+    Observable<RestResult<Object>> payNotice(
+            @Query("lst_sessid") String sessid,
+            @Query("serialNo") String serialNo,
+            @Query("id") long id,
+            @Query("channel") String channel
+    );
 }

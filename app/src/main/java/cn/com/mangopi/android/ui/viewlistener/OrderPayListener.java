@@ -7,4 +7,5 @@ public interface OrderPayListener extends BaseViewListener {
     long getId();
     String getChannel();
     void onSuccess(PayResultBean payData);
+    void onPayNoticeSuccess();
 }

@@ -43,4 +43,30 @@ public class OrderPayPresenter extends BasePresenter {
                 });
         addSubscription(subscription);
     }
+
+    public void payNotice(){
+        Context context  = payListener.currentContext();
+        Subscription subscription = orderModel.payNotice(payListener.getId(), payListener.getChannel(),
+                new CreateLoading(context), new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            payListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isFailure()){
+                                payListener.onFailure(restResult.getRet_msg());
+                            } else {
+                                payListener.onPayNoticeSuccess();
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import cn.com.mangopi.android.Application;
+import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.RegistBean;
@@ -12,13 +13,13 @@ import cn.com.mangopi.android.model.data.MemberModel;
 import cn.com.mangopi.android.ui.viewlistener.LoginListener;
 import cn.com.mangopi.android.util.Inputvalidator;
 
+import cn.com.mangopi.android.util.PreUtils;
 import rx.Subscription;
 
 public class LoginPresenter extends BasePresenter {
 
     MemberModel memberModel;
     LoginListener<RegistBean> viewListener;
-    String sessId;
 
     public LoginPresenter(MemberModel memberModel, LoginListener<RegistBean> viewListener) {
         this.memberModel = memberModel;
@@ -51,7 +52,8 @@ public class LoginPresenter extends BasePresenter {
             public void onNext(RestResult<RegistBean> restResult) {
                 if(restResult != null && restResult.isFailure()){
                     if(restResult.getData() != null && "BIZ_ERR_LOGIN_SMSCODE_SEND".equals(restResult.getError_code())){
-                        sessId = restResult.getData().getLst_sessid();
+                        String sessId = restResult.getData().getLst_sessid();
+                        PreUtils.putString(context, Constants.SESS_ID, sessId);
                         viewListener.onSuccess(null);
                     } else {
                         viewListener.onFailure(restResult.getRet_msg());
@@ -73,7 +75,7 @@ public class LoginPresenter extends BasePresenter {
         if(!hasNet()){
             return;
         }
-        Subscription subscription = memberModel.quickLogin(viewListener.getLoginParams(), sessId, new CreateLoading(context, context.getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<RegistBean>>() {
+        Subscription subscription = memberModel.quickLogin(viewListener.getLoginParams(), Application.application.getSessId(), new CreateLoading(context, context.getString(R.string.please_wait)), new BaseLoadingSubscriber<RestResult<RegistBean>>() {
 
             @Override
             public void onError(Throwable e) {
