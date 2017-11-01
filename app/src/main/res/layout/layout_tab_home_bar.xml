@@ -71,6 +71,8 @@
             android:layout_marginLeft="@dimen/dp_16"
             android:textColorHint="@color/color_999999"
             android:layout_centerVertical="true"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
             android:background="@null"
             android:textSize="@dimen/sp_12"
             android:hint="输入您需要的工作包或导师"/>

@@ -10,8 +10,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -158,6 +161,16 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
 
         root.findViewById(R.id.iv_tab_search).setOnClickListener(this);
         etSearch = (EditText) root.findViewById(R.id.et_search);
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId  == EditorInfo.IME_ACTION_SEARCH) {
+                    ActivityBuilder.startSearchActivity(getActivity(), etSearch.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -558,9 +571,11 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                 ActivityBuilder.startUpgradeRoleActivity(getActivity());
                 break;
             case R.id.iv_tab_search:
-                if (!TextUtils.isEmpty(etSearch.getText())) {
+//                if (!TextUtils.isEmpty(etSearch.getText())) {
                     ActivityBuilder.startSearchActivity(getActivity(), etSearch.getText().toString());
-                }
+//                } else {
+//                    AppUtils.showToast(getContext(), R.string.please_input_search_content);
+//                }
                 break;
             case R.id.iv_mask_pic:
                 Object data = v.getTag();

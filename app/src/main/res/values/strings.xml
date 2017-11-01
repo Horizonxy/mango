@@ -194,6 +194,7 @@
     <string name="coupon_use_time">%1$s—%2$s使用</string>
     <string name="discount_price">&#165;%s</string>
 
+    <string name="please_input_search_content">请输入搜索内容</string>
 
     <string name="permission_camera">请在 设置-应用管理 中开启此应用的相机授权。</string>
     <string name="permission_storage">请在 设置-应用管理 中开启此应用的储存授权。</string>
