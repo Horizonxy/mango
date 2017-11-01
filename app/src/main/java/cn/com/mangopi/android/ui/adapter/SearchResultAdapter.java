@@ -33,6 +33,7 @@ public class SearchResultAdapter extends QuickAdapter<SearchBean> {
         helper.setImageResource(R.id.iv_avatar, 0)
                 .setImageBuilder(R.id.iv_avatar, item.getLogo_rsurl(), options)
                 .setText(R.id.tv_title, item.getTitle())
+                .setText(R.id.tv_intro, item.getIntro())
                 .setVisible(R.id.v_line, helper.getPosition() < (data.size() - 1));
     }
 }

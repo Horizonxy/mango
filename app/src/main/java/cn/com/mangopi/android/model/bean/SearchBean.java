@@ -8,7 +8,7 @@ public class SearchBean implements Serializable {
     private int entity_type_id;
     private String title;
     private String logo_rsurl;
-    private String Intro;
+    private String intro;
 
     public long getId() {
         return id;
@@ -43,10 +43,10 @@ public class SearchBean implements Serializable {
     }
 
     public String getIntro() {
-        return Intro;
+        return intro;
     }
 
     public void setIntro(String intro) {
-        Intro = intro;
+        this.intro = intro;
     }
 }

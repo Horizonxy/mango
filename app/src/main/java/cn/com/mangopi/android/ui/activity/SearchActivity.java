@@ -141,7 +141,11 @@ public class SearchActivity extends BaseActivity implements SearchListener, Adap
         if(entityType == Constants.EntityType.COURSE){
             ActivityBuilder.startCourseDetailActivity(this, searchBean.getId());
         } else if(entityType == Constants.EntityType.WORKS){
-
+            ActivityBuilder.startWorksProjectDetailActivity(this, searchBean.getId());
+        } else if(entityType == Constants.EntityType.MEMBER){
+            ActivityBuilder.startTutorDetailActivity(this, searchBean.getId());
+        } else if(entityType == Constants.EntityType.TREND){
+            ActivityBuilder.startTrendCommentsActivity(this, searchBean.getId());
         }
     }
 

@@ -372,7 +372,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentListener, 
                         MaskUtils.attachMaskFromRes(getActivity(), couponView, R.id.iv_mask_del, HomeFragment.this, R.id.iv_mask_pic);
                     }
                 });
-            } else {
+            } else if("0".equals(advertBean.getType())) {
                 child = LayoutInflater.from(getContext()).inflate(R.layout.layout_home_setting_advert, layoutAdverts, false);
                 TextView title = (TextView) child.findViewById(R.id.tv_title3);
                 title.setText(advertBean.getTitle());
