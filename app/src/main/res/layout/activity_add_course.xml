@@ -156,6 +156,7 @@
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/icon_more"
                     android:drawablePadding="@dimen/dp_8"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:gravity="right|center"
                     android:textColor="@color/color_666666"
                     android:textColorHint="@color/color_999999"

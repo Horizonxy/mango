@@ -305,6 +305,10 @@ public class ApiManager {
         return Application.application.getApiService().offCourse(Application.application.getSessId(), id);
     }
 
+    public static Observable<RestResult<Object>> onCourse(long id){
+        return Application.application.getApiService().onCourse(Application.application.getSessId(), id);
+    }
+
     public static Observable<RestResult<ReplyTrendBean>> replyTrend(Map<String, Object> map){
         return Application.application.getApiService().replyTrend(Application.application.getSessId(), map);
     }

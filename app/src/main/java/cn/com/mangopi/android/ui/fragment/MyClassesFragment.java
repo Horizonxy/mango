@@ -193,6 +193,11 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
     }
 
     @Override
+    public void onOnSuccess(CourseBean course) {
+        AppUtils.showToast(getContext(), "您的上架请求已提交到后台，请耐心等待管理人员的审核");
+    }
+
+    @Override
     public void onDestroy() {
         if(presenter != null){
             presenter.onDestroy();
@@ -205,6 +210,8 @@ public class MyClassesFragment extends BaseFragment implements AdapterView.OnIte
         //上50 下0 架
         if(state == 0){
             presenter.offCourse(course);
+        } else if(state == 50){
+            presenter.onCourse(course);
         }
     }
 

@@ -476,6 +476,13 @@ public interface ApiService {
             @Query("id") long id
     );
 
+    //上架授课接口
+    @POST("outer/router?course_On")
+    Observable<RestResult<Object>> onCourse(
+            @Query("lst_sessid") String sessid,
+            @Query("id") long id
+    );
+
     //5.5.4回复动态接口
     @POST("outer/router?trend_reply")
     Observable<RestResult<ReplyTrendBean>> replyTrend(

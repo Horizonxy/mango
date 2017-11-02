@@ -203,7 +203,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
     public void onTitleButtonClick(View view) {
         switch (view.getId()){
             case R.id.tv_right:
-                startActivity(new Intent(this, AddCourseActivity.class));
+                ActivityBuilder.startAddCourseActivity(this);
                 break;
         }
     }

@@ -49,4 +49,8 @@ public class CourseModel {
     public Subscription offCourse(long id, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.offCourse(id), onSubscribe).subscribe(subscriber);
     }
+
+    public Subscription onCourse(long id, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.onCourse(id), onSubscribe).subscribe(subscriber);
+    }
 }

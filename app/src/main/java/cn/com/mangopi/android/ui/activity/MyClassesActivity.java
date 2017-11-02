@@ -27,6 +27,7 @@ import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.ui.adapter.FragmentAdapter;
 import cn.com.mangopi.android.ui.fragment.MyClassesFragment;
 import cn.com.mangopi.android.ui.widget.ViewPagerFixed;
+import cn.com.mangopi.android.util.ActivityBuilder;
 
 public class MyClassesActivity extends BaseActivity {
 
@@ -122,6 +123,6 @@ public class MyClassesActivity extends BaseActivity {
 
     @OnClick(R.id.tv_add_class)
     void addClass(){
-        startActivity(new Intent(this, AddCourseActivity.class));
+        ActivityBuilder.startAddCourseActivity(this);
     }
 }

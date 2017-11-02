@@ -98,7 +98,10 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
 
     public void setImageBean(UploadImageBean imageBean) {
         this.imageBean = imageBean;
-        if(imageBean.getType() != UploadImageBean.ADD_BTN){
+
+        if(imageBean.getType() == UploadImageBean.UPLOADED){
+            Application.application.getImageLoader().displayImage(imageBean.getLocalPath(), ivPicture, options);
+        } else if(imageBean.getType() != UploadImageBean.ADD_BTN){
             File file = FileUtils.compressImageFromPath(getContext(), imageBean.getLocalPath());
             RequestBody requestFile = RequestBody.create(MediaType.parse(Constants.FORM_DATA), file);
             uploadImage = MultipartBody.Part.createFormData(Constants.FILE_PARAM, file.getName(), requestFile);

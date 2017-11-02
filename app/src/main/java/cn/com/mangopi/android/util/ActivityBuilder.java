@@ -413,4 +413,16 @@ public class ActivityBuilder {
             }
         });
     }
+
+    public static void startAddCourseActivity(Activity activity){
+        startAddCourseActivity(activity, null);
+    }
+
+    public static void startAddCourseActivity(Activity activity, CourseDetailBean courseDetail){
+        Intent intent = new Intent(activity, AddCourseActivity.class);
+        if(courseDetail != null){
+            intent.putExtra(Constants.BUNDLE_DATA, courseDetail);
+        }
+        activity.startActivity(intent);
+    }
 }

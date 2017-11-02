@@ -31,7 +31,9 @@ import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.CourseClassifyBean;
+import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.CourseTypeBean;
+import cn.com.mangopi.android.model.bean.UploadBean;
 import cn.com.mangopi.android.model.bean.UploadImageBean;
 import cn.com.mangopi.android.model.data.CourseModel;
 import cn.com.mangopi.android.presenter.AddCoursePresenter;
@@ -77,6 +79,7 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
     int dp5;
     IHandlerCallBack iHandlerCallBack;
     final int COLUMN_COUNT = 5;
+    CourseDetailBean courseDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,36 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
 
         initView();
         addPresenter = new AddCoursePresenter(new CourseModel(), this);
+
+        courseDetail = (CourseDetailBean) getIntent().getSerializableExtra(Constants.BUNDLE_DATA);
+        if(courseDetail != null){
+            bindUpdateData(courseDetail);
+        }
+    }
+
+    private void bindUpdateData(CourseDetailBean courseDetail) {
+        tvServiceTime.setText(courseDetail.getService_time());
+        tvEachTime.setText(courseDetail.getEach_time());
+//        tvClassify.setText(courseDetail.getType_name());
+//        if(courseDetail.getSale_price() != null) {
+//            tvPrice.setText(getResources().getString(R.string.rmb) + courseDetail.getSale_price().toString());
+//        }
+//        tvType.setText(courseDetail.getType_name());
+        etTitle.setText(courseDetail.getCourse_title());
+        etContent.setText(courseDetail.getCourse_content());
+
+        List<String> photoList = courseDetail.getMaterial_rsurls();
+        if (photoList != null && photoList.size() > 0) {
+            for (String photoInfo : photoList) {
+                UploadImageBean imageBean = new UploadImageBean(UploadImageBean.UPLOADED);
+                imageBean.setLocalPath(photoInfo);
+                UploadBean uploadBean = new UploadBean();
+                uploadBean.setUrl(photoInfo);
+                imageBean.setUploadBean(uploadBean);
+                materials.add(imageBean);
+            }
+            setImageView();
+        }
     }
 
     private void initView() {
@@ -282,7 +315,7 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
     @Override
     public void onAddCourseSuccess(Object object) {
         if(object != null) {
-            AppUtils.showToast(Application.application.getApplicationContext(), "保存课程成功，请耐心等待管理人员的审核");
+            AppUtils.showToast(Application.application.getApplicationContext(), ((courseDetail == null) ? "保存" : "修改") + "课程成功，请耐心等待管理人员的审核");
             finish();
         }
     }
@@ -296,9 +329,19 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
         map.put("service_time", tvServiceTime.getText().toString());
         map.put("each_time", tvEachTime.getText().toString());
         map.put("course_content", etContent.getText().toString());
-        map.put("material_rsurls", new String[]{});
+
+        List<String> urls = new ArrayList<String>();
+        for (int i = 0; i < materials.size(); i++){
+            UploadImageBean uploadImage = materials.get(i);
+            urls.add(uploadImage.getUploadBean().getUrl());
+        }
+        map.put("material_rsurls", urls);
+
         map.put("class_id", ((CourseClassifyBean)tvClassify.getTag()).getId());
         map.put("city", "");
+        if(courseDetail != null){
+            map.put("course_id", courseDetail.getId());
+        }
         return map;
     }
 

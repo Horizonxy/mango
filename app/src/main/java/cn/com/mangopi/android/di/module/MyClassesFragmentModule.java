@@ -41,18 +41,18 @@ public class MyClassesFragmentModule {
                 helper.setText(R.id.tv_type_method, typeMethod);
 
                 if(item.getApprove_state() != null && item.getApprove_state().intValue() == 50){//已审核
+                    helper.setVisible(R.id.btn_on, false);
                     helper.setVisible(R.id.btn_function, false);
 
-//                    if(item.getState() != null && item.getState().intValue() == 0){//下架
-//                        helper.setVisible(R.id.btn_function, true);
-//                        helper.setText(R.id.btn_function, "上架");
-//                    }
+                    if(item.getState() != null && item.getState().intValue() == 0){//下架
+                        helper.setVisible(R.id.btn_function, false);
+                        helper.setVisible(R.id.btn_on, true);
+                        helper.setImageResource(R.id.iv_state, R.drawable.red);
+                    }
                     if(item.getState() != null && item.getState().intValue() == 50){//上架
                         helper.setVisible(R.id.btn_function, true);
-                        helper.setText(R.id.btn_function, "下架");
+                        helper.setVisible(R.id.btn_on, false);
                         helper.setImageResource(R.id.iv_state, R.drawable.blue);
-                    } else {
-                        helper.setImageResource(R.id.iv_state, R.drawable.red);
                     }
 
                     helper.setOnClickListener(R.id.btn_function, new View.OnClickListener() {
@@ -69,6 +69,7 @@ public class MyClassesFragmentModule {
                     });
                 } else {
                     helper.setVisible(R.id.btn_function, false);
+                    helper.setVisible(R.id.btn_on, false);
                     helper.setImageResource(R.id.iv_state, R.drawable.red);
                 }
 

@@ -57,6 +57,7 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     @Bind(R.id.tv_type_explains)
     TextView tvTypeExplains;
     WantCountPresenter wantCountPresenter;
+    boolean upgrade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +72,7 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
 
     private void initView() {
         titleBar.setTitle(R.string.course_detail);
-        titleBar.setRightBtnIcon(R.drawable.icon_share);
-        titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
+
         titleBar.setOnTitleBarClickListener(this);
     }
 
@@ -94,6 +94,15 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     @Override
     public void onSuccess(CourseDetailBean courseDetail) {
         this.courseDetail = courseDetail;
+        if(courseDetail.getState() != null && courseDetail.getState().intValue() == 0 &&
+                Application.application.getMember() != null && courseDetail.getMember_id() == Application.application.getMember().getId()){
+            titleBar.setRightText("修改");
+            upgrade = true;
+        }else {
+            titleBar.setRightBtnIcon(R.drawable.icon_share);
+            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
+            upgrade = false;
+        }
         fillCourseData(courseDetail);
     }
 
@@ -114,14 +123,16 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
         if(courseDetail.getSale_price() != null) {
             tvPrice.setText(getString(R.string.rmb) + courseDetail.getSale_price().toString());
         }
-        if(courseDetail.is_favor()){
-            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
+        if(courseDetail.is_favor()) {
+            if (!upgrade){
+                titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
+             }
             ivWant.setImageResource(R.drawable.faxian_xiangting_0);
-            ivWant.setClickable(false);
         } else {
-            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
+            if (!upgrade) {
+                titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
+            }
             ivWant.setImageResource(R.drawable.faxian_xiangting);
-            ivWant.setClickable(true);
         }
 
         tvContent.setText(MangoUtils.delHTMLTag(courseDetail.getCourse_content()));
@@ -172,14 +183,16 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     public void onSuccess(boolean success) {
         if(success){
             courseDetail.setIs_favor(true);
-            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
+            if (!upgrade) {
+                titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
+            }
             ivWant.setImageResource(R.drawable.faxian_xiangting_0);
-            ivWant.setClickable(false);
          } else {
             courseDetail.setIs_favor(false);
-            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
+            if (!upgrade) {
+                titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
+            }
             ivWant.setImageResource(R.drawable.faxian_xiangting);
-            ivWant.setClickable(true);
         }
     }
 
@@ -205,15 +218,21 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
                     favPresenter.addFav();
                 }
                 break;
+            case R.id.tv_right:
+                if(courseDetail != null) {
+                    ActivityBuilder.startAddCourseActivity(this, courseDetail);
+                }
+                break;
         }
     }
 
     @Override
     public void onWantCountSuccess() {
         courseDetail.setIs_favor(true);
-        titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
+        if (!upgrade) {
+            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
+        }
         ivWant.setImageResource(R.drawable.faxian_xiangting_0);
-        ivWant.setClickable(false);
     }
 
     @Override

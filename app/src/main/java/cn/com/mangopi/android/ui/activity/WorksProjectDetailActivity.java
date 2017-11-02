@@ -169,7 +169,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         } else {
             layoutIntro.setVisibility(View.VISIBLE);
             lineIntro.setVisibility(View.VISIBLE);
-            tvIntroContent.setText(projectDetail.getIntroduction());
+            tvIntroContent.setText(MangoUtils.delHTMLTag(projectDetail.getIntroduction()));
         }
 
         if(TextUtils.isEmpty(projectDetail.getPrizes_content())){
@@ -178,7 +178,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         } else {
             layoutPrizesHead.setVisibility(View.VISIBLE);
             linePrezes.setVisibility(View.VISIBLE);
-            tvPrizesContent.setText(projectDetail.getPrizes_content());
+            tvPrizesContent.setText(MangoUtils.delHTMLTag(projectDetail.getPrizes_content()));
         }
 
         if(TextUtils.isEmpty(projectDetail.getEntry_instructions())){
@@ -187,7 +187,7 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         } else {
             layoutInstruHead.setVisibility(View.VISIBLE);
             lineInstru.setVisibility(View.VISIBLE);
-            tvInstruContent.setText(projectDetail.getEntry_instructions());
+            tvInstruContent.setText(MangoUtils.delHTMLTag(projectDetail.getEntry_instructions()));
         }
 
         initProgressDatas(projectDetail);
@@ -198,10 +198,8 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         }
         if(projectDetail.is_favor()){
             ivWant.setImageResource(R.drawable.faxian_xiangting_0);
-            ivWant.setClickable(false);
         } else {
             ivWant.setImageResource(R.drawable.faxian_xiangting);
-            ivWant.setClickable(true);
         }
 
         if(whereFrom == Constants.FROM_MY_COMPANY_PROJECT){//我的企业工作包
@@ -246,7 +244,6 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         Date applyAbort = projectDetail.getApply_abort_time();
         if(applyAbort != null && applyAbort.after(new Date()) /*&& !indentityList.contains(Constants.UserIndentity.COMPANY)*/){
             btnProjectJoin.setEnabled(true);
-            btnProjectJoin.setText("立即报名");
             btnProjectJoin.setText("立即报名");
         } else {
             btnProjectJoin.setEnabled(false);
@@ -397,7 +394,6 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
     @Override
     public void onWantCountSuccess() {
         ivWant.setImageResource(R.drawable.faxian_xiangting_0);
-        ivWant.setClickable(false);
     }
 
     @Override

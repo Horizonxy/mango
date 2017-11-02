@@ -12,4 +12,5 @@ public interface CourseListListener extends BaseViewListener {
 
     void onDelSuccess(CourseBean course);
     void onOffSuccess(CourseBean course);
+    void onOnSuccess(CourseBean course);
 }

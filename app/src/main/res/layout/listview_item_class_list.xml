@@ -97,6 +97,23 @@
                 android:textColor="@drawable/selector_text_color_lesser_btn"
                 android:textSize="@dimen/sp_14"
                 android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:background="@drawable/selector_btn_bg_lesser_corners"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingBottom="@dimen/dp_8"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
+                android:paddingTop="@dimen/dp_8"
+                android:text="上架"
+                android:textColor="@drawable/selector_text_color_lesser_btn"
+                android:textSize="@dimen/sp_14"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 
