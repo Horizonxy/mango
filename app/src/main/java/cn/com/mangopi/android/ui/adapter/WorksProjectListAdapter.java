@@ -18,17 +18,20 @@ import cn.com.mangopi.android.ui.popupwindow.SharePopupWindow;
 import cn.com.mangopi.android.ui.widget.MangoUMShareListener;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.DateUtils;
+import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.MangoUtils;
 
 public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
 
     int relation;
     List<Constants.UserIndentity> indentityList;
+    int dp32;
 
     public WorksProjectListAdapter(Context context, int layoutResId, List<ProjectListBean> data, int relation) {
         super(context, layoutResId, data);
         this.relation = relation;
         indentityList = MangoUtils.getIndentityList();
+        dp32 = DisplayUtils.dip2px(context, 32);
     }
 
     @Override
@@ -45,8 +48,8 @@ public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
         WorksProjectItemClickListener clickListener = new WorksProjectItemClickListener(item);
 
         helper.setText(R.id.tv_start_join, startJoin.toString())
-                .setText(R.id.tv_focus_count, "关注  "+String.valueOf(item.getFocus_count()))
-                .setText(R.id.tv_applied_count, "报名  "+String.valueOf(item.getApplied_count()))
+                .setText(R.id.tv_focus_count, "关注  "+String.valueOf(item.getFocus_count()) + "人")
+                .setText(R.id.tv_applied_count, "报名  "+String.valueOf(item.getApplied_count()) + "人")
                 .setText(R.id.tv_state_label, item.getState_label())
                 .setVisible(R.id.btn_teams, "team".equals(item.getActor_member_type()) && indentityList.contains(Constants.UserIndentity.STUDENT))
                 .setVisible(R.id.btn_works, indentityList.contains(Constants.UserIndentity.STUDENT))
@@ -63,7 +66,7 @@ public class WorksProjectListAdapter extends QuickAdapter<ProjectListBean> {
         int matchWitdth = progressBar.getWidth();
         int leftMargin = (int) (matchWitdth / 100F * item.getProgress());
         LinearLayout.LayoutParams tvProgressParams = (LinearLayout.LayoutParams) tvProgress.getLayoutParams();
-        tvProgressParams.leftMargin = leftMargin;
+        tvProgressParams.leftMargin = leftMargin + dp32;
         tvProgress.setLayoutParams(tvProgressParams);
     }
 

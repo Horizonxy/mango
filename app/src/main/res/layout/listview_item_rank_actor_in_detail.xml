@@ -33,10 +33,14 @@
                 android:ellipsize="end"/>
             <TextView
                 android:id="@+id/tv_member_info"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_666666"
-                android:layout_marginTop="@dimen/dp_6"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:textSize="@dimen/sp_14"/>
         </LinearLayout>
     </LinearLayout>

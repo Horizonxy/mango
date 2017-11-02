@@ -8,14 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_bg_layout_item"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/dp_15"
-        android:paddingRight="@dimen/dp_15"
-        android:paddingTop="@dimen/dp_15">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_15">
 
             <LinearLayout
                 android:id="@+id/layout_share"
@@ -56,58 +56,57 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_15"
+            android:text="起始  201"
+            android:layout_marginLeft="@dimen/dp_15"
             android:textColor="@color/color_666666"
             android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_width="34dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_bu"
+            android:gravity="center_horizontal"
+            android:paddingBottom="@dimen/dp_6"
+            android:paddingLeft="@dimen/dp_4"
+            android:paddingRight="@dimen/dp_4"
+            android:layout_marginLeft="32dp"
+            android:paddingTop="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_10" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10">
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_18"
-                android:text="进度"
+                android:text="进度  "
                 android:textColor="@color/color_666666"
                 android:textSize="@dimen/sp_14" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_progress"
-                    android:layout_width="34dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_2"
-                    android:background="@drawable/icon_bu"
-                    android:gravity="center_horizontal"
-                    android:paddingBottom="@dimen/dp_6"
-                    android:paddingLeft="@dimen/dp_4"
-                    android:paddingRight="@dimen/dp_4"
-                    android:paddingTop="@dimen/dp_2"
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/sp_10" />
 
                 <ProgressBar
                     android:id="@+id/progress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_8"
-                    android:layout_marginLeft="@dimen/dp_17"
-                    android:layout_marginRight="@dimen/dp_17"
+                    android:layout_marginTop="@dimen/dp_4"
                     android:max="100"
                     android:progressDrawable="@drawable/progress_indeterminate_horizontal"
                     android:secondaryProgress="100" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_17"
-                    android:layout_marginRight="@dimen/dp_17">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_focus_count"
@@ -137,7 +136,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15">
 
             <TextView
                 android:id="@+id/tv_state_label"
@@ -156,12 +157,12 @@
 
                 <Button
                     android:id="@+id/btn_works"
-                    style="@style/lesser_corners_btn"
+                    style="@style/lesser_corners_666_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp_30"
+                    android:layout_marginBottom="@dimen/dp_15"
                     android:layout_marginRight="@dimen/dp_15"
                     android:layout_marginTop="@dimen/dp_15"
-                    android:layout_marginBottom="@dimen/dp_15"
                     android:minHeight="0dp"
                     android:minWidth="0dp"
                     android:paddingLeft="@dimen/dp_20"
@@ -171,12 +172,12 @@
 
                 <Button
                     android:id="@+id/btn_teams"
-                    style="@style/lesser_corners_btn"
+                    style="@style/lesser_corners_666_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp_30"
+                    android:layout_marginBottom="@dimen/dp_15"
                     android:layout_marginRight="@dimen/dp_15"
                     android:layout_marginTop="@dimen/dp_15"
-                    android:layout_marginBottom="@dimen/dp_15"
                     android:minHeight="0dp"
                     android:minWidth="0dp"
                     android:paddingLeft="@dimen/dp_20"
@@ -190,8 +191,8 @@
                     style="@style/lesser_corners_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp_30"
-                    android:layout_marginTop="@dimen/dp_15"
                     android:layout_marginBottom="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_15"
                     android:minHeight="0dp"
                     android:minWidth="0dp"
                     android:paddingLeft="@dimen/dp_20"
