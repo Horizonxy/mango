@@ -18,7 +18,7 @@ public class CourseDetailBean implements Serializable {
     private String type_name;
     private BigDecimal sale_price;
     private String type_explains;
-    private int type_id;
+    private long type_id;
     private String type_method;
     private String avatar_rsurl;
     private String member_name;
@@ -27,6 +27,24 @@ public class CourseDetailBean implements Serializable {
     private boolean is_favor;
     private Integer approve_state;
     private String approve_state_label;
+    private String classify_name;
+    private long classify_id;
+
+    public String getClassify_name() {
+        return classify_name;
+    }
+
+    public void setClassify_name(String classify_name) {
+        this.classify_name = classify_name;
+    }
+
+    public long getClassify_id() {
+        return classify_id;
+    }
+
+    public void setClassify_id(long classify_id) {
+        this.classify_id = classify_id;
+    }
 
     public long getId() {
         return id;
@@ -172,11 +190,11 @@ public class CourseDetailBean implements Serializable {
         this.type_explains = type_explains;
     }
 
-    public int getType_id() {
+    public long getType_id() {
         return type_id;
     }
 
-    public void setType_id(int type_id) {
+    public void setType_id(long type_id) {
         this.type_id = type_id;
     }
 

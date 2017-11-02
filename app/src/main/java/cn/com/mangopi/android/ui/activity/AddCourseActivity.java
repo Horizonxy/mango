@@ -109,11 +109,25 @@ public class AddCourseActivity extends BaseTitleBarActivity implements AddCourse
     private void bindUpdateData(CourseDetailBean courseDetail) {
         tvServiceTime.setText(courseDetail.getService_time());
         tvEachTime.setText(courseDetail.getEach_time());
-//        tvClassify.setText(courseDetail.getType_name());
-//        if(courseDetail.getSale_price() != null) {
-//            tvPrice.setText(getResources().getString(R.string.rmb) + courseDetail.getSale_price().toString());
-//        }
-//        tvType.setText(courseDetail.getType_name());
+
+        tvClassify.setText(courseDetail.getClassify_name());
+        CourseClassifyBean classifyBean = new CourseClassifyBean();
+        classifyBean.setId(courseDetail.getClassify_id());
+        classifyBean.setClassify_name(courseDetail.getClassify_name());
+        tvClassify.setTag(classifyBean);
+
+        if(courseDetail.getSale_price() != null) {
+            tvPrice.setText(getResources().getString(R.string.rmb) + courseDetail.getSale_price().toString());
+        }
+
+        tvType.setText(courseDetail.getType_name()+"("+courseDetail.getType_method()+")");
+        CourseTypeBean typeBean = new CourseTypeBean();
+        typeBean.setId(courseDetail.getType_id());
+        typeBean.setType(courseDetail.getType_name());
+        typeBean.setMethod(courseDetail.getType_method());
+        typeBean.setSale_price(courseDetail.getSale_price());
+        tvType.setTag(typeBean);
+
         etTitle.setText(courseDetail.getCourse_title());
         etContent.setText(courseDetail.getCourse_content());
 
