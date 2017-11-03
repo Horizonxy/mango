@@ -72,7 +72,7 @@ public class Application extends MultiDexApplication {
     //各个平台的配置
     {
         PlatformConfig.setWeixin(WXEntryActivity.WEIXIN_APP_ID, WXEntryActivity.APP_SECRET);
-        PlatformConfig.setQQZone("1105462216", "bES9PBXDeWAj2bmq");
+        PlatformConfig.setQQZone("101434425", "c8edde436905734debdfe6167cc3cfdc");
     }
 
     public DisplayImageOptions getDefaultOptions() {

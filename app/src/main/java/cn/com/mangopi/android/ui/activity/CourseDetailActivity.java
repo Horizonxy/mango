@@ -2,6 +2,7 @@ package cn.com.mangopi.android.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -58,6 +59,10 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     TextView tvTypeExplains;
     WantCountPresenter wantCountPresenter;
     boolean upgrade;
+    @Bind(R.id.line_explains)
+    View lineExplains;
+    @Bind(R.id.tv_explains_tip)
+    TextView tvExplainsTip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,19 +132,27 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
             if (!upgrade){
                 titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
              }
-            ivWant.setImageResource(R.drawable.faxian_xiangting_0);
         } else {
             if (!upgrade) {
                 titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
             }
-            ivWant.setImageResource(R.drawable.faxian_xiangting);
         }
 
         tvContent.setText(MangoUtils.delHTMLTag(courseDetail.getCourse_content()));
         tvTypeMethod.setText(courseDetail.getType_method()+"，"
                 + courseDetail.getEach_time() +"/" + courseDetail.getService_time()+"  "
                 +getString(R.string.rmb)+courseDetail.getSale_price().toString()+"元");
-        tvTypeExplains.setText(MangoUtils.delHTMLTag(courseDetail.getType_explains()));
+
+        if(TextUtils.isEmpty(courseDetail.getType_explains())){
+            lineExplains.setVisibility(View.GONE);
+            tvExplainsTip.setVisibility(View.GONE);
+            tvTypeExplains.setVisibility(View.GONE);
+        } else {
+            lineExplains.setVisibility(View.VISIBLE);
+            tvExplainsTip.setVisibility(View.VISIBLE);
+            tvTypeExplains.setVisibility(View.VISIBLE);
+            tvTypeExplains.setText(MangoUtils.delHTMLTag(courseDetail.getType_explains()));
+        }
     }
 
     @OnClick(R.id.btn_place_order)
@@ -186,13 +199,11 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
             if (!upgrade) {
                 titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
             }
-            ivWant.setImageResource(R.drawable.faxian_xiangting_0);
          } else {
             courseDetail.setIs_favor(false);
             if (!upgrade) {
                 titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
             }
-            ivWant.setImageResource(R.drawable.faxian_xiangting);
         }
     }
 
@@ -229,9 +240,6 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
     @Override
     public void onWantCountSuccess() {
         courseDetail.setIs_favor(true);
-        if (!upgrade) {
-            titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_pressed);
-        }
         ivWant.setImageResource(R.drawable.faxian_xiangting_0);
     }
 
