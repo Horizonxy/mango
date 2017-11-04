@@ -35,6 +35,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.mangopi.android.Application;
+import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.di.component.DaggerLoginActivityComponent;
 import cn.com.mangopi.android.di.module.LoginActivityModule;
@@ -149,7 +150,7 @@ public class LoginActivity extends BaseTitleBarActivity implements LoginListener
         span.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-
+                ActivityBuilder.startWebViewActivity(LoginActivity.this, Constants.USER_PROTOCOL);
             }
 
             @Override

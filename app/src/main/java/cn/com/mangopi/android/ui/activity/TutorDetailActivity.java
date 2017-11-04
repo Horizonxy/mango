@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.zzhoujay.richtext.RichText;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +61,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
 
         id = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
         initView();
+        RichText.initCacheDir(this);
         presenter = new TutorDetailPresenter(new TutorModel(), this);
         presenter.getTutor();
     }
@@ -119,8 +122,8 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         } else {
             ivWant.setImageResource(R.drawable.faxian_xiangting);
         }
-
-        tvIntro.setText(MangoUtils.delHTMLTag(tutor.getIntro()));
+        RichText.from(tutor.getIntro()).into(tvIntro);
+//        tvIntro.setText(MangoUtils.delHTMLTag(tutor.getIntro()));
 
         courseList.clear();
         if(tutor.getCourses() != null) {

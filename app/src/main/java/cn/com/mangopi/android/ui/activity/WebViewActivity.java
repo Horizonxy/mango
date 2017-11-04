@@ -37,12 +37,6 @@ public class WebViewActivity extends BaseActivity implements MangoWebChromeListe
         Bus.getDefault().register(this);
 
         url = getIntent().getStringExtra(Constants.BUNDLE_WEBVIEW_URL);
-        if(url != null) {
-            if (!url.startsWith("http")) {
-                url = "http://".concat(url);
-            }
-        }
-
         ClipDrawable drawable = new ClipDrawable(new ColorDrawable(getResources().getColor(R.color.color_ffb900)), Gravity.LEFT, ClipDrawable.HORIZONTAL);
         progress.setProgressDrawable(drawable);
 

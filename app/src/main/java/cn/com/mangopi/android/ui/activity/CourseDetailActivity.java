@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.zzhoujay.richtext.RichText;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.mangopi.android.Application;
@@ -71,6 +73,7 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
 
         id = getIntent().getLongExtra(Constants.BUNDLE_ID, 0);
         initView();
+        RichText.initCacheDir(this);
         presenter = new CourseDetailPresenter(new CourseModel(), this);
         presenter.getCourse();
     }
@@ -137,8 +140,8 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
                 titleBar.setSecondRightBtnIcon(R.drawable.icon_shoucang_nor);
             }
         }
-
-        tvContent.setText(MangoUtils.delHTMLTag(courseDetail.getCourse_content()));
+        RichText.from(courseDetail.getCourse_content()).into(tvContent);
+        //tvContent.setText(MangoUtils.delHTMLTag(courseDetail.getCourse_content()));
         tvTypeMethod.setText(courseDetail.getType_method()+"，"
                 + courseDetail.getEach_time() +"/" + courseDetail.getService_time()+"  "
                 +getString(R.string.rmb)+courseDetail.getSale_price().toString()+"元");
@@ -151,7 +154,8 @@ public class CourseDetailActivity extends BaseTitleBarActivity implements Course
             lineExplains.setVisibility(View.VISIBLE);
             tvExplainsTip.setVisibility(View.VISIBLE);
             tvTypeExplains.setVisibility(View.VISIBLE);
-            tvTypeExplains.setText(MangoUtils.delHTMLTag(courseDetail.getType_explains()));
+            RichText.from(courseDetail.getType_explains()).into(tvTypeExplains);
+//            tvTypeExplains.setText(MangoUtils.delHTMLTag(courseDetail.getType_explains()));
         }
     }
 

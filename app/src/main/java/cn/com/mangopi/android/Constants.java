@@ -7,8 +7,8 @@ public class Constants {
 	/** 域名*/
 	public static final String DOMAIN = ".mangopi.com.cn";
 
-//	public static final String END_POIND = "https://www.mangopi.com.cn/";
-	public static final String END_POIND = "https://demo.lvshetong.cn/mangotree-portal/";
+	public static final String END_POIND = "https://www.mangopi.com.cn/";
+//	public static final String END_POIND = "https://demo.lvshetong.cn/mangotree-portal/";
 
 	public static final String COURSE_URL = "https://www.mangopi.com.cn/wx/course/%d.html";
 	public static final String WORK_PROJECT_URL = "https://www.mangopi.com.cn/wx/project/info/%d.html";
@@ -17,6 +17,7 @@ public class Constants {
 	public static final String IMG_CACHE_DIR = BASE_DIR.concat("/image_cache");
 	public static final String PICTURE_DIR = BASE_DIR.concat("/photo");
 	public static final String IMG_WEB_CACHE_DIR = BASE_DIR.concat("/image_web");
+    public static final String USER_PROTOCOL = "file:///android_asset/UserProtocol.html";
 
 	public static final int REQ_PERMISSIONS = 1001;
 	public static final int REQ_FILE = 1002;

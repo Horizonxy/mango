@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.zzhoujay.richtext.RichText;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -154,11 +156,12 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         projectPresenter.getProject();
 
         rankPresenter = new WorkProjectRankPresenter(this);
+        RichText.initCacheDir(this);
     }
 
     private void bindData(ProjectDetailBean projectDetail){
         this.projectDetail = projectDetail;
-        Application.application.getImageLoader().displayImage(projectDetail.getLogo_rsurl(), ivLogo, Application.application.getDefaultOptions());
+        Application.application.getImageLoader().displayImage(MangoUtils.getCalculateScreenWidthSizeUrl(projectDetail.getLogo_rsurl()), ivLogo, Application.application.getDefaultOptions());
         tvProjectName.setText(projectDetail.getProject_name());
         tvProgress.setText("进度：" + String.valueOf(projectDetail.getProgress()) + "%");
         tvLocation.setText(String.format(getString(R.string.works_project_location), projectDetail.getLocation()));
@@ -169,7 +172,8 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         } else {
             layoutIntro.setVisibility(View.VISIBLE);
             lineIntro.setVisibility(View.VISIBLE);
-            tvIntroContent.setText(MangoUtils.delHTMLTag(projectDetail.getIntroduction()));
+            RichText.from(projectDetail.getIntroduction()).into(tvIntroContent);
+//            tvIntroContent.setText(MangoUtils.delHTMLTag(projectDetail.getIntroduction()));
         }
 
         if(TextUtils.isEmpty(projectDetail.getPrizes_content())){
@@ -178,7 +182,8 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         } else {
             layoutPrizesHead.setVisibility(View.VISIBLE);
             linePrezes.setVisibility(View.VISIBLE);
-            tvPrizesContent.setText(MangoUtils.delHTMLTag(projectDetail.getPrizes_content()));
+            RichText.from(projectDetail.getPrizes_content()).into(tvPrizesContent);
+//            tvPrizesContent.setText(MangoUtils.delHTMLTag(projectDetail.getPrizes_content()));
         }
 
         if(TextUtils.isEmpty(projectDetail.getEntry_instructions())){
@@ -187,7 +192,8 @@ public class WorksProjectDetailActivity extends BaseTitleBarActivity implements 
         } else {
             layoutInstruHead.setVisibility(View.VISIBLE);
             lineInstru.setVisibility(View.VISIBLE);
-            tvInstruContent.setText(MangoUtils.delHTMLTag(projectDetail.getEntry_instructions()));
+            RichText.from(projectDetail.getEntry_instructions()).into(tvInstruContent);
+//            tvInstruContent.setText(MangoUtils.delHTMLTag(projectDetail.getEntry_instructions()));
         }
 
         initProgressDatas(projectDetail);
