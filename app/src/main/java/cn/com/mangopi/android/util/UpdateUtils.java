@@ -66,26 +66,26 @@ public class UpdateUtils {
 
     private void showUpdateInfo(AppVisionBean appVision, boolean must) {
         final AlertDialog dialog = new AlertDialog.Builder(context).setCancelable(false).create();
-        if (must) {
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                @Override
-                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        if ((System.currentTimeMillis() - lastExitTime) > 2000) {
-                            AppUtils.showToast(context, context.getResources().getString(R.string.exit_message));
-                            lastExitTime = System.currentTimeMillis();
-                        } else {
-                            cancel = true;
-                            deleteApk(appVision.getApp_name());
-                            Application.application.exit();
-                        }
-                        return true;
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if ((System.currentTimeMillis() - lastExitTime) > 2000) {
+                        AppUtils.showToast(context, context.getResources().getString(R.string.exit_message));
+                        lastExitTime = System.currentTimeMillis();
+                    } else {
+                        cancel = true;
+                        deleteApk(appVision.getApp_name());
+                        Application.application.exit();
                     }
-                    return false;
+                    return true;
                 }
-            });
-        }
+                return false;
+            }
+        });
+
         dialog.show();
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_update, null, false);
         dialog.setContentView(view);
@@ -115,7 +115,7 @@ public class UpdateUtils {
 
                 dialog.dismiss();
 
-                if(must){
+                if (must) {
                     Application.application.exit();
                 }
             }
@@ -136,7 +136,7 @@ public class UpdateUtils {
 
                         Runnable r = new Runnable() {
                             public void run() {
-                                postDownloadFile(context, file,must);
+                                postDownloadFile(context, file, must);
                             }
                         };
                         ((Activity) context).runOnUiThread(r);
@@ -146,18 +146,19 @@ public class UpdateUtils {
         });
     }
 
-    private void deleteApk(String apkName){
+    private File deleteApk(String apkName) {
         File path = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ? Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) : context.getCacheDir();
         if (!path.exists()) {
             path.mkdir();
         }
         File file = new File(path, apkName);
-        if (file.exists()) {
+        if (file != null && file.exists()) {
             file.delete();
         }
+        return file;
     }
 
-    private  File downloadFile(Context context, AppVisionBean appVisionBean, final boolean must) {
+    private File downloadFile(Context context, AppVisionBean appVisionBean, final boolean must) {
 
         conn = null;
         InputStream inputStream = null;
@@ -165,7 +166,7 @@ public class UpdateUtils {
         File file = null;
 
         try {
-            URL url = new URL("http:"+appVisionBean.getDownload_url());
+            URL url = new URL(appVisionBean.getDownload_url());
             conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(10000);
@@ -174,18 +175,18 @@ public class UpdateUtils {
             conn.connect();
 
             int responseCode = conn.getResponseCode();
-            if(responseCode == 302){
-                String location = conn.getHeaderField("Location");
-                url = new URL(location);
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setConnectTimeout(5000);
-                conn.setReadTimeout(10000);
-                conn.setRequestMethod("GET");
-                conn.connect();
-                responseCode = conn.getResponseCode();
-            }
+//            if(responseCode == 302){
+//                String location = conn.getHeaderField("Location");
+//                url = new URL(location);
+//                conn = (HttpURLConnection) url.openConnection();
+//                conn.setConnectTimeout(5000);
+//                conn.setReadTimeout(10000);
+//                conn.setRequestMethod("GET");
+//                conn.connect();
+//                responseCode = conn.getResponseCode();
+//            }
             if (responseCode == 200) {
-                deleteApk(appVisionBean.getApp_name());
+                file = deleteApk(appVisionBean.getApp_name());
 
                 outputStream = new FileOutputStream(file);
                 inputStream = conn.getInputStream();
@@ -195,17 +196,17 @@ public class UpdateUtils {
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("total", contentLength);
-                UpdateHandler handler = new UpdateHandler((Activity)context);
+                UpdateHandler handler = new UpdateHandler((Activity) context);
                 int updateMsg = 0;
                 while ((cbio = inputStream.read(buff)) != -1) {
-                    if(cancel){
+                    if (cancel) {
                         return null;
                     }
                     totalRead += cbio;
                     updateMsg += cbio;
                     outputStream.write(buff, 0, cbio);
 
-                    if(updateMsg * 100 / contentLength >= 3){
+                    if (updateMsg * 100 / contentLength >= 3) {
                         Message msg = new Message();
                         msg.what = 0;
                         bundle.putInt("current", totalRead);
@@ -232,7 +233,7 @@ public class UpdateUtils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(conn != null) {
+            if (conn != null) {
                 conn.disconnect();
             }
         }
@@ -256,8 +257,8 @@ public class UpdateUtils {
             switch (msg.what) {
                 case 0:
                     Bundle bundle = msg.getData();
-                    int len = bundle.getInt("current")*100 / bundle.getInt("total");
-                    if(progress != null){
+                    int len = bundle.getInt("current") * 100 / bundle.getInt("total");
+                    if (progress != null) {
                         progress.setProgress(len);
                     }
 
@@ -269,7 +270,7 @@ public class UpdateUtils {
                     tvProgress.setText(String.format(context.getString(R.string.progress), len));
                     break;
                 case 1:
-                    if(progress != null){
+                    if (progress != null) {
                         progress.setProgress(100);
                     }
                     break;
@@ -280,7 +281,7 @@ public class UpdateUtils {
     private void postDownloadFile(Context context, File result, boolean must) {
         if (result == null)
             return;
-        String[] args = { "chmod", "604", result.getAbsolutePath() };
+        String[] args = {"chmod", "604", result.getAbsolutePath()};
         exec(args);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         //判读版本是否在7.0以上
