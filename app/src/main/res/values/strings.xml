@@ -199,4 +199,6 @@
     <string name="permission_camera">请在 设置-应用管理 中开启此应用的相机授权。</string>
     <string name="permission_storage">请在 设置-应用管理 中开启此应用的储存授权。</string>
     <string name="permission_call_phone">请在 设置-应用管理 中开启此应用的拨号授权。</string>
+
+    <string name="exit_message">再按一次退出芒果派</string>
 </resources>

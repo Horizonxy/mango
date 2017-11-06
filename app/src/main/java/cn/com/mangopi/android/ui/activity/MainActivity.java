@@ -26,12 +26,16 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Common
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.AppSignBean;
+import cn.com.mangopi.android.model.bean.AppVisionBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
 import cn.com.mangopi.android.model.data.MessageModel;
+import cn.com.mangopi.android.presenter.AppVisionPresenter;
 import cn.com.mangopi.android.presenter.MessagePresenter;
 import cn.com.mangopi.android.presenter.TrendUpdatePresenter;
 import cn.com.mangopi.android.ui.adapter.FragmentAdapter;
@@ -39,15 +43,19 @@ import cn.com.mangopi.android.ui.fragment.FoundFragment;
 import cn.com.mangopi.android.ui.fragment.HomeFragment;
 import cn.com.mangopi.android.ui.fragment.MyFragment;
 import cn.com.mangopi.android.ui.fragment.TecaherFragment;
+import cn.com.mangopi.android.ui.viewlistener.AppVisionListener;
 import cn.com.mangopi.android.ui.viewlistener.MessageListener;
 import cn.com.mangopi.android.ui.viewlistener.TrendUpdateListener;
 import cn.com.mangopi.android.ui.widget.RedPointView;
 import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
+import cn.com.mangopi.android.util.MangoUtils;
+import cn.com.mangopi.android.util.UpdateUtils;
 import cn.jpush.android.api.JPushInterface;
 
-public class MainActivity extends BaseActivity implements MessageListener, View.OnClickListener, TrendUpdateListener, FoundFragment.OnRefreshTrendLsitener {
+public class MainActivity extends BaseActivity implements MessageListener, View.OnClickListener, TrendUpdateListener,
+        FoundFragment.OnRefreshTrendLsitener, AppVisionListener {
 
     @Bind(R.id.tab_indicator)
     MagicIndicator tabIndicator;
@@ -60,6 +68,7 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
     MessagePresenter messagePresenter;
     Handler loopHandler;
     TrendUpdatePresenter trendUpdatePresenter;
+    AppVisionPresenter appVisionPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,9 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
         setContentView(R.layout.activity_main);
 
         initView();
+
+        appVisionPresenter = new AppVisionPresenter(this);
+        appVisionPresenter.appSign();
 
         initPush();
         messagePresenter = new MessagePresenter(new MessageModel(), this);
@@ -97,6 +109,19 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
     public void onRefreshComplete() {
         if(rpFound != null){
             rpFound.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getAppSignMap() {
+        return MangoUtils.getAppSignMap(this);
+    }
+
+    @Override
+    public void onAppSignSuccess(AppSignBean appSign) {
+        AppVisionBean appVision = appSign.getApp_version();
+        if(appVision != null){
+            new UpdateUtils(this).update(appVision);
         }
     }
 
@@ -229,6 +254,9 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
         }
         if(trendUpdatePresenter != null){
             trendUpdatePresenter.onDestroy();
+        }
+        if(appVisionPresenter != null){
+            appVisionPresenter.onDestroy();
         }
         super.onDestroy();
     }

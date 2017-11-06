@@ -8,6 +8,7 @@ import java.util.Map;
 
 import cn.com.mangopi.android.model.bean.ActorTeamBean;
 import cn.com.mangopi.android.model.bean.AdvertBean;
+import cn.com.mangopi.android.model.bean.AppSignBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
 import cn.com.mangopi.android.model.bean.CalcPriceBean;
 import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
@@ -585,5 +586,11 @@ public interface ApiService {
             @Query("serialNo") String serialNo,
             @Query("id") long id,
             @Query("channel") String channel
+    );
+
+    //通知支付成功
+    @GET("outer/router?app_sign")
+    Observable<RestResult<AppSignBean>> appSign(
+            @QueryMap Map<String, Object> map
     );
 }

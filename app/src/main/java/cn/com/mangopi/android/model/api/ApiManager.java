@@ -10,6 +10,7 @@ import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.model.bean.ActorTeamBean;
 import cn.com.mangopi.android.model.bean.AdvertBean;
+import cn.com.mangopi.android.model.bean.AppSignBean;
 import cn.com.mangopi.android.model.bean.BulletinBean;
 import cn.com.mangopi.android.model.bean.CalcPriceBean;
 import cn.com.mangopi.android.model.bean.CommunityClassifyBean;
@@ -359,5 +360,9 @@ public class ApiManager {
 
     public static Observable<RestResult<Object>> payNotice(long id, String channel){
         return Application.application.getApiService().payNotice(Application.application.getSessId(), "124649813441351", id, channel);
+    }
+
+    public static Observable<RestResult<AppSignBean>> appSign(Map<String, Object> map){
+        return Application.application.getApiService().appSign(map);
     }
 }

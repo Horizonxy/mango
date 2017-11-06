@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -30,17 +31,21 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.com.mangopi.android.Application;
+import cn.com.mangopi.android.BuildConfig;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
 import cn.com.mangopi.android.ui.widget.GridView;
+import cn.com.mangopi.android.ui.widget.pulltorefresh.Utils;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -508,5 +513,38 @@ public class MangoUtils {
         htmlStr = m_html.replaceAll("");
 
         return htmlStr.trim(); // 返回文本字符串
+    }
+
+    public static Map<String, Object> getAppSignMap(Context context){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("version_code", BuildConfig.VERSION_CODE);
+        map.put("width_pixels", DisplayUtils.screenWidth(context));
+        map.put("height_pixels", DisplayUtils.screenHeight(context));
+        map.put("imei", PhoneUtils.getIMEI(context));
+        map.put("ismi", PhoneUtils.getIMSI(context));
+        map.put("serial", PhoneUtils.getSerial(context));
+        map.put("cpu", PhoneUtils.getCpuName());
+        map.put("ram", String.valueOf(PhoneUtils.getAvailMemory(context)));
+        map.put("mac", PhoneUtils.getMacFromWifi(context));
+        map.put("model_number", PhoneUtils.getPhoneModel());
+        map.put("sdk_version", String.valueOf(PhoneUtils.getAndroidOSVersion()));
+        map.put("density", PhoneUtils.getDensity((Activity) context));
+        map.put("density_dpi", PhoneUtils.getDensityDpi((Activity) context));
+        map.put("installation_id", Installation.id(context));
+        map.put("register_id", Installation.registerId(context));
+        map.put("timestamp", System.currentTimeMillis());
+
+        return map;
+    }
+
+    public static boolean checkPermissions(Context context, String[] permissions){
+        if(permissions != null && permissions.length > 0){
+            for (String string : permissions) {
+                if(ContextCompat.checkSelfPermission(context, string) != PackageManager.PERMISSION_GRANTED){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
