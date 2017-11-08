@@ -71,6 +71,7 @@ public class TutorDetailActivity extends BaseTitleBarActivity implements TutorDe
         List<Constants.UserIndentity> indentityList = MangoUtils.getIndentityList();
         if(indentityList.contains(Constants.UserIndentity.TUTOR)) {
             titleBar.setRightText("+授课");
+            titleBar.setOnTitleBarClickListener(this);
         }
 
         View header = getLayoutInflater().inflate(R.layout.layout_header_teacher_detail, null, false);
