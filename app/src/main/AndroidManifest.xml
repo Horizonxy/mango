@@ -265,7 +265,8 @@
         <activity
             android:name=".ui.activity.WorkProjectTeamDocActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.AboutActivity"
+        <activity
+            android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait" />
 
         <receiver android:name=".receiver.NetReceiver">
@@ -318,17 +319,16 @@
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-        <!--微信支付回调函数-->
+        <!-- 微信支付回调函数 -->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
-
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
 
         <!-- 百度统计 start -->
         <!-- 您从百度网站获取的APP KEY -->
@@ -488,7 +488,9 @@
             android:value="45cff4eb5903e8d0b616362e" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- JPush end -->
 
-
+        <activity android:name=".ui.activity.ProjectJoinWayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
     </application>
 
 </manifest>

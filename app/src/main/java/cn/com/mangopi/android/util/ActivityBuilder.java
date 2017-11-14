@@ -19,6 +19,7 @@ import cn.com.mangopi.android.model.bean.CourseClassifyBean;
 import cn.com.mangopi.android.model.bean.CourseDetailBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
+import cn.com.mangopi.android.model.bean.ProjectTeamBean;
 import cn.com.mangopi.android.model.bean.ShowPayResultBean;
 import cn.com.mangopi.android.model.bean.TransListBean;
 import cn.com.mangopi.android.model.bean.TrendBean;
@@ -48,6 +49,7 @@ import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
 import cn.com.mangopi.android.ui.activity.PlaceOrderActivity;
 import cn.com.mangopi.android.ui.activity.ProfileInfoActivity;
 import cn.com.mangopi.android.ui.activity.ProjectJoinActivity;
+import cn.com.mangopi.android.ui.activity.ProjectJoinWayActivity;
 import cn.com.mangopi.android.ui.activity.ProjectTeamDetailActivity;
 import cn.com.mangopi.android.ui.activity.ProjectWorkDetailActivity;
 import cn.com.mangopi.android.ui.activity.PublishDynamicsActivity;
@@ -423,6 +425,15 @@ public class ActivityBuilder {
         if(courseDetail != null){
             intent.putExtra(Constants.BUNDLE_DATA, courseDetail);
         }
+        activity.startActivity(intent);
+    }
+
+    public static void startProjectJoinWayActivity(Activity activity, ProjectTeamBean team, long projectId){
+        Intent intent = new Intent(activity, ProjectJoinWayActivity.class);
+        if(team != null){
+            intent.putExtra(Constants.BUNDLE_DATA, team);
+        }
+        intent.putExtra(Constants.BUNDLE_ID, projectId);
         activity.startActivity(intent);
     }
 }

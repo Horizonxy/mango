@@ -82,7 +82,7 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
         tvProjectNamel.setText(projectName);
         rgJoinType.setOnCheckedChangeListener(this);
         rbMember.setChecked(true);
-        lvTeam.setAdapter(teamAdapter = new ProjectJoinTeamAdapter(this, R.layout.listview_item_project_join_team, projectTeamList));
+        lvTeam.setAdapter(teamAdapter = new ProjectJoinTeamAdapter(this, R.layout.listview_item_project_join_team, projectTeamList, projectId));
         teamAdapter.setJoinWithTeamListener(this);
     }
 

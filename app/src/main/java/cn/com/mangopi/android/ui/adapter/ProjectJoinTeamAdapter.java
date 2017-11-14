@@ -1,5 +1,6 @@
 package cn.com.mangopi.android.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
@@ -8,17 +9,20 @@ import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.ProjectTeamBean;
 import cn.com.mangopi.android.ui.adapter.quickadapter.BaseAdapterHelper;
 import cn.com.mangopi.android.ui.adapter.quickadapter.QuickAdapter;
+import cn.com.mangopi.android.util.ActivityBuilder;
 
 public class ProjectJoinTeamAdapter extends QuickAdapter<ProjectTeamBean> {
 
     ProjectJoinWithTeamListener joinWithTeamListener;
+    long projectId;
 
     public void setJoinWithTeamListener(ProjectJoinWithTeamListener joinWithTeamListener) {
         this.joinWithTeamListener = joinWithTeamListener;
     }
 
-    public ProjectJoinTeamAdapter(Context context, int layoutResId, List<ProjectTeamBean> data) {
+    public ProjectJoinTeamAdapter(Context context, int layoutResId, List<ProjectTeamBean> data, long projectId) {
         super(context, layoutResId, data);
+        this.projectId = projectId;
     }
 
     @Override
@@ -32,9 +36,10 @@ public class ProjectJoinTeamAdapter extends QuickAdapter<ProjectTeamBean> {
             helper.setOnClickListener(R.id.btn_join, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(joinWithTeamListener != null){
-                        joinWithTeamListener.onJoinWithTeam(item);
-                    }
+//                    if(joinWithTeamListener != null){
+//                        joinWithTeamListener.onJoinWithTeam(item);
+//                    }
+                    ActivityBuilder.startProjectJoinWayActivity((Activity) context, item, projectId);
                 }
             });
         }
