@@ -77,7 +77,7 @@ public class UploadPictureView extends FrameLayout implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_retry:
-                presenter.upload();
+                presenter.uploadWithOutLoading();
                 break;
             case R.id.iv_delete:
                 if(onUploadPictureListener != null){
