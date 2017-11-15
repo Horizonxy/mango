@@ -67,11 +67,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_marginRight="@dimen/dp_15"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50">
+                android:layout_height="64dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -91,9 +91,8 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:ellipsize="end"
-                    android:gravity="right|center_vertical"
-                    android:hint="起一个响亮好听的团队名字"
-                    android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:hint="填写你认为有趣的队名，会公开出来的哦，例如：芒果派伐木累"
                     android:textColor="@color/color_333333"
                     android:textColorHint="@color/color_cccccc"
                     android:textSize="@dimen/dp_14" />
@@ -104,7 +103,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50">
+                android:layout_height="64dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -123,9 +122,8 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:ellipsize="end"
-                    android:gravity="right|center_vertical"
-                    android:hint="填写本人在团队中扮演的角色"
-                    android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:hint="填写本人在团队中的角色，例如队员or队长，或者填写自己的专业"
                     android:textColor="@color/color_333333"
                     android:textColorHint="@color/color_cccccc"
                     android:textSize="@dimen/dp_14" />
@@ -135,7 +133,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50">
+                android:layout_height="64dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -156,10 +154,8 @@
                     android:background="@android:color/transparent"
                     android:ellipsize="end"
                     android:maxLength="4"
-                    android:inputType="number"
-                    android:gravity="right|center_vertical"
-                    android:hint="输入一个4位数字作为其他成员入团口令"
-                    android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:hint="填写一个4位数字组成的暗号，例如：1234，方便队友加入你的团队，显得很神秘"
                     android:textColor="@color/color_333333"
                     android:textColorHint="@color/color_cccccc"
                     android:textSize="@dimen/dp_14" />
@@ -170,7 +166,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50">
+                android:layout_height="64dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -189,9 +185,8 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:ellipsize="end"
-                    android:gravity="right|center_vertical"
-                    android:hint="团队公告（公开），报名后可修改"
-                    android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:hint="可填写团队内部需求等，报名后可修改"
                     android:textColor="@color/color_333333"
                     android:textColorHint="@color/color_cccccc"
                     android:textSize="@dimen/dp_14" />

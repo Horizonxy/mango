@@ -220,4 +220,35 @@ public class BusEvent {
             this.errorCode = errorCode;
         }
     }
+
+    @com.mcxiaoke.bus.annotation.BusEvent
+    public static class JoinTeamIntroEvent{
+        private String phone;
+        private String qq;
+        private String intro;
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getQq() {
+            return qq;
+        }
+
+        public void setQq(String qq) {
+            this.qq = qq;
+        }
+
+        public String getIntro() {
+            return intro;
+        }
+
+        public void setIntro(String intro) {
+            this.intro = intro;
+        }
+    }
 }
