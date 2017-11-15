@@ -201,4 +201,7 @@
     <string name="permission_call_phone">请在 设置-应用管理 中开启此应用的拨号授权。</string>
 
     <string name="exit_message">再按一次退出芒果派</string>
+
+    <string name="join_exit_team">加入已有的团队</string>
+    <string name="self_intro">自我介绍</string>
 </resources>

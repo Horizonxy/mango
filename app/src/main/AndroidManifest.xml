@@ -488,9 +488,12 @@
             android:value="45cff4eb5903e8d0b616362e" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- JPush end -->
 
-        <activity android:name=".ui.activity.ProjectJoinWayActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".ui.activity.ProjectJoinWayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.JoinTeamIntroActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -55,6 +55,7 @@
                 android:background="@null"
                 android:layout_marginLeft="@dimen/dp_6"
                 android:layout_marginRight="@dimen/dp_6"
+                android:maxLength="4"
                 android:textSize="@dimen/sp_14"
                 android:textColorHint="@color/color_999999"
                 android:hint="请输入4位集结号"
@@ -103,15 +104,18 @@
                 android:text="申请加入" />
 
             <TextView
-                android:id="@+id/tv_desc"
+                android:id="@+id/tv_self_intro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textColor="@color/color_333333"
                 android:layout_marginLeft="@dimen/dp_6"
+                android:gravity="center_vertical"
                 android:layout_marginRight="@dimen/dp_6"
                 android:background="@null"
                 android:textSize="@dimen/sp_14"
+                android:maxLines="3"
+                android:ellipsize="end"
                 android:textColorHint="@color/color_999999"
                 android:hint="请介绍自己的特长、留下个人的联系方式（手机号、QQ号）"
                 android:layout_toLeftOf="@id/btn_join_with_desc"

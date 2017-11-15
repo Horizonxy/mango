@@ -33,6 +33,7 @@ import cn.com.mangopi.android.ui.activity.CourseListActivity;
 import cn.com.mangopi.android.ui.activity.FavListActivity;
 import cn.com.mangopi.android.ui.activity.GetCashActivity;
 import cn.com.mangopi.android.ui.activity.InputMessageActivity;
+import cn.com.mangopi.android.ui.activity.JoinTeamIntroActivity;
 import cn.com.mangopi.android.ui.activity.LoginActivity;
 import cn.com.mangopi.android.ui.activity.MainActivity;
 import cn.com.mangopi.android.ui.activity.MemberCardListActivity;
@@ -434,6 +435,11 @@ public class ActivityBuilder {
             intent.putExtra(Constants.BUNDLE_DATA, team);
         }
         intent.putExtra(Constants.BUNDLE_ID, projectId);
+        activity.startActivity(intent);
+    }
+
+    public static void startJoinTeamIntroActivity(Activity activity){
+        Intent intent = new Intent(activity, JoinTeamIntroActivity.class);
         activity.startActivity(intent);
     }
 }

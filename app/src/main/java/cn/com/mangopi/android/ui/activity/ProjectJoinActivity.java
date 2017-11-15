@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -124,7 +126,9 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
                 AppUtils.showToast(this, "请输入团队集结暗号");
                 return;
             }
-            if(etTeamCipher.getText().length() != 4){
+            Pattern pattern = Pattern.compile("^[0-9]{4}$");
+            Matcher isNum = pattern.matcher(etTeamCipher.getText());
+            if (!isNum.matches()) {
                 AppUtils.showToast(this, "集结暗号应为4位数字");
                 return;
             }
