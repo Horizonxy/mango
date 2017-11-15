@@ -23,7 +23,7 @@
             android:textColor="@color/color_333333"
             android:textColorHint="@color/color_cccccc"
             android:textCursorDrawable="@drawable/shape_color_cursor"
-            android:textSize="@dimen/dp_14" />
+            android:textSize="@dimen/sp_14" />
 
         <TextView
             android:id="@+id/tv_num"
