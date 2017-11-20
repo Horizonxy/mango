@@ -72,4 +72,30 @@ public class ProjectJoinPresenter extends BasePresenter {
                 });
         addSubscription(subscription);
     }
+
+    public void applyProjectTeam(){
+        Context context = projectJoinListener.currentContext();
+        Subscription subscription = projectModel.applyProjectTeam(projectJoinListener.applyJoinMap(), new CreateLoading(context),
+                new BaseLoadingSubscriber<RestResult<Object>>(){
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            projectJoinListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<Object> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()){
+                                projectJoinListener.onApplyJoinSuccess();
+                            } else {
+                                projectJoinListener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
+                });
+        addSubscription(subscription);
+    }
 }

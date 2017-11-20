@@ -53,7 +53,6 @@ import rx.Observable;
 
 public class ApiManager {
 
-
     public static Observable<RestResult<RegistBean>> getLoginVerifyCode(String mobile){
         return Application.application.getApiService().getLoginVerifyCode(mobile);
     }
@@ -284,6 +283,10 @@ public class ApiManager {
 
     public static  Observable<RestResult<ProjectJoinBean>> projectJoin(Map<String, Object> map){
         return Application.application.getApiService().projectJoin(Application.application.getSessId(), map);
+    }
+
+    public static  Observable<RestResult<Object>> applyProjectTeam(Map<String, Object> map){
+        return Application.application.getApiService().applyProjectTeam(Application.application.getSessId(), map);
     }
 
     public static Observable<RestResult<List<ProjectTeamBean>>> projectTeamList(long id){

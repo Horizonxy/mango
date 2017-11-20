@@ -183,6 +183,15 @@ public class ProjectJoinActivity extends BaseTitleBarActivity implements RadioGr
     }
 
     @Override
+    public Map<String, Object> applyJoinMap() {
+        return null;
+    }
+
+    @Override
+    public void onApplyJoinSuccess() {
+    }
+
+    @Override
     protected void onDestroy() {
         if(joinPresenter != null){
             joinPresenter.onDestroy();

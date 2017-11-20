@@ -12,4 +12,7 @@ public interface ProjectJoinListener extends BaseViewListener {
     void onJoinSuccess(ProjectJoinBean projectJoin);
     long getId();
     void onTeamList(List<ProjectTeamBean> projectTeamList);
+
+    Map<String, Object> applyJoinMap();
+    void onApplyJoinSuccess();
 }

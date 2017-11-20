@@ -35,8 +35,7 @@ public class ProjectJoinWayActivity extends BaseTitleBarActivity implements Proj
     long projectId;
     ProjectTeamBean projectTeam;
     ProjectJoinPresenter joinPresenter;
-
-    int type;//0 集结号    1 申请加入
+    BusEvent.JoinTeamIntroEvent applyJoinInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +66,7 @@ public class ProjectJoinWayActivity extends BaseTitleBarActivity implements Proj
 
     @BusReceiver
     public void onJoinTeamIntroEvent(BusEvent.JoinTeamIntroEvent event){
+        applyJoinInfo = event;
         if(event != null){
             tvSelfIntro.setText(event.getIntro());
         }
@@ -77,13 +77,21 @@ public class ProjectJoinWayActivity extends BaseTitleBarActivity implements Proj
         ActivityBuilder.startJoinTeamIntroActivity(this);
     }
 
+    @OnClick(R.id.btn_join_with_desc)
+    void applyJoinClicked(View v) {
+        if(applyJoinInfo == null){
+            AppUtils.showToast(this, "请输入自我介绍");
+            return;
+        }
+        joinPresenter.applyProjectTeam();
+    }
+
     @OnClick(R.id.btn_join_with_chiper)
     void chiperJoinClicked(View v){
         if(TextUtils.isEmpty(etChiper.getText())){
             AppUtils.showToast(this, "请输入团队集结暗号");
             return;
         }
-        type = 0;
         joinPresenter.projectJoin();
     }
 
@@ -102,10 +110,8 @@ public class ProjectJoinWayActivity extends BaseTitleBarActivity implements Proj
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("type", 2);
         map.put("id", projectId);
-        if(type == 0) {
-            map.put("team_id", projectTeam.getId());
-            map.put("cipher", etChiper.getText().toString());
-        }
+        map.put("team_id", projectTeam.getId());
+        map.put("cipher", etChiper.getText().toString());
         return map;
     }
 
@@ -121,5 +127,21 @@ public class ProjectJoinWayActivity extends BaseTitleBarActivity implements Proj
 
     @Override
     public void onTeamList(List<ProjectTeamBean> projectTeamList) {
+    }
+
+    @Override
+    public Map<String, Object> applyJoinMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("team_id", projectTeam.getId());
+        map.put("project_id", projectId);
+        map.put("content", applyJoinInfo.getIntro());
+        map.put("mobile", applyJoinInfo.getPhone());
+        map.put("qq", applyJoinInfo.getQq());
+        return map;
+    }
+
+    @Override
+    public void onApplyJoinSuccess() {
+        ActivityBuilder.startMemberWorksActivity(this, Constants.UserIndentity.STUDENT);
     }
 }
