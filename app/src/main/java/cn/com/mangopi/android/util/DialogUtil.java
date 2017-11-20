@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -177,5 +178,38 @@ public class DialogUtil {
                 dialog.dismiss();
             }
         });
+    }
+
+    public static void createProjectJoinMsgDialog(Context context, String title, String content, OnProjectJoinMsgListener joinMsgListener){
+        AlertDialog dialog = new AlertDialog.Builder(context).create();
+        dialog.show();
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_project_join_message, null ,false);
+        dialog.setContentView(view);
+        TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
+        TextView tvMessage = (TextView) view.findViewById(R.id.tv_message);
+        Button btnAgree = (Button) view.findViewById(R.id.btn_agree);
+        Button btnRefuse = (Button) view.findViewById(R.id.btn_refuse);
+        Button btnThinkAbout = (Button) view.findViewById(R.id.btn_think_about);
+
+        tvTitle.setText(title);
+        tvMessage.setText(content);
+        btnAgree.setOnClickListener((v) -> {
+            if(joinMsgListener != null){
+                joinMsgListener.onAgree();
+            }
+            dialog.dismiss();
+        });
+        btnRefuse.setOnClickListener((v) -> {
+            if(joinMsgListener != null){
+                joinMsgListener.onRefuse();
+            }
+            dialog.dismiss();
+        });
+        btnThinkAbout.setOnClickListener((v) -> dialog.dismiss());
+    }
+
+    public interface OnProjectJoinMsgListener {
+        void onAgree();
+        void onRefuse();
     }
 }

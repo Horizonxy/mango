@@ -285,6 +285,10 @@ public class ApiManager {
         return Application.application.getApiService().projectJoin(Application.application.getSessId(), map);
     }
 
+    public static  Observable<RestResult<Object>> replyProjectTeam(Map<String, Object> map){
+        return Application.application.getApiService().replyProjectTeam(Application.application.getSessId(), map);
+    }
+
     public static  Observable<RestResult<Object>> applyProjectTeam(Map<String, Object> map){
         return Application.application.getApiService().applyProjectTeam(Application.application.getSessId(), map);
     }

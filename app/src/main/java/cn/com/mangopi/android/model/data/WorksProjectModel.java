@@ -33,6 +33,10 @@ public class WorksProjectModel {
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.applyProjectTeam(map), onSubscribe).subscribe(subscriber);
     }
 
+    public Subscription replyProjectTeam(Map<String, Object> map, Action0 onSubscribe, Subscriber<RestResult<Object>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.replyProjectTeam(map), onSubscribe).subscribe(subscriber);
+    }
+
     public Subscription projectTeamList(long id, Action0 onSubscribe, Subscriber<RestResult<List<ProjectTeamBean>>> subscriber){
         return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.projectTeamList(id), onSubscribe).subscribe(subscriber);
     }

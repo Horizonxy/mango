@@ -446,6 +446,13 @@ public interface ApiService {
             @QueryMap Map<String, Object> map
     );
 
+    //5.4.11	团队队长回复会员的申请接口
+    @POST("outer/router?project_team_apply_reply")
+    Observable<RestResult<Object>> replyProjectTeam(
+            @Query("lst_sessid") String sessid,
+            @QueryMap Map<String, Object> map
+    );
+
     //5.4.3	 工作包参加团队列表接口
     @GET("outer/router?project_teams")
     Observable<RestResult<List<ProjectTeamBean>>> projectTeamList(

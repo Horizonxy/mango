@@ -204,4 +204,8 @@
 
     <string name="join_exit_team">加入已有的团队</string>
     <string name="self_intro">自我介绍</string>
+
+    <string name="agree">同意</string>
+    <string name="refuse">拒绝</string>
+    <string name="think_about">等一下再决定</string>
 </resources>

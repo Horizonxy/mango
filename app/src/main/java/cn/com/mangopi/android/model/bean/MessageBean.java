@@ -19,6 +19,8 @@ public class MessageBean implements Serializable {
     private String url;
     private Date create_time;
     private String create_time_label;
+    private long entity_type;
+    private long entity_id;
 
     private String showContent;
     public String getShowContent(){
@@ -53,6 +55,22 @@ public class MessageBean implements Serializable {
         }
         showContent = content.toString();
         return showContent;
+    }
+
+    public long getEntity_type() {
+        return entity_type;
+    }
+
+    public void setEntity_type(long entity_type) {
+        this.entity_type = entity_type;
+    }
+
+    public long getEntity_id() {
+        return entity_id;
+    }
+
+    public void setEntity_id(long entity_id) {
+        this.entity_id = entity_id;
     }
 
     public long getId() {
