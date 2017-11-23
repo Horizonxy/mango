@@ -17,6 +17,7 @@ import butterknife.Bind;
 import cn.com.mangopi.android.Constants;
 import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.MessageBean;
+import cn.com.mangopi.android.model.bean.MessageDetailBean;
 import cn.com.mangopi.android.model.data.MessageModel;
 import cn.com.mangopi.android.presenter.MessageListReplyProjectTeamPresenter;
 import cn.com.mangopi.android.presenter.MessagePresenter;
@@ -40,7 +41,7 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
     MessagePresenter messagePresenter;
     MessageListAdapter adapter;
     MessageListReplyProjectTeamPresenter replyJoinTeamPresenter;
-    MessageBean clickMessage;
+    MessageDetailBean clickMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +141,22 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
     public void readMessageSuccess() {}
 
     @Override
+    public void onMesDetailSuccess(MessageDetailBean messageDetail) {
+        DialogUtil.createProjectJoinMsgDialog(this, messageDetail, new DialogUtil.OnProjectJoinMsgListener() {
+            @Override
+            public void onAgree() {
+                replyJoinTeamPresenter.replyJoinTeam(messageDetail.getId(), 0, null);
+            }
+
+            @Override
+            public void onRefuse() {
+                clickMessage = messageDetail;
+                ActivityBuilder.startInputMessageActivity(MessageListActivity.this, "拒绝原因", "确定", "reject_reason", 200, "");
+            }
+        });
+    }
+
+    @Override
     protected void onDestroy() {
         if(messagePresenter != null){
             messagePresenter.onDestroy();
@@ -156,18 +173,7 @@ public class MessageListActivity extends BaseTitleBarActivity implements Message
         MessageBean messageBean = (MessageBean) parent.getAdapter().getItem(position);
 
         if(Constants.EntityType.WORKS.getTypeId() == messageBean.getEntity_type()){
-            DialogUtil.createProjectJoinMsgDialog(this, messageBean.getTitle(), messageBean.getResult(), new DialogUtil.OnProjectJoinMsgListener() {
-                @Override
-                public void onAgree() {
-                    replyJoinTeamPresenter.replyJoinTeam(messageBean.getId(), 0, null);
-                }
-
-                @Override
-                public void onRefuse() {
-                    clickMessage = messageBean;
-                    ActivityBuilder.startInputMessageActivity(MessageListActivity.this, "拒绝原因", "确定", "reject_reason", 200, "");
-                }
-            });
+            messagePresenter.getMessage(messageBean.getId());
         } else {
             StringBuilder showContent = new StringBuilder();
             if (!TextUtils.isEmpty(messageBean.getTitle())) {

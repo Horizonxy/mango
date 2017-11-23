@@ -34,6 +34,7 @@ import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.AppSignBean;
 import cn.com.mangopi.android.model.bean.AppVisionBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
+import cn.com.mangopi.android.model.bean.MessageDetailBean;
 import cn.com.mangopi.android.model.data.MessageModel;
 import cn.com.mangopi.android.presenter.AppVisionPresenter;
 import cn.com.mangopi.android.presenter.MessagePresenter;
@@ -243,6 +244,9 @@ public class MainActivity extends BaseActivity implements MessageListener, View.
 
     @Override
     public void readMessageSuccess() {}
+
+    @Override
+    public void onMesDetailSuccess(MessageDetailBean messageDetail) {}
 
     @Override
     protected void onDestroy() {

@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import cn.com.mangopi.android.model.bean.MessageBean;
+import cn.com.mangopi.android.model.bean.MessageDetailBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.model.data.MessageModel;
 import cn.com.mangopi.android.ui.viewlistener.MessageListener;
@@ -70,6 +71,34 @@ public class MessagePresenter extends BasePresenter {
                     messageListener.readMessageSuccess();
                 }
             }
+        });
+        addSubscription(subscription);
+    }
+
+
+    public void getMessage(long id){
+        Context context = messageListener.currentContext();
+        Subscription subscription = messageModel.getMessage(id, new CreateLoading(context),
+                new BaseLoadingSubscriber<RestResult<MessageDetailBean>>(){
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if(e != null){
+                            messageListener.onFailure(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(RestResult<MessageDetailBean> restResult) {
+                        if(restResult != null){
+                            if(restResult.isSuccess()) {
+                                messageListener.onMesDetailSuccess(restResult.getData());
+                            } else {
+                                messageListener.onFailure(restResult.getRet_msg());
+                            }
+                        }
+                    }
         });
         addSubscription(subscription);
     }

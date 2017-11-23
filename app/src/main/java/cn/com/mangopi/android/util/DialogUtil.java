@@ -9,7 +9,10 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.mcxiaoke.bus.Bus;
+
 import cn.com.mangopi.android.R;
+import cn.com.mangopi.android.model.bean.MessageDetailBean;
 
 public class DialogUtil {
 
@@ -180,32 +183,41 @@ public class DialogUtil {
         });
     }
 
-    public static void createProjectJoinMsgDialog(Context context, String title, String content, OnProjectJoinMsgListener joinMsgListener){
+    public static void createProjectJoinMsgDialog(Context context, MessageDetailBean messageDetail, OnProjectJoinMsgListener joinMsgListener){
         AlertDialog dialog = new AlertDialog.Builder(context).create();
         dialog.show();
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_project_join_message, null ,false);
         dialog.setContentView(view);
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
         TextView tvMessage = (TextView) view.findViewById(R.id.tv_message);
-        Button btnAgree = (Button) view.findViewById(R.id.btn_agree);
-        Button btnRefuse = (Button) view.findViewById(R.id.btn_refuse);
-        Button btnThinkAbout = (Button) view.findViewById(R.id.btn_think_about);
+        TextView tvEntityName = (TextView) view.findViewById(R.id.tv_entity_name);
+        tvEntityName.setText(messageDetail.getEntity_name());
+        tvTitle.setText(messageDetail.getTitle());
+        tvMessage.setText(messageDetail.getResult());
+        if(messageDetail.getState() != null && messageDetail.getState().intValue() != -2 && messageDetail.getState().intValue() != 1) {
+            view.findViewById(R.id.layout_func).setVisibility(View.VISIBLE);
+            Button btnAgree = (Button) view.findViewById(R.id.btn_agree);
+            Button btnRefuse = (Button) view.findViewById(R.id.btn_refuse);
+            Button btnThinkAbout = (Button) view.findViewById(R.id.btn_think_about);
 
-        tvTitle.setText(title);
-        tvMessage.setText(content);
-        btnAgree.setOnClickListener((v) -> {
-            if(joinMsgListener != null){
-                joinMsgListener.onAgree();
-            }
-            dialog.dismiss();
-        });
-        btnRefuse.setOnClickListener((v) -> {
-            if(joinMsgListener != null){
-                joinMsgListener.onRefuse();
-            }
-            dialog.dismiss();
-        });
-        btnThinkAbout.setOnClickListener((v) -> dialog.dismiss());
+            btnAgree.setOnClickListener((v) -> {
+                if(joinMsgListener != null){
+                    joinMsgListener.onAgree();
+                }
+                dialog.dismiss();
+            });
+            btnRefuse.setOnClickListener((v) -> {
+                if(joinMsgListener != null){
+                    joinMsgListener.onRefuse();
+                }
+                dialog.dismiss();
+            });
+            btnThinkAbout.setOnClickListener((v) -> dialog.dismiss());
+        } else {
+            view.findViewById(R.id.layout_ok).setVisibility(View.VISIBLE);
+            Button btnOk = (Button) view.findViewById(R.id.btn_ok);
+            btnOk.setOnClickListener((v) -> dialog.dismiss());
+        }
     }
 
     public interface OnProjectJoinMsgListener {

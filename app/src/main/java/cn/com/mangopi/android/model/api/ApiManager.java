@@ -28,6 +28,7 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
+import cn.com.mangopi.android.model.bean.MessageDetailBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.PayResultBean;
@@ -372,4 +373,9 @@ public class ApiManager {
     public static Observable<RestResult<AppSignBean>> appSign(Map<String, Object> map){
         return Application.application.getApiService().appSign(map);
     }
+
+    public static Observable<RestResult<MessageDetailBean>> getMessage(long id){
+        return Application.application.getApiService().getMessage(id);
+    }
+
 }

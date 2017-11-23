@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.com.mangopi.android.model.api.ApiManager;
 import cn.com.mangopi.android.model.bean.MessageBean;
+import cn.com.mangopi.android.model.bean.MessageDetailBean;
 import cn.com.mangopi.android.model.bean.RestResult;
 import cn.com.mangopi.android.util.RxJavaUtils;
 import rx.Subscriber;
@@ -23,5 +24,9 @@ public class MessageModel {
 
     public Subscription readMessage(long id, Subscriber<RestResult<Object>> subscriber){
         return RxJavaUtils.schedulersIoMain(ApiManager.readMessage(id)).subscribe(subscriber);
+    }
+
+    public Subscription getMessage(long id, Action0 onSubscribe, Subscriber<RestResult<MessageDetailBean>> subscriber){
+        return RxJavaUtils.schedulersIoMainOnSubscribe(ApiManager.getMessage(id), onSubscribe).subscribe(subscriber);
     }
 }

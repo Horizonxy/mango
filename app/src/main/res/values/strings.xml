@@ -208,4 +208,5 @@
     <string name="agree">同意</string>
     <string name="refuse">拒绝</string>
     <string name="think_about">等一下再决定</string>
+    <string name="has_reply_for_ok">已回复，我知道了</string>
 </resources>

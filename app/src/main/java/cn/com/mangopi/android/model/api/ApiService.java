@@ -26,6 +26,7 @@ import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.model.bean.MemberCardBean;
 import cn.com.mangopi.android.model.bean.MemberWalletBean;
 import cn.com.mangopi.android.model.bean.MessageBean;
+import cn.com.mangopi.android.model.bean.MessageDetailBean;
 import cn.com.mangopi.android.model.bean.OrderBean;
 import cn.com.mangopi.android.model.bean.OrderDetailBean;
 import cn.com.mangopi.android.model.bean.PayResultBean;
@@ -606,5 +607,11 @@ public interface ApiService {
     @GET("outer/router?app_sign")
     Observable<RestResult<AppSignBean>> appSign(
             @QueryMap Map<String, Object> map
+    );
+
+    //5.6.8	 会员消息详情接口
+    @GET("outer/router?mes_get")
+    Observable<RestResult<MessageDetailBean>> getMessage(
+            @Query("id") long id
     );
 }
