@@ -235,3 +235,8 @@
 -keep class com.tencent.open.PKDialog$*
 -keep class com.tencent.open.PKDialog$* {*;}
 -keep class com.linkedin.** { *; }
+
+## ----------------------------------
+##      For retrolambda
+## ----------------------------------
+-dontwarn java.lang.invoke.*
