@@ -233,7 +233,7 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
                     .multiSelect(false)                      // 是否多选   默认：false
                     .crop(true, 1, 1, 720, 720)             // 配置裁剪功能的参数，   默认裁剪比例 1:1
                     .isShowCamera(true)                     // 是否现实相机按钮  默认：false
-                    .filePath(FileUtils.getEnvPath(this, true, Constants.PICTURE_DIR))          // 图片存放路径
+                    .filePath(File.separator + Constants.PICTURE_DIR)          // 图片存放路径
                     .build();
         }
     }

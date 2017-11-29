@@ -19,6 +19,7 @@ import com.yancy.gallerypick.config.GalleryConfig;
 import com.yancy.gallerypick.config.GalleryPick;
 import com.yancy.gallerypick.inter.IHandlerCallBack;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,7 +169,7 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
                 .multiSelect(true, 9 - pictures.size())                   // 配置是否多选的同时 配置多选数量   默认：false ， 9
                 .crop(false)                             // 快捷开启裁剪功能，仅当单选 或直接开启相机时有效
                 .isShowCamera(true)                     // 是否现实相机按钮  默认：false
-                .filePath(FileUtils.getEnvPath(this, true, Constants.PICTURE_DIR))          // 图片存放路径
+                .filePath(File.separator + Constants.PICTURE_DIR)          // 图片存放路径
                 .build();
 
         MangoUtils.premissionsRequest(this, new MangoUtils.OnPremissionsGrantedListener() {
