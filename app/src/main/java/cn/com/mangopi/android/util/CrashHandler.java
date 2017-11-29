@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Environment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,8 +17,12 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.com.mangopi.android.Constants;
+import cn.com.mangopi.android.util.FileUtils;
+
 /**
  * 未捕获异常处理
+ *
  * @author Administrator
  */
 public class CrashHandler implements UncaughtExceptionHandler {
@@ -27,7 +30,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     // 单例设计模式
     private static CrashHandler mInstance;
     // 留下原来的，便于开发的时候调试
-    private Thread.UncaughtExceptionHandler mDefaultHandler;
+    private UncaughtExceptionHandler mDefaultHandler;
     // 上下文  获取版本信息和手机信息
     private Context mContext;
 
@@ -116,32 +119,30 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
         sb.append(obtainExceptionInfo(ex));
 
-        if (Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED)) {
-            File dir = new File(mContext.getFilesDir() + File.separator + "crash"
-                    + File.separator);
+        String fileDirPath = FileUtils.getEnvPath(mContext, true, Constants.LOG_DIR);
 
-            // 先删除之前的异常信息
-            if (dir.exists()) {
-                deleteDir(dir);
-            }
+        File dir = new File(fileDirPath + File.separator);
+//            // 先删除之前的异常信息
+//            if (dir.exists()) {
+//                deleteDir(dir);
+//            }
 
-            // 再从新创建文件夹
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
-            try {
-                fileName = dir.toString()
-                        + File.separator
-                        + getAssignTime("yyyy_MM_dd_HH_mm") + ".txt";
-                FileOutputStream fos = new FileOutputStream(fileName);
-                fos.write(sb.toString().getBytes());
-                fos.flush();
-                fos.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        // 再从新创建文件夹
+        if (!dir.exists()) {
+            dir.mkdir();
         }
+        try {
+            fileName = dir.toString()
+                    + File.separator
+                    + getAssignTime("yyyy_MM_dd_HH_mm") + ".txt";
+            FileOutputStream fos = new FileOutputStream(fileName);
+            fos.write(sb.toString().getBytes());
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return fileName;
     }
 

@@ -40,6 +40,7 @@ import cn.com.mangopi.android.util.ActivityBuilder;
 import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.FileUtils;
+import cn.com.mangopi.android.util.MangoUtils;
 import cn.com.mangopi.android.util.SelectorImageLoader;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -147,18 +148,10 @@ public class UpgradeToTutorActivity extends BaseTitleBarActivity implements Upda
 
     @OnClick(R.id.layout_logo)
     void clickTutorLogo(View v){
-        RxPermissions.getInstance(this).requestEach(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Permission>() {
+        MangoUtils.premissionsRequest(this, new MangoUtils.OnPremissionsGrantedListener() {
             @Override
-            public void call(Permission permission) {
-                if(permission.name.equals(Manifest.permission.CAMERA)){
-                    if(!permission.granted) {
-                        AppUtils.showToast(UpgradeToTutorActivity.this, getString(R.string.permission_camera));
-                    }
-                } else if(permission.name.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                    GalleryPick.getInstance().setGalleryConfig(galleryConfig).open(UpgradeToTutorActivity.this);
-                } else {
-                    AppUtils.showToast(UpgradeToTutorActivity.this, getString(R.string.permission_storage));
-                }
+            public void onAllGranted() {
+                GalleryPick.getInstance().setGalleryConfig(galleryConfig).open(UpgradeToTutorActivity.this);
             }
         });
     }

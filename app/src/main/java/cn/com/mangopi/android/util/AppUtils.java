@@ -33,10 +33,8 @@ import cn.com.mangopi.android.R;
 public class AppUtils {
 
     public static void initCarsh(Context context){
-        if(!BuildConfig.DEBUG) {
-            CrashHandler crashHandler = CrashHandler.getInstance();
-            crashHandler.init(context);
-        }
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(context);
     }
 
     public static void showToast(final Context context, final String text) {

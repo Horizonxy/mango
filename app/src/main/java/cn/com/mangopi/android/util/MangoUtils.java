@@ -1,5 +1,6 @@
 package cn.com.mangopi.android.util;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -20,6 +21,8 @@ import android.widget.ImageView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.orhanobut.logger.Logger;
+import com.tbruyelle.rxpermissions.Permission;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -41,6 +44,7 @@ import java.util.regex.Pattern;
 import cn.com.mangopi.android.Application;
 import cn.com.mangopi.android.BuildConfig;
 import cn.com.mangopi.android.Constants;
+import cn.com.mangopi.android.R;
 import cn.com.mangopi.android.model.bean.AdvertBean;
 import cn.com.mangopi.android.model.bean.MemberBean;
 import cn.com.mangopi.android.ui.activity.PictureDetailActivity;
@@ -546,5 +550,33 @@ public class MangoUtils {
             }
         }
         return true;
+    }
+
+    public static void premissionsRequest(Activity activity, OnPremissionsGrantedListener onPremissionsGrantedListener){
+        RxPermissions.getInstance(activity).requestEach(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Permission>() {
+            boolean cameraGranted;
+            boolean storageAGranted;
+            @Override
+            public void call(Permission permission) {
+                if(permission.name.equals(Manifest.permission.CAMERA)){
+                    cameraGranted = permission.granted;
+                    if(!cameraGranted) {
+                        AppUtils.showToast(activity, activity.getResources().getString(R.string.permission_camera));
+                    }
+                } else if(permission.name.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                    storageAGranted = permission.granted;
+                    if(!storageAGranted) {
+                        AppUtils.showToast(activity, activity.getResources().getString(R.string.permission_storage));
+                    }
+                }
+                if(cameraGranted && storageAGranted && onPremissionsGrantedListener != null){
+                    onPremissionsGrantedListener.onAllGranted();
+                }
+            }
+        });
+    }
+
+    public interface OnPremissionsGrantedListener{
+        void onAllGranted();
     }
 }

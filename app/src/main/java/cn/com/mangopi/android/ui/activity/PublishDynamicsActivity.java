@@ -35,6 +35,7 @@ import cn.com.mangopi.android.util.AppUtils;
 import cn.com.mangopi.android.util.BusEvent;
 import cn.com.mangopi.android.util.DisplayUtils;
 import cn.com.mangopi.android.util.FileUtils;
+import cn.com.mangopi.android.util.MangoUtils;
 import cn.com.mangopi.android.util.SelectorImageLoader;
 import rx.functions.Action1;
 
@@ -170,18 +171,10 @@ public class PublishDynamicsActivity extends BaseTitleBarActivity implements Tit
                 .filePath(FileUtils.getEnvPath(this, true, Constants.PICTURE_DIR))          // 图片存放路径
                 .build();
 
-        RxPermissions.getInstance(this).requestEach(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Permission>() {
+        MangoUtils.premissionsRequest(this, new MangoUtils.OnPremissionsGrantedListener() {
             @Override
-            public void call(Permission permission) {
-                if(permission.name.equals(Manifest.permission.CAMERA)){
-                    if(!permission.granted) {
-                        AppUtils.showToast(PublishDynamicsActivity.this, getString(R.string.permission_camera));
-                    }
-                } else if(permission.name.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                    GalleryPick.getInstance().setGalleryConfig(galleryConfig).open(PublishDynamicsActivity.this);
-                } else {
-                    AppUtils.showToast(PublishDynamicsActivity.this, getString(R.string.permission_storage));
-                }
+            public void onAllGranted() {
+                GalleryPick.getInstance().setGalleryConfig(galleryConfig).open(PublishDynamicsActivity.this);
             }
         });
     }

@@ -16,6 +16,7 @@ public class Constants {
 	public static final String BASE_DIR = "mango";
 	public static final String IMG_CACHE_DIR = BASE_DIR.concat("/image_cache");
 	public static final String PICTURE_DIR = BASE_DIR.concat("/photo");
+	public static final String LOG_DIR = BASE_DIR.concat("/crash");
 	public static final String IMG_WEB_CACHE_DIR = BASE_DIR.concat("/image_web");
     public static final String USER_PROTOCOL = "file:///android_asset/UserProtocol.html";
 
