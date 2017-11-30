@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -185,6 +186,19 @@ public class ProfileInfoActivity extends BaseTitleBarActivity implements Profile
         layoutPhone.findViewById(R.id.iv_right).setVisibility(View.GONE);
         ((TextView)layoutEmail.findViewById(R.id.tv_left)).setText("邮箱：");
         tvEmail = (TextView) layoutEmail.findViewById(R.id.tv_right);
+
+        layoutNickName.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                LinearLayout.LayoutParams avatarParams = (LinearLayout.LayoutParams) layoutAvatar.getLayoutParams();
+                avatarParams.height = layoutNickName.getMeasuredHeight();
+                avatarParams.width = layoutNickName.getMeasuredWidth();
+                layoutAvatar.setLayoutParams(avatarParams);
+
+                layoutNickName.getViewTreeObserver().removeOnPreDrawListener(this);
+                return true;
+            }
+        });
 
         if(galleryConfig == null) {
             IHandlerCallBack iHandlerCallBack = new IHandlerCallBack() {
