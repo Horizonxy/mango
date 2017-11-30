@@ -194,7 +194,7 @@ public class DialogUtil {
         tvEntityName.setText(messageDetail.getEntity_name());
         tvTitle.setText(messageDetail.getTitle());
         tvMessage.setText(messageDetail.getResult());
-        if(messageDetail.getState() != null && messageDetail.getState().intValue() != -2 && messageDetail.getState().intValue() != 1) {
+        if(messageDetail.getState() != null && messageDetail.getState().intValue() != -2) {
             view.findViewById(R.id.layout_func).setVisibility(View.VISIBLE);
             Button btnAgree = (Button) view.findViewById(R.id.btn_agree);
             Button btnRefuse = (Button) view.findViewById(R.id.btn_refuse);
