@@ -81,14 +81,14 @@
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.RegistActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.SetNickNameActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.UpgradeRoleActivity"
             android:screenOrientation="portrait" />
@@ -110,14 +110,14 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.PublishDynamicsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.TrendCommentsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.TutorClassCategoryActivity"
             android:screenOrientation="portrait" />
@@ -142,11 +142,11 @@
         <activity
             android:name=".ui.activity.PlaceOrderActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.UpgradeToStudentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.CourseDetailActivity"
             android:screenOrientation="portrait" />
@@ -162,15 +162,15 @@
         <activity
             android:name=".ui.activity.UpgradeToTutorActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.UpgradeToCommunityActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.UpgradeToCompanyActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.InputMessageActivity"
             android:screenOrientation="portrait" />
@@ -192,11 +192,11 @@
         <activity
             android:name=".ui.activity.AddCourseActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.GetCashActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.PictureDetailActivity"
             android:screenOrientation="portrait"
@@ -258,7 +258,7 @@
         <activity
             android:name=".ui.activity.WorkProjectCommentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
         <activity
             android:name=".ui.activity.WorkProjectTeamPhotoActivity"
             android:screenOrientation="portrait" />
