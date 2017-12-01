@@ -110,7 +110,7 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
         <activity
             android:name=".ui.activity.PublishDynamicsActivity"
             android:screenOrientation="portrait" />
@@ -166,7 +166,7 @@
         <activity
             android:name=".ui.activity.UpgradeToCommunityActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
         <activity
             android:name=".ui.activity.UpgradeToCompanyActivity"
             android:screenOrientation="portrait"
@@ -192,7 +192,7 @@
         <activity
             android:name=".ui.activity.AddCourseActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
         <activity
             android:name=".ui.activity.GetCashActivity"
             android:screenOrientation="portrait"
@@ -258,7 +258,7 @@
         <activity
             android:name=".ui.activity.WorkProjectCommentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustPan" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
         <activity
             android:name=".ui.activity.WorkProjectTeamPhotoActivity"
             android:screenOrientation="portrait" />
@@ -268,6 +268,13 @@
         <activity
             android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ProjectJoinWayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.JoinTeamIntroActivity"
+            android:screenOrientation="portrait" />
+
 
         <receiver android:name=".receiver.NetReceiver">
             <intent-filter>
@@ -488,12 +495,7 @@
             android:value="45cff4eb5903e8d0b616362e" /> <!-- </>值来自开发者平台取得的AppKey -->
         <!-- JPush end -->
 
-        <activity
-            android:name=".ui.activity.ProjectJoinWayActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.JoinTeamIntroActivity"
-            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
