@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class ProjectJoinBean implements Serializable {
 
+    private static final long serialVersionUID = -6086943473522744203L;
     private long actor_id;
 
     public long getActor_id() {

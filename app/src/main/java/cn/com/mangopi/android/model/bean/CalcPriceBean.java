@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 public class CalcPriceBean implements Serializable {
 
+    private static final long serialVersionUID = -5103592222864106101L;
     private long id;
     private BigDecimal total_price;
     private BigDecimal pay_price;

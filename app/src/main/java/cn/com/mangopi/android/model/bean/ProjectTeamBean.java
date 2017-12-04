@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class ProjectTeamBean implements Serializable {
 
+    private static final long serialVersionUID = -8190217098541682363L;
     private long id;
     private String team_name;
     private String bulletin;

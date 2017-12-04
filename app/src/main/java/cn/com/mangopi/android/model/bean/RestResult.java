@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class RestResult<T> implements Serializable {
 
+    private static final long serialVersionUID = -6211578075296596571L;
     private int ret_flag;
     private String error_code;
     private String ret_msg;

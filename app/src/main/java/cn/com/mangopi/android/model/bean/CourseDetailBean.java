@@ -6,6 +6,7 @@ import java.util.List;
 
 public class CourseDetailBean implements Serializable {
 
+    private static final long serialVersionUID = 4407586753216359116L;
     private long id;
     private String course_title;
     private String logo_rsurl;

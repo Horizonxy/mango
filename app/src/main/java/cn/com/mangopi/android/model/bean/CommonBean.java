@@ -18,7 +18,8 @@ public class CommonBean implements Serializable {
 	public static final String PAGE_NO = "data_page_no";   //数据所属页码
 	public static final String DATA_TYPE = "data_type";   //数据类别
 	public static final String MEMBER_ID = "member_id";   //用户id
-	
+	private static final long serialVersionUID = 1809018401848859092L;
+
 	/**
 	 * 数据db id
 	 */

@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class ProjectListBean implements Serializable {
 
+    private static final long serialVersionUID = -3195079517055517929L;
     private long id;
     private String project_name;
     private String logo_rsurl;

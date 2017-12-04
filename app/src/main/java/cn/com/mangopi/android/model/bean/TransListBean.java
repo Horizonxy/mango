@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class TransListBean implements Serializable {
 
+    private static final long serialVersionUID = 8627666553122471318L;
     private long id;
     private String serial_no;
     private String type;

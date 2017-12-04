@@ -6,6 +6,7 @@ import java.util.Date;
 public class MemberBean implements Serializable {
 
     public static final String DATA_TYPE = "member_data";
+    private static final long serialVersionUID = 7840794928771727112L;
 
     private long id;
     private String[] user_identitys;

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ReplyTrendBean implements Serializable {
+    private static final long serialVersionUID = 8396730547807020444L;
     private String content;
     private Date createTime;
     private long id;

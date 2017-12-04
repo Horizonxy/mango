@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class CommunityClassifyBean implements Serializable {
 
+    private static final long serialVersionUID = -6260101707922645159L;
     private long id;
     private String classic_name;
 

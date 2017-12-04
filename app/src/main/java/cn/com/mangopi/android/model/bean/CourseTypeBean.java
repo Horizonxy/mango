@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 public class CourseTypeBean implements Serializable {
 
+    private static final long serialVersionUID = -2279440777975067182L;
     private long id;
     private String type;
     private String method;

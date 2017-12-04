@@ -10,6 +10,7 @@ public class UploadImageBean implements Serializable {
     public static final int UPLOADED = 1;//已上传成功
     public static final int RETRY = 2;//重试
     public static final int UPLOADING = 3;//正在上传中
+    private static final long serialVersionUID = -6247205651450887602L;
 
     String localPath;
     Uri localUri;

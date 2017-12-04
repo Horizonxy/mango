@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class CourseCouponBean implements Serializable {
 
+    private static final long serialVersionUID = 5600871885295155915L;
     private long couponId;
     private String couponName;
     private Date createTime;

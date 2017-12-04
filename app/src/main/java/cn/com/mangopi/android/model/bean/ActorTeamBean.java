@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ActorTeamBean implements Serializable {
 
+    private static final long serialVersionUID = 3852701270677622912L;
     private long id;
     private String team_name;
     private String bulletin;
@@ -70,6 +71,7 @@ public class ActorTeamBean implements Serializable {
     }
 
     public static class TeamMember implements Serializable {
+        private static final long serialVersionUID = -6682317098913632659L;
         private long team_id;
         private long member_id;
         private String nick_name;

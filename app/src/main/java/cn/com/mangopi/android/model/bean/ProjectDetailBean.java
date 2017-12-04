@@ -6,6 +6,7 @@ import java.util.List;
 
 public class ProjectDetailBean implements Serializable {
 
+    private static final long serialVersionUID = 8890964483240457317L;
     private long id;
     private String project_name;
     private String logo_rsurl;
@@ -261,6 +262,7 @@ public class ProjectDetailBean implements Serializable {
     }
 
     public static class ProjectActorBean implements Serializable {
+        private static final long serialVersionUID = 8091029900116542741L;
         private long id;
         private String actor_type;
         private String actor_name;

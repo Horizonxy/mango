@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class MemberCardBean implements Serializable {
 
+    private static final long serialVersionUID = -5451590357599291551L;
     private long id;
     private long member_id;
     private String bank_name;

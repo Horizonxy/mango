@@ -7,6 +7,7 @@ import java.util.List;
 
 public class OrderDetailBean implements Serializable {
 
+    private static final long serialVersionUID = 3533561276957892644L;
     private long id;
     private String order_no;
     private long course_id;
@@ -250,6 +251,7 @@ public class OrderDetailBean implements Serializable {
     }
 
     public static class Comment implements Serializable {
+        private static final long serialVersionUID = 2827934095569867548L;
         private long id;
         private long course_id;
         private long member_id;

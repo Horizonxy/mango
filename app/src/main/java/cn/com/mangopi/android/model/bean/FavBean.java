@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class FavBean implements Serializable {
 
+    private static final long serialVersionUID = -7272359444213443388L;
     private long id;
     private long entity_id;
     private long entity_type_id;

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class UploadBean implements Serializable {
 
+    private static final long serialVersionUID = 1915161730504167907L;
     private String name;
     private String type;
     private String url;

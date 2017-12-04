@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class BulletinBean implements Serializable {
 
+    private static final long serialVersionUID = -4582720204531656147L;
     private long id;
     private String title;
     private String intro;

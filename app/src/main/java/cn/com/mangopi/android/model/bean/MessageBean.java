@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class MessageBean implements Serializable {
 
+    private static final long serialVersionUID = -4397980617407996084L;
     private long id;
     private String send_user_type;
     private String send_user_name;

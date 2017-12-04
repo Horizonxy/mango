@@ -8,6 +8,7 @@ import java.util.List;
 
 public class PayResultBean implements Serializable {
 
+    private static final long serialVersionUID = -7700038886987595611L;
     private BillBean bill;
     private String payData;
 
@@ -28,6 +29,7 @@ public class PayResultBean implements Serializable {
     }
 
     public static class BillBean implements Serializable {
+        private static final long serialVersionUID = 7107547232502061798L;
         private float amount;
         private int channelId;
         private Date createTime;

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class AppVisionBean implements Serializable {
 
+    private static final long serialVersionUID = 2305002189956946353L;
     private String register_id;
     private String version_name;
     private int version_code;

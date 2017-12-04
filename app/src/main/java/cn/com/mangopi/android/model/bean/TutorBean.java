@@ -5,6 +5,7 @@ import java.util.List;
 
 public class TutorBean implements Serializable {
 
+    private static final long serialVersionUID = -4158049002270606669L;
     private long id;
     private String avatar_rsurl;
     private String logo_rsurl;

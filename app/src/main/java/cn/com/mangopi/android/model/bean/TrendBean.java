@@ -6,6 +6,7 @@ import java.util.List;
 
 public class TrendBean implements Serializable {
 
+    private static final long serialVersionUID = 5046646939808361460L;
     private long id;
     private Long publisher_id;
     private String publisher_mobile;

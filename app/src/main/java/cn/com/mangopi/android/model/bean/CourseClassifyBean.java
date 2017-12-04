@@ -5,6 +5,7 @@ import java.util.List;
 
 public class CourseClassifyBean implements Serializable {
 
+    private static final long serialVersionUID = -6339065217166352298L;
     private long id;
     private String logo_rsurl;
     private String classify_name;

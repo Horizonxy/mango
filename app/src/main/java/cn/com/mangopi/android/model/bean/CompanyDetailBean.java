@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class CompanyDetailBean implements Serializable {
 
+    private static final long serialVersionUID = -5391360085842853200L;
     private long id;
     private String company_no;
     private String company_name;

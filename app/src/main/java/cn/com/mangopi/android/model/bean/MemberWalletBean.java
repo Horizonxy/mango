@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 public class MemberWalletBean implements Serializable {
 
+    private static final long serialVersionUID = -5566786568185491921L;
     private long member_id;
     private BigDecimal total_amount;
     private BigDecimal freezing_amount;

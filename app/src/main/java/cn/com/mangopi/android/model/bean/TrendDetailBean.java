@@ -6,6 +6,7 @@ import java.util.List;
 
 public class TrendDetailBean implements Serializable {
 
+    private static final long serialVersionUID = -3385738536378682281L;
     private long id;
     private long publisher_id;
     private String publisher_mobile;
@@ -143,6 +144,7 @@ public class TrendDetailBean implements Serializable {
     }
 
     public static class Comment implements Serializable {
+        private static final long serialVersionUID = 6600125626858211365L;
         private String member_name;
         private Date comment_time;
         private String content;

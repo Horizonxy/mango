@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class SearchBean implements Serializable {
 
+    private static final long serialVersionUID = 7975555459790625910L;
     private long id;
     private int entity_type_id;
     private String title;

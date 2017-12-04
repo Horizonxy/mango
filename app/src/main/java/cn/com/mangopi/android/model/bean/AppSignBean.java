@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class AppSignBean implements Serializable {
 
+    private static final long serialVersionUID = -5521158805783488486L;
     private Date service_time;
     private AppVisionBean app_version;
 

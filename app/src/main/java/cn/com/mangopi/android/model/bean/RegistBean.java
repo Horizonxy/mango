@@ -3,6 +3,7 @@ package cn.com.mangopi.android.model.bean;
 import java.io.Serializable;
 
 public class RegistBean implements Serializable {
+    private static final long serialVersionUID = 6277152759420564312L;
     private String lst_sessid;
     private MemberBean member;
 

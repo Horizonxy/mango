@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class ContentDetailBean implements Serializable {
 
+    private static final long serialVersionUID = 572390124855060133L;
     private long id;
     private String title;
     private String intro;

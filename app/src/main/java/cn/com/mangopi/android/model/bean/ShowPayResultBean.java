@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class ShowPayResultBean implements Serializable {
 
+    private static final long serialVersionUID = 3788164569658153664L;
     private boolean success;
     private String payPrice;
     private String orderName;

@@ -10,6 +10,7 @@ import cn.com.mangopi.android.util.DateUtils;
 
 public class ScheduleCalendarBean implements Serializable {
 
+    private static final long serialVersionUID = 8617040185211387518L;
     private Date sct_date;
     private boolean salable;
     private boolean cur_join;
@@ -75,6 +76,7 @@ public class ScheduleCalendarBean implements Serializable {
     }
 
     public static class Details implements Serializable{
+        private static final long serialVersionUID = -7463967003571915844L;
         private int sct_time;
         private boolean salable;
         private boolean cur_join;

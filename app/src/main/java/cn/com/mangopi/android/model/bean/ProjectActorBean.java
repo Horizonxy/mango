@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ProjectActorBean implements Serializable {
+    private static final long serialVersionUID = 7125155830842995504L;
     private long id;
     private String project_name;
     private long project_id;

@@ -70,6 +70,7 @@ public class ProjectDetailProgressAdapter extends QuickAdapter<ProjectDetailProg
     }
 
     public static class ProgressBean implements Serializable {
+        private static final long serialVersionUID = 2315096401456534279L;
         private String top;
         private String bottom;
         private boolean reach;

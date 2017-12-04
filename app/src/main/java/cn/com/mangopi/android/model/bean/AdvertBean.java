@@ -7,6 +7,7 @@ import java.util.List;
 
 public class AdvertBean implements Serializable {
 
+    private static final long serialVersionUID = 6552961814738130931L;
     private long id;
     private String title;
     private String type;
@@ -104,6 +105,7 @@ public class AdvertBean implements Serializable {
 
     public static class DetailsBean implements Serializable {
 
+        private static final long serialVersionUID = 1135493423945940900L;
         private long id;
         private String file_path;
         private Integer bind_type;

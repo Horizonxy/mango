@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class OrderBean implements Serializable {
 
+    private static final long serialVersionUID = -997391003365078711L;
     private long id;
     private String order_no;
     private long course_id;

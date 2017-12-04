@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class CommunityTypeBean implements Serializable {
 
+    private static final long serialVersionUID = -1420480814649349756L;
     private long id;
     private String type_name;
 

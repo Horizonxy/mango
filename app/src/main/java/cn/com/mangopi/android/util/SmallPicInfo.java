@@ -3,6 +3,7 @@ package cn.com.mangopi.android.util;
 import java.io.Serializable;
 
 public class SmallPicInfo implements Serializable {
+    private static final long serialVersionUID = 1967279585841273061L;
     public String url;
     public int left;
     public int top;
