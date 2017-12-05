@@ -1,0 +1,6 @@
+包名：cn.com .mangopi.android
+签名：33:F6:DF:01:5B:4A:82:B1:72:DE:42:90:21:EF:BD:09
+签名文件：app文件夹下mango.jks
+签名文件秘钥：mango123456
+签名文件别名：mango
+签名文件别名秘钥：mango123456
